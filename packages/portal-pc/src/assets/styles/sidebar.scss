@@ -34,8 +34,10 @@
   padding: 0;
 
   .main-container {
-    height: 100%;
-    margin-left: $base-sidebar-width;
+    // height: 100%;
+    // margin-left: $base-sidebar-width;
+    // position: relative;
+    height: calc(100% - 60px);
     position: relative;
   }
 
