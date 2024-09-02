@@ -1,12 +1,51 @@
+$color_primary: #e1ff01;
+$border-color: (
+  '': #fff
+);
+$border-radius: (
+  large : 16px
+);
 $--colors: (
-  "primary": (
-    "base": #076DEA ,//主题色修改
+  primary: (
+    base: $color_primary, //主题色修改
   ),
 );
-
-@forward "element-plus/theme-chalk/src/common/var.scss" with
-  (
-    $colors: $--colors,
-    $date-editor:("daterange-width": 260px,),
-  );
+$date-editor: (
+  daterange-width: 260px
+);
+$dialog: (
+  border-radius: 16px,
+  margin-top: 6vh
+);
+$messagebox: (
+  title-color: #fff,
+  content-color: #fff,
+  border-radius: 16px,
+);
+$input: (
+  bg-color: rgba(0, 0, 0, 0.5),
+  border-color: rgba(255, 255, 255, 0.2),
+  hover-border-color: rgba(255, 255, 255, 0.2),
+  focus-border-color: rgba(255, 255, 255, 0.2),
+  placeholder-color: rgba(255, 255, 255, 0.7),
+  icon-color: #fff,
+  clear-hover-color: $color_primary
+);
+$overlay-color: (
+  lighter: rgba(0, 0, 0, 0.1)
+);
+$text-color: (
+  regular: #fff
+);
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+        $border-color: $border-color,
+        $border-radius: $border-radius,
+        $colors: $--colors,
+        $date-editor: $date-editor,
+        $dialog: $dialog,
+        $messagebox: $messagebox,
+        $input: $input,
+        $overlay-color: $overlay-color,
+        $text-color: $text-color,
+);
 @use "element-plus/theme-chalk/src/index.scss" as *;

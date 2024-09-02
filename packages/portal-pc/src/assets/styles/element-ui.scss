@@ -4,28 +4,6 @@
   border-radius: 50px !important;
 }
 
-.el-button {
-  &:not(.is-link) {
-    transition: transform 0.3s ease-out;
-
-    &:active {
-      transform: scale(0.96);
-    }
-  }
-
-  &.el-button--primary {
-    &[linear] {
-      background: linear-gradient(71deg, #09adf9 0%, #4650fb 100%);
-      box-shadow: 0 0 6px 1px rgba(#12a0f9, 0.66);
-      border: none;
-
-      &:hover {
-        opacity: 0.88;
-      }
-    }
-  }
-}
-
 #app {
   .el-radio-button {
     &[linear] {
@@ -41,19 +19,27 @@
 
   .el-dialog {
     --el-dialog-margin-top: 6vh;
-    --el-dialog-border-radius: 10px;
-    --el-dialog-bg-color: #f5f7fa;
+    --el-dialog-bg-color: rgba(0, 0, 0, 0.15);
+    --el-dialog-border-radius: var(--el-border-radius-large);
+    backdrop-filter: var(--backdrop-blur);
 
-    .el-dialog__title {
+    &__headerbtn {
+      .el-dialog__close {
+        --el-color-info: #fff;
+      }
+    }
+
+    &__title {
+      --el-text-color-primary: #fff;
       font-weight: bold;
       font-size: 16px;
     }
 
-    .el-dialog__body {
+    &__body {
       padding: 10px 20px;
     }
 
-    .el-dialog__footer {
+    &__footer {
       padding-bottom: 30px;
       padding-right: 20px;
 
@@ -115,35 +101,28 @@
     }
   }
 
-  .n-tabs {
-    .n-tabs-tab {
-      padding: 10px 0;
-    }
+  .el-input,
+  .el-textarea {
+    .el-input__count {
+      color: rgba(#fff, 0.7);
+      background: unset;
 
-    .n-tabs-rail {
-      padding: 0;
-      border-radius: 7px;
-      background-color: #fff;
-      border: 1px solid #e6e6e6;
-
-      .n-tabs-tab-wrapper {
-        .n-tabs-tab {
-          &.n-tabs-tab--active {
-            color: #fff;
-          }
-        }
-      }
-
-      .n-tabs-capsule {
-        background: linear-gradient(71deg, #09adf9 0%, #4650fb 100%);
-        box-shadow: 0 0 6px 1px rgba(#12a0f9, 0.66);
-        border-radius: 7px;
+      &-inner {
+        color: rgba(#fff, 0.7);
+        background: unset;
       }
     }
   }
 }
 
 .customize-message-box {
+  &.el-message-box {
+    --el-bg-color: rgba(0, 0, 0, 0.15);
+    --el-color-info: #fff;
+    border-color: rgba(#000, 0.1);
+    backdrop-filter: var(--backdrop-blur);
+  }
+
   .el-message-box__container {
     align-items: flex-start;
   }
