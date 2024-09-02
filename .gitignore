@@ -1,0 +1,13 @@
+# Logs
+logs
+*.log
+node_modules
+packages/*/node_modules
+packages/*/report.html
+packages/*/dist
+pnpm-lock.yaml
+*.local
+
+# Editor directories and files
+.idea
+.DS_Store

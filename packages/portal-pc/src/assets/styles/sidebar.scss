@@ -1,0 +1,170 @@
+* {
+  /* 整个滚动条 */
+  ::-webkit-scrollbar {
+    /* 对应纵向滚动条的宽度 */
+    width: 6px;
+    /* 对应横向滚动条的宽度 */
+    height: 8px;
+    opacity: 0;
+  }
+
+  /* 滚动条上的滚动滑块 */
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(#909399, 0);
+    border-radius: 32px;
+  }
+
+  /* 滚动条轨道 */
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 32px;
+  }
+
+  &:hover {
+    > ::-webkit-scrollbar-thumb {
+      background-color: rgba(#909399, 0.3);
+    }
+  }
+}
+
+#app {
+  height: 100%;
+  min-height: 700px;
+  margin: 0;
+  padding: 0;
+
+  .main-container {
+    height: 100%;
+    margin-left: $base-sidebar-width;
+    position: relative;
+  }
+
+}
+
+.sidebar-container {
+  position: absolute;
+  font-size: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  width: $base-sidebar-width !important;
+  height: 100%;
+  z-index: 1001;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(56, 55, 67, 0.08);
+
+  .scrollbar-wrapper {
+    overflow-x: hidden !important;
+  }
+
+  .el-scrollbar__bar.is-vertical {
+    right: 0;
+  }
+
+  .el-scrollbar {
+    height: 100%;
+  }
+
+  .is-horizontal {
+    display: none;
+  }
+
+  .svg-icon {
+    margin-right: 0;
+  }
+
+  .sidebar-divider {
+    width: calc(100% - 16px);
+    margin-left: auto;
+    margin-right: auto;
+    --el-border-color: rgba(56, 55, 67, 0.078);
+  }
+
+  .sidebar-logo {
+    position: relative;
+    width: 100%;
+    background: transparent !important;
+    text-align: center;
+    overflow: hidden;
+
+    &__link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 4px 0 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: #066be9;
+    }
+
+    &__icon {
+      height: 20px;
+      margin-right: 6px;
+    }
+
+    &__title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .sidebar-menu {
+    margin-bottom: 16px;
+
+    &__group {
+      width: fit-content;
+      padding: 4px 16px 4px 4px;
+      margin-bottom: 16px;
+      font-size: 16px;
+      color: #7a7a7a;
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      line-height: 28px;
+      padding: 8px 14px;
+      margin-bottom: 4px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-out;
+
+      &:hover,
+      &.is-active {
+        background-color: #e6f0ff;
+      }
+
+      &.is-active {
+        .sidebar-menu__title {
+          color: var(--el-color-primary);
+        }
+      }
+    }
+
+    &__icon {
+      font-size: 18px;
+
+      & + .sidebar-menu__title {
+        margin-left: 8px;
+      }
+    }
+
+    &__title {
+      color: #1d1c23;
+    }
+  }
+
+  & + .main-container {
+    .app-page {
+      min-width: calc(1280px - $base-sidebar-width);
+    }
+  }
+}
+
+.sidebar-mini-popover {
+  padding: 0 !important;
+}

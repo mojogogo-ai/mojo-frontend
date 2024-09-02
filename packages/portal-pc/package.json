@@ -1,0 +1,24 @@
+{
+  "name": "portal-pc",
+  "description": "Dappworks SafeGen AI",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "report": "vite build",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "preview": "vite preview"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue}": [
+      "pnpm run lint"
+    ]
+  },
+  "engines": {
+    "node": ">=18.12.0",
+    "pnpm": ">=7.0.0",
+    "npm": ">=8.0.0"
+  }
+}

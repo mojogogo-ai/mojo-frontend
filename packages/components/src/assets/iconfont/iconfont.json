@@ -1,0 +1,23 @@
+{
+  "id": "4253468",
+  "name": "千问千答web-用户端",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "77697",
+      "name": "点赞",
+      "font_class": "dianzan",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "37384838",
+      "name": "点赞-copy",
+      "font_class": "dianzan-down",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    }
+  ]
+}

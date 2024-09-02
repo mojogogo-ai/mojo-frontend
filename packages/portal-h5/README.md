@@ -1,20 +1,21 @@
-# mojo-gogo-frontend
+# Gptx-Portal-Web
 
+![logo](./src/assets/images/bk-left.png)
 
-> SafeGen AI 前端代码
+> SafeGen AI 用户端-前端代码
 
 ## 简介
 
-* 前端技术栈 [Vue3](https://v3.cn.vuejs.org) + [Element Plus](https://element-plus.org/zh-CN) + [Vite](https://cn.vitejs.dev)。
+*  SafeGen AI 用户端-前端代码 h5
 
 ## 安装与运行
 
 ```bash
 # 克隆项目
-git clone https://gitlab.com/we_dappworks/mojo-gogo-frontend.git
+git clone https://gitlab.com/we_dappworks/gptx-portal-web.git
 
 # 进入项目目录
-cd mojo-gogo-frontend
+cd gptx-portal-web
 
 # 安装依赖
 pnpm install

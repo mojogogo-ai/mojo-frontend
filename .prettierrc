@@ -1,0 +1,15 @@
+{
+  "jsxSingleQuote": true,
+  "singleQuote": true,
+  "semi": true,
+  "singleAttributePerLine": true,
+  "printWidth": 120,
+  "tabWidth": 2,
+  "trailingComma": "none",
+  "arrowParens": "always",
+  "proseWrap": "always",
+  "endOfLine": "lf",
+  "bracketSameLine": false,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindConfig": "./packages/portal-pc/tailwind.config.js"
+}

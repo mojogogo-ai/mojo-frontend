@@ -1,0 +1,31 @@
+{
+  "name": "portal-h5",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "report": "vite build",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "preview": "vite preview"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue}": [
+      "pnpm run lint"
+    ]
+  },
+  "engines": {
+    "node": ">=18.12.0",
+    "pnpm": ">=7.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "@vant/use": "^1.6.0",
+    "vant": "^4.9.4"
+  },
+  "devDependencies": {
+    "@vant/auto-import-resolver": "^1.2.1"
+  }
+}

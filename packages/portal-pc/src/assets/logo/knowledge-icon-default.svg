@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <g id="knowledge" transform="translate(-242 -599)">
+    <rect id="矩形_2" data-name="矩形 2" width="80" height="80" transform="translate(242 599)" fill="#066be9"/>
+    <path id="路径_3" data-name="路径 3" d="M64,69.122V94.735a5.122,5.122,0,0,0,5.122,5.122V64A5.122,5.122,0,0,0,64,69.122ZM94.735,64V74.209L89.6,69.122l-5.11,5.123V64H71.684V99.857H94.735a5.122,5.122,0,0,0,5.122-5.122V69.122A5.122,5.122,0,0,0,94.735,64Zm0,25.612H76.806V87.051H94.735Zm0-7.684H76.806V79.367H94.735Z" transform="translate(200 558.07)" fill="#fff"/>
+  </g>
+</svg>

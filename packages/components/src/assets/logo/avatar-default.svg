@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <g id="avatar" transform="translate(-340 -479)">
+    <g id="组_1" data-name="组 1" transform="translate(-106 -121)">
+      <rect id="矩形_1" data-name="矩形 1" width="80" height="80" transform="translate(446 600)" fill="#066be9"/>
+    </g>
+    <g id="组_2" data-name="组 2" transform="translate(304.603 442.264)">
+      <path id="路径_1" data-name="路径 1" d="M239.124,80.027a11.456,11.456,0,1,1,8.213-3.355,11.568,11.568,0,0,1-8.213,3.355Zm0-2.314a9.255,9.255,0,1,0-9.255-9.255A9.255,9.255,0,0,0,239.124,77.713Z" transform="translate(-163.727)" fill="#fff"/>
+      <path id="路径_2" data-name="路径 2" d="M56.888,587.4a18.509,18.509,0,1,1,37.019,0H91.593a16.2,16.2,0,1,0-32.392,0Z" transform="translate(0 -491.176)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
