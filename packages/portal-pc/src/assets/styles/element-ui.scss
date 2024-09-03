@@ -19,8 +19,9 @@
 
   .el-dialog {
     --el-dialog-margin-top: 6vh;
-    --el-dialog-bg-color: rgba(0, 0, 0, 0.15);
+    --el-dialog-bg-color: rgba(255, 255, 255, 0.15);
     --el-dialog-border-radius: var(--el-border-radius-large);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: var(--backdrop-blur);
 
     &__headerbtn {
@@ -75,9 +76,8 @@
   }
 
   .el-card {
-    --el-text-color-primary: #36353a;
-    --el-card-border-radius: 11px;
     --el-card-padding: 20px 16px 12px;
+    color: var(--el-text-color-regular);
   }
 
   .el-table {
@@ -113,6 +113,42 @@
       }
     }
   }
+
+  .el-input {
+    &__wrapper {
+      backdrop-filter: var(--backdrop-blur);
+    }
+  }
+
+  .el-textarea {
+    &__inner {
+      backdrop-filter: var(--backdrop-blur);
+    }
+  }
+
+  .el-select {
+    --el-fill-color-blank: var(--el-select-bg-color);
+    --el-border-color: var(--el-select-border-color);
+    --el-border-color-hover: var(--el-select-border-color-hover);
+
+    &__wrapper {
+      min-height: var(--el-component-size);
+      backdrop-filter: var(--backdrop-blur);
+      &.is-hovering {
+        &:not(.is-focused) {
+          box-shadow: 0 0 0 1px var(--el-border-color-light) inset;
+        }
+      }
+    }
+
+    &__caret {
+      color: var(--el-text-color-regular);
+
+      &.is-reverse {
+        color: var(--el-color-primary);
+      }
+    }
+  }
 }
 
 .customize-message-box {
@@ -138,4 +174,33 @@
 
 .custom-tooltip-popper {
   max-width: 256px;
+}
+
+.el-select__popper.el-popper,
+.el-select__popper.el-popper
+.el-popper__arrow:before {
+  --el-border-color-light: var(--el-color-primary);
+}
+
+.el-select-dropdown {
+  --el-text-color-regular: var(--el-select-option-text-color);
+  --el-color-primary: var(--el-select-option-selected-text-color);
+
+  .el-select-dropdown__item {
+    &.is-hovering {
+      background-color: rgba(#fff, 0.7);
+    }
+  }
+
+  &.is-multiple {
+    .el-select-dropdown__list {
+      .el-select-dropdown__item {
+        &.is-selected {
+          &::after {
+            background-color: #000;
+          }
+        }
+      }
+    }
+  }
 }

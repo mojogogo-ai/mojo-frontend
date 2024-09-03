@@ -27,7 +27,7 @@
     </div>
   </el-header>
 </template>
-  
+
 <script setup>
 import Logo from './Logo';
 import User from './User';
@@ -37,6 +37,5 @@ const activeIndex = ref('/chat')
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
 }
-  
+
   </script>
-  

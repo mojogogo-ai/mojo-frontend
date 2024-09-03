@@ -85,34 +85,6 @@
     --el-border-color: rgba(56, 55, 67, 0.078);
   }
 
-  .sidebar-logo {
-    position: relative;
-    width: 100%;
-    background: transparent !important;
-    text-align: center;
-    overflow: hidden;
-
-    &__link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 4px 0 0;
-      font-size: 20px;
-      font-weight: 600;
-      color: #066be9;
-    }
-
-    &__icon {
-      height: 20px;
-      margin-right: 6px;
-    }
-
-    &__title {
-      font-size: 18px;
-      font-weight: bold;
-    }
-  }
-
   .sidebar-menu {
     margin-bottom: 16px;
 
@@ -164,6 +136,38 @@
     .app-page {
       min-width: calc(1280px - $base-sidebar-width);
     }
+  }
+}
+
+.sidebar-logo {
+  position: relative;
+  background: transparent !important;
+  text-align: center;
+  overflow: hidden;
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px 0 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--el-color-primary);
+
+    &:focus,
+    &:hover {
+      color: var(--el-color-primary-light-5);
+    }
+  }
+
+  &__icon {
+    height: 20px;
+    margin-right: 6px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: bold;
   }
 }
 

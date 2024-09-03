@@ -9,7 +9,7 @@
   --font-size-18: 18px;
   --font-size-16: 16px;
   --font-base: 14px;
-  --backdrop-blur: blur(30px);
+  --backdrop-blur: blur(50px);
 }
 
 body {
@@ -53,13 +53,78 @@ div:focus {
   outline: none;
 }
 
+.app-wrapper {
+  background: url("../images/background/bg-l.png") no-repeat left top,
+  url("../images/background/bg-r.png") no-repeat right top;
+  background-color: #000;
+
+  .el-header {
+    display: flex;
+    align-items: center;
+    background-color: rgba(#fff, 0.1);
+    backdrop-filter: blur(35px);
+
+    .el-menu {
+      padding: 6px;
+      border-radius: 55px;
+      backdrop-filter: blur(10px);
+
+      &.el-menu--horizontal {
+        --el-menu-horizontal-height: 44px;
+        --el-menu-text-color: var(--el-text-color-placeholder);
+        --el-menu-hover-bg-color: var(--el-menu-bg-color);
+        border: 1px solid var(--el-border-color-light);
+
+        .el-menu-item {
+          border-radius: 23px;
+          border: none;
+
+          &.is-active {
+            background: var(--el-text-color-primary);
+            pointer-events: none;
+          }
+
+          &:not(.is-disabled) {
+            &:hover,
+            &:focus {
+              background-color: var(--el-menu-bg-color);
+            }
+          }
+        }
+
+        //.el-menu--horizontal .el-menu-item:not(.is-disabled):focus,
+        //.el-menu--horizontal .el-menu-item:not(.is-disabled):hover
+        & > .el-sub-menu {
+          .el-sub-menu__title {
+            border-radius: 23px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.el-popper {
+  .el-menu--horizontal {
+    .el-menu-item {
+      &:not(.is-disabled) {
+        &:focus,
+        &:hover {
+          background-color: rgba(#fff, 0.7);
+          color: var(--el-text-color-primary);
+        }
+      }
+    }
+  }
+}
+
 .app-page {
   display: flex;
   flex-direction: column;
   height: 100%;
   min-width: 1280px;
   padding-top: 10px;
-  background-color: #f3f5fc;
+  //background-color: #f3f5fc;
 }
 
 .app-page-top {
@@ -143,7 +208,7 @@ div:focus {
 }
 
 .el-button {
-  height: auto;
+  //height: auto;
   padding: 10px 20px;
 
   &--small {
@@ -196,3 +261,19 @@ div:focus {
   }
 }
 
+.el-select__selection {
+  .el-select__selected-item {
+    .el-tag {
+      &.el-tag--info {
+        --el-tag-text-color: var(--el-text-color-secondary);
+        --el-tag-bg-color: var(--el-color-primary-light-5);
+        --el-tag-border-color: var(--el-color-primary-light-3);
+        --el-tag-hover-color: var(--el-text-color-primary);
+      }
+    }
+  }
+}
+
+.el-card {
+  backdrop-filter: blur(16px);
+}

@@ -50,22 +50,6 @@ const isActive = () => {
     border-radius: 8px;
     cursor: pointer;
 
-    &:hover {
-      background-color: rgba(#1c1c23, 0.04);
-    }
-
-    &.is-active {
-      background-color: #e6f0ff;
-
-      .nick-name {
-        color: var(--el-color-primary);
-      }
-
-      &:hover {
-        background-color: #e6f0ff;
-      }
-    }
-
     .user-avatar {
       cursor: pointer;
       width: 30px;
@@ -79,7 +63,7 @@ const isActive = () => {
       font-size: 16px;
       font-weight: 400;
       overflow: hidden;
-      color: var(--el-text-color-primary);
+      color: var(--el-color-primary);
       text-overflow: ellipsis;
       white-space: nowrap;
     }

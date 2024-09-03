@@ -174,14 +174,14 @@ const filetList = computed(() => {
         <div v-if="callToolPending&&callToolPending.loading" class="mt-2 text-xs">
           {{ callToolPending.message }}
         </div>
-        
+
         <div
           v-if="!loading"
           class="flex flex-row self-end gap-2 mt-1"
         >
           <div
             v-if="!inversion && !isPrologue && lastFlag"
-            class="mb-2 shadow-[0px_3px_6px_1px_rgba(0,0,0,0.16)] rounded-[50%] transition cursor-pointer text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-300"
+            class="mb-2 shadow-[0px_3px_6px_1px_rgba(0,0,0,0.16)] rounded-[50%] transition cursor-pointer text-neutral-300"
             :title="$t('chat.operate_3')"
             @click="handleRegenerate"
           >
@@ -189,7 +189,7 @@ const filetList = computed(() => {
           </div>
           <div
             v-if="!isPrologue&&!inversion"
-            class="mb-2 shadow-[0px_3px_6px_1px_rgba(0,0,0,0.16)] rounded-[50%] transition cursor-pointer text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-300"
+            class="mb-2 shadow-[0px_3px_6px_1px_rgba(0,0,0,0.16)] rounded-[50%] transition cursor-pointer text-neutral-300"
             :title="$t('chat.copy')"
             @click="handleCopy"
           >
@@ -199,14 +199,14 @@ const filetList = computed(() => {
             <el-button native-color="#000" native-color-hover="#066BE9" size="small" circle plain class="button-class shadow-[0px_3px_6px_1px_rgba(0,0,0,0.16)] rounded-[50%]" :style="{'background' :isGood===2? '#066BE9':''}" @click="handleeEaluate(true)">
               <i
                 :style="{'color':isGood===2?'#fff':''}"
-                class="mb-2 transition cursor-pointer icon-zan text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-300 iconfont icon-dianzan"
+                class="mb-2 transition cursor-pointer text-neutral-300 iconfont icon-dianzan"
                 style="margin-left: 1px;margin-top:6px;"
               />
             </el-button>
             <el-button native-color="#000" native-color-hover="#066BE9" size="small" circle plain class="button-class mr-1 shadow-[0px_3px_6px_1px_rgba(0,0,0,0.16)] rounded-[50%]" :style="{'background':isGood===3?'#066BE9':''}" @click="handleeEaluate(false)">
               <i
                 :style="{'color':isGood===3?'#fff':''}"
-                class="mb-2 transition cursor-pointer icon-zan text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-300 iconfont icon-dianzan-down"
+                class="mb-2 transition cursor-pointer text-neutral-300 iconfont icon-dianzan-down"
                 style="margin-top:10px;"
               />
             </el-button>
@@ -233,9 +233,6 @@ const filetList = computed(() => {
   font-weight: bold;
   font-size: 16px;
   color: #36353A;
-}
-.icon-zan{
-  color:#000;
 }
 .suggested-question{
   padding: 8px;
