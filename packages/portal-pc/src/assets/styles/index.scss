@@ -10,6 +10,8 @@
   --font-size-16: 16px;
   --font-base: 14px;
   --backdrop-blur: blur(50px);
+  --el-color-white: #000;
+  --el-color-black: #fff;
 }
 
 body {
@@ -21,6 +23,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
   Segoe UI, Arial, Roboto, "PingFang SC", "miui", "Hiragino Sans GB", "Microsoft Yahei",
   sans-serif;
+  color: var(--el-text-color-regular);
 }
 
 
@@ -125,6 +128,25 @@ div:focus {
   min-width: 1280px;
   padding-top: 10px;
   //background-color: #f3f5fc;
+
+  .el-segmented {
+    --el-segmented-bg-color: var(--el-fill-color-blank);
+    --el-segmented-padding: 8px;
+    --el-segmented-item-hover-bg-color: var(--el-fill-color-blank);
+    --el-segmented-item-active-bg-color: var(--el-fill-color-blank);
+    --el-segmented-item-hover-color: var(--el-text-color-placeholder);
+    backdrop-filter: var(--backdrop-blur);
+    border-radius: 24px;
+  }
+
+  .el-segmented__item-label {
+    line-height: 32px;
+  }
+
+  .el-segmented__item,
+  .el-segmented__item-selected {
+    border-radius: 16px;
+  }
 }
 
 .app-page-top {
@@ -276,4 +298,11 @@ div:focus {
 
 .el-card {
   backdrop-filter: blur(16px);
+}
+
+.el-message-box {
+  --el-bg-color: rgba(0, 0, 0, 0.15);
+  --el-color-info: #fff;
+  border-color: rgba(#000, 0.1);
+  backdrop-filter: var(--backdrop-blur);
 }

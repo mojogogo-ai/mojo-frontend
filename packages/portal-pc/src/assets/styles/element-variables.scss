@@ -13,7 +13,9 @@ $border-radius: (
 $card: (
   border-radius: 20px
 );
-$--colors: (
+$colors: (
+  white: #000,
+  black: #fff,
   primary: (
     base: $color_primary, //主题色修改
   ),
@@ -75,7 +77,7 @@ $text-color: (
   $border-color: $border-color,
   $border-radius: $border-radius,
   $card: $card,
-  $colors: $--colors,
+  $colors: $colors,
   $common-component-size: $common-component-size,
   $date-editor: $date-editor,
   $dialog: $dialog,

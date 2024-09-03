@@ -1,28 +1,13 @@
 <template>
   <div class="app-page">
-    <div class="items-center app-page-top">
-      <div class="flex items-center app-page-col">
+    <div class="app-page-top items-center">
+      <div class="app-page-col flex items-center">
         <el-icon
-          class="cursor-pointer hover:text-[var(--el-color-primary)]"
+          class="cursor-pointer text-[var(--el-text-color-regular)] hover:text-[var(--el-color-primary)]"
           size="20"
           @click="goBack"
         >
-          <el-popover
-            popper-class="sidebar-mini-popover"
-            width="232px"
-          >
-            <template #reference>
-              <ArrowLeft />
-            </template>
-            <template #default>
-              <div class="relative h-[460px]">
-                <sidebar
-                  class="sidebar-container"
-                  :logo="false"
-                />
-              </div>
-            </template>
-          </el-popover>
+          <ArrowLeft />
         </el-icon>
       </div>
       <el-image
@@ -37,22 +22,23 @@
           </div>
         </template>
       </el-image>
-      <div class="mr-auto app-page-col">
-        <div class="flex items-center text-base font-black leading-none">
+      <div class="app-page-col mr-auto">
+        <div class="flex items-center text-base font-black leading-none text-[var(--el-color-primary)]">
           {{ __data.appInfo.name }}&nbsp;
           <el-icon
-            class="cursor-pointer hover:text-[var(--el-color-primary)]"
+            class="cursor-pointer hover:text-[var(--el-color-primary-light-9)]"
             @click="editBotBaseInfo"
           >
             <Edit />
           </el-icon>
         </div>
-        <div class="flex items-center mt-1 text-xs leading-none">
-          <el-icon
-            :class="{
-              'text-[var(--el-color-primary)]': __data.appInfo.published
-            }"
-          >
+        <div
+          :class="[
+            'mt-1 flex items-center text-xs leading-none',
+            __data.appInfo.published ? 'text-[var(--el-color-primary)]' : 'text-[var(--el-text-color-placeholder)]'
+          ]"
+        >
+          <el-icon>
             <Promotion />
           </el-icon>
           {{ __data.appInfo.published ? t('bots.published') : t('bots.unpublished') }}
@@ -98,7 +84,7 @@
 import router from '@/router';
 import { t } from '@gptx/base/i18n';
 import { getAppInfo } from '@gptx/base/api/application';
-import Sidebar from '@/layout/components/Sidebar/Sidebar.vue';
+import { ArrowLeft } from '@element-plus/icons-vue';
 
 // eslint-disable-next-line no-unused-vars
 const slot = useSlots();
@@ -133,7 +119,7 @@ const onTabChange = (val) => {
 };
 const editBotBaseInfo = () => baseInfoRef.value.open(__data.appInfo);
 const toPublish = () => {
-  emits('publish')
+  emits('publish');
 };
 
 const _getAppInfo = async () => {
@@ -156,6 +142,10 @@ onMounted(() => {
 <style lang="scss" scoped>
 .app-page {
   padding-top: 0;
+  background:
+    url('@/assets/images/background/bg-l.png') no-repeat left top,
+    url('@/assets/images/background/bg-r.png') no-repeat right top;
+  background-color: #000;
 }
 
 .page-list-img {
@@ -167,8 +157,9 @@ onMounted(() => {
   display: flex;
   padding: 17px 26px;
   min-height: 67px;
-  background: rgba(#fff, 0.41);
+  background-color: rgba(#fff, 0.1);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(35px);
 }
 
 .app-page-content {

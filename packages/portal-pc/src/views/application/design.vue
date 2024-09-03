@@ -46,17 +46,11 @@
           </div>
         </div>
         <div class="flex h-full w-[660px] shrink-0 flex-col px-[20px] pt-[40px]">
-          <n-tabs
-            type="segment"
-            :value="currentTab"
-            @update:value="onTabChange"
-          >
-            <n-tab-pane
-              v-for="{ name, tab } in tabList"
-              :name="name"
-              :tab="tab"
-            />
-          </n-tabs>
+          <el-segmented
+            v-model="currentTab"
+            :options="tabList.map((_) => _.name)"
+            @change="onTabChange"
+          />
           <div class="flex-1 overflow-hidden">
             <design-prologue
               v-show="currentTab === 'prologue'"
@@ -85,7 +79,9 @@
         <div class="flex w-[calc((100%-660px)/2)] flex-col">
           <div class="design-title h-[40px]">
             <span> {{ t('bots.label.preview') }} </span>
-            <span class="ml-2 text-xs font-normal">{{ t('bots.label.previewDesc') }}</span>
+            <span class="ml-2 text-xs font-normal text-[var(--el-text-color-placeholder)]">{{
+              t('bots.label.previewDesc')
+            }}</span>
           </div>
           <div class="design-side">
             <GptxChat
@@ -110,7 +106,6 @@
 import { t } from '@gptx/base/i18n';
 import { getBotDetail, updateConfig } from '@gptx/base/api/application';
 import { chatDetail } from '@gptx/base/api/chat.js';
-import { NTabPane, NTabs } from 'naive-ui';
 import { ElMessage } from 'element-plus';
 import { DesignKnowledge, DesignModel, DesignPrologue, DesignTipWords } from './components/design/index';
 import layout from './layout';
@@ -164,7 +159,6 @@ const tipWordsRef = ref(null);
 const submitFormRef = ref(null);
 
 const onTabChange = (name) => {
-  currentTab.value = name;
   if (name === 'plugin') {
     ElMessage.info(t('bots.notReadyYet'));
   }
@@ -233,8 +227,8 @@ const toPublish = async () => {
   } catch (e) {
     ElMessage({
       type: 'warning',
-      message: t('bots.tip.tipWords'),
-    })
+      message: t('bots.tip.tipWords')
+    });
     console.log(e);
   }
 };
@@ -266,8 +260,9 @@ onMounted(() => {
 .design-side {
   display: flex;
   flex-direction: column;
-  background-color: #fff;
   flex: 1;
+  background-color: rgba(#fff, 0.1);
+  backdrop-filter: blur(35px);
   overflow: hidden auto;
 
   :deep(.el-textarea__inner) {
@@ -283,7 +278,7 @@ onMounted(() => {
   font-weight: bold;
   font-size: 16px;
   line-height: 1;
-  color: #36353a;
+  color: var(--el-text-color-regular);
 }
 
 :deep(.n-tabs) {
@@ -312,7 +307,7 @@ onMounted(() => {
   margin-bottom: 14px;
   font-size: 16px;
   font-weight: bold;
-  color: #36353a;
+  color: var(--el-text-color-regular);
 }
 
 .design-form-content {
