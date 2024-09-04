@@ -13,7 +13,7 @@
           :router="true"
           @select="handleSelect"
         >
-          <el-menu-item index="/chat">Home</el-menu-item>
+          <el-menu-item index="/homepage">Home</el-menu-item>
           <el-sub-menu index="">
             <template #title>Explore</template>
             <el-menu-item index="/assistant">{{ $t('menu.ass') }}</el-menu-item>
@@ -51,7 +51,7 @@ import { getToken } from '@gptx/base/utils/auth'
 const loginRef = ref(null);
 const isLogin = ref(false);
 
-const activeIndex = ref('/chat')
+const activeIndex = ref('/homepage')
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
 }
