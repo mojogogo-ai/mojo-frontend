@@ -17,9 +17,6 @@
             <template #title>Explore</template>
             <el-menu-item index="/assistant">{{ $t('menu.ass') }}</el-menu-item>
           </el-sub-menu>
-
-        <!-- <el-menu-item index="/application">{{ $t('menu.c') }}</el-menu-item>
-        <el-menu-item index="/base">{{ $t('menu.b') }}</el-menu-item> -->
         </el-menu>
       </div>
 
@@ -47,6 +44,7 @@ import Logo from './Logo';
 import User from './User';
 import NoLogin from './NoLogin';
 import { getToken } from '@gptx/base/utils/auth'
+const route = useRoute();
 
 const loginRef = ref(null);
 const isLogin = ref(false);
@@ -70,4 +68,16 @@ const onCreateClick = (isLoginForm = true) => {
   // to  login
   loginRef.value.open(isLoginForm);
 };
+
+watch(() => route.path,(newPath, oldPath) => { 
+  let routeList =['/home','/assistant']
+  console.log(newPath, oldPath,'oldPath') 
+  
+  if (routeList.indexOf(newPath)===-1) {
+    activeIndex.value = ''
+  } else {
+    activeIndex.value = newPath
+  }
+
+},{ immediate: true });
   </script>
