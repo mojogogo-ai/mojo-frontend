@@ -4,7 +4,6 @@
       <div class="flex items-center">
         <logo
           class="flex-none mr-12"
-          :collapse="false"
         />
         <el-menu
           :default-active="activeIndex"
@@ -13,7 +12,7 @@
           :router="true"
           @select="handleSelect"
         >
-          <el-menu-item index="/homepage">Home</el-menu-item>
+          <el-menu-item index="/home">Home</el-menu-item>
           <el-sub-menu index="">
             <template #title>Explore</template>
             <el-menu-item index="/assistant">{{ $t('menu.ass') }}</el-menu-item>
@@ -39,7 +38,8 @@
     </div>
   </el-header>
 
-  <LoginDialog ref="loginRef" />
+  <!-- login or sign up -->
+  <LoginAndSignup ref="loginRef" />
 </template>
 
 <script setup>
@@ -51,7 +51,7 @@ import { getToken } from '@gptx/base/utils/auth'
 const loginRef = ref(null);
 const isLogin = ref(false);
 
-const activeIndex = ref('/homepage')
+const activeIndex = ref('/home')
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
 }

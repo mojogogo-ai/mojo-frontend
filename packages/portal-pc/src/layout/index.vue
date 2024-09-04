@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper">
     <!-- <Sidebar class="sidebar-container" /> -->
-    <TobBar />
+    <TopBar />
     <div class="main-container">
       <app-main />
     </div>
@@ -10,7 +10,7 @@
 
 <script setup name="LayOut">
 // import Sidebar from './components/Sidebar/Sidebar.vue'
-import TobBar from './components/TobBar/index.vue'
+import TopBar from './components/TopBar/index.vue'
 import { AppMain } from './components'
 
 </script>

@@ -42,7 +42,7 @@
             </div>
           </div>
         </el-card>
-        <el-divider border-style="hidden" />
+        <!-- <el-divider border-style="hidden" />
         <el-card
           v-model="language"
           shadow="never"
@@ -66,7 +66,7 @@
               </div>
             </div>
           </div>
-        </el-card>
+        </el-card> -->
       </div>
     </div>
     <base-info ref="baseInfoRef" />
@@ -74,7 +74,7 @@
 </template>
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getCurLang, supportLang } from '@gptx/base';
+// import { getCurLang, supportLang } from '@gptx/base';
 import { ElMessageBox } from 'element-plus';
 import { getAuth, signOut } from 'firebase/auth';
 import useUserStore from '@/store/modules/user.js';
@@ -82,13 +82,13 @@ import BaseInfo from './components/BaseInfo';
 
 const router = useRouter();
 const user = useUserStore();
-const curLang = getCurLang();
-const langList = supportLang(); // 支持切换的语言
-const language = computed(() => {
-  return langList.find((i) => {
-    return i.value === curLang;
-  }).value;
-});
+// const curLang = getCurLang();
+// const langList = supportLang(); // 支持切换的语言
+// const language = computed(() => {
+//   return langList.find((i) => {
+//     return i.value === curLang;
+//   }).value;
+// });
 // const isCn = computed(() => {
 //   return  window.SITE_TYPE && window.SITE_TYPE === '2'
 // });
@@ -96,10 +96,10 @@ const language = computed(() => {
 /* ref dom */
 const baseInfoRef = ref(null);
 
-const changeLangCommand = (command) => {
-  localStorage.setItem('lang', command);
-  window.location.reload();
-};
+// const changeLangCommand = (command) => {
+//   localStorage.setItem('lang', command);
+//   window.location.reload();
+// };
 const logout = async () => {
   try {
     const action = await ElMessageBox.confirm(t('user.c'), '', {

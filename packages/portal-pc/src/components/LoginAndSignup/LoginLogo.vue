@@ -33,11 +33,12 @@ defineProps({
   color: #000;
 
   a {
+    font-family: "Druk Wide Bold", monospace;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 4px 0 0;
-    font-size: 34px;
+    font-size: 30px;
     font-weight: 700;
     color: #000;
   }

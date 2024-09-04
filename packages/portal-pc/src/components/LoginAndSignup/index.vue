@@ -203,9 +203,9 @@
   }
 
   const formChange = () => {
+    isLoginForm.value = !isLoginForm.value
     loginRef.value.resetFields()
     signupRef.value.resetFields()
-    isLoginForm.value = !isLoginForm.value
   };
 
   defineExpose({ open });

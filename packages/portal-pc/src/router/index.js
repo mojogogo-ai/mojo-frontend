@@ -17,7 +17,7 @@ const isHash = true;
 export const constantRoutes = [
   {
     path: '',
-    redirect: '/homepage',
+    redirect: '/home',
     hidden: true
   },
   {
@@ -40,9 +40,9 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: '/homepage',
-        name: 'Homepage',
-        component: () => import('@/views/homepage/index.vue'),
+        path: '/home',
+        name: 'Home',
+        component: () => import('@/views/home/index.vue'),
         meta: { title: t('common.productName'), icon: 'home-chat', affix: true },
       }
     ]
@@ -138,6 +138,7 @@ export const constantRoutes = [
       }
     ]
   },
+
   {
     path: '/bot/:id?',
     name: 'BotChat',
@@ -163,6 +164,33 @@ export const constantRoutes = [
         component: () => import('@/views/userCenter/index'),
         name: 'user',
         meta: { title: t('menu.d'), icon: 'user' }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    groupName: 'menu.group.e',
+    children: [
+      {
+        path: '/tasks',
+        component: () => import('@/views/tasks/index.vue'),
+        name: 'tasks',
+        meta: { title: 'My task list', icon: 'app-store' }
+      }
+    ]
+  }
+  ,
+  {
+    path: '',
+    component: Layout,
+    groupName: 'menu.group.e',
+    children: [
+      {
+        path: '/refer',
+        component: () => import('@/views/refer/index.vue'),
+        name: 'refer',
+        meta: { title: 'Refer friends', icon: 'app-store' }
       }
     ]
   }
