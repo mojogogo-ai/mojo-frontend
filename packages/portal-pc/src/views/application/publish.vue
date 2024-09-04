@@ -7,22 +7,7 @@
           size="20"
           @click="goBack"
         >
-          <el-popover
-            popper-class="sidebar-mini-popover"
-            width="232px"
-          >
-            <template #reference>
-              <ArrowLeft />
-            </template>
-            <template #default>
-              <div class="h-[460px] relative">
-                <sidebar
-                  class="sidebar-container"
-                  :logo="false"
-                />
-              </div>
-            </template>
-          </el-popover>
+          <ArrowLeft />
         </el-icon>
       </div>
       <div class="mr-auto app-page-col">
@@ -47,17 +32,12 @@
           {{ t('bots.publish.subtitle') }}
         </div>
         <div class="flex-1 mt-[32px] flex flex-col overflow-hidden">
-          <n-tabs
-            type="segment"
-            :value="currentTab"
-            @update:value="onTabChange"
-          >
-            <n-tab-pane
-              v-for="{ name, tab } in tabList"
-              :name="name"
-              :tab="tab"
-            />
-          </n-tabs>
+          <el-segmented
+            v-model="currentTab"
+            class="w-[480px] mx-auto"
+            :options="tabList.map((_) => _.name)"
+            @change="onTabChange"
+          />
           <website
             v-show="currentTab === 'website'"
             :bot-id="botId"
@@ -172,17 +152,6 @@ onMounted(() => {
 .app-page {
   padding-top: 0;
 }
-.page-list-img {
-  width: 32px;
-  height: 32px;
-}
-.app-page-top {
-  display: flex;
-  padding: 17px 26px;
-  min-height: 67px;
-  background: rgba(#fff, 0.41);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.16);
-}
 .app-page-content {
   display: flex;
   flex-direction: column;
@@ -192,18 +161,6 @@ onMounted(() => {
 }
 .page-list-img__error {
   background-color: #fff;
-}
-:deep(.n-tabs) {
-  display: flex;
-  flex-direction: column;
-  .n-tabs-nav {
-    width: 360px;
-    margin: 0 auto;
-  }
-  .n-tabs-pane-wrapper,
-  .n-tab-pane {
-    display: none;
-  }
 }
 </style>
 <style lang="scss">
@@ -227,7 +184,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   cursor: pointer;
-  color: #7a7a7a;
+  color: var(--el-text-color-placeholder);
   &:hover {
     color: var(--el-color-primary);
   }

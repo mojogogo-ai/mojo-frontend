@@ -77,7 +77,9 @@
 
   .el-card {
     --el-card-padding: 20px 16px 12px;
+    --el-card-border-radius: var(--el-border-radius-large);
     color: var(--el-text-color-regular);
+    backdrop-filter: blur(16px);
   }
 
   .el-table {
@@ -187,6 +189,10 @@
   --el-color-primary: var(--el-select-option-selected-text-color);
 
   .el-select-dropdown__item {
+    color: var(--el-text-color-secondary);
+    &.is-selected{
+      color: var(--el-text-color-primary);
+    }
     &.is-hovering {
       background-color: rgba(#fff, 0.7);
     }

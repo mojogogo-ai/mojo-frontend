@@ -1,5 +1,5 @@
 <template>
-  <div class="app-page">
+  <div class="app-page app-design">
     <div class="app-page-top items-center">
       <div class="app-page-col flex items-center">
         <el-icon
@@ -48,17 +48,11 @@
         v-if="__data.appInfo.published"
         class="app-page-col"
       >
-        <el-radio-group
+        <el-segmented
           v-model="currentTab"
+          :options="tabList.map((_) => _.label)"
           @change="onTabChange"
-        >
-          <el-radio-button
-            v-for="{ label, value } in tabList"
-            :label="label"
-            :value="value"
-            linear
-          />
-        </el-radio-group>
+        />
       </div>
       <div class="ml-[auto!important]">
         <el-button
@@ -90,7 +84,7 @@ import { ArrowLeft } from '@element-plus/icons-vue';
 const slot = useSlots();
 const emits = defineEmits(['publish']);
 const route = useRoute();
-const currentTab = ref(route.meta.tab);
+const currentTab = ref(route.meta.tab === 'a' ? t('bots.title.design') : t('bots.title.analyze'));
 const tabList = [
   { value: 'a', label: t('bots.title.design') },
   { value: 'b', label: t('bots.title.analyze') }
@@ -104,7 +98,8 @@ const baseInfoRef = ref(null);
 const goBack = () => router.back();
 const onTabChange = (val) => {
   const id = __data.appInfo.id;
-  switch (val) {
+  const key = tabList.find((_) => _.label === val)['value'];
+  switch (key) {
     case 'a':
       router.replace({
         path: `/design/${id}`
@@ -139,35 +134,63 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .app-page {
   padding-top: 0;
   background:
     url('@/assets/images/background/bg-l.png') no-repeat left top,
     url('@/assets/images/background/bg-r.png') no-repeat right top;
   background-color: #000;
-}
 
-.page-list-img {
-  width: 32px;
-  height: 32px;
-}
+  &.app-design,
+  &.app-publish {
+    .page-list-img {
+      width: 32px;
+      height: 32px;
+    }
 
-.app-page-top {
-  display: flex;
-  padding: 17px 26px;
-  min-height: 67px;
-  background-color: rgba(#fff, 0.1);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.16);
-  backdrop-filter: blur(35px);
-}
+    .app-page-top {
+      display: flex;
+      padding: 17px 26px;
+      min-height: 67px;
+      background-color: rgba(#fff, 0.1);
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.16);
+      backdrop-filter: blur(35px);
+    }
 
-.app-page-content {
-  padding: 0;
-  overflow: hidden;
-}
+    .app-page-content {
+      padding: 0;
+      overflow: hidden;
+    }
 
-.page-list-img__error {
-  background-color: #fff;
+    .page-list-img__error {
+      background-color: #fff;
+    }
+
+    .design-form {
+      height: 100%;
+      padding: 14px 12px 16px;
+      overflow: hidden auto;
+    }
+
+    .design-form-item {
+      margin-bottom: 22px;
+    }
+
+    .design-form-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 16px;
+      margin-bottom: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--el-text-color-regular);
+    }
+
+    .design-form-content {
+      padding-bottom: 12px;
+    }
+  }
 }
 </style>

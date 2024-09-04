@@ -25,7 +25,7 @@
         <div class="design-form-item">
           <div class="design-form-title">
             {{ t('bots.label.temperature') }}
-            <div class="text-sm font-normal text-[#7a7a7a]">{{ t('bots.label.temperatureTip') }}</div>
+            <div class="text-sm font-normal">{{ t('bots.label.temperatureTip') }}</div>
           </div>
           <div class="design-form-content">
             <el-slider
@@ -42,7 +42,7 @@
         <div class="design-form-item">
           <div class="design-form-title">
             {{ t('bots.label.turns') }}
-            <div class="text-sm font-normal text-[#7a7a7a]">
+            <div class="text-sm font-normal">
               {{ t('bots.label.turnsTip') }}
             </div>
           </div>
@@ -142,7 +142,7 @@ onMounted(() => {
 }
 
 :deep(.el-input-number) {
-  --el-border-color: #d3d3d3;
+  --el-border-color: var(--el-border-color-light);
 
   .el-input-number__decrease,
   .el-input-number__increase {

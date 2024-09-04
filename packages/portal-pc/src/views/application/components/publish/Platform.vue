@@ -21,7 +21,7 @@
                 {{ t('bots.publish.label.shop') }}
               </div>
               <div
-                class="text-[#7a7a7a] line-clamp-2 my-2 h-[42px]"
+                class=" text-[var(--el-text-color-placeholder)] line-clamp-2 my-2 h-[42px]"
                 :title="t('bots.publish.label.shopDes')"
               >
                 {{ t('bots.publish.label.shopDes') }}

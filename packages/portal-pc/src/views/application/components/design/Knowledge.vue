@@ -11,8 +11,8 @@
         <div class="design-form-item">
           <div class="design-form-title">
             {{ t('bots.label.similarity') }}
-            <div class="text-sm text-[#7a7a7a] font-normal">1.{{ t('bots.label.similarityTip1') }}</div>
-            <div class="text-sm text-[#7a7a7a] font-normal">2.{{ t('bots.label.similarityTip2') }}</div>
+            <div class="text-sm font-normal">1.{{ t('bots.label.similarityTip1') }}</div>
+            <div class="text-sm font-normal">2.{{ t('bots.label.similarityTip2') }}</div>
           </div>
           <div class="design-form-content">
             <el-slider
@@ -29,7 +29,7 @@
         <div class="design-form-item">
           <div class="design-form-title">
             {{ t('bots.label.searchCounts') }}
-            <div class="text-sm text-[#7a7a7a] font-normal">
+            <div class="text-sm font-normal">
               {{ t('bots.label.searchCountsTip') }}
             </div>
           </div>
@@ -46,9 +46,9 @@
         <div class="design-form-item">
           <div class="design-form-title">
             {{ t('bots.label.notFound') }}
-            <div class="text-sm text-[#7a7a7a] font-normal">{{ t('bots.label.notFoundTip1') }}</div>
-            <div class="text-sm text-[#7a7a7a] font-normal">1.{{ t('bots.label.notFoundTip2') }}</div>
-            <div class="text-sm text-[#7a7a7a] font-normal">2.{{ t('bots.label.notFoundTip3') }}</div>
+            <div class="text-sm font-normal">{{ t('bots.label.notFoundTip1') }}</div>
+            <div class="text-sm font-normal">1.{{ t('bots.label.notFoundTip2') }}</div>
+            <div class="text-sm font-normal">2.{{ t('bots.label.notFoundTip3') }}</div>
           </div>
           <div class="design-form-content">
             <el-radio-group
@@ -113,11 +113,11 @@
                   >
                     <svg-icon
                       name="delete"
-                      class="text-base text-[#7a7a7a] hover:text-[var(--el-color-danger)]"
+                      class="text-base hover:text-[var(--el-color-danger)]"
                     />
                   </el-button>
                 </div>
-                <div class="text-[#7a7a7a]">
+                <div class="text-[var(--el-text-color-placeholder)]">
                   <div class="text-xs">
                     <span>{{ t('base.label.fileNumber') }}：</span>
                     <span>{{ base.file_count }}{{ t('base.label.fileUnit') }}</span>

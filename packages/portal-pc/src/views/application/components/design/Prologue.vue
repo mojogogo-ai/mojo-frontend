@@ -153,7 +153,7 @@
                 @click="playAudio"
               >
                 <svg-icon
-                  class="shrink-0 text-[24px] text-[#7a7a7a]"
+                  class="shrink-0 text-[24px]"
                   :class="{ 'text-[var(--el-color-primary)]': isPlaying }"
                   name="sparker"
                 />

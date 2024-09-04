@@ -1,7 +1,7 @@
 @import './variables.module.scss';
+@import './element-variables.scss';
 @import './sidebar.scss';
 @import './element-ui.scss';
-@import './element-variables.scss';
 
 :root {
   text-size-adjust: 100%;
@@ -131,7 +131,7 @@ div:focus {
 
   .el-segmented {
     --el-segmented-bg-color: var(--el-fill-color-blank);
-    --el-segmented-padding: 8px;
+    --el-segmented-padding: 4px;
     --el-segmented-item-hover-bg-color: var(--el-fill-color-blank);
     --el-segmented-item-active-bg-color: var(--el-fill-color-blank);
     --el-segmented-item-hover-color: var(--el-text-color-placeholder);
@@ -200,10 +200,10 @@ div:focus {
   align-items: center;
   min-height: 44px;
   padding-top: 10px;
-  color: #7a7a7a;
+  color: var(--el-text-color-placeholder);
   font-size: 20px;
   line-height: 32px;
-  border-top: 1px solid #eee;
+  border-top: var(--el-border);
 }
 
 .page-list-img {
@@ -294,10 +294,6 @@ div:focus {
       }
     }
   }
-}
-
-.el-card {
-  backdrop-filter: blur(16px);
 }
 
 .el-message-box {

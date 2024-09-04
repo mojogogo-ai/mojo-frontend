@@ -288,29 +288,3 @@ onMounted(() => {
   }
 }
 </style>
-<style lang="scss">
-.design-form {
-  height: 100%;
-  padding: 14px 12px 16px;
-  overflow: hidden auto;
-}
-
-.design-form-item {
-  margin-bottom: 22px;
-}
-
-.design-form-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 16px;
-  margin-bottom: 14px;
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--el-text-color-regular);
-}
-
-.design-form-content {
-  padding-bottom: 12px;
-}
-</style>

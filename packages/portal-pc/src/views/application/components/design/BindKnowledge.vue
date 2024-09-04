@@ -76,7 +76,7 @@
                 <div class="text-xs line-clamp-2 my-2 h-[34px]">{{ base.description }}</div>
               </div>
             </div>
-            <div class="text-[#7a7a7a] text-xs mb-2 inline-flex items-center">
+            <div class="text-[var(--el-text-color-placeholder)] text-xs mb-2 inline-flex items-center">
               {{ t('base.label.createdAt') }}:
               {{
                 isCn ? base.created_at : dayjs(base.created_at)
@@ -84,7 +84,7 @@
                   .format('YYYY-MM-DD HH:mm:ss')
               }}
             </div>
-            <div class="text-[#7a7a7a] text-xs mb-2 inline-flex items-center">
+            <div class="text-[var(--el-text-color-placeholder)] text-xs mb-2 inline-flex items-center">
               <span>{{ t('base.label.fileNumber') }}：</span>
               <span>{{ base.file_count }}{{ t('base.label.fileUnit') }}/</span>
               <span>{{ t('base.label.fileSize') }}：</span>
