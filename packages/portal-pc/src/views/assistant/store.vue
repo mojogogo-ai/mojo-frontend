@@ -19,8 +19,6 @@
       <div class="shrink-0">
         <el-segmented
           v-model="activeTab"
-          class="custom-segmented"
-          size="large"
           :options="tabList.map((_) => ({ value: _.id, label: _.name }))"
           @change="onTabChange"
         >

@@ -17,7 +17,7 @@ const isHash = true;
 export const constantRoutes = [
   {
     path: '',
-    redirect: '/chat',
+    redirect: '/homepage',
     hidden: true
   },
   {
@@ -34,6 +34,18 @@ export const constantRoutes = [
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/error/404'),
     hidden: true
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/homepage',
+        name: 'Homepage',
+        component: () => import('@/views/homepage/index.vue'),
+        meta: { title: t('common.productName'), icon: 'home-chat', affix: true },
+      }
+    ]
   },
   {
     path: '',
