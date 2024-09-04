@@ -1,7 +1,14 @@
 <template>
   <div class="app-page">
     <div class="flex flex-col items-center">
-      <div class="mt-[120px] mb-4 homepage-title"> Refer Friends</div>
+      <div class="shrink-0 mt-[110px] mb-8">
+        <el-image
+          class="h-[300px] w-[676px]"
+          fit="contain"
+          :src="Pic1"
+        />
+      </div>
+      <div class="mb-6 homepage-title"> Refer Friends</div>
       <div class="homepage-subtitle">
         Earn 50 points for each successful referral! You will both get 50 points when your friend successfully create an account with us.
       </div>
@@ -14,6 +21,7 @@
   </div>
 </template>
 <script setup>
+import Pic1 from '@/assets/images/homepage/pic1.png';
 </script>
 <style scoped lang="scss">
 .homepage-title {
