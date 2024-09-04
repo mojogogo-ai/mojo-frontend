@@ -1,10 +1,10 @@
 <template>
   <div
-    class="relative page-list"
+    class="page-list relative"
     :class="props.class"
   >
     <van-cell class="page-list__inner">
-      <div class="flex mb-2">
+      <div class="mb-2 flex">
         <div class="app-page-col">
           <van-image
             class="page-list-img"
@@ -19,7 +19,7 @@
             </template>
           </van-image>
         </div>
-        <div class="relative flex-1 app-page-col">
+        <div class="app-page-col relative flex-1">
           <div class="flex">
             <div class="flex-1">
               <div
@@ -36,14 +36,14 @@
             >
               <van-button link>
                 <van-icon
-                  class="text-[#7a7a7a] hover:text-[var(--h5-color-primary)]"
+                  class="text-regular"
                   name="weapp-nav"
                 />
               </van-button>
             </div>
           </div>
           <div
-            class="my-2 line-clamp-2 h-[44px] text-[#7a7a7a]"
+            class="text-placeholder my-2 line-clamp-2 h-[44px]"
             :title="bot.description"
             @click="toBotDetail"
           >
@@ -51,7 +51,7 @@
           </div>
           <div
             v-if="bot.llm"
-            class="flex items-center text-[#7a7a7a]"
+            class="text-placeholder flex items-center"
           >
             <svg-icon name="plugin-store" />
             <span class="ml-1 text-xs">{{ bot.llm }}</span>
@@ -59,7 +59,7 @@
         </div>
       </div>
       <div class="page-list-option">
-        <span class="mr-auto text-xs text-[#7a7a7a]">
+        <span class="text-placeholder mr-auto text-xs">
           <van-icon
             :class="{ 'text-primary': bot.published }"
             name="guide-o"
@@ -267,9 +267,5 @@ watch(
       opacity: 0.3;
     }
   }
-}
-
-.text-primary {
-  color: var(--van-primary-color);
 }
 </style>

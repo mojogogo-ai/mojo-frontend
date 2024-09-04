@@ -32,13 +32,6 @@ watch(
 
 <style lang="scss" scoped>
 
-.app-wrapper {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background: url('/src/assets/images/home-bg.png') no-repeat center / cover;
-}
-
 .px-6 {
   padding: 0 24px;
 }

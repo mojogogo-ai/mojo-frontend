@@ -8,8 +8,8 @@
         power of AI to streamline operations, enhance customer engagement, and protect data privacy - all in one place.
       </div>
       <div class="mb-24 mt-8 flex justify-center">
-        <el-button type="info"> Sign Up </el-button>
-        <el-button type="primary"> +Create Bot </el-button>
+        <el-button type="info">Sign Up</el-button>
+        <el-button type="primary">+Create Bot</el-button>
       </div>
       <div class="flex w-full">
         <div class="mr-[24px] flex-1">
@@ -21,7 +21,9 @@
                 routine tasks, and leverage AI-driven insights for smarter decision-making.
               </div>
               <div class="pt-8">
-                <el-button type="primary"> Personal </el-button>
+                <el-button type="primary">
+                  <router-link to="/user">Personal</router-link>
+                </el-button>
               </div>
             </div>
           </el-card>
@@ -51,7 +53,9 @@
                 routine tasks, and leverage AI-driven insights for smarter decision-making.
               </div>
               <div class="pt-8">
-                <el-button type="primary"> Explore </el-button>
+                <el-button type="primary">
+                  <router-link to="/assistant">Explore</router-link>
+                </el-button>
               </div>
             </div>
           </el-card>

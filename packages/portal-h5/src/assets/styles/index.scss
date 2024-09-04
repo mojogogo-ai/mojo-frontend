@@ -1,6 +1,16 @@
 @import "./sidebar.scss";
 @import "vant-cover.scss";
 
+@font-face {
+  font-family: "Druk Wide Bold";
+  src: url("../fonts/DrukWideBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "TT Norms Pro";
+  src: url("../fonts/TT Norms Pro Regular.otf") format("truetype");
+}
+
 :root {
   text-size-adjust: 100%;
   --font-size-20: 20px;
@@ -9,9 +19,18 @@
   --font-base: 14px;
   --block-background-color: #f7f8fc;
   --h5-color-primary: #076DEA;
-  --h5-color-primary-light-5:#83b6f5;
-  --h5-color-primary-light-9:#e6f0fd;
-  --h5-fill-color-light:#f5f7fa;
+  --h5-color-primary-light-5: #83b6f5;
+  --h5-color-primary-light-9: #e6f0fd;
+  --h5-fill-color-light: rgba(255, 255, 255, 0.15);
+  --h5-text-color-primary: #000;
+  --h5-text-color-secondary: rgba(0, 0, 0, 0.7);
+  --h5-text-color-regular: #fff;
+  --h5-text-color-placeholder: rgba(255, 255, 255, 0.7);
+  --backdrop-blur: blur(50px);
+  --double-bg: url("../images/background/bg-t.png") no-repeat left top,
+  url("../images/background/bg-b.png") no-repeat 84px 200px;
+  --van-text-color: var(--h5-text-color-regular);
+  --van-text-color-3: var(--h5-text-color-placeholder);
 }
 
 body {
@@ -20,9 +39,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
+  font-family: TT Norms Pro, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
   Segoe UI, Arial, Roboto, "PingFang SC", "miui", "Hiragino Sans GB", "Microsoft Yahei",
   sans-serif;
+  font-weight: 400;
+  font-feature-settings: 'dlig' on;
+  color: var(--h5-text-color-regular);
 }
 
 html {
@@ -54,14 +76,18 @@ div:focus {
   outline: none;
 }
 
+.app-wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: var(--double-bg);
+  background-color: #000;
+}
+
 .app-page {
   display: flex;
   flex-direction: column;
   height: 100%;
-  //background-color: #ededed;
-  &:not(.bg-none) {
-    background-color: var(--block-background-color);
-  }
 }
 
 .app-page-top {
@@ -85,16 +111,19 @@ div:focus {
 .page-list {
   --van-cell-vertical-padding: 16px;
   --van-cell-horizontal-padding: 12px;
+  --van-cell-background: var(--h5-fill-color-light);
   display: inline-block;
   width: 100%;
   padding: 0 8px;
   margin-bottom: 16px;
+  backdrop-filter: var(--backdrop-blur);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
 
   &__inner {
+    --van-cell-text-color: var(--van-white);
     width: 100%;
     height: 100%;
     border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
 
     &.van-cell {
       overflow: inherit;
@@ -141,4 +170,22 @@ div:focus {
   width: 16px;
   height: 16px;
   margin-right: 4px;
+}
+
+.text {
+  &-primary {
+    color: var(--h5-text-color-primary);
+  }
+
+  &-secondary {
+    color: var(--h5-text-color-secondary);
+  }
+
+  &-regular {
+    color: var(--h5-text-color-regular);
+  }
+
+  &-placeholder {
+    color: var(--h5-text-color-placeholder);
+  }
 }

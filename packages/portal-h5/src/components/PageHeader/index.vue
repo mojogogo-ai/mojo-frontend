@@ -7,7 +7,7 @@
       <van-icon
         name="wap-nav"
         size="18"
-        color="#72757c"
+        color="#fff"
       />
     </div>
     <div class="flex flex-1 items-center justify-center">
@@ -36,7 +36,7 @@
         v-if="inputArea && !isShowSearch"
         name="search"
         size="18"
-        color="#72757c"
+        color="#fff"
         @click="isShowSearch = true"
       />
       <van-image
@@ -49,7 +49,7 @@
       <van-icon
         v-else
         size="18"
-        color="#72757c"
+        color="#fff"
         :name="rightIcon"
         @click="emits('right-icon-click')"
       />
@@ -108,10 +108,6 @@ const onSearch = () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  &:not(.bg-none) {
-    background-color: var(--block-background-color);
-  }
 
   &[border='bottom'] {
     border-bottom: 1px solid #e7e7e7;

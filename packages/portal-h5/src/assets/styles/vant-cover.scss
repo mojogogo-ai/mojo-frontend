@@ -2,16 +2,17 @@
 
 :root {
   --van-action-bar-height: 50px;
-  --van-blue: #3270fb;
+  --van-blue: #e1ff01;
 }
 
 .cover-popup {
-  --van-popup-background: #f5f7fa;
+  --van-popup-background: var(--h5-fill-color-light);
   --cover-popup-foot-height: 56px;
   display: flex;
   flex-direction: column;
   height: 75%;
   overflow: hidden;
+  backdrop-filter: var(--backdrop-blur);
 
   .van-popup__close-icon--top-right {
     --van-popup-close-icon-margin: 12px;
@@ -86,15 +87,7 @@
 
 .van-button {
   &.van-button--primary {
-    &[linear] {
-      background: linear-gradient(71deg, #09adf9 0%, #4650fb 100%);
-      box-shadow: 0 0 6px 1px rgba(#12a0f9, 0.66);
-      border: none;
-
-      &:hover {
-        opacity: 0.88;
-      }
-    }
+    color: var(--h5-text-color-primary);
   }
 
   &[link] {
@@ -121,6 +114,7 @@
 
 .cover-form {
   --van-popup-close-icon-margin: 12px;
+
   .van-field {
     --van-cell-background: none;
     --van-field-error-message-height: 18px;
@@ -128,8 +122,11 @@
     border-radius: 10px;
 
     &[background] {
-      --van-cell-background: #fff;
-      background-color: var(--van-cell-background);
+      --van-cell-background: var(--h5-fill-color-light);
+      .van-field__value {
+        background-color: var(--van-cell-background);
+        backdrop-filter: var(--backdrop-blur);
+      }
     }
 
     &[bordered] {
@@ -158,8 +155,9 @@
         background-color: transparent;
 
         .van-field__value {
-          background-color: var(--van-cell-background);
+          background-color: var(--h5-fill-color-light);
           border-radius: 10px;
+          backdrop-filter: var(--backdrop-blur);
         }
       }
 
