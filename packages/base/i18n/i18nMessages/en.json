@@ -360,7 +360,7 @@
     "validPassword": "The password must be at least 8 characters long, and include both uppercase and lowercase letters, as well as numbers"
   },
   "menu": {
-    "ass": "Assistant store",
+    "ass": "Bot Store",
     "b": "Knowledge Base",
     "c": "Assistant",
     "chat": "Chat",
