@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import logoLeft from '@/assets/logo/safe-gen-ai.svg';
+import logoLeft from '@/assets/logo/bot-default-logo.svg';
 import logoLoginLeft from "@/assets/images/login-left.png";
 import useUserStore from "@/store/modules/user";
 import { t } from '@gptx/base/i18n';

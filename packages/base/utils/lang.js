@@ -30,10 +30,8 @@ export function getBrowserLang() {
 
 // 当前选择的语言(若有本项目不支持的语言，默认回退到en)
 export function getCurLang () {
-  // if(window.SITE_TYPE && window.SITE_TYPE === '2'){//国内默认是中文，且不支持切换
-  //   return 'zh-CN'
-  // }
-  const lang = localStorage.getItem('lang') || getBrowserLang()
-  const curLang = supportLang().find(i => i.value === lang)
-  return curLang && curLang.value ? lang : 'en'
+  // const lang = localStorage.getItem('lang') || getBrowserLang()
+  // const curLang = supportLang().find(i => i.value === lang)
+  // return curLang && curLang.value ? lang : 'en'
+  return 'en'
 }
