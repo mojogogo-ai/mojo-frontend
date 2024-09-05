@@ -129,6 +129,10 @@ body {
       background: transparent;
     }
   }
+
+  .van-button {
+    --van-button-radius: 8px;
+  }
 }
 
 html {
@@ -200,7 +204,6 @@ div:focus {
   width: 100%;
   padding: 0 8px;
   margin-bottom: 16px;
-  backdrop-filter: var(--backdrop-blur);
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
 
   &__inner {
