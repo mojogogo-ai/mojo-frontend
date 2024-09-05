@@ -49,37 +49,33 @@
   </el-header>
 
   <!-- login or sign up -->
-  <LoginAndSignup ref="loginRef" />
+  <LoginAndSignup2 v-if="isShow" ref="loginRef" @close="isShow = false" />
 </template>
 
 <script setup>
 import Logo from './Logo';
 import User from './User';
 import NoLogin from './NoLogin';
-import { getToken } from '@gptx/base/utils/auth'
+import { getIsLogin } from '@gptx/base/utils/auth'
 const route = useRoute();
 
 const loginRef = ref(null);
 const isLogin = ref(false);
+const isShow = ref(false);
 
 const activeIndex = ref('/home')
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
 }
 onBeforeMount(async () => {
-  let curToken = await getToken() 
-  if (curToken) { 
-    const storageUserInfo = JSON.parse(localStorage.getItem('userInfo'))
-    const isAnonymous = storageUserInfo&&storageUserInfo.data.isAnonymous
-    if (!isAnonymous) {//
-      // isLogin.value = false
-      isLogin.value = true
-    }
-  }
+    isLogin.value = await getIsLogin()
 });
-const onCreateClick = (isLoginForm = true) => {
-  // to  login
-  loginRef.value.open(isLoginForm);
+const onCreateClick = () => {
+  // if (isLogin.value) {
+  //   //
+  // } else { // to  login
+    isShow.value = true
+  // }
 };
 
 watch(() => route.path,(newPath, oldPath) => { 

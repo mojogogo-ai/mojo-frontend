@@ -1,6 +1,5 @@
 <template>
   <div class="app-wrapper">
-    <!-- <Sidebar class="sidebar-container" /> -->
     <TopBar />
     <div class="main-container">
       <app-main />
@@ -9,14 +8,11 @@
 </template>
 
 <script setup name="LayOut">
-// import Sidebar from './components/Sidebar/Sidebar.vue'
 import TopBar from './components/TopBar/index.vue'
 import { AppMain } from './components'
-
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/styles/variables.module.scss";
 
 .app-wrapper {
   position: relative;

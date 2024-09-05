@@ -100,3 +100,16 @@ export function getRefreshToken() {
 export function setRefreshToken(token) {
   return Cookies.set(RefreshTokenKey, token, { expires: 1 })
 }
+
+
+export async function getIsLogin() {
+  let curToken = await getToken() 
+  if (curToken) {
+    const storageUserInfo = JSON.parse(localStorage.getItem('userInfo'))
+    //匿名登录，就是没登陆，后续优化
+    const isAnonymous = storageUserInfo&&storageUserInfo.data.isAnonymous 
+    return !isAnonymous
+  } else {
+    return false
+  }
+}
