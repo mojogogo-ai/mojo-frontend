@@ -28,7 +28,11 @@
                 @{{ user.nickName }}
               </div>
               <div style="border:1px solid rgba(224, 255, 49, 0.5)" class="px-3 py-1 text-[#e1ff01] rounded-full text-xs">
-                {{ 25500 }} pts
+                <CountTo
+                  suffix="pts"
+                  :decimals="0"
+                  :end-val="25500"
+                />
               </div>
             </div>
           </div>
