@@ -26,7 +26,7 @@ async function handleRoute(to, from, next) {
         next()
         return
       }
-      if (!toPatch.startsWith('/chat') && !toPatch.startsWith('/bot-shared')) {
+      if (!toPatch.startsWith('/home') && !toPatch.startsWith('/bot-shared')) {
         showConfirmDialog({
           title: t('common.e'),
           message: t('chat.tip1'),
@@ -93,7 +93,7 @@ async function handleRoute(to, from, next) {
                       if(toPatch.startsWith('/bot-shared')){
                         next()
                       }else{
-                        next('/chat')
+                        next('/home')
                       }
                     })
                   }
@@ -156,7 +156,7 @@ async function handleRoute(to, from, next) {
                         if(toPatch.startsWith('/bot-shared')){
                           next()
                         }else{
-                          next('/chat')
+                          next('/home')
                         }
                       })
                     }

@@ -371,7 +371,7 @@ const __visitorLogin = () => {
 };
 
 const handleRoute = () => {
-  router.push({ path: '/chat' });
+  router.push({ path: '/home' });
 };
 const userAgreementChange = (value) => {
   localStorage.setItem('userAgreement', value);

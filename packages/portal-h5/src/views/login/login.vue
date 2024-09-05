@@ -195,7 +195,7 @@ const handleToken = (user) => {
               }
               userStore.loginOthers(userInfo);
               localStorage.removeItem('anonymousToken');
-              router.push({ path: '/chat' });
+              router.push({ path: '/home' });
             }
             firebaseLoading.value = false;
           })

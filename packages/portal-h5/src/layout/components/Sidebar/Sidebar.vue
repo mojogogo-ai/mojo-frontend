@@ -42,10 +42,10 @@ import { constantRoutes } from '@/router';
 // 左边侧边栏菜单
 const sidebarRouters = computed(() => {
   let routeGroup = [
-    {
-      name: 'menu.group.c',
-      list: []
-    },
+    // {
+    //   name: 'menu.group.c',
+    //   list: []
+    // },
     {
       name: 'menu.group.e',
       list: []

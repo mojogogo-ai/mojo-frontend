@@ -15,7 +15,7 @@
     />
     <div
       v-if="loadingKnowledge"
-      class="app-page-content flex items-center justify-center"
+      class="flex items-center justify-center app-page-content"
     >
       <van-loading
         class="cover-loading"
@@ -29,7 +29,7 @@
       v-else
       class="app-page-content"
     >
-      <div class="flex h-full flex-col overflow-hidden">
+      <div class="flex flex-col h-full overflow-hidden">
         <van-floating-bubble
           v-if="__data.knowledgeList.length || knowledgeBaseName"
           axis="xy"
@@ -41,7 +41,7 @@
           v-if="__data.knowledgeList.length"
           class="flex-1 overflow-hidden"
         >
-          <van-list class="cover-list h-full pt-3">
+          <van-list class="h-full pt-3 cover-list">
             <base-list-item
               v-for="listItem in __data.knowledgeList"
               class="app-page-item"
@@ -102,7 +102,7 @@ const __data = reactive({
 const baseInfoRef = ref(null);
 const createNewKnowledgeBase = (val) => baseInfoRef.value.open(val);
 
-const onSearch = (value) => {
+const onSearch = () => {
   _findKnowledgeList();
 };
 // get knowledge base list

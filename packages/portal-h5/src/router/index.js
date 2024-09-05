@@ -18,17 +18,12 @@ const isHash = true;
 export const constantRoutes = [
   {
     path: '',
-    redirect: '/chat',
+    redirect: '/home',
     hidden: true
   },
   {
     path: '/login',
     component: () => import('@/views/login/index.vue'),
-    hidden: true
-  },
-  {
-    path: '/register',
-    component: () => import('@/views/register'),
     hidden: true
   },
   {
@@ -41,10 +36,10 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: '/chat',
+        path: '/home',
         name: 'ChatRoot',
         component: () => import('@/views/home/index.vue'),
-        meta: { title: t('menu.chat'), icon: 'home-chat', affix: true },
+        meta: { title: 'Home', icon: 'home-chat', affix: true },
       }
     ]
   },
