@@ -1,17 +1,14 @@
 import router from './router'
 import { getToken } from '@gptx/base/utils/auth'
-import { isMobi } from '@gptx/base'
+// import { getAuth, signInAnonymously, onAuthStateChanged  } from "firebase/auth";
+// import { visitorAnonymous } from "@gptx/base/api/login";
+
+// import useUserStore from '@/store/modules/user'
 import useLoginStore from '@/store/modules/login'
 import { useDynamicTitle } from '@gptx/base/utils/dynamicTitle'
 // import {t} from '@gptx/base/i18n'
 
-// const whiteList = ['/login']
 router.beforeEach((to, from, next) => {
-  // to h5
-  if (isMobi()) {
-      window.location.href = new URL(window.location).origin + '/portal-h5';
-      next(false)
-  }
   handleRoute(to, from, next)
 })
 async function handleRoute(to, from, next) {

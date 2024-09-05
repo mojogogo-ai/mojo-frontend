@@ -9,6 +9,11 @@
     </van-popup>
     <div class="main-container">
       <app-main />
+      <!-- login or sign up -->
+      <LoginAndSignup2 ref="loginRef" />
+
+      <!-- create bot -->
+      <CreateBot ref="botRef" />
     </div>
   </div>
 </template>
@@ -18,8 +23,17 @@ import Sidebar from './components/Sidebar/Sidebar.vue';
 import { AppMain } from './components';
 import { useLayoutStore } from '@/store/modules/layout';
 
+import useLoginStore from '@/store/modules/login'
+const useLogin = useLoginStore();
+import useBotStore from '@/store/modules/bot'
+const useBot = useBotStore(); 
+
+
 const storeLayout = useLayoutStore();
 const route = useRoute();
+
+const loginRef = ref(null);
+const botRef = ref(null);
 
 // 路由变化，关闭侧边栏
 watch(
@@ -28,6 +42,14 @@ watch(
     storeLayout.setSidebarVisible(false);
   }
 );
+
+watch(() => useLogin.loginDialog,() => { 
+  loginRef.value.open()
+},{ immediate: false });
+
+watch(() => useBot.createBotDialog,() => { 
+  botRef.value.open()
+},{ immediate: false });
 </script>
 
 <style lang="scss" scoped>

@@ -97,10 +97,13 @@ import { t } from '@gptx/base/i18n';
 import { getCurLang, supportLang } from '@gptx/base';
 import { getAuth, signOut } from 'firebase/auth';
 import useUserStore from '@/store/modules/user.js';
+import useLoginStore from '@/store/modules/login'
 import BaseInfo from './components/BaseInfo';
 
 const router = useRouter();
 const user = useUserStore();
+const useLogin = useLoginStore();
+
 const curLang = ref(getCurLang());
 const langList = supportLang(); // 支持切换的语言
 const language = computed(() => {
@@ -133,12 +136,9 @@ const logout = async () => {
         // firebase
         const auth = getAuth();
         await signOut(auth);
-      } else {
-        //sms
-        //
       }
-      await user.logOut();
-      router.push({ path: '/login' });
+      useLogin.toLoginOut()
+      router.push({ path: '/home' });
     }
   } catch (e) {
     console.log(e);

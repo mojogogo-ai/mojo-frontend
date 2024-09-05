@@ -16,7 +16,7 @@ import elementIcons from '@/plugins/svgicon'
 // svg图标组件
 import SvgIcon from '~virtual/svg-component'
 
-import './permission' // permission control
+import './permission2' // permission control
 
 import '@/styles/lib/tailwind.css'
 

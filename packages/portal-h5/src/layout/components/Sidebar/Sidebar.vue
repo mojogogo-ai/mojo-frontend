@@ -28,7 +28,8 @@
       </template>
     </div>
     <div class="sidebar-menu">
-      <user class="flex-none" />
+      <user v-if="isLogin" class="flex-none" />
+      <NoLogin v-else @login-signup="onCreateClick" />
     </div>
   </div>
 </template>
@@ -36,8 +37,24 @@
 <script setup>
 import Logo from './Logo';
 import SidebarItem from './SidebarItem';
+import NoLogin from './NoLogin';
 import User from './User';
 import { constantRoutes } from '@/router';
+import { getIsLogin } from '@gptx/base/utils/auth'
+    
+import useLoginStore from '@/store/modules/login'
+const useLogin = useLoginStore();
+
+// import useBotStore from '@/store/modules/bot'
+// const useBot = useBotStore(); 
+
+// const loginRef = ref(null);
+// const botRef = ref(null);
+const isLogin = ref(false);
+
+onBeforeMount(async () => {
+    isLogin.value = await getIsLogin()
+});
 
 // 左边侧边栏菜单
 const sidebarRouters = computed(() => {
@@ -74,11 +91,17 @@ const indexPage = computed(() => {
   });
 });
 
-// const activeMenu = computed(() => {
-//   const { meta, path } = route;
-//   if (meta.activeMenu) {
-//     return meta.activeMenu;
-//   }
-//   return path;
-// });
+
+// watch(() => useLogin.loginDialog,() => { 
+//   loginRef.value.open()
+// },{ immediate: false });
+
+watch(() => useLogin.isLogOut,() => { 
+  isLogin.value = false
+},{ immediate: false });
+
+// watch(() => useBot.createBotDialog,() => { 
+//   botRef.value.open()
+// },{ immediate: false });
+
 </script>
