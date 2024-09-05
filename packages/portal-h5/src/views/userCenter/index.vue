@@ -137,6 +137,7 @@ const logout = async () => {
         const auth = getAuth();
         await signOut(auth);
       }
+      await user.logOut();
       useLogin.toLoginOut()
       router.push({ path: '/home' });
     }

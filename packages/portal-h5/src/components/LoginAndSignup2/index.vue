@@ -139,7 +139,7 @@ defineExpose({ open });
 
 <style lang="scss">
 .login-dialog{
-  background-color:  var(--el-color-primary);
+  background-color:  #e1ff01;
   .el-dialog__close{
       color: #000;
       font-size: 20px;

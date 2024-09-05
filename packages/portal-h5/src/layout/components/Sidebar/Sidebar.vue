@@ -45,13 +45,7 @@ import { getIsLogin } from '@gptx/base/utils/auth'
 import useLoginStore from '@/store/modules/login'
 const useLogin = useLoginStore();
 
-// import useBotStore from '@/store/modules/bot'
-// const useBot = useBotStore(); 
-
-// const loginRef = ref(null);
-// const botRef = ref(null);
 const isLogin = ref(false);
-
 onBeforeMount(async () => {
     isLogin.value = await getIsLogin()
 });
@@ -91,17 +85,13 @@ const indexPage = computed(() => {
   });
 });
 
-
-// watch(() => useLogin.loginDialog,() => { 
-//   loginRef.value.open()
-// },{ immediate: false });
-
+const onCreateClick = () => {
+  const useLogin = useLoginStore();
+  useLogin.openLoginDialog()
+};
 watch(() => useLogin.isLogOut,() => { 
   isLogin.value = false
 },{ immediate: false });
 
-// watch(() => useBot.createBotDialog,() => { 
-//   botRef.value.open()
-// },{ immediate: false });
 
 </script>
