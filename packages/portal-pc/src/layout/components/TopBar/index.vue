@@ -1,6 +1,6 @@
 <template>
   <el-header class="flex justify-center h-[80px]">
-    <div class="flex items-center justify-between w-full min-w-[800px] max-w-[1200px]">
+    <div class="flex items-center justify-between w-full min-w-[800px] max-w-[1280px]">
       <div class="flex items-center">
         <logo
           class="flex-none mr-10"
@@ -49,7 +49,10 @@
   </el-header>
 
   <!-- login or sign up -->
-  <LoginAndSignup2 v-if="isShow" ref="loginRef" @close="isShow = false" />
+  <LoginAndSignup2 ref="loginRef" />
+
+  <!-- create bot -->
+  <CreateBot ref="botRef" />
 </template>
 
 <script setup>
@@ -59,9 +62,15 @@ import NoLogin from './NoLogin';
 import { getIsLogin } from '@gptx/base/utils/auth'
 const route = useRoute();
 
+import useLoginStore from '@/store/modules/login'
+const useLogin = useLoginStore();
+
+import useBotStore from '@/store/modules/bot'
+const useBot = useBotStore();
+
 const loginRef = ref(null);
+const botRef = ref(null);
 const isLogin = ref(false);
-const isShow = ref(false);
 
 const activeIndex = ref('/home')
 const handleSelect = (key, keyPath) => {
@@ -71,17 +80,16 @@ onBeforeMount(async () => {
     isLogin.value = await getIsLogin()
 });
 const onCreateClick = () => {
-  // if (isLogin.value) {
-  //   //
-  // } else { // to  login
-    isShow.value = true
-  // }
+  if (isLogin.value) {
+    botRef.value.open()
+  } else { // to  login
+    loginRef.value.open()
+  }
 };
 
 watch(() => route.path,(newPath, oldPath) => { 
   let routeList =['/home','/assistant']
   console.log(newPath, oldPath,'oldPath') 
-  
   if (routeList.indexOf(newPath)===-1) {
     activeIndex.value = ''
   } else {
@@ -89,6 +97,20 @@ watch(() => route.path,(newPath, oldPath) => {
   }
 
 },{ immediate: true });
+
+watch(() => useLogin.loginDialog,() => { 
+  loginRef.value.open()
+},{ immediate: false });
+
+watch(() => useLogin.isLogOut,() => { 
+  isLogin.value = false
+},{ immediate: false });
+
+watch(() => useBot.createBotDialog,() => { 
+  botRef.value.open()
+},{ immediate: false });
+
+
   </script>
 
 <style lang="scss">

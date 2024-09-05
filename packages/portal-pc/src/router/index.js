@@ -20,16 +20,11 @@ export const constantRoutes = [
     redirect: '/home',
     hidden: true
   },
-  {
-    path: '/login',
-    component: () => import('@/views/login/index.vue'),
-    hidden: true
-  },
-  {
-    path: '/register',
-    component: () => import('@/views/register'),
-    hidden: true
-  },
+  // {
+  //   path: '/login',
+  //   component: () => import('@/views/login/index.vue'),
+  //   hidden: true
+  // },
   {
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/error/404'),
@@ -43,7 +38,7 @@ export const constantRoutes = [
         path: '/home',
         name: 'Home',
         component: () => import('@/views/home/index.vue'),
-        meta: { title: t('common.productName'), icon: 'home-chat', affix: true },
+        meta: { title: 'Home', icon: 'home-chat', affix: true },
       }
     ]
   },

@@ -2,7 +2,7 @@
   <div
     class="avatar-container"
   >
-    <el-popover popper-class="user-popover" placement="bottom-end" :width="400" trigger="hover">
+    <el-popover popper-class="user-popover" :offset="15" placement="bottom-end" :width="400" trigger="hover">
       <template #reference>
         <div
           class="avatar-wrapper"
@@ -98,6 +98,9 @@ import useUserStore from '@/store/modules/user.js';
 const router = useRouter();
 const user = useUserStore();
 
+import useLoginStore from '@/store/modules/login'
+const useLogin = useLoginStore();
+
 const infoList =ref([
   {
     id:1,
@@ -132,14 +135,13 @@ onBeforeMount(() => {
 const toPage = (item) => {
   console.log(item,'item999')
    if(item.id===4){
-    //
-    logout()
+    logoutHandle()
   } else {
     router.push({ path: item.path })
   }
 };
 
-const logout = async () => {
+const logoutHandle = async () => {
   try {
     const action = await ElMessageBox.confirm(t('user.c'), '', {
       confirmButtonText: t('user.b'),
@@ -151,12 +153,10 @@ const logout = async () => {
       if (window.SITE_TYPE === '1') { // firebase
         const auth = getAuth();
         await signOut(auth);
-      } else { //sms
-        //
       }
-
       await user.logOut();
-      router.push({ path: '/login' });
+      useLogin.toLoginOut()
+      router.push({ path: '/home' });
     }
   } catch (e) {
     console.log(e);

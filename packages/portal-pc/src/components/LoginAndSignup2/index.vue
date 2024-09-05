@@ -2,15 +2,18 @@
   <el-dialog
     v-model="dialogVisible"
     class="login-dialog"
-    width="640px"
+    width="540px"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     @close="emit('close')"
   >
-    <div class="flex flex-col items-center">
+    <div
+      v-if="dialogVisible" 
+      class="flex flex-col items-center"
+    >
       <LoginLogo :is-login-form="true" />
       <div class="ml-0  sm:ml-0 md:ml-[10px]">
-        <el-progress v-if="firebaseLoading" :percentage="100" :format="(percentage) => (percentage === 100 ? '' : `${percentage}%`)" :indeterminate="true" />
+        <!-- <el-progress v-if="firebaseLoading" :percentage="100" :format="(percentage) => (percentage === 100 ? '' : `${percentage}%`)" :indeterminate="true" /> -->
         <div id="firebaseui-auth-container" class="firebaseui-auth-container" />
       </div>
 
@@ -44,7 +47,7 @@ import { welcomeAccess } from "@gptx/base/api/login";
 import { nextTick } from 'vue';
 
 const emit = defineEmits(['close'])
-const dialogVisible = ref(true);
+const dialogVisible = ref(false);
 
 // const AppleProvider = new OAuthProvider("apple.com");
 const firebaseLoading = ref(false)
@@ -60,16 +63,14 @@ const handleToken = (user) => {
           nickName: user.displayName,
         };
         
-        let anonymousToken = localStorage.getItem('anonymousToken') || '' ;
-        welcomeAccess(accessToken, anonymousToken).then((res) => {
+        welcomeAccess(accessToken, '').then((res) => {
             if (res.code === 200) {
               if (res.data && res.data.system_chat) {
-                localStorage.setItem('systemChat', JSON.stringify(res.data.system_chat));
                 localStorage.setItem('user', JSON.stringify(res.data.user_info));
               }
               userStore.loginOthers(userInfo)
-              localStorage.removeItem('anonymousToken')
               emit('close')
+              dialogVisible.value = false;
               window.location.reload()
               // router.push({ path: "/home" });
             }
@@ -123,12 +124,17 @@ const handleFireBaseUI = () => {
   }
 };
 onMounted(() => {
-  nextTick(()=>{
-    handleFireBaseUI();
-
-  })
 });
 
+// open dialog
+const open = () => {
+  dialogVisible.value = true;
+  nextTick(()=>{
+      handleFireBaseUI();
+  })
+};
+defineExpose({ open });
+// export { open }
 </script>
 
 <style lang="scss">

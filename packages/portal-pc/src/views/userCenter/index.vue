@@ -78,10 +78,13 @@ import { t } from '@gptx/base/i18n';
 import { ElMessageBox } from 'element-plus';
 import { getAuth, signOut } from 'firebase/auth';
 import useUserStore from '@/store/modules/user.js';
+import useLoginStore from '@/store/modules/login'
 import BaseInfo from './components/BaseInfo';
 
 const router = useRouter();
 const user = useUserStore();
+const useLogin = useLoginStore();
+
 // const curLang = getCurLang();
 // const langList = supportLang(); // 支持切换的语言
 // const language = computed(() => {
@@ -112,12 +115,9 @@ const logout = async () => {
       if (window.SITE_TYPE === '1') { // firebase
         const auth = getAuth();
         await signOut(auth);
-      } else { //sms
-        //
       }
-
-      await user.logOut();
-      router.push({ path: '/login' });
+      useLogin.toLoginOut()
+      router.push({ path: '/home' });
     }
   } catch (e) {
     console.log(e);

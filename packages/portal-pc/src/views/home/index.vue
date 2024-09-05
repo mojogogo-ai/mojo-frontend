@@ -8,8 +8,8 @@
         power of AI to streamline operations, enhance customer engagement, and protect data privacy - all in one place.
       </div>
       <div class="flex justify-center mt-8 mb-24">
-        <el-button type="info"> Sign Up </el-button>
-        <el-button type="primary"> +Create Bot </el-button>
+        <el-button v-if="!isLogin" type="info" @click="toLogin"> Sign Up </el-button>
+        <el-button type="primary" @click="toCreate"> + Create Bot </el-button>
       </div>
       <div class="flex w-full">
         <div class="mr-[24px] flex-1">
@@ -21,7 +21,7 @@
                 routine tasks, and leverage AI-driven insights for smarter decision-making.
               </div>
               <div class="pt-8">
-                <el-button type="primary"> Personal </el-button>
+                <el-button type="primary" @click="toPage('')"> Personal </el-button>
               </div>
             </div>
           </el-card>
@@ -51,7 +51,7 @@
                 routine tasks, and leverage AI-driven insights for smarter decision-making.
               </div>
               <div class="pt-8">
-                <el-button type="primary"> Explore </el-button>
+                <el-button type="primary" @click="toPage('/assistant')"> Explore </el-button>
               </div>
             </div>
           </el-card>
@@ -65,6 +65,44 @@
 import { t } from '@gptx/base/i18n';
 import Pic1 from '@/assets/images/homepage/pic1.png';
 import Pic2 from '@/assets/images/homepage/pic2.png';
+
+import { getIsLogin } from '@gptx/base/utils/auth'
+import useLoginStore from '@/store/modules/login'
+const useLogin = useLoginStore();
+
+import useBotStore from '@/store/modules/bot'
+const useBot = useBotStore();
+
+const router = useRouter();
+
+const isLogin = ref(false);
+onBeforeMount(async () => {
+    isLogin.value = await getIsLogin()
+});
+
+watch(() => useLogin.isLogOut,() => { 
+  isLogin.value = false
+},{ immediate: false });
+
+
+const toLogin = ()=>{
+  useLogin.openLoginDialog() // open login dialog
+}
+
+const toCreate = ()=>{
+  if (isLogin.value) {
+    useBot.openCreateBotDialog() //open create bot dialog
+  } else {
+    useLogin.openLoginDialog() // open login dialog
+  }
+}
+
+
+const toPage = (path)=>{
+  if (path) {
+    router.push({ path });
+  }
+}
 </script>
 <style scoped lang="scss">
 .homepage-title {
