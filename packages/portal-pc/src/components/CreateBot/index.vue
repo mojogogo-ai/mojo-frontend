@@ -65,12 +65,11 @@
         :label="t('bots.icon')"
         prop="icon"
       >
-        <avatar-generator
+        <avatar-generator2
           :default-avatar="form.icon || defaultRobotAvatar"
           :name="form.name"
           :description="form.description"
           :title="t('bots.icon')"
-          :disabled-tooltip-text="t('bots.generateIconTooltip')"
           @before-generate="isAIloading = true"
           @after-generate="isAIloading = false"
           @change="onImageChange"
