@@ -224,11 +224,14 @@ watch(
   }
 
   .van-cell {
+    --van-cell-background: var(--h5-fill-color-light);
+    --van-white: #000;
     display: inline-block;
     width: calc(50% - 8px);
     margin: 0 4px;
     border: 1px solid var(--van-border-color);
     border-radius: 10px;
+    backdrop-filter: var(--backdrop-blur);
 
     &::after {
       display: none;

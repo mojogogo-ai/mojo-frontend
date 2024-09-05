@@ -6,6 +6,13 @@
       input-area
       @search="onSearch"
     />
+    <van-search
+      v-model="form.search"
+      placeholder="Search"
+      shape="round"
+      background="transparent"
+      @search="onSearch"
+    />
     <div
       v-if="isLoading"
       class="flex items-center justify-center app-page-content"
@@ -112,7 +119,6 @@ const afterCreateBot = async () => {
   router.push({ path: `/design/${id}` });
 };
 const onSearch = (value) => {
-  form.search = value;
   _getAppList();
 };
 const _getAppList = async () => {

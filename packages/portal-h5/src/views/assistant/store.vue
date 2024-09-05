@@ -6,6 +6,13 @@
       input-area
       @search="onSearch"
     />
+    <van-search
+      v-model="appName"
+      placeholder="Search"
+      shape="round"
+      background="transparent"
+      @search="onSearch"
+    />
     <div class="flex flex-col app-page-content">
       <div class="shrink-0">
         <van-tabs
@@ -91,7 +98,6 @@ const scrollbar = ref(null);
 const baseInfoRef = ref(null);
 
 const onSearch = (value) => {
-  appName.value = value || appName.value;
   if (timer) {
     clearTimeout(timer);
     timer = null;

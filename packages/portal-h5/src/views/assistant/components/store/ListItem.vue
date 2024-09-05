@@ -29,13 +29,13 @@
               @click="showMoreAction = true"
             >
               <van-icon
-                class="text-[#7a7a7a] hover:text-[var(--h5-color-primary)]"
+                class="text-placeholder hover:text-[var(--h5-color-primary)]"
                 name="weapp-nav"
               />
             </van-button>
           </div>
           <div
-            class="my-2 line-clamp-2 h-[44px] text-[#7a7a7a]"
+            class="my-2 line-clamp-2 h-[44px] text-placeholder"
             :title="appInfo.app_description"
           >
             {{ appInfo.app_description }}
@@ -43,7 +43,7 @@
         </div>
       </div>
       <div class="page-list-option justify-between">
-        <span class="text-xs text-[#7a7a7a]"> @{{ appInfo.author_name }} </span>
+        <span class="text-xs text-placeholder"> @{{ appInfo.author_name }} </span>
         <svg-icon
           name="chat"
           size="20"

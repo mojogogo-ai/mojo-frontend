@@ -1,8 +1,6 @@
 @use "sass:color";
 
 :root {
-  --van-action-bar-height: 50px;
-  --van-blue: #e1ff01;
 }
 
 .cover-popup {
@@ -49,7 +47,7 @@
     justify-content: center;
     height: var(--cover-popup-foot-height);
     padding: calc(var(--van-popup-close-icon-margin) * .5) calc(var(--van-popup-close-icon-margin) * 1.5) calc(var(--van-popup-close-icon-margin));
-    background-color: var(--van-popup-background);
+    //background-color: var(--van-popup-background);
 
     &[justify="center"] {
       justify-content: center;
@@ -86,11 +84,13 @@
 }
 
 .van-button {
+  --van-button-default-color: var(--h5-text-color-primary);
   &.van-button--primary {
     color: var(--h5-text-color-primary);
   }
 
   &[link] {
+    --van-button-default-color: var(--h5-text-color-placeholder);
     height: auto;
     line-height: 1;
     padding: 4px;
@@ -188,9 +188,11 @@
     }
 
     &.van-cell {
+      --van-field-word-limit-color: var(--h5-text-color-placeholder);
       margin: 0 0 var(--van-field-error-message-height);
       padding: calc(var(--van-popup-close-icon-margin) / 3) var(--van-popup-close-icon-margin);
       //flex-direction: column;
+      backdrop-filter: unset;
 
       &::after {
         display: none;

@@ -82,7 +82,6 @@ const isActive = () => {
       font-size: 16px;
       font-weight: 400;
       overflow: hidden;
-      color: #303133;
       text-overflow: ellipsis;
       white-space: nowrap;
     }

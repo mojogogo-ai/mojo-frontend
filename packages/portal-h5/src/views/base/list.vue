@@ -6,6 +6,13 @@
       input-area
       @search="onSearch"
     />
+    <van-search
+      v-model="knowledgeBaseName"
+      placeholder="Search"
+      shape="round"
+      background="transparent"
+      @search="onSearch"
+    />
     <div
       v-if="loadingKnowledge"
       class="app-page-content flex items-center justify-center"
@@ -96,7 +103,6 @@ const baseInfoRef = ref(null);
 const createNewKnowledgeBase = (val) => baseInfoRef.value.open(val);
 
 const onSearch = (value) => {
-  knowledgeBaseName.value = value;
   _findKnowledgeList();
 };
 // get knowledge base list

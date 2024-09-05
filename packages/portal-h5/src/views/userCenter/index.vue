@@ -165,10 +165,10 @@ onMounted(() => {
   padding: 0 12px;
   margin-bottom: 8px;
   font-size: 14px;
-  color: #7a7a7a;
+  color: var(--h5-text-color-regular);
 
   .text-xs {
-    color: #aeaeae;
+    color: var(--h5-text-color-placeholder);
   }
 }
 
@@ -196,16 +196,8 @@ onMounted(() => {
     }
   }
 
-  &:active {
-    background-color: rgba(#000, 0.06);
-  }
-
   .text-base {
     line-height: 2em;
-  }
-
-  .van-cell__value {
-    --van-cell-value-color: #36353a;
   }
 }
 

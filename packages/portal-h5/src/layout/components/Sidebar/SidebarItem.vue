@@ -6,7 +6,7 @@
   >
     <svg-icon
       class="sidebar-menu__icon"
-      :style="{color: isActive(menuInfo.path) ? `${menuInfo.iconActiveColor || '#066BE9'}`:'inherit'}"
+      :style="{color: isActive(menuInfo.path) ? `${menuInfo.iconActiveColor || 'var(--h5-text-color-primary)'}`:'inherit'}"
       :name="menuInfo.meta.icon"
     />
     <span class="sidebar-menu__title">{{ menuInfo.meta.title }}</span>
