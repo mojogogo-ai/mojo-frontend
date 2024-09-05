@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between w-full min-w-[800px] max-w-[1200px]">
       <div class="flex items-center">
         <logo
-          class="flex-none mr-12"
+          class="flex-none mr-10"
         />
         <el-menu
           :default-active="activeIndex"

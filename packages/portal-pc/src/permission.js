@@ -32,9 +32,9 @@ async function handleRoute(to, from, next) {
         next()
         return
       }
-      if (!toPatch.startsWith('/chat') && !toPatch.startsWith('/bot-shared')) {
+      if (!toPatch.startsWith('/home') && !toPatch.startsWith('/bot-shared')) {
         ElMessageBox.confirm(
-          t('chat.tip1'),
+          t('home.tip1'),
           t('common.e'),
           {
             confirmButtonText: t('login.d'),
@@ -101,7 +101,7 @@ async function handleRoute(to, from, next) {
                       if(toPatch.startsWith('/bot-shared')){
                         next()
                       }else{
-                        next('/chat')
+                        next('/home')
                       }
                     })
                   }
@@ -164,7 +164,7 @@ async function handleRoute(to, from, next) {
                         if(toPatch.startsWith('/bot-shared')){
                           next()
                         }else{
-                          next('/chat')
+                          next('/home')
                         }
                       })
                     }

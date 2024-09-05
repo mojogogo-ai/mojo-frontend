@@ -50,18 +50,6 @@ export const constantRoutes = [
   {
     path: '',
     component: Layout,
-    children: [
-      {
-        path: '/chat',
-        name: 'ChatRoot',
-        component: () => import('@/views/home/index.vue'),
-        meta: { title: t('menu.chat'), icon: 'home-chat', affix: true },
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
     groupName: 'menu.group.c',
     children: [
       {
