@@ -13,23 +13,23 @@
       background="transparent"
       @search="onSearch"
     />
-    <div class="flex flex-col app-page-content">
-      <div class="shrink-0">
-        <van-tabs
-          v-model:active="activeTab"
-          background="transparent"
-          @click-tab="onTabChange"
-        >
-          <van-tab
-            v-for="{ id, name } in tabList"
-            :name="id"
-            :title="t(name)"
-          />
-        </van-tabs>
-      </div>
+    <div class="app-page-content flex flex-col">
+      <!--      <div class="shrink-0">
+              <van-tabs
+                v-model:active="activeTab"
+                background="transparent"
+                @click-tab="onTabChange"
+              >
+                <van-tab
+                  v-for="{ id, name } in tabList"
+                  :name="id"
+                  :title="t(name)"
+                />
+              </van-tabs>
+            </div>-->
       <div
         v-if="isLoading"
-        class="flex items-center justify-center flex-1"
+        class="flex flex-1 items-center justify-center"
       >
         <van-loading
           class="cover-loading"

@@ -1,5 +1,28 @@
 <template>
   <div class="page-header">
+    <div
+      v-show="!isShowSearch"
+      class="page-header-icon"
+      @click="onLeftIconClick"
+    >
+      <van-icon
+        name="wap-nav"
+        size="18"
+        color="var(--van-blue)"
+      />
+    </div>
+    <div
+      v-show="!isShowSearch"
+      class="flex flex-1 items-center justify-center"
+    >
+      <div class="sidebar-logo__link">
+        <svg-icon
+          name="logo"
+          class="sidebar-logo__icon"
+        />
+        {{ isCn ? $t('common.productName_Cn') : $t('common.productName') }}
+      </div>
+    </div>
     <!--    <div
           class="page-header-icon right"
           :class="{ 'is-show-search': isShowSearch }"
@@ -39,29 +62,6 @@
             @click="emits('right-icon-click')"
           />
         </div>-->
-    <div
-      v-show="!isShowSearch"
-      class="flex flex-1 items-center"
-    >
-      <div class="sidebar-logo__link">
-        <svg-icon
-          name="logo"
-          class="sidebar-logo__icon"
-        />
-        {{ isCn ? $t('common.productName_Cn') : $t('common.productName') }}
-      </div>
-    </div>
-    <div
-      v-show="!isShowSearch"
-      class="page-header-icon"
-      @click="onLeftIconClick"
-    >
-      <van-icon
-        name="wap-nav"
-        size="18"
-        color="var(--van-blue)"
-      />
-    </div>
   </div>
 </template>
 
@@ -115,7 +115,7 @@ const onSearch = () => {
   top: 0;
   width: 100%;
   height: var(--van-action-bar-height);
-  padding: 0 32px 0 16px;
+  padding: 0 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -138,7 +138,7 @@ const onSearch = () => {
 .page-header-icon {
   position: absolute;
   top: 50%;
-  right: 8px;
+  left: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,8 +151,8 @@ const onSearch = () => {
   //backdrop-filter: var(--backdrop-blur);
 
   &.right {
-    left: 8px;
-    right: unset;
+    left: unset;
+    right: 8px;
     height: 24px;
     width: 24px;
     transition: left 0.3s ease-out;

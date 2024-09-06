@@ -7,6 +7,7 @@
             class="page-list-img"
             fit="cover"
             :src="appInfo.app_icon || defaultBotImage"
+            radius="10"
           >
             <template #error>
               <div class="page-list-img__error">
@@ -18,7 +19,7 @@
         <div class="app-page-col flex-1">
           <div class="flex items-center">
             <div
-              class="line-clamp-1 h-[20px] flex-1"
+              class="line-clamp-1 flex-1 text-base text-[var(--van-blue)]"
               :title="appInfo.app_name"
             >
               {{ appInfo.app_name }}
@@ -34,16 +35,25 @@
               />
             </van-button>
           </div>
+          <div class="mt-2">
+            <van-image
+              class="align-middle"
+              width="16px"
+              round
+              :src="defaultBotImage"
+            />
+            <span class="mr-1 text-xs text-[var(--el-text-color-placeholder)]"> user1518405835467 </span>
+            <span class="text-xs text-[var(--el-text-color-placeholder)]"> @{{ appInfo.author_name }} </span>
+          </div>
           <div
-            class="my-2 line-clamp-2 h-[44px] text-placeholder"
+            class="text-placeholder my-2 line-clamp-4 h-[100px]"
             :title="appInfo.app_description"
           >
             {{ appInfo.app_description }}
           </div>
         </div>
       </div>
-      <div class="page-list-option justify-between">
-        <span class="text-xs text-placeholder"> @{{ appInfo.author_name }} </span>
+      <div class="page-list-option justify-end">
         <svg-icon
           name="chat"
           size="20"
@@ -148,4 +158,20 @@ watch(
 .h-\[38px\] {
   height: 38px;
 }
+
+.line-clamp-4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.h-\[100px\] {
+  height: 100px;
+}
+
+.text-\[var\(--van-blue\)\] {
+  color: var(--van-blue);
+}
+.text-xl{}
 </style>

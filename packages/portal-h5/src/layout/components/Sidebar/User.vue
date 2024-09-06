@@ -58,15 +58,7 @@ const isActive = () => {
     }
 
     &.is-active {
-      background-color: #e6f0ff;
-
-      .nick-name {
-        color: var(--h5-color-primary);
-      }
-
-      &:hover {
-        background-color: #e6f0ff;
-      }
+      background-color: var(--h5-fill-color-light);
     }
 
     .user-avatar {
@@ -77,7 +69,8 @@ const isActive = () => {
     }
 
     .nick-name {
-      width: 114px;
+      width: fit-content;
+      max-width: 224px;
       margin-left: 6px;
       font-size: 16px;
       font-weight: 400;

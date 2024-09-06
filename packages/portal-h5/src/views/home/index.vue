@@ -123,6 +123,10 @@ import Pic2 from '@/assets/images/homepage/pic2.png';
   font-size: 14px;
 }
 
+.mb-4 {
+  margin-bottom: 16px;
+}
+
 .mb-\[80px\] {
   margin-bottom: 80px;
 }

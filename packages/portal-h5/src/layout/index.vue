@@ -26,7 +26,7 @@ import { useLayoutStore } from '@/store/modules/layout';
 import useLoginStore from '@/store/modules/login'
 const useLogin = useLoginStore();
 import useBotStore from '@/store/modules/bot'
-const useBot = useBotStore(); 
+const useBot = useBotStore();
 
 
 const storeLayout = useLayoutStore();
@@ -43,11 +43,11 @@ watch(
   }
 );
 
-watch(() => useLogin.loginDialog,() => { 
+watch(() => useLogin.loginDialog,() => {
   loginRef.value.open()
 },{ immediate: false });
 
-watch(() => useBot.createBotDialog,() => { 
+watch(() => useBot.createBotDialog,() => {
   botRef.value.open()
 },{ immediate: false });
 </script>
@@ -60,7 +60,7 @@ watch(() => useBot.createBotDialog,() => {
 </style>
 <style lang="scss">
 .sidebar-popup{
-  width: 210px;
+  width: 300px;
   height: 100%;
 }
 </style>

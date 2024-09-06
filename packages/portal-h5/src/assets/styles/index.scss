@@ -133,6 +133,20 @@ body {
   .van-button {
     --van-button-radius: 8px;
   }
+
+  .van-picker {
+    --van-picker-background: transparent;
+    --van-picker-mask-color: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, .1)
+    ),
+    linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, .1)
+    );
+  }
 }
 
 html {
@@ -238,9 +252,9 @@ div:focus {
 }
 
 .page-list-img {
-  width: 66px;
-  height: 66px;
-  border-radius: 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
 
   &__error {
     display: flex;
