@@ -4,7 +4,6 @@
       class="login-logo__link"
     >
       <svg-icon
-        class="mr-4"
         name="logo"
       />
       {{ $t('common.productName') }}

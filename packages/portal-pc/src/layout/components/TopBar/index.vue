@@ -49,7 +49,7 @@
   </el-header>
 
   <!-- login or sign up -->
-  <LoginAndSignup2 ref="loginRef" />
+  <LoginAndSignup ref="loginRef" />
 
   <!-- create bot -->
   <CreateBot ref="botRef" />

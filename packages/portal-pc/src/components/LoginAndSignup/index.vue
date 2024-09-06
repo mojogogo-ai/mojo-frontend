@@ -2,114 +2,20 @@
   <el-dialog
     v-model="dialogVisible"
     class="login-dialog"
-    width="640px"
+    width="540px"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
+    @close="emit('close')"
   >
-    <div class="flex flex-col items-center">
-      <LoginLogo :is-login-form="isLoginForm" />
-
-      <!-- login -->
-      <el-form
-        v-if="isLoginForm"
-        ref="loginRef"
-        style="width: 400px;"
-        label-position="top"
-        :model="loginForm"
-        :rules="loginRules"
-        :disabled="isLoading"
-      >
-        <el-form-item
-          prop="email"
-          required
-        >
-          <el-input
-            v-model="loginForm.email"
-            placeholder="Email"
-            clearable
-          />
-        </el-form-item>
-        <el-form-item
-          prop="password"
-        >
-          <el-input
-            v-model="loginForm.password"
-            placeholder="Password"
-          />
-        </el-form-item>
-        <el-button
-          color="#000000"
-          class="w-full mt-4 mb-2"
-          :loading="isLoading"
-          @click="onLogin"
-        >
-          <span style="color: #fff;font-size: 14px;">Login</span>
-        </el-button>
-
-        <div class="flex justify-between text-[#000] ">
-          <span 
-            class="font-medium underline cursor-pointer underline-offset-4 hover:opacity-75" 
-            @click="formChange"
-          >
-            Not a member? Sign up
-          </span>
-          <span class="font-medium underline cursor-pointer underline-offset-4 hover:opacity-75">
-            Forgot password?
-          </span>
-        </div>
-      </el-form>
-
-      <!-- sign up -->
-      <el-form
-        v-else
-        ref="signupRef"
-        style="width: 400px;"
-        label-position="top"
-        :model="signupForm"
-        :rules="signupRules"
-        :disabled="isLoading"
-      >
-        <el-form-item
-          prop="email"
-          required
-        >
-          <el-input
-            v-model="signupForm.email"
-            placeholder="Email"
-            clearable
-          />
-        </el-form-item>
-        <el-form-item
-          prop="password"
-        >
-          <el-input
-            v-model="signupForm.password"
-            placeholder="Password"
-          />
-        </el-form-item>
-        <el-form-item
-          prop="confirmPassword"
-        >
-          <el-input
-            v-model="signupForm.confirmPassword"
-            placeholder="Confirm password again"
-          />
-        </el-form-item>
-        <el-button
-          color="#000000"
-          class="w-full mt-4 mb-2"
-          :loading="isLoading"
-          @click="onSignUp"
-        >
-          <span style="color: #fff;font-size: 14px;">Sign up</span>
-        </el-button>
-
-        <div class="flex justify-center text-[#000] ">
-          <span class="font-medium underline cursor-pointer underline-offset-4 hover:opacity-75" @click="formChange">
-            Already a member? Login
-          </span>
-        </div>
-      </el-form>
+    <div
+      v-if="dialogVisible" 
+      class="flex flex-col items-center"
+    >
+      <LoginLogo :is-login-form="true" />
+      <div class="ml-0  sm:ml-0 md:ml-[10px]">
+        <!-- <el-progress v-if="firebaseLoading" :percentage="100" :format="(percentage) => (percentage === 100 ? '' : `${percentage}%`)" :indeterminate="true" /> -->
+        <div id="firebaseui-auth-container" class="firebaseui-auth-container" />
+      </div>
 
       <!-- FOOTER -->
       <el-divider class="mt-20" style="border-color: rgba(0, 0, 0, 0.3);" />
@@ -126,129 +32,131 @@
     </div>
   </el-dialog>
 </template>
-  <script setup>
-  import { t } from '@gptx/base/i18n';
-  import useUserStore from '@/store/modules/user.js';
-  import LoginLogo from './LoginLogo.vue';
-  import { updateUserInfo } from '@gptx/base/api/user.js';
 
-  const isLoginForm = ref(true);
-  const dialogVisible = ref(false);
-  const isLoading = ref(false);
-  const user = useUserStore();
+<script setup>
+import useUserStore from "@/store/modules/user";
+// import { t } from '@gptx/base/i18n';
 
-  // open dialog
-  const open = (bol) => {
-    isLoginForm.value = bol
-    dialogVisible.value = true;
-    loginRef.value.resetFields()
-    signupRef.value.resetFields()
-  };
+import firebase from 'firebase/compat/app';
+import LoginLogo from './LoginLogo';
+import * as firebaseui from 'firebaseui'
+import 'firebaseui/dist/firebaseui.css'
+import '@/assets/styles/firebaseui.scss'
+// import { OAuthProvider } from "firebase/auth";
 
-  const loginRef = ref();
-  const loginForm = reactive({
-    password: '',
-    email: '',
-  });
-  const loginRules = reactive({
-    password: [
-      {
-        required: true,
-        message: t('user.nameRequired'),
-        trigger: 'blur'
-      }
-    ],
-  });
+import { welcomeAccess } from "@gptx/base/api/login";
+import { nextTick } from 'vue';
 
-  // login in
-  const onLogin = async () => {
-    try {
-      if (isLoading.value) return;
-      isLoading.value = true;
-      const isValid = await loginRef.value.validate();
-      if (isValid) {
-        let params = {
-          password: loginForm.password,
-        }
-        const { code } = await updateUserInfo(params);
-        if (code === 200) {
-          user.updateUserInfo('nickName', loginForm.password);
-          dialogVisible.value = false;
-        }
-      }
-    } catch (e) {
-      console.log(e);
-      isLoading.value = false;
-    }
-  };
+const emit = defineEmits(['close'])
+const dialogVisible = ref(false);
 
-  // sign up
-  const signupRef = ref();
-  const signupForm = reactive({
-    email: '',
-    password: '',
-    confirmPassword:''
-  });
-  const signupRules = reactive({
-    password: [
-      {
-        required: true,
-        message: t('user.nameRequired'),
-        trigger: 'blur'
-      }
-    ],
-  });
-  const onSignUp = () => {
-    
-  }
+// const AppleProvider = new OAuthProvider("apple.com");
+const firebaseLoading = ref(false)
 
-  const formChange = () => {
-    isLoginForm.value = !isLoginForm.value
-    loginRef.value.resetFields()
-    signupRef.value.resetFields()
-  };
-
-  defineExpose({ open });
-  </script>
-  <style lang="scss">
-  .login-dialog{
-    background-color:  var(--el-color-primary);
-    .el-dialog__close{
-        color: #000;
-        font-size: 20px;
-        &:hover{
-            color: #000;
-            opacity: 0.75;
-        }
-    }
-    .el-input__wrapper{
-        background: #fff;
-        color: #000;
-        .el-input__inner{
-            background: #fff;
-            color: #000;
+const handleToken = (user) => {
+  if (user) {
+    firebaseLoading.value = true
+    user.getIdToken().then((accessToken) => {
+        const userInfo = {
+          ...user._delegate,
+          accessToken: accessToken,
+          id: user.uid,
+          nickName: user.displayName,
+        };
         
-        }
-        .el-input__inner::placeholder{
-            color: rgba(0, 0, 0, 0.7);
-            font-size: 15px;
-        }
-        .el-input__suffix{
-            .el-icon-circle-close:before{
-                color: rgba(0, 0, 0, 0.7);
+        welcomeAccess(accessToken, '').then((res) => {
+            if (res.code === 200) {
+              if (res.data && res.data.system_chat) {
+                localStorage.setItem('user', JSON.stringify(res.data.user_info));
+              }
+              userStore.loginOthers(userInfo)
+              emit('close')
+              dialogVisible.value = false;
+              window.location.reload()
+              // router.push({ path: "/home" });
             }
-        }
-    }
-
-    .login-footer{
-        width: 348px;
-        height: 50px;
-        font-size: 15px;
-        font-weight: 400;
-        line-height: 25px;
-        text-align: center;
-        color: #000;
-    }
+            firebaseLoading.value = false
+          }).catch(() => {
+            firebaseLoading.value = false
+            return false;
+          });
+      },(err) => {
+        firebaseLoading.value = false
+        console.log("user.getIdToken: ", err);
+      }
+    );
   }
-</style>
+};
+
+const userStore = useUserStore();
+// const router = useRouter();
+
+// FireBaseUI login
+const handleFireBaseUI = () => {
+  let uiConfig = {
+    callbacks: {
+      signInSuccessWithAuthResult: function (authResult) {
+        console.log("signInSuccess: ", authResult);
+        handleToken(authResult.user);
+        return false;
+      },
+    },
+    signInFlow: "popup",
+    // signInSuccessUrl: "",
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      // firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+      // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+      // AppleProvider.providerId,
+    ],
+  };
+  firebase.initializeApp(window.FIREBASE_CONFIG);
   
+  if (firebaseui.auth.AuthUI.getInstance()) {
+    const ui = firebaseui.auth.AuthUI.getInstance();
+    ui.start("#firebaseui-auth-container", uiConfig);
+  } else {
+    const ui = new firebaseui.auth.AuthUI(firebase.auth());
+    // The start method will wait until the DOM is loaded.
+    ui.start('#firebaseui-auth-container', uiConfig);
+  }
+};
+onMounted(() => {
+});
+
+// open dialog
+const open = () => {
+  dialogVisible.value = true;
+  nextTick(()=>{
+      handleFireBaseUI();
+  })
+};
+defineExpose({ open });
+// export { open }
+</script>
+
+<style lang="scss">
+.login-dialog{
+  background-color:  var(--el-color-primary);
+  .el-dialog__close{
+      color: #000;
+      font-size: 20px;
+  }
+  .el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close {
+      color: #000 !important;
+      opacity: 0.75;
+  }
+  .login-footer{
+      width: 348px;
+      height: 50px;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 25px;
+      text-align: center;
+      color: #000;
+  }
+}
+</style>
