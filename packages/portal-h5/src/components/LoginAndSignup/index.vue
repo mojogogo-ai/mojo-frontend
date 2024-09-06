@@ -41,7 +41,6 @@ import LoginLogo from './LoginLogo';
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-import '@/assets/styles/firebaseui.scss'
 // import { OAuthProvider } from "firebase/auth";
 
 import { welcomeAccess } from "@gptx/base/api/login";
