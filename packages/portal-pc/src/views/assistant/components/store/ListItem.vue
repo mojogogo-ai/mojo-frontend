@@ -20,7 +20,7 @@
             </template>
           </el-image>
         </div>
-        <div class="app-page-col flex-1">
+        <div class="flex-1 app-page-col">
           <div class="flex items-center">
             <div
               class="line-clamp-1 flex-1 text-xl text-[var(--el-color-primary)]"
@@ -58,7 +58,7 @@
         </div>
       </div>
       <template #footer>
-        <div class="page-list-option justify-end">
+        <div class="justify-end page-list-option">
           <el-button
             v-for="{ s_name } in platList"
             size="small"

@@ -1,7 +1,6 @@
 import router from './router'
 import { getToken } from '@gptx/base/utils/auth'
 // import { getAuth, signInAnonymously, onAuthStateChanged  } from "firebase/auth";
-// import { visitorAnonymous } from "@gptx/base/api/login";
 
 // import useUserStore from '@/store/modules/user'
 import useLoginStore from '@/store/modules/login'

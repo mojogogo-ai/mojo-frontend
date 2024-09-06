@@ -10,15 +10,6 @@ export function updateUserInfo(data) {
 }
 
 
-// 是否注册
-export function isRegister(params) {
-  return request({
-    url: '/portal/user/registered',
-    method: 'get',
-    params
-  });
-}
-
 // 用户头像上传
 export function uploadAvatar(data) {
   return request({

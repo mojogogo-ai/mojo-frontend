@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie'
 import firebase from 'firebase/compat/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getSmsGefreshToken } from '@gptx/base/api/login'
 
 const TokenKey = 'tokenAi'
 const RefreshTokenKey = 'tokenAi_reflesh'
@@ -32,33 +31,6 @@ const getFirebaseRefleshToken = ()=>{
   })
 } 
 
-// sms 登录获取新token
-const getSmsRefleshToken = ()=>{
-  return new Promise((resolve, reject) => {
-    let params = {
-      refresh_token: getRefreshToken()
-    }
-    getSmsGefreshToken(params).then((res) => {
-        if (res.code === 200) {
-          setToken(res.data.access_token)
-          setRefreshToken(res.data.refresh_token)
-          setTokenExpire(new Date().getTime() + 2*3600*1000)
-          resolve(true)
-        } else{
-          removeToken()
-          window.location.reload()
-          reject(false)
-        }
-      }
-    ).catch((err) => {
-      console.log(err,'err')
-      removeToken()
-      window.location.reload()
-      reject(false)
-    });
-  })
-} 
-
 // 检测token是否过期
 const getNewToken = async ()=>{
   let expireTime = Cookies.get(TokenExpireKey)
@@ -67,9 +39,7 @@ const getNewToken = async ()=>{
   if (expireTime && (newTimeStamp > expireTime)) {
     if (window.SITE_TYPE === '1') { // firebase
       await getFirebaseRefleshToken()
-    } else { // sms
-      await getSmsRefleshToken()
-    }
+    }  
   }
 }
 
