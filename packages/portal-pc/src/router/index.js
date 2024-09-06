@@ -121,7 +121,19 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '',
+    component: Layout,
+    groupName: 'menu.group.e',
+    children: [
+      {
+        path: '/personal',
+        component: () => import('@/views/personal/index.vue'),
+        name: 'personal',
+        meta: { title: 'Personal', icon: 'app-store' }
+      }
+    ]
+  },
   {
     path: '/bot/:id?',
     name: 'BotChat',

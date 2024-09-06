@@ -13,6 +13,7 @@
           @select="handleSelect"
         >
           <el-menu-item style="margin-right:8px;" index="/home">Home</el-menu-item>
+          <el-menu-item style="margin-right:8px;" index="/personal">Personal</el-menu-item>
           <el-sub-menu index="" :popper-offset="15" popper-class="customs-sub-menu">
             <template #title>Explore</template>
             <el-menu-item style="min-width: 240px;" index="/assistant">
@@ -88,7 +89,7 @@ const onCreateClick = () => {
 };
 
 watch(() => route.path,(newPath, oldPath) => { 
-  let routeList =['/home','/assistant']
+  let routeList =['/home','/assistant','/personal']
   console.log(newPath, oldPath,'oldPath') 
   if (routeList.indexOf(newPath)===-1) {
     activeIndex.value = ''
