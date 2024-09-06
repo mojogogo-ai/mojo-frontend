@@ -65,11 +65,11 @@
 import router from '@/router';
 import { t } from '@gptx/base/i18n';
 import { getAppPublishInfo, confirmPublishApp, getAppInfo } from '@gptx/base/api/application';
-import { NTabs, NTabPane } from 'naive-ui';
+// import { NTabs, NTabPane } from 'naive-ui';
 import Website from './components/publish/Website.vue';
 import Platform from './components/publish/Platform.vue';
 import SocialMedia from './components/publish/SocialMedia.vue';
-import Sidebar from '@/layout/components/Sidebar/Sidebar.vue';
+// import Sidebar from '@/layout/components/Sidebar/Sidebar.vue';
 
 const {
   params: { id: botId }

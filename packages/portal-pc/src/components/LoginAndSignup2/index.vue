@@ -11,7 +11,7 @@
       v-if="dialogVisible" 
       class="flex flex-col items-center"
     >
-      <LoginLogo :is-login-form="true" />
+      <LoginLogo2 :is-login-form="true" />
       <div class="ml-0  sm:ml-0 md:ml-[10px]">
         <!-- <el-progress v-if="firebaseLoading" :percentage="100" :format="(percentage) => (percentage === 100 ? '' : `${percentage}%`)" :indeterminate="true" /> -->
         <div id="firebaseui-auth-container" class="firebaseui-auth-container" />
@@ -38,6 +38,7 @@ import useUserStore from "@/store/modules/user";
 // import { t } from '@gptx/base/i18n';
 
 import firebase from 'firebase/compat/app';
+import LoginLogo2 from './LoginLogo2';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 import '@/assets/styles/firebaseui.scss'

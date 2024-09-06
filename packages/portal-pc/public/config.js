@@ -12,6 +12,15 @@
       messagingSenderId: "847517741728",
       appId: "1:847517741728:web:b89c41f5785b167b3fcfc5",
       measurementId: "G-8R17BPY4B7"
+
+      // mojo
+      // apiKey: "AIzaSyBwRz_z_8XxjHEpUImBE1Tt-OZZeLpSUC8",
+      // authDomain: "mojogogoai-dev.firebaseapp.com",
+      // projectId: "mojogogoai-dev",
+      // storageBucket: "mojogogoai-dev.appspot.com",
+      // messagingSenderId: "1065366463732",
+      // appId: "1:1065366463732:web:210adcaf208d7fe8406aa1",
+      // measurementId: "G-1NJ0ELV9D8"
     },
     test: { // 测试
       apiKey: "AIzaSyBgHkwdzyU7fMSfO5fLAdyQvxXansM_o-k",
@@ -47,25 +56,6 @@
 
 
     // online start
-    "demo.dappworks.xyz":{
-      FIREBASE_CONFIG: firebaseConfig.dev,
-      WEBSITE_HOME:  "https://demo.dappworks.xyz/portal",
-      BASE_API: "https://demo.dappworks.xyz/v2",
-      SITE_TYPE: "1",
-      IS_DEMO: true,
-    },
-    "chat-dev.dappworks.cn":{
-      FIREBASE_CONFIG: firebaseConfig.dev,
-      WEBSITE_HOME:  "https://chat-dev.dappworks.cn/portal",
-      BASE_API: "https://chat-dev.dappworks.cn/v2",
-      SITE_TYPE: "1"
-    },
-    "chat.dappworks.cn":{
-      FIREBASE_CONFIG: firebaseConfig.dev,
-      WEBSITE_HOME:  "https://chat.dappworks.cn/portal",
-      BASE_API: "https://chat.dappworks.cn/v2",
-      SITE_TYPE: "1"
-    },
     "dev.safegen.ai":{ // dev
       FIREBASE_CONFIG: firebaseConfig.dev,
       WEBSITE_HOME:  "https://dev.safegen.ai:8001",
