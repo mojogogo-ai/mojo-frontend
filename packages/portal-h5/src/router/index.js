@@ -44,10 +44,10 @@ export const constantRoutes = [
     groupName: 'menu.group.c',
     children: [
       {
-        path: '/application',
-        component: () => import('@/views/application/list'),
-        name: 'Application',
-        meta: { title: t('menu.c'), icon: 'bots' }
+        path: '/personal',
+        component: () => import('@/views/personal/list'),
+        name: 'Personal',
+        meta: { title: 'Personal', icon: 'bots' }
       }
     ]
   },
@@ -60,12 +60,12 @@ export const constantRoutes = [
     children: [
       {
         path: '/design/:id?',
-        component: () => import('@/views/application/design'),
+        component: () => import('@/views/personal/design'),
         meta: { title: t('menu.c'), icon: 'bots', tab: 'a' }
       },
       {
         path: '/analyze/:id?',
-        component: () => import('@/views/application/analyze'),
+        component: () => import('@/views/personal/analyze'),
         meta: { title: t('menu.c'), icon: 'bots', tab: 'b' }
       }
     ]
@@ -78,30 +78,30 @@ export const constantRoutes = [
     children: [
       {
         path: '/publish/:id?',
-        component: () => import('@/views/application/publish'),
+        component: () => import('@/views/personal/publish'),
         meta: { title: t('menu.c'), icon: 'bots' }
       }
     ]
   },
-  {
-    path: '',
-    component: Layout,
-    groupName: 'menu.group.c',
-    children: [
-      {
-        path: '/base',
-        component: () => import('@/views/base/list'),
-        name: 'BaseList',
-        meta: { title: t('menu.b'), icon: 'knowledge' }
-      },
-      {
-        path: '/base_detail/:id?',
-        component: () => import('@/views/base/detail'),
-        name: 'BaseDetail',
-        meta: { title: t('menu.b'), icon: 'knowledge' }
-      }
-    ]
-  },
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   groupName: 'menu.group.c',
+  //   children: [
+  //     {
+  //       path: '/base',
+  //       component: () => import('@/views/base/list'),
+  //       name: 'BaseList',
+  //       meta: { title: t('menu.b'), icon: 'knowledge' }
+  //     },
+  //     {
+  //       path: '/base_detail/:id?',
+  //       component: () => import('@/views/base/detail'),
+  //       name: 'BaseDetail',
+  //       meta: { title: t('menu.b'), icon: 'knowledge' }
+  //     }
+  //   ]
+  // },
   {
     path: '',
     component: Layout,

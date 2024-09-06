@@ -8,6 +8,9 @@
       <div class="sidebar-menu">
         <sidebar-item :item="indexPage" />
       </div>
+      <div class="sidebar-menu">
+        <sidebar-item :item="personalPage" />
+      </div>
       <template
         v-for="({ name, list }, i) in sidebarRouters"
         :key="i"
@@ -81,6 +84,15 @@ const indexPage = computed(() => {
   return constantRoutes.find((item) => {
     if (!item.hidden) {
       return item?.children[0]?.name === 'ChatRoot';
+    }
+  });
+});
+
+// personalPage
+const personalPage = computed(() => {
+  return constantRoutes.find((item) => {
+    if (!item.hidden) {
+      return item?.children[0]?.name === 'Personal';
     }
   });
 });
