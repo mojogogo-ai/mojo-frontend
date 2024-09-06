@@ -1,11 +1,11 @@
 # mojo-gogo-frontend
 
 
-> SafeGen AI 前端代码
+> mojo gogo 前端代码
 
 ## 简介
 
-* 前端技术栈 [Vue3](https://v3.cn.vuejs.org) + [Element Plus](https://element-plus.org/zh-CN) + [Vite](https://cn.vitejs.dev)。
+* 前端技术栈 [Vue3](https://v3.cn.vuejs.org) + [Vite](https://cn.vitejs.dev) + [Tailwind css](https://tailwindcss.com/) + [Element Plus](https://element-plus.org/zh-CN) 
 
 ## 安装与运行
 
@@ -16,6 +16,7 @@ git clone https://gitlab.com/we_dappworks/mojo-gogo-frontend.git
 # 进入项目目录
 cd mojo-gogo-frontend
 
+# npm也行，但更推荐使用pnpm。
 # 安装依赖
 pnpm install
 
@@ -30,7 +31,6 @@ http://localhost:9001
 ## 构建
 
 ```bash
-# npm也行，但更推荐使用pnpm。
 
 # 构建生产环境 
 pnpm run build 或 pnpm run build:prod

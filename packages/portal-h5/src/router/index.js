@@ -152,7 +152,7 @@ export const constantRoutes = [
 ];
 
 const getRoutes = function () {
-  return window.SITE_TYPE && window.SITE_TYPE === '2' ? constantRoutes.filter(i=> i.path!=='/register') : constantRoutes
+  return constantRoutes
 }
 
 const router = createRouter({
