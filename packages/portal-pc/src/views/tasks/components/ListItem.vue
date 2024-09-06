@@ -20,23 +20,25 @@
             </template>
           </el-image>
         </div>
-        <div class="flex-1 app-page-col">
+        <div class="app-page-col flex-1">
           <div class="flex items-center">
             <div
-              class="line-clamp-1 h-[20px] flex-1"
+              class="line-clamp-1 flex-1 text-xl text-[var(--el-color-primary)]"
               :title="appInfo.app_name"
             >
               {{ appInfo.app_name }}
             </div>
           </div>
           <div
-            class="mt-2 line-clamp-2 h-[40px] text-[#7a7a7a]"
+            class="mt-2 line-clamp-2 h-[40px] w-[350px] text-[var(--el-text-color-placeholder)]"
             :title="appInfo.app_description"
           >
             {{ appInfo.app_description }}
           </div>
-          <div class="my-1">
-            <span class="text-xs text-[#7a7a7a]"> @{{ appInfo.author_name }} </span>
+          <div class="mt-2">
+            <el-tag type="info" round>
+              <span class="text-[var(--el-color-primary)]">{{ appInfo.points }}</span>
+            </el-tag>
           </div>
         </div>
       </div>
@@ -56,8 +58,7 @@ const props = defineProps({
 
 watch(
   () => props.appInfo,
-  ({  }) => {
-  },
+  ({}) => {},
   {
     immediate: true
   }

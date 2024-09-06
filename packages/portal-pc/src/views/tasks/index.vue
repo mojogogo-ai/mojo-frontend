@@ -1,9 +1,7 @@
 <template>
   <div class="app-page">
-    <div class="flex justify-center font-Inter mt-10 mb-5 text-[32px] text-[#E1FF01]">
-      Your Task List
-    </div>
-    <div class="flex flex-col app-page-content">
+    <div class="font-Inter mb-5 mt-10 flex justify-center text-[32px] text-[#E1FF01]">Your Task List</div>
+    <div class="app-page-content flex flex-col">
       <div
         v-loading="isLoading"
         element-loading-background="transparent"
@@ -47,6 +45,13 @@ import { t } from '@gptx/base/i18n';
 import { getList, getListCategory } from '@gptx/base/api/assistant-store';
 import ListItem from './components/ListItem';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
+import TaskImg01 from '@/assets/images/tasks/01.svg';
+import TaskImg02 from '@/assets/images/tasks/02.svg';
+import TaskImg03 from '@/assets/images/tasks/03.svg';
+import TaskImg04 from '@/assets/images/tasks/04.svg';
+import TaskImg05 from '@/assets/images/tasks/05.svg';
+import TaskImg06 from '@/assets/images/tasks/06.svg';
+import TaskImg07 from '@/assets/images/tasks/07.svg';
 
 const router = useRouter();
 const tabList = reactive([]);
@@ -86,7 +91,7 @@ const onOpenNewChat = ({ app_id }) => {
 };
 const getStoreList = async () => {
   if (!isLoadMore) return;
-  try {
+  /*try {
     const { code, data } = await getList({
       search: appName.value,
       category_id: activeTab.value,
@@ -109,7 +114,57 @@ const getStoreList = async () => {
     }, 300);
   } catch (error) {
     console.log(error);
-  }
+  }*/
+  __data.storeList.push(
+    ...[
+      {
+        app_name: 'Sign up with Mojo Gogo',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg01,
+        points: '+ 200 pts'
+      },
+      {
+        app_name: 'Create AI Me',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg02,
+        points: '+ 100 pts'
+      },
+      {
+        app_name: 'Personalize AI Me Image',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg03,
+        points: '+ 20 pts'
+      },
+      {
+        app_name: 'Agent Training',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg04,
+        points: '+ 5 pts'
+      },
+      {
+        app_name: 'Interact with ChatBot',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg05,
+        points: '+ 5 pts'
+      },
+      {
+        app_name: 'Refer Friends',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg06,
+        points: '+ 50 pts'
+      },
+      {
+        app_name: 'Daily Login and Check-In',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg07,
+        points: '+ 5 pts'
+      }
+    ]
+  );
+  isLoadMore = false;
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 300);
 };
 const _getListCategory = async () => {
   try {
@@ -154,58 +209,19 @@ onMounted(async () => {
   overflow: hidden;
 }
 
-:deep(.page-list__inner) {
-  .el-card__body {
-    min-height: 152px;
+:deep(.page-list) {
+  width: 50%;
+  max-width: unset;
+
+  .page-list__inner {
+    .el-card__body {
+      min-height: 152px;
+    }
   }
-}
 
-:deep(.custom-segmented) {
-  &.el-segmented {
-    --el-segmented-bg-color: transparent;
-    --el-segmented-item-selected-color: #fff;
-    --el-segmented-item-selected-bg-color: linear-gradient(71deg, #09adf9 0%, #4650fb 100%);
-    --el-border-radius-base: 9px;
-    margin-top: 6px;
-
-    .el-segmented__item {
-      &:not(.is-disabled) {
-        &:not(.is-selected) {
-          &:hover {
-            background-color: transparent;
-
-            .el-segmented__item-label {
-              background-color: var(--el-segmented-item-hover-bg-color);
-            }
-          }
-        }
-      }
-
-      &.is-selected {
-        .el-segmented__item-label {
-          background: none;
-        }
-      }
-    }
-
-    .el-segmented__item-selected {
-      box-shadow: 0 0 6px 1px rgba(18, 160, 249, 0.33);
-    }
-
-    &.el-segmented--large {
-      .el-segmented__item {
-        padding: 0 10px;
-      }
-    }
-
-    .el-segmented__item-label {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      padding: 0 10px;
-      border-radius: calc(var(--el-border-radius-base) - 2px);
-      //background-color: var(--el-segmented-item-hover-bg-color);
-    }
+  .page-list-img {
+    width: 120px;
+    height: 120px;
   }
 }
 </style>

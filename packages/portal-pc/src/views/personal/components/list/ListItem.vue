@@ -72,44 +72,46 @@
           </div>
         </div>
       </div>
-      <div class="page-list-option">
-        <span class="mr-auto text-xs text-[#7a7a7a]">
-          <el-icon :class="{ 'text-[var(--el-color-primary)]': bot.published }"><Promotion /></el-icon>
-          {{ bot.published ? t('bots.published') : t('bots.unpublished') }}
-        </span>
-        <el-dropdown v-if="platList && platList.length && isWorldWide">
+      <template #footer>
+        <div class="page-list-option">
+          <span class="mr-auto text-xs text-[#7a7a7a]">
+            <el-icon :class="{ 'text-[var(--el-color-primary)]': bot.published }"><Promotion /></el-icon>
+            {{ bot.published ? t('bots.published') : t('bots.unpublished') }}
+          </span>
+          <el-dropdown v-if="platList && platList.length && isWorldWide">
+            <el-button
+              class="ml-1"
+              size="small"
+              @click.stop="() => {}"
+            >
+              {{ t('store.action.plat') }}
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  v-for="{ s_name } in platList"
+                  @click.stop="emit('chat', s_name)"
+                >
+                  <el-image
+                    class="plat-icon"
+                    :src="platIcons[s_name]"
+                  />
+                  <span class="capitalize">{{ s_name }}</span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
           <el-button
             class="ml-1"
+            type="primary"
             size="small"
-            @click.stop="() => {}"
+            linear
+            @click.stop="toBotDetail"
           >
-            {{ t('store.action.plat') }}
+            {{ t('bots.view') }}
           </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item
-                v-for="{ s_name } in platList"
-                @click.stop="emit('chat', s_name)"
-              >
-                <el-image
-                  class="plat-icon"
-                  :src="platIcons[s_name]"
-                />
-                <span class="capitalize">{{ s_name }}</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-        <el-button
-          class="ml-1"
-          type="primary"
-          size="small"
-          linear
-          @click.stop="toBotDetail"
-        >
-          {{ t('bots.view') }}
-        </el-button>
-      </div>
+        </div>
+      </template>
     </el-card>
   </div>
 </template>

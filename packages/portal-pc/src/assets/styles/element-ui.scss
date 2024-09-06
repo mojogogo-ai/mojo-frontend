@@ -154,6 +154,8 @@
   }
 
   .el-tag {
+    padding: 8px;
+    height: auto;
     &.el-tag--primary {
       --el-tag-text-color: var(--el-text-color-primary);
       --el-tag-border-color: var(--el-color-primary);
