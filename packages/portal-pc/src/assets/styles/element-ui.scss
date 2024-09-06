@@ -136,6 +136,7 @@
     &__wrapper {
       min-height: var(--el-component-size);
       backdrop-filter: var(--backdrop-blur);
+
       &.is-hovering {
         &:not(.is-focused) {
           box-shadow: 0 0 0 1px var(--el-border-color-light) inset;
@@ -149,6 +150,21 @@
       &.is-reverse {
         color: var(--el-color-primary);
       }
+    }
+  }
+
+  .el-tag {
+    &.el-tag--primary {
+      --el-tag-text-color: var(--el-text-color-primary);
+      --el-tag-border-color: var(--el-color-primary);
+      --el-tag-hover-color: var(--el-color-primary-light-8);
+    }
+
+    &.el-tag--info {
+      --el-tag-text-color: var(--el-text-color-placeholder);
+      --el-tag-bg-color: var(--el-color-white);
+      --el-tag-border-color: var(--el-border-color);
+      //backdrop-filter: var(--backdrop-blur);
     }
   }
 }
@@ -190,9 +206,11 @@
 
   .el-select-dropdown__item {
     color: var(--el-text-color-secondary);
-    &.is-selected{
+
+    &.is-selected {
       color: var(--el-text-color-primary);
     }
+
     &.is-hovering {
       background-color: rgba(#fff, 0.7);
     }

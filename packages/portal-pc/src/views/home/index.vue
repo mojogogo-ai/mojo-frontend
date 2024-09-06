@@ -21,7 +21,7 @@
                 routine tasks, and leverage AI-driven insights for smarter decision-making.
               </div>
               <div class="pt-8">
-                <el-button type="primary" @click="toPage('')"> Personal </el-button>
+                <el-button type="primary" @click="toPage('/user')"> Personal </el-button>
               </div>
             </div>
           </el-card>
@@ -80,7 +80,7 @@ onBeforeMount(async () => {
     isLogin.value = await getIsLogin()
 });
 
-watch(() => useLogin.isLogOut,() => { 
+watch(() => useLogin.isLogOut,() => {
   isLogin.value = false
 },{ immediate: false });
 

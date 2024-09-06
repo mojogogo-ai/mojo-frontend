@@ -216,7 +216,7 @@ div:focus {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 175px;
+      min-height: 218px;
       height: 100%;
     }
   }
@@ -227,17 +227,16 @@ div:focus {
   justify-content: space-between;
   align-items: center;
   min-height: 44px;
-  padding-top: 10px;
+  padding: 10px;
   color: var(--el-text-color-placeholder);
   font-size: 20px;
   line-height: 32px;
-  border-top: var(--el-border);
 }
 
 .page-list-img {
-  width: 66px;
-  height: 66px;
-  border-radius: 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
 
   &__error {
     display: flex;
@@ -252,9 +251,8 @@ div:focus {
 }
 
 .plat-icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
+  width: 24px;
+  height: 24px;
 }
 
 .el-button {

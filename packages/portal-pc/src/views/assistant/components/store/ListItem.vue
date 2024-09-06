@@ -23,57 +23,55 @@
         <div class="app-page-col flex-1">
           <div class="flex items-center">
             <div
-              class="line-clamp-1 h-[20px] flex-1"
+              class="line-clamp-1 flex-1 text-xl text-[var(--el-color-primary)]"
               :title="appInfo.app_name"
             >
               {{ appInfo.app_name }}
             </div>
           </div>
+          <div class="mt-2">
+            <el-avatar
+              class="align-middle"
+              :size="16"
+            />
+            <span class="mr-1 text-xs text-[var(--el-text-color-placeholder)]"> user1518405835467 </span>
+            <span class="text-xs text-[var(--el-text-color-placeholder)]"> @{{ appInfo.author_name }} </span>
+          </div>
           <div
-            class="mt-2 line-clamp-2 h-[40px] text-[#7a7a7a]"
+            class="my-1 line-clamp-4 h-[80px] text-[var(--el-text-color-placeholder)]"
             :title="appInfo.app_description"
           >
             {{ appInfo.app_description }}
           </div>
-          <div class="my-1">
-            <span class="text-xs text-[#7a7a7a]"> @{{ appInfo.author_name }} </span>
+          <div
+            v-if="appInfo.app_categories && appInfo.app_categories.length"
+            class="mt-2"
+          >
+            <el-tag
+              v-for="{ name } in appInfo.app_categories"
+              class="mr-1"
+              type="info"
+            >
+              {{ t(name) }}
+            </el-tag>
           </div>
         </div>
       </div>
-      <div class="page-list-option justify-end">
-        <el-dropdown v-if="platList && platList.length && isWorldWide">
+      <template #footer>
+        <div class="page-list-option justify-end">
           <el-button
-            class="ml-1"
+            v-for="{ s_name } in platList"
             size="small"
-            @click.stop="() => {}"
+            link
+            @click="emits('open-with', s_name)"
           >
-            {{ t('store.action.plat') }}
+            <el-image
+              class="plat-icon"
+              :src="platIcons[s_name]"
+            />
           </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item
-                v-for="{ s_name } in platList"
-                @click="emits('open-with', s_name)"
-              >
-                <el-image
-                  class="plat-icon"
-                  :src="platIcons[s_name]"
-                />
-                <span class="capitalize">{{ s_name }}</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-        <el-button
-          class="ml-1"
-          type="primary"
-          size="small"
-          linear
-          @click="emits('open-new-chat')"
-        >
-          {{ t('store.action.new') }}
-        </el-button>
-      </div>
+        </div>
+      </template>
     </el-card>
   </div>
 </template>
@@ -98,7 +96,7 @@ const props = defineProps({
 const emits = defineEmits(['open-new-chat', 'open-with', 'duplicate']);
 const isWorldWide = window.SITE_TYPE && window.SITE_TYPE === '1';
 
-let platList = reactive([]);
+let platList = reactive([{ s_name: 'telegram' }]);
 const platIcons = {
   telegram: IconTelegram,
   slack: IconSlack,
@@ -109,15 +107,15 @@ const platIcons = {
   line: IconLine
 };
 
-watch(
-  () => props.appInfo,
-  ({ shared_social }) => {
-    platList = [...Object.values(shared_social).filter((_) => _.enabled === true)];
-  },
-  {
-    immediate: true
-  }
-);
+// watch(
+//   () => props.appInfo,
+//   ({ shared_social }) => {
+//     platList = [...Object.values(shared_social).filter((_) => _.enabled === true)];
+//   },
+//   {
+//     immediate: true
+//   }
+// );
 </script>
 
 <style lang="scss" scoped></style>

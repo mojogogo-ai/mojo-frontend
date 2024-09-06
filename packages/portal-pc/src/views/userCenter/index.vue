@@ -1,10 +1,10 @@
 <template>
   <div class="app-page">
-    <div class="app-page-top">
-      <div class="text-lg font-black">
-        {{ t('user.a') }}
-      </div>
-    </div>
+    <!--    <div class="app-page-top">-->
+    <!--      <div class="text-lg font-black">-->
+    <!--        {{ t('user.a') }}-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="app-page-content">
       <div class="user-center">
         <el-divider border-style="hidden" />
