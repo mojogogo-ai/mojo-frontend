@@ -53,25 +53,6 @@
 
 
     // online start
-    "demo.dappworks.xyz":{
-      FIREBASE_CONFIG: firebaseConfig.dev,
-      WEBSITE_HOME:  "https://demo.dappworks.xyz/portal",
-      BASE_API: "https://demo.dappworks.xyz/v2",
-      SITE_TYPE: "1",
-      IS_DEMO: true,
-    },
-    "chat-dev.dappworks.cn":{
-      FIREBASE_CONFIG: firebaseConfig.dev,
-      WEBSITE_HOME:  "https://chat-dev.dappworks.cn/portal",
-      BASE_API: "https://chat-dev.dappworks.cn/v2",
-      SITE_TYPE: "1"
-    },
-    "chat.dappworks.cn":{
-      FIREBASE_CONFIG: firebaseConfig.dev,
-      WEBSITE_HOME:  "https://chat.dappworks.cn/portal-h5",
-      BASE_API: "https://chat.dappworks.cn/v2",
-      SITE_TYPE: "1"
-    },
     "dev.safegen.ai":{ // dev
       FIREBASE_CONFIG: firebaseConfig.dev,
       WEBSITE_HOME:  "https://dev.safegen.ai:8001",

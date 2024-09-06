@@ -3,7 +3,9 @@ module.exports = {
   darkMode: 'class',
   content: [
     './packages/portal-pc/index.html',
-    './packages/portal-pc/src/**/*.{vue,js,ts,jsx,tsx}'
+    './packages/portal-pc/src/**/*.{vue,js,ts,jsx,tsx}',
+    './packages/portal-h5/index.html',
+    './packages/portal-h5/src/**/*.{vue,js,ts,jsx,tsx}'
   ],
   theme: {
     extend: {

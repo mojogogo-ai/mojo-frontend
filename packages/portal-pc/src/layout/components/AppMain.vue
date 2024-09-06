@@ -1,5 +1,5 @@
 <template>
-  <section class="app-main">
+  <section class="relative w-full h-full app-main">
     <router-view v-slot="{ Component, route }">
       <component
         :is="Component"
@@ -14,9 +14,6 @@
 
 <style lang="scss" scoped>
 .app-main {
-  height: 100%;
-  width: 100%;
-  position: relative;
   overflow: auto hidden;
   font-size: var(--font-base);
 }

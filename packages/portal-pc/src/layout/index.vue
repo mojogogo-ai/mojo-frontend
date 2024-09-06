@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper">
+  <div class="relative w-full h-full app-wrapper">
     <TopBar />
     <div class="main-container">
       <app-main />
@@ -14,9 +14,5 @@ import { AppMain } from './components'
 
 <style lang="scss" scoped>
 
-.app-wrapper {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
+
 </style>

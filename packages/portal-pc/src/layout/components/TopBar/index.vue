@@ -44,7 +44,7 @@
           + Create Bot
         </el-button>
         <user v-if="isLogin" class="flex-none" />
-        <NoLogin v-else @login-signup="onCreateClick" />
+        <NoLogin v-else @login="onCreateClick" />
       </div>
     </div>
   </el-header>
