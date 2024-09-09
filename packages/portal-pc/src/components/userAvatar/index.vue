@@ -27,8 +27,8 @@
       v-if="options.img"
       class="avatar-add"
     >
-      <el-icon size="16px">
-        <Plus />
+      <el-icon size="24px">
+        <Upload />
       </el-icon>
     </div>
   </div>

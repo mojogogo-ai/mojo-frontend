@@ -16,6 +16,7 @@
       </el-row>
     </div>
     <div class="app-page-content flex flex-col">
+      <!--
       <div class="shrink-0">
         <el-segmented
           v-model="activeTab"
@@ -27,6 +28,7 @@
           </template>
         </el-segmented>
       </div>
+      -->
       <div
         v-loading="isLoading"
         element-loading-background="transparent"

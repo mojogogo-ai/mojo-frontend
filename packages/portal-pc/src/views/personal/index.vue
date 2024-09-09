@@ -9,6 +9,7 @@
         inline
         @submit.prevent
       >
+        <!--
         <el-form-item
           class="w-[160px]"
           :label="t('bots.status') + ': '"
@@ -24,11 +25,12 @@
             />
           </el-select>
         </el-form-item>
+        -->
         <el-form-item class="mr-[auto!important]">
           <el-input
             v-model="form.search"
             prefix-icon="search"
-            class="w-[256px]"
+            class="w-[312px]"
             :placeholder="t('bots.a9')"
             @input="_getAppList"
           />
@@ -117,7 +119,7 @@ const showFilter = computed(() => {
 });
 
 const createNewBot = () => baseInfoRef.value.open();
-const afterCreateBot = async ({app_id}) => {
+const afterCreateBot = async ({ app_id }) => {
   router.push(`/design/${app_id}`);
 };
 const _getAppList = async () => {

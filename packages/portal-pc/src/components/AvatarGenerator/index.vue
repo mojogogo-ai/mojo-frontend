@@ -41,6 +41,7 @@
           <button
             v-if="aiImageList.length < 3"
             v-loading="isAIloading"
+            element-loading-background="var(--el-file-color-blank)"
             type="button"
             class="ai-generate"
             :class="{ 'is-disabled': isAIloading || !name }"
@@ -120,7 +121,7 @@ const _generateKnowledgeIcon = async () => {
     isAIloading.value = false;
     emits('after-generate');
   } catch (e) {
-    console.log(e)
+    console.log(e);
     isAIloading.value = false;
     emits('after-generate');
   }
@@ -144,8 +145,9 @@ const onChangeGeneratedIcon = (url) => {
   width: 224px;
   padding: 0 8px;
   margin-left: 18px;
-  background-color: #ebebeb;
+  background-color: var(--el-input-bg-color);
   border-radius: 8px;
+  backdrop-filter: var(--backdrop-blur);
 }
 
 .ai-generate {
@@ -158,12 +160,13 @@ const onChangeGeneratedIcon = (url) => {
   width: 64px;
   font-size: 12px;
   line-height: 1.4;
-  color: #a4a4a4;
-  background-color: var(--el-fill-color-light);
+  color: var(--el-text-color-placeholder);
+  background-color: var(--el-input-bg-color);
   border-radius: 8px;
-  border: 1px solid #ebebeb;
+  border: 1px solid var(--el-border-color-light);
   cursor: pointer;
   overflow: hidden;
+  backdrop-filter: var(--backdrop-blur);
 
   &::after {
     display: flex;
@@ -185,19 +188,17 @@ const onChangeGeneratedIcon = (url) => {
 
   &.is-active {
     &::after {
-      content: "";
-      background-image: url("@/assets/svg/check.svg");
+      content: '';
+      background-image: url('@/assets/svg/check.svg');
     }
   }
 
   &.is-disabled {
-    color: #a4a4a4;
-    border-color: #ebebeb;
     opacity: 0.8;
 
     &:hover {
-      color: #a4a4a4;
-      border-color: #ebebeb;
+      color: var(--el-text-color-placeholder);
+      border: 1px solid var(--el-border-color-light);
       cursor: not-allowed;
     }
   }

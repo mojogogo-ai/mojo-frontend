@@ -1,13 +1,13 @@
 <template>
-  <div class="relative page-list">
+  <div class="page-list relative">
     <el-card
       class="page-list__inner"
       shadow="hover"
     >
-      <div class="flex mb-2">
+      <div class="mb-2 flex">
         <div class="app-page-col">
           <el-image
-            class="cursor-pointer page-list-img"
+            class="page-list-img cursor-pointer"
             fit="cover"
             :src="bot.icon || defaultBotImage"
             @click="toBotDetail"
@@ -21,10 +21,10 @@
             </template>
           </el-image>
         </div>
-        <div class="relative flex-1 app-page-col">
+        <div class="app-page-col relative flex-1">
           <div class="flex items-center">
             <div
-              class="mr-2 line-clamp-1 h-[24px] flex-1 cursor-pointer pr-3 text-base"
+              class="mr-2 line-clamp-1 h-[24px] flex-1 cursor-pointer pr-3 text-base text-[var(--el-color-primary)]"
               :title="bot.name"
               @click="toBotDetail"
             >
@@ -33,7 +33,7 @@
             <div class="more-option-trigger">
               <el-dropdown trigger="click">
                 <el-button link>
-                  <el-icon class="text-[#7a7a7a] hover:text-[var(--el-color-primary)]">
+                  <el-icon>
                     <MoreFilled />
                   </el-icon>
                 </el-button>
@@ -57,26 +57,31 @@
             </div>
           </div>
           <div
-            class="my-2 line-clamp-2 h-[44px] cursor-pointer text-[#7a7a7a]"
+            class="my-2 line-clamp-4 h-[80px] cursor-pointer text-[var(--el-text-color-placeholder)]"
             :title="bot.description"
             @click="toBotDetail"
           >
             {{ bot.description }}
           </div>
           <div
-            v-if="bot.llm"
-            class="flex items-center text-[#7a7a7a]"
+            v-if="bot.app_categories && bot.app_categories.length"
+            class="mt-2"
           >
-            <svg-icon name="plugin-store" />
-            <span class="ml-1 text-xs">{{ bot.llm }}</span>
+            <el-tag
+              v-for="{ name } in appInfo.app_categories"
+              class="mr-1"
+              type="info"
+            >
+              {{ t(name) }}
+            </el-tag>
           </div>
         </div>
       </div>
       <template #footer>
         <div class="page-list-option">
-          <span class="mr-auto text-xs text-[#7a7a7a]">
-            <el-icon :class="{ 'text-[var(--el-color-primary)]': bot.published }"><Promotion /></el-icon>
-            {{ bot.published ? t('bots.published') : t('bots.unpublished') }}
+          <span class="mr-auto text-xs text-[var(--el-text-color-placeholder)]">
+            <!--            <el-icon :class="{ 'text-[var(&#45;&#45;el-color-primary)]': bot.published }"><Promotion /></el-icon>
+            {{ bot.published ? t('bots.published') : t('bots.unpublished') }}-->
           </span>
           <el-dropdown v-if="platList && platList.length && isWorldWide">
             <el-button
@@ -211,24 +216,26 @@ watch(
 <style lang="scss" scoped>
 .more-option-trigger {
   border-radius: 4px;
-
-  &:hover {
-    background-color: var(--el-color-primary-light-9);
-  }
 }
 
 :deep(.page-list__inner .el-card__body) {
-  min-height: 178px;
+  min-height: 218px;
 }
 </style>
 <style lang="scss">
 .el-dropdown-menu__item {
+  color: var(--el-text-color-primary);
+
   &.is-delete {
     color: var(--el-color-danger);
   }
 
   &:not(.is-disabled) {
+    &:hover,
     &:focus {
+      color: var(--el-text-color-primary);
+      background-color: var(--el-text-color-placeholder);
+
       &.is-delete {
         color: var(--el-color-danger);
         background-color: var(--el-color-danger-light-9);

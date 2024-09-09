@@ -36,7 +36,7 @@
           multiple
           :multiple-limit="3"
           :placeholder="t('bots.place.catalog')"
-        > 
+        >
           <el-option
             v-for="{ name, id } in catalogList"
             :label="t(name)"
@@ -53,7 +53,7 @@
           multiple
           :multiple-limit="3"
           :placeholder="t('bots.place.catalog')"
-        > 
+        >
           <el-option
             v-for="{ name, id } in catalogList"
             :label="t(name)"

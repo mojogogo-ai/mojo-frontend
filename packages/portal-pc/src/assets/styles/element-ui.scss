@@ -142,6 +142,9 @@
           box-shadow: 0 0 0 1px var(--el-border-color-light) inset;
         }
       }
+      &.is-disabled {
+        background-color: var(--el-disabled-bg-color);
+      }
     }
 
     &__caret {
@@ -173,9 +176,8 @@
 
 .customize-message-box {
   &.el-message-box {
-    --el-bg-color: rgba(0, 0, 0, 0.15);
-    --el-color-info: #fff;
-    border-color: rgba(#000, 0.1);
+    --el-bg-color: var(--el-fill-color-blank);
+    border-color: var(--el-border-color-light);
     backdrop-filter: var(--backdrop-blur);
   }
 
