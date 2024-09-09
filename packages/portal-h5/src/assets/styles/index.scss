@@ -49,6 +49,7 @@ body {
   font-weight: 400;
   font-feature-settings: 'dlig' on;
   color: var(--h5-text-color-regular);
+  line-height: 1.5;
 
   .van-popup {
     --van-popup-background: var(--h5-fill-color-light);
@@ -146,6 +147,19 @@ body {
         rgba(255, 255, 255, 0),
         rgba(255, 255, 255, .1)
     );
+  }
+
+  .van-tag {
+    --van-tag-radius: 8px;
+    &--large{
+      --van-tag-large-radius: 8px;
+    }
+    &--default {
+      background: var(--van-black);
+      color: var(--h5-text-color-regular);
+      backdrop-filter: var(--backdrop-blur);
+      box-shadow: 0 0  0 1px var(--van-border-color);
+    }
   }
 }
 

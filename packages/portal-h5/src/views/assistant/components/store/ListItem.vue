@@ -51,6 +51,15 @@
           >
             {{ appInfo.app_description }}
           </div>
+          <div v-if="appInfo.app_categories && appInfo.app_categories.length">
+            <van-tag
+              v-for="{ name } in appInfo.app_categories"
+              class="my-2 mr-1"
+              size="large"
+            >
+              {{ t(name) }}
+            </van-tag>
+          </div>
         </div>
       </div>
       <div class="page-list-option justify-end">
@@ -173,5 +182,7 @@ watch(
 .text-\[var\(--van-blue\)\] {
   color: var(--van-blue);
 }
-.text-xl{}
+
+.text-xl {
+}
 </style>

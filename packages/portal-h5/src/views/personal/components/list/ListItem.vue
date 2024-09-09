@@ -43,28 +43,35 @@
             </div>
           </div>
           <div
-            class="text-placeholder my-2 line-clamp-2 h-[44px]"
+            class="text-placeholder my-2 line-clamp-4 h-[100px]"
             :title="bot.description"
             @click="toBotDetail"
           >
             {{ bot.description }}
           </div>
           <div
-            v-if="bot.llm"
-            class="text-placeholder flex items-center"
+            v-if="bot.app_categories && bot.app_categories.length"
+            class="mt-2"
           >
-            <svg-icon name="plugin-store" />
-            <span class="ml-1 text-xs">{{ bot.llm }}</span>
+            <van-tag
+              v-for="{ name } in bot.app_categories"
+              class="my-2 mr-1"
+              size="large"
+            >
+              {{ t(name) }}
+            </van-tag>
           </div>
         </div>
       </div>
       <div class="page-list-option">
         <span class="text-placeholder mr-auto text-xs">
+          <!--
           <van-icon
             :class="{ 'text-primary': bot.published }"
             name="guide-o"
           />
           {{ bot.published ? t('bots.published') : t('bots.unpublished') }}
+          -->
         </span>
         <div class="flex">
           <van-button
@@ -267,5 +274,20 @@ watch(
       opacity: 0.3;
     }
   }
+}
+
+.line-clamp-4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.h-\[100px\] {
+  height: 100px;
+}
+
+.text-\[var\(--van-blue\)\] {
+  color: var(--van-blue);
 }
 </style>
