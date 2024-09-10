@@ -73,12 +73,16 @@ div:focus {
 .app-wrapper {
   background: var(--double-bg);
   background-color: #000;
+  overflow: hidden auto;
 
   .el-header {
+    position: sticky;
+    top: 0;
     display: flex;
     align-items: center;
     background-color: rgba(#fff, 0.1);
     backdrop-filter: blur(35px);
+    z-index: 1;
 
     .el-menu {
       padding: 6px;

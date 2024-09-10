@@ -123,7 +123,7 @@ const getStoreList = async () => {
         app_icon: TaskImg01,
         points: '+ 200 pts'
       },
-      {
+      /*{
         app_name: 'Create AI Me',
         app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
         app_icon: TaskImg02,
@@ -140,7 +140,7 @@ const getStoreList = async () => {
         app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
         app_icon: TaskImg04,
         points: '+ 5 pts'
-      },
+      },*/
       {
         app_name: 'Interact with ChatBot',
         app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
