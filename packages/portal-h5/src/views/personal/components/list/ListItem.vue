@@ -255,10 +255,6 @@ watch(
   display: flex;
   align-items: center;
   border-radius: 4px;
-
-  &:hover {
-    background-color: #ecf5ff;
-  }
 }
 
 :deep(.page-list__inner) {

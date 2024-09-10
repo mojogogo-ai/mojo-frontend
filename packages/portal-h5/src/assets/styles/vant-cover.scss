@@ -118,11 +118,11 @@
   .van-field {
     --van-cell-background: none;
     --van-field-error-message-height: 18px;
-    --field-border-color: var(--van-border-color);
+    --field-border-color: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
 
     &[background] {
-      --van-cell-background: var(--h5-fill-color-light);
+      --van-cell-background: rgba(#000, 0.5);
       .van-field__value {
         background-color: var(--van-cell-background);
         backdrop-filter: var(--backdrop-blur);
@@ -135,7 +135,7 @@
 
     &[bordered="bottom"] {
       .van-field__value {
-        border-bottom: 1px solid var(--van-border-color)
+        border-bottom: 1px solid var(--field-border-color);
       }
     }
 
@@ -155,7 +155,7 @@
         background-color: transparent;
 
         .van-field__value {
-          background-color: var(--h5-fill-color-light);
+          background-color: rgba(#000, 0.5);
           border-radius: 10px;
           backdrop-filter: var(--backdrop-blur);
         }

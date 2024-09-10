@@ -49,6 +49,17 @@
               @open-new-chat="onOpenNewChat(appInfo)"
               @duplicate="onDuplicate(appInfo)"
             />
+            <!--
+            <el-pagination
+              class="mt-3 px-4 justify-center"
+              layout="prev, pager, next"
+              hide-on-single-page
+              background
+              :current-page="pageNum"
+              :page-size="pageSize"
+              :total="totalSize"
+            />
+            -->
           </div>
         </el-scrollbar>
         <template v-if="!__data.storeList.length && !isLoading">
@@ -80,7 +91,8 @@ const __data = reactive({
   storeList: []
 });
 let pageNum = 1;
-let pageSize = 36;
+let pageSize = 18;
+let totalSize = ref(0);
 let isLoadMore = true;
 const appName = ref('');
 let timer = null;
@@ -129,6 +141,7 @@ const getStoreList = async () => {
       } = data;
       __data.storeList.push(...list);
       pageNum++;
+      totalSize.value = total;
       if (__data.storeList.length >= total) {
         isLoadMore = false;
       }

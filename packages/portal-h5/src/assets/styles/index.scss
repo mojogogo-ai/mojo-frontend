@@ -101,12 +101,8 @@ body {
 
   .van-cell {
     --van-cell-text-color: var(--h5-text-color-regular);
-    --van-cell-background: var(--h5-fill-color-light);
+    --van-cell-background: rgba(0, 0, 0, 0.5);
     backdrop-filter: var(--backdrop-blur);
-
-    &:active {
-      background: rgba(255, 255, 255, 0.3);
-    }
 
     &__value {
       --van-cell-value-color: var(--h5-text-color-placeholder);
@@ -236,7 +232,6 @@ div:focus {
 .page-list {
   --van-cell-vertical-padding: 16px;
   --van-cell-horizontal-padding: 12px;
-  --van-cell-background: var(--h5-fill-color-light);
   display: inline-block;
   width: 100%;
   padding: 0 8px;
@@ -251,6 +246,7 @@ div:focus {
     border: var(--van-border);
 
     &.van-cell {
+      --van-cell-background: rgba(255, 255, 255, 0.15);
       overflow: inherit;
     }
 

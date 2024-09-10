@@ -156,8 +156,9 @@ const onChangeGeneratedIcon = (url) => {
   width: 224px;
   padding: 0 8px;
   margin-left: 18px;
-  background-color: #ebebeb;
+  background-color: rgba(#000, 0.5);
   border-radius: 8px;
+  backdrop-filter: var(--backdrop-blur);
 }
 
 .ai-generate {
@@ -170,12 +171,13 @@ const onChangeGeneratedIcon = (url) => {
   width: 64px;
   font-size: 0.8em;
   line-height: 1.4;
-  color: #a4a4a4;
+  color: var(--h5-text-color-placeholder);
   background-color: var(--h5-fill-color-light);
   border-radius: 8px;
-  border: 1px solid #ebebeb;
+  border: 1px solid var(--van-border-color);
   cursor: pointer;
   overflow: hidden;
+  backdrop-filter: var(--backdrop-blur);
 
   &::after {
     display: flex;
@@ -190,8 +192,8 @@ const onChangeGeneratedIcon = (url) => {
 
   &:hover {
     &:not(:has(.page-list-img)) {
-      color: var(--h5-color-primary);
-      border-color: var(--h5-color-primary);
+      color: var(--van-blue);
+      border-color: var(--van-blue);
     }
   }
 
@@ -203,13 +205,11 @@ const onChangeGeneratedIcon = (url) => {
   }
 
   &.is-disabled {
-    color: #a4a4a4;
-    border-color: #ebebeb;
     opacity: 0.8;
 
     &:hover {
-      color: #a4a4a4;
-      border-color: #ebebeb;
+      color: var(--h5-text-color-placeholder);
+      border-color: var(--van-border-color);
       cursor: not-allowed;
     }
   }

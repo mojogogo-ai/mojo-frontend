@@ -180,6 +180,28 @@ div:focus {
   .el-segmented__item-selected {
     border-radius: 16px;
   }
+
+  .el-pagination {
+    &.is-background {
+      --el-pagination-button-bg-color: rgba(59, 59, 59, 0.8);
+      --el-pagination-button-color: var(--el-text-color-placeholder);
+      --el-pagination-border-radius: 12px;
+      backdrop-filter: var(--backdrop-blur);
+
+      button {
+        --el-disabled-bg-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: var(--backdrop-blur);
+      }
+    }
+  }
+
+  .el-pager {
+    li {
+      &:not(.more) {
+        padding: 8px 20px;
+      }
+    }
+  }
 }
 
 .app-page-top {

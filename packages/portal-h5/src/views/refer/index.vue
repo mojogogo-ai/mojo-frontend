@@ -14,7 +14,7 @@
         Earn 50 points for each successful referral! You will both get 50 points when your friend successfully create an
         account with us.
       </div>
-      <div class="mb-24 mt-8 flex flex-col items-center justify-center">
+      <div class="mb-24 mt-8 flex w-full flex-col items-center justify-center px-8">
         <div class="homepage-code pb-4">Referral code:</div>
         <div class="refer-code">
           23102455
@@ -40,28 +40,30 @@ import SocialMedia from '@/assets/images/refer/social-media.svg';
 <style scoped lang="scss">
 .homepage-title {
   color: var(--van-blue);
-  font-size: 36px;
+  font-size: 24px;
 }
 
 .homepage-subtitle {
   padding: 0 16px;
   color: var(--h5-text-color-placeholder);
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
 }
 
 .homepage-code {
   color: var(--van-blue);
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
 }
 
 .refer-code {
   display: flex;
   align-items: center;
-  margin: 0 0 50px;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 20px 50px;
   padding: 8px 10px 8px 24px;
-  font-size: 24px;
+  font-size: 18px;
   color: var(--h5-text-color-secondary);
   background-color: var(--van-white);
   border-radius: 44px;
@@ -72,7 +74,7 @@ import SocialMedia from '@/assets/images/refer/social-media.svg';
     justify-content: center;
     flex-shrink: 0;
     padding: 8px;
-    margin-left: 10px;
+    margin-left: 60px;
     color: var(--van-blue);
     font-size: 16px;
     background-color: var(--van-black);
