@@ -4,6 +4,7 @@
       key="collapse"
       class="sidebar-logo__link"
       :href="WEBSITE_HOME"
+      @click.prevent
     >
       <svg-icon
         name="logo"

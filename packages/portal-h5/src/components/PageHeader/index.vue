@@ -121,6 +121,7 @@ const onSearch = () => {
   justify-content: space-between;
   background-color: var(--h5-fill-color-light);
   backdrop-filter: var(--backdrop-blur);
+  z-index: 1;
 
   &[border='bottom'] {
     border-bottom: var(--van-border);

@@ -11,6 +11,12 @@
   src: url("../fonts/TT Norms Pro Regular.otf") format("truetype");
 }
 
+* {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 :root {
   text-size-adjust: 100%;
   --font-size-20: 20px;
@@ -151,14 +157,16 @@ body {
 
   .van-tag {
     --van-tag-radius: 8px;
-    &--large{
+
+    &--large {
       --van-tag-large-radius: 8px;
     }
+
     &--default {
       background: var(--van-black);
       color: var(--h5-text-color-regular);
       backdrop-filter: var(--backdrop-blur);
-      box-shadow: 0 0  0 1px var(--van-border-color);
+      box-shadow: 0 0 0 1px var(--van-border-color);
     }
   }
 }
@@ -201,9 +209,10 @@ div:focus {
 }
 
 .app-page {
-  display: flex;
-  flex-direction: column;
+  //display: flex;
+  //flex-direction: column;
   height: 100%;
+  overflow: hidden auto;
 }
 
 .app-page-top {
@@ -213,9 +222,9 @@ div:focus {
 }
 
 .app-page-content {
-  flex: 1;
+  //flex: 1;
   padding: 0 4px;
-  overflow: hidden auto;
+  //overflow: hidden auto;
 }
 
 .app-page-col {
@@ -289,6 +298,10 @@ div:focus {
 }
 
 .text {
+  &-highlight {
+    color: var(--van-blue);
+  }
+
   &-primary {
     color: var(--h5-text-color-primary);
   }

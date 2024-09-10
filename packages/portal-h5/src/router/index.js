@@ -148,6 +148,32 @@ export const constantRoutes = [
         meta: { title: t('menu.d'), icon: 'user' }
       }
     ]
+  },
+  {
+    path: '',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/tasks',
+        component: () => import('@/views/tasks/index'),
+        name: 'tasks',
+        meta: { title: 'MojoGogo Point', icon: 'user' }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/refer',
+        component: () => import('@/views/refer/index'),
+        name: 'refer',
+        meta: { title: 'Refer friends', icon: 'user' }
+      }
+    ]
   }
 ];
 

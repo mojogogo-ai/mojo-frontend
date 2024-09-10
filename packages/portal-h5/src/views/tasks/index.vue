@@ -1,33 +1,23 @@
 <template>
   <div class="app-page">
-    <page-header
-      :title="t('menu.ass')"
-      :placeholder="t('store.placeholder.name')"
-      input-area
-      @search="onSearch"
-    />
-    <van-search
-      v-model="appName"
-      class="store-search"
-      placeholder="Search"
-      shape="round"
-      background="transparent"
-      @search="onSearch"
-    />
+    <page-header class="shrink-0" />
+    <div class="font-Inter mb-4 mt-16 flex justify-center text-[32px] text-highlight">Your Task List</div>
     <div class="app-page-content flex flex-col">
-      <!--      <div class="shrink-0">
-              <van-tabs
-                v-model:active="activeTab"
-                background="transparent"
-                @click-tab="onTabChange"
-              >
-                <van-tab
-                  v-for="{ id, name } in tabList"
-                  :name="id"
-                  :title="t(name)"
-                />
-              </van-tabs>
-            </div>-->
+      <!--
+      <div class="shrink-0">
+        <van-tabs
+          v-model:active="activeTab"
+          background="transparent"
+          @click-tab="onTabChange"
+        >
+          <van-tab
+            v-for="{ id, name } in tabList"
+            :name="id"
+            :title="t(name)"
+          />
+        </van-tabs>
+      </div>
+      -->
       <div
         v-if="isLoading"
         class="flex flex-1 items-center justify-center"
@@ -71,7 +61,7 @@
     </div>
     <bot-base-info
       ref="baseInfoRef"
-      @after-create="afterCreateBot"
+      @after-create="onAfterCreate"
     />
   </div>
 </template>
@@ -79,8 +69,15 @@
 <script setup>
 import { t } from '@gptx/base/i18n';
 import { getList, getListCategory } from '@gptx/base/api/assistant-store';
-import { ListItem } from './components/store/index.js';
+import ListItem from './components/ListItem';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
+import TaskImg01 from '@/assets/images/tasks/01.svg';
+import TaskImg02 from '@/assets/images/tasks/02.svg';
+import TaskImg03 from '@/assets/images/tasks/03.svg';
+import TaskImg04 from '@/assets/images/tasks/04.svg';
+import TaskImg05 from '@/assets/images/tasks/05.svg';
+import TaskImg06 from '@/assets/images/tasks/06.svg';
+import TaskImg07 from '@/assets/images/tasks/07.svg';
 
 const router = useRouter();
 const tabList = reactive([]);
@@ -89,7 +86,7 @@ const __data = reactive({
   storeList: []
 });
 let pageNum = 1;
-let pageSize = 18;
+let pageSize = 36;
 let isLoadMore = true;
 const appName = ref('');
 let timer = null;
@@ -98,7 +95,7 @@ const isLoading = ref(true);
 const scrollbar = ref(null);
 const baseInfoRef = ref(null);
 
-const onSearch = (value) => {
+const onSearch = () => {
   if (timer) {
     clearTimeout(timer);
     timer = null;
@@ -111,21 +108,16 @@ const onSearch = (value) => {
     getStoreList();
   }, 300);
 };
-const onTabChange = ({ name }) => {
-  activeTab.value = name;
-  onSearch();
-};
 const onDropDownClick = (plat, { shared_social }) => {
   const { link } = shared_social[plat];
   window.open(link, '_blank');
 };
 const onOpenNewChat = ({ app_id }) => {
-  const { href } = router.resolve(`/bot/${app_id}`);
-  window.open(href, '_blank');
+  router.push(`/bot/${app_id}`);
 };
 const getStoreList = async () => {
   if (!isLoadMore) return;
-  try {
+  /*try {
     const { code, data } = await getList({
       search: appName.value,
       category_id: activeTab.value,
@@ -148,7 +140,57 @@ const getStoreList = async () => {
     }, 300);
   } catch (error) {
     console.log(error);
-  }
+  }*/
+  __data.storeList.push(
+    ...[
+      {
+        app_name: 'Sign up with Mojo Gogo',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg01,
+        points: '+ 200 pts'
+      },
+      /*{
+        app_name: 'Create AI Me',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg02,
+        points: '+ 100 pts'
+      },
+      {
+        app_name: 'Personalize AI Me Image',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg03,
+        points: '+ 20 pts'
+      },
+      {
+        app_name: 'Agent Training',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg04,
+        points: '+ 5 pts'
+      },*/
+      {
+        app_name: 'Interact with ChatBot',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg05,
+        points: '+ 5 pts'
+      },
+      {
+        app_name: 'Refer Friends',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg06,
+        points: '+ 50 pts'
+      },
+      {
+        app_name: 'Daily Login and Check-In',
+        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_icon: TaskImg07,
+        points: '+ 5 pts'
+      }
+    ]
+  );
+  isLoadMore = false;
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 300);
 };
 const _getListCategory = async () => {
   try {
@@ -164,20 +206,21 @@ const _getListCategory = async () => {
     console.log(error);
   }
 };
-const onScroll = ({ target: { scrollTop, scrollHeight, offsetHeight } }) => {
-  if (scrollHeight - offsetHeight <= scrollTop) getStoreList();
+const onScroll = ({ scrollTop }) => {
+  const wrap = scrollbar.value.wrapRef;
+  if (wrap.scrollHeight - scrollTop <= wrap.offsetHeight) getStoreList();
 };
 // duplicate assistant
-const onDuplicate = (app) => {
+const onDuplicate = (appInfo) => {
   baseInfoRef.value.open({
-    from_id: app.app_id,
-    name: `${app.app_name}${t('bots.backup')}`,
-    icon: app.app_icon,
-    description: app.app_description
-    // category_id: app.categories.map((_) => _.id)
+    from_id: appInfo.app_id,
+    name: `${appInfo.app_name}${t('bots.backup')}`,
+    icon: appInfo.app_icon,
+    description: appInfo.app_description
+    // category_id: appInfo.app_categories.map((_) => _.id)
   });
 };
-const afterCreateBot = async (data) => {
+const onAfterCreate = async (data) => {
   if (data && data.app_id) router.push(`/design/${data.app_id}`);
 };
 
@@ -188,14 +231,27 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
+.app-page-content {
+  overflow: hidden;
+}
+
+:deep(.page-list) {
+  width: 100%;
+  max-width: unset;
+
+  .page-list__inner {
+    .el-card__body {
+      min-height: 152px;
+    }
+  }
+
+  .page-list-img {
+    width: 80px;
+    height: 80px;
+  }
+}
 .store-scroll {
   height: 100%;
   overflow: hidden auto;
-}
-
-.store-search {
-  position: sticky;
-  top: var(--van-action-bar-height);
-  z-index: 1;
 }
 </style>

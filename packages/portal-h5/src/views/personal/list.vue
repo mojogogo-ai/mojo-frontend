@@ -8,6 +8,7 @@
     />
     <van-search
       v-model="form.search"
+      class="store-search"
       placeholder="Search"
       shape="round"
       background="transparent"
@@ -15,7 +16,7 @@
     />
     <div
       v-if="isLoading"
-      class="flex items-center justify-center app-page-content"
+      class="app-page-content flex items-center justify-center"
     >
       <van-loading
         class="cover-loading"
@@ -30,7 +31,7 @@
       v-else
       class="app-page-content"
     >
-      <div class="flex flex-col h-full">
+      <div class="flex h-full flex-col">
         <van-floating-bubble
           v-if="showFilter"
           axis="xy"
@@ -148,7 +149,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-
 .page-list {
   &:last-child {
     margin-bottom: 64px;
@@ -162,5 +162,11 @@ onMounted(() => {
 
 .h-\[48px\] {
   height: 64px;
+}
+
+.store-search {
+  position: sticky;
+  top: var(--van-action-bar-height);
+  z-index: 1;
 }
 </style>
