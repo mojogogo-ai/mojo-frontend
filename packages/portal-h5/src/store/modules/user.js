@@ -32,14 +32,14 @@ const useUserStore = defineStore(
       updateSysInfo () {
           welcomeAccess().then((res) => {
               console.log(res,'res999')
-              if (res.data && res.data.user_info) {
-                const user = res.data.user_info
-                const avatar = (user.photo_url === '' || user.photo_url == null) ? defAva : user.photo_url
-                this.nickName = user.nick_name || user.nickname// 昵称
+              if (res.data && res.data.user) {
+                const user = res.data.user
+                const avatar = (user.avatar === '' || user.avatar == null) ? defAva : user.avatar
+                this.nickName = user.nickname// 昵称
                 this.avatar = avatar // 头像
-                this.phoneNumber = user.phone_number || ''
+                // this.phoneNumber = user.phone_number || ''
                 this.email = user.email || ''
-                localStorage.setItem('user', JSON.stringify(res.data.user_info));
+                localStorage.setItem('user', JSON.stringify(res.data.user));
               }
             }
           ).catch((err) => {

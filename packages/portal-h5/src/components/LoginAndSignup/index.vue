@@ -64,10 +64,7 @@ const handleToken = (user) => {
         };
         
         welcomeAccess(accessToken, '').then((res) => {
-            if (res.code === 200) {
-              if (res.data && res.data.system_chat) {
-                localStorage.setItem('user', JSON.stringify(res.data.user_info));
-              }
+            if (res.code === 0) {
               userStore.loginOthers(userInfo)
               emit('close')
               dialogVisible.value = false;
