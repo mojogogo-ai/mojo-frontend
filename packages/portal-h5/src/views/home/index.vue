@@ -10,16 +10,17 @@
       <van-button
         class="mb-4"
         size="large"
+        type="primary"
       >
-        Sign Up
+        Log in
       </van-button>
-      <van-button
+      <!-- <van-button
         class="mb-[80px]"
         type="primary"
         size="large"
       >
         + Create Bot
-      </van-button>
+      </van-button> -->
       <div class="page-list">
         <van-cell class="page-list__inner">
           <div class="mb-4 text-lg">Create Your Own AI Bot</div>

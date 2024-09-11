@@ -8,8 +8,8 @@
         power of AI to streamline operations, enhance customer engagement, and protect data privacy - all in one place.
       </div>
       <div class="flex justify-center mt-8 mb-24">
-        <el-button v-if="!isLogin" type="info" @click="toLogin"> Sign Up </el-button>
-        <el-button type="primary" @click="toCreate"> + Create Bot </el-button>
+        <el-button v-if="!isLogin" type="primary" @click="toLogin">Log in </el-button>
+        <!-- <el-button type="primary" @click="toCreate"> + Create Bot </el-button> -->
       </div>
       <div class="flex w-full">
         <div class="mr-[24px] flex-1">

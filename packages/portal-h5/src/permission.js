@@ -7,6 +7,7 @@ import useLoginStore from '@/store/modules/login'
 import { useDynamicTitle } from '@gptx/base/utils/dynamicTitle'
 // import {t} from '@gptx/base/i18n'
 
+const whiteList = ['/home', '/assistant']
 router.beforeEach((to, from, next) => {
   handleRoute(to, from, next)
 })
@@ -18,7 +19,7 @@ async function handleRoute(to, from, next) {
   if (curToken || toPatch === '/home') { // 已经登录了
     next()
   } else { // 没有登录，没有token
-    if (toPatch!=='/home') {
+    if (whiteList.indexOf(toPatch) ===-1) {
       const useLogin = useLoginStore();
       useLogin.openLoginDialog()
       next('/home')

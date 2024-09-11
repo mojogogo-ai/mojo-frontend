@@ -8,9 +8,9 @@
       <div class="sidebar-menu">
         <sidebar-item :item="indexPage" />
       </div>
-      <div class="sidebar-menu">
+      <!-- <div class="sidebar-menu">
         <sidebar-item :item="personalPage" />
-      </div>
+      </div> -->
       <template
         v-for="({ name, list }, i) in sidebarRouters"
         :key="i"

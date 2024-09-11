@@ -13,7 +13,7 @@
           @select="handleSelect"
         >
           <el-menu-item style="margin-right:8px;" index="/home">Home</el-menu-item>
-          <el-menu-item style="margin-right:8px;" index="/personal">Personal</el-menu-item>
+          <!-- <el-menu-item style="margin-right:8px;" index="/personal">Personal</el-menu-item> -->
           <el-sub-menu index="" :popper-offset="15" popper-class="customs-sub-menu">
             <template #title>Explore</template>
             <el-menu-item style="min-width: 240px;" index="/assistant">
@@ -35,14 +35,14 @@
       </div>
 
       <div class="flex items-center">
-        <el-button
+        <!-- <el-button
           style="margin-right: 10px;"
           type="primary"
           round            
           @click="onCreateClick()"
         >
           + Create Bot
-        </el-button>
+        </el-button> -->
         <user v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onCreateClick" />
       </div>
