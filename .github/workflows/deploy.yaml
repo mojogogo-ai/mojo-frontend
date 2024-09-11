@@ -41,6 +41,9 @@ jobs:
       - name: Build Artifact
         run: pnpm run build 
 
+      - name: Build h5 Artifact
+        run: pnpm run build:h5
+
       - name: Extract repository name
         run: |
           REPO_NAME=$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f2)
