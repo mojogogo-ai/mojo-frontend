@@ -96,10 +96,10 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy pc to S3
-        run: aws s3 sync packages/protal-pc/dist s3://${{ env.S3_BUCKET_NAME }} --delete
+        run: aws s3 sync packages/portal-pc/dist s3://${{ env.S3_BUCKET_NAME }} --delete
 
       - name: Deploy h5 to S3
-        run: aws s3 sync packages/protal-h5/dist s3://${{ env.S3_BUCKET_NAME }}/h5 --delete
+        run: aws s3 sync packages/portal-h5/dist s3://${{ env.S3_BUCKET_NAME }}/h5 --delete
 
       - name: Invalidate CloudFront
         run: aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_ID }} --paths "/*"
