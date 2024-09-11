@@ -47,7 +47,7 @@
     // online start
     "dev.mojogogo.ai":{ // dev
       FIREBASE_CONFIG: firebaseConfig.dev,
-      BASE_API: "http://dev.mojogogo.ai/v1/",
+      BASE_API: "https://api-dev.mojogogo.ai/v1/",
     },
     "test.mojogogo.ai":{ // test
       FIREBASE_CONFIG: firebaseConfig.test,
