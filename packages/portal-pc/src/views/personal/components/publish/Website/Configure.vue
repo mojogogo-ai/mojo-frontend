@@ -48,7 +48,7 @@ const isVisible = ref(false);
 const open = (name) => {
   isVisible.value = true;
   
-  let baseUrl = window.SITE_TYPE == 2 ? 'https://chat.dappworks.cn/v2' : 'https://api.safegen.ai/v2'
+  let baseUrl = 'https://api.safegen.ai/v2'
   let text =  DATA[name].replace(/chatApiUrl/g, baseUrl);
 
   textValue.value = text;

@@ -94,7 +94,6 @@ const props = defineProps({
   }
 });
 const emits = defineEmits(['open-new-chat', 'open-with', 'duplicate']);
-const isWorldWide = window.SITE_TYPE && window.SITE_TYPE === '1';
 
 let platList = reactive([{ s_name: 'telegram' }]);
 const platIcons = {

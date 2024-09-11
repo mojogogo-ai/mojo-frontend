@@ -267,9 +267,9 @@
       openWhenHidden: true,
       headers: {
         Authorization: `Bearer ${authToken}`,
-        'X-Client-Locale': lang === 'zh' ? 'zh-CN' : lang, // Locale
-        'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
-        'X-Client-Site': window.SITE_TYPE // X-Client-Site
+        // 'X-Client-Locale': lang === 'zh' ? 'zh-CN' : lang, // Locale
+        // 'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
+        // 'X-Client-Site': window.SITE_TYPE // X-Client-Site
       },
       body: JSON.stringify({ // 参数
         app_id: chatStore.getChatHistoryByCurrentActive.id,

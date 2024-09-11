@@ -56,7 +56,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { updateConfig } from '@gptx/base/api/application';
 import { getCurLang } from '@gptx/base';
 import { getToken } from '@gptx/base/utils/auth';
-import { isMobi } from '@gptx/base'
+// import { isMobi } from '@gptx/base'
 
 const props = defineProps({
   botId: {
@@ -95,7 +95,7 @@ const onSubmit = async () => {
   }
 };
 const onModifyTipWords = async () => {
-  let lang = getCurLang();
+  // let lang = getCurLang();
   let authToken = await getToken();
   tipWords.value = '';
   controller = new AbortController();
@@ -105,9 +105,8 @@ const onModifyTipWords = async () => {
     openWhenHidden: true,
     headers: {
       Authorization: `Bearer ${authToken}`,
-      'X-Client-Locale': lang === 'zh' ? 'zh-CN' : lang, // Locale
-      'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
-      'X-Client-Site': window.SITE_TYPE // X-Client-Site
+      // 'X-Client-Locale': lang === 'zh' ? 'zh-CN' : lang, // Locale
+      // 'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
     },
     body: JSON.stringify({ // 参数
       app_id: props.botId

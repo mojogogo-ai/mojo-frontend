@@ -1,13 +1,13 @@
 <template>
-  <div class="page-list relative">
+  <div class="relative page-list">
     <el-card
       class="page-list__inner"
       shadow="hover"
     >
-      <div class="mb-2 flex">
+      <div class="flex mb-2">
         <div class="app-page-col">
           <el-image
-            class="page-list-img cursor-pointer"
+            class="cursor-pointer page-list-img"
             fit="cover"
             :src="bot.icon || defaultBotImage"
             @click="toBotDetail"
@@ -21,7 +21,7 @@
             </template>
           </el-image>
         </div>
-        <div class="app-page-col relative flex-1">
+        <div class="relative flex-1 app-page-col">
           <div class="flex items-center">
             <div
               class="mr-2 line-clamp-1 h-[24px] flex-1 cursor-pointer pr-3 text-base text-[var(--el-color-primary)]"
@@ -83,7 +83,7 @@
             <!--            <el-icon :class="{ 'text-[var(&#45;&#45;el-color-primary)]': bot.published }"><Promotion /></el-icon>
             {{ bot.published ? t('bots.published') : t('bots.unpublished') }}-->
           </span>
-          <el-dropdown v-if="platList && platList.length && isWorldWide">
+          <el-dropdown v-if="platList && platList.length">
             <el-button
               class="ml-1"
               size="small"
@@ -153,8 +153,6 @@ const platIcons = {
   messenger: IconMessenger,
   line: IconLine
 };
-const isWorldWide = window.SITE_TYPE === '1';
-
 // open bot sub page design(unused)|analyze(used)
 const toBotDetail = () => {
   const { id } = props.bot;
@@ -163,7 +161,7 @@ const toBotDetail = () => {
 // dropdown command delete
 const onDelete = async (id) => {
   try {
-    const content = isWorldWide ? t('bots.deleteDesc') : t('bots.deleteDescCn');
+    const content =  t('bots.deleteDescCn');
     await ElMessageBox.confirm(content, t('bots.delete'), {
       confirmButtonText: t('common.confirm'),
       cancelButtonText: t('common.cancel'),

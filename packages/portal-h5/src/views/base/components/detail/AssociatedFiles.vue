@@ -34,7 +34,7 @@
         >
           <van-cell class="page-list__inner bg-[#fff]">
             <div class="file-list-row">
-              <div class="mr-2 flex-1 font-black">{{ file.doc_name }}</div>
+              <div class="flex-1 mr-2 font-black">{{ file.doc_name }}</div>
               <van-switch
                 v-model="file.enabled"
                 size="16px"
@@ -54,11 +54,9 @@
                 name="underway"
               />
               {{
-                isCn
-                  ? file.created_at
-                  : dayjs(file.created_at)
-                    .subtract(new Date().getTimezoneOffset(), 'minute')
-                    .format('YYYY-MM-DD HH:mm:ss')
+                dayjs(file.created_at)
+                  .subtract(new Date().getTimezoneOffset(), 'minute')
+                  .format('YYYY-MM-DD HH:mm:ss')
               }}
             </div>
             <div class="file-list-row">
@@ -69,7 +67,7 @@
                 @click="onFileDelete(file)"
               />
             </div>
-            <div class="file-list-status flex">
+            <div class="flex file-list-status">
               <van-tag
                 v-if="file.status === 3"
                 type="danger"
@@ -139,9 +137,6 @@ const fileList = ref([]);
 let timer = null;
 const loading = ref(true);
 const searchInputRef = ref(null);
-const isCn = computed(() => {
-  return window.SITE_TYPE && window.SITE_TYPE === '2';
-});
 
 //reset filters
 const onFormReset = () => {

@@ -20,7 +20,7 @@
     </div>
     <div class="cover-popup-body">
       <div class="flex h-full">
-        <van-form class="cover-form w-full">
+        <van-form class="w-full cover-form">
           <van-field
             ref="tipWordRef"
             v-model="tipWords"
@@ -61,7 +61,7 @@
 import { t } from '@gptx/base/i18n';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { updateConfig } from '@gptx/base/api/application';
-import { getCurLang, isMobi } from '@gptx/base';
+// import { getCurLang, isMobi } from '@gptx/base';
 import { getToken } from '@gptx/base/utils/auth';
 
 const props = defineProps({
@@ -101,7 +101,7 @@ const onSubmit = async () => {
   }
 };
 const onModifyTipWords = async () => {
-  let lang = getCurLang();
+  // let lang = getCurLang();
   let authToken = await getToken();
   tipWords.value = '';
   controller = new AbortController();
@@ -111,9 +111,9 @@ const onModifyTipWords = async () => {
     openWhenHidden: true,
     headers: {
       Authorization: `Bearer ${authToken}`,
-      'X-Client-Locale': lang === 'zh' ? 'zh-CN' : lang, // Locale
-      'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
-      'X-Client-Site': window.SITE_TYPE // X-Client-Site
+      // 'X-Client-Locale': lang === 'zh' ? 'zh-CN' : lang, // Locale
+      // 'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
+      // 'X-Client-Site': window.SITE_TYPE // X-Client-Site
     },
     body: JSON.stringify({
       // 参数

@@ -41841,11 +41841,11 @@ const Pre = {
         openWhenHidden: !0,
         headers: {
           Authorization: `Bearer ${fe}`,
-          "X-Client-Locale": n === "zh" ? "zh-CN" : n,
+          // "X-Client-Locale": n === "zh" ? "zh-CN" : n,
           // Locale
-          "X-Client-Type": Mt() ? 2 : 1,
+          // "X-Client-Type": Mt() ? 2 : 1,
           // X-Client-Type
-          "X-Client-Site": window.SITE_TYPE
+          // "X-Client-Site": window.SITE_TYPE
           // X-Client-Site
         },
         body: JSON.stringify({

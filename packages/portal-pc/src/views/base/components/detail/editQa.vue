@@ -201,8 +201,8 @@
 <script setup>
 import { docSegmented, docUpdatedSegmented, docDeleteSegmented } from '@gptx/base/api/knowledge';
 import { getToken } from '@gptx/base/utils/auth';
-import { getCurLang } from '@gptx/base';
-import { isMobi } from '@gptx/base/utils/index';
+// import { getCurLang } from '@gptx/base';
+// import { isMobi } from '@gptx/base/utils/index';
 import addQa from './addQa';
 
 import { t } from '@gptx/base/i18n';
@@ -350,13 +350,12 @@ const beforeUpload= async (file) => {
     return false
   }
 
-  const lang = getCurLang();
+  // const lang = getCurLang();
   let authToken = await getToken();
   headers.value.Authorization = 'Bearer ' + authToken;
-  headers.value['X-Client-Locale'] = lang === 'zh' ? 'zh-CN' : lang;
-  headers.value['X-Client-Timezone-Offset'] = new Date().getTimezoneOffset(); // timezone offset
-  headers.value['X-Client-Type'] = isMobi() ? 'H5' : 'WEB'; // X-Client-Type
-  headers.value['X-Client-Site'] = window.SITE_TYPE; // X-Client-Site
+  // headers.value['X-Client-Locale'] = lang === 'zh' ? 'zh-CN' : lang;
+  // headers.value['X-Client-Timezone-Offset'] = new Date().getTimezoneOffset(); // timezone offset
+  // headers.value['X-Client-Type'] = isMobi() ? 'H5' : 'WEB'; // X-Client-Type
   
   const isLt1M = file.size / 1024 / 1024 < 20;
   if (!isLt1M) {

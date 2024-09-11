@@ -37,9 +37,7 @@ const getNewToken = async ()=>{
   let newTimeStamp = new Date().getTime() + 1 * 60 *1000; // 提前1分钟
   // debugger
   if (expireTime && (newTimeStamp > expireTime)) {
-    if (window.SITE_TYPE === '1') { // firebase
       await getFirebaseRefleshToken()
-    }  
   }
 }
 

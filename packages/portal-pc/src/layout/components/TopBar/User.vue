@@ -154,10 +154,8 @@ const logoutHandle = async () => {
       customClass: 'customize-message-box'
     });
     if (action === 'confirm') {
-      if (window.SITE_TYPE === '1') { // firebase
-        const auth = getAuth();
-        await signOut(auth);
-      }
+      const auth = getAuth();
+      await signOut(auth);
       await user.logOut();
       useLogin.toLoginOut()
       router.push({ path: '/home' });

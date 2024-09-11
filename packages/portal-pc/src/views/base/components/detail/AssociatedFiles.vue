@@ -96,7 +96,7 @@
       >
         <template #default="{ row }">
           <span>{{
-            isCn ? row.created_at : dayjs(row.created_at).subtract(new Date().getTimezoneOffset(), 'minute').format('YYYY-MM-DD HH:mm:ss')
+            dayjs(row.created_at).subtract(new Date().getTimezoneOffset(), 'minute').format('YYYY-MM-DD HH:mm:ss')
           }}</span>
         </template>
       </el-table-column>
@@ -232,9 +232,6 @@ const fileList = ref([]);
 const totalCount = ref(0);
 let timer = null;
 const formRef = ref(null);
-const isCn = computed(() => {
-  return  window.SITE_TYPE && window.SITE_TYPE === '2'
-});
 
 //reset filters
 const onFormReset = () => {

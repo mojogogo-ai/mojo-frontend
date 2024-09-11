@@ -16,14 +16,14 @@
           :class="{ 'is-fail': file.status === 'fail' }"
           :style="{ '--after-width': `${file.percentage}%` }"
         >
-          <div class="relative flex w-full items-center">
+          <div class="relative flex items-center w-full">
             <van-image
-              class="file-list-icon mr-2 shrink-0"
+              class="mr-2 file-list-icon shrink-0"
               fit="contain"
               :src="docIcons[/\.[^\.]+$/.exec(file.file.name)[0].toLocaleLowerCase()]"
             />
             <div
-              class="line-clamp-1 w-3/5"
+              class="w-3/5 line-clamp-1"
               :title="file.file.name"
             >
               {{ file.file.name }}
@@ -31,7 +31,7 @@
             <div class="mx-2 shrink-0">
               {{ filesize(file.file.size) }}
             </div>
-            <div class="ml-auto flex items-center">
+            <div class="flex items-center ml-auto">
               <van-button
                 v-if="file.status !== 'fail'"
                 type="primary"
@@ -177,7 +177,7 @@
 <script setup>
 import { filesize } from 'filesize';
 import { getToken } from '@gptx/base/utils/auth';
-import { getCurLang, isMobi } from '@gptx/base';
+// import { getCurLang } from '@gptx/base';
 import { downloadDocSample, saveKnowledgeDocFiles } from '@gptx/base/api/knowledge';
 import { t } from '@gptx/base/i18n';
 import IconHtml from '@/assets/images/base/upload/html.svg';
@@ -362,7 +362,7 @@ const uploadXhr = async (file) => {
   formData.append('base_id', props.docMainId);
   formData.append('file_type', uploadFileType.value);
   const xhr = new XMLHttpRequest();
-  const lang = getCurLang();
+  // const lang = getCurLang();
   xhr.upload.onprogress = (evt) => {
     file.percentage = evt.total > 0 ? (evt.loaded / evt.total) * 100 : 0;
     file.status = 'uploading';
@@ -379,10 +379,9 @@ const uploadXhr = async (file) => {
   xhr.open('POST', action);
   let authToken = await getToken();
   xhr.setRequestHeader('Authorization', 'Bearer ' + authToken);
-  xhr.setRequestHeader('X-Client-Locale', lang === 'zh' ? 'zh-CN' : lang);
-  xhr.setRequestHeader('X-Client-Timezone-Offset', new Date().getTimezoneOffset());
-  xhr.setRequestHeader('X-Client-Type', isMobi() ? 'H5' : 'WEB');
-  xhr.setRequestHeader('X-Client-Site', window.SITE_TYPE);
+  // xhr.setRequestHeader('X-Client-Locale', lang === 'zh' ? 'zh-CN' : lang);
+  // xhr.setRequestHeader('X-Client-Timezone-Offset', new Date().getTimezoneOffset());
+  // xhr.setRequestHeader('X-Client-Type', isMobi() ? 'H5' : 'WEB');
   xhr.send(formData);
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4 && xhr.status === 200) {

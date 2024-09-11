@@ -92,9 +92,6 @@ const useLogin = useLoginStore();
 //     return i.value === curLang;
 //   }).value;
 // });
-// const isCn = computed(() => {
-//   return  window.SITE_TYPE && window.SITE_TYPE === '2'
-// });
 
 /* ref dom */
 const baseInfoRef = ref(null);
@@ -112,10 +109,8 @@ const logout = async () => {
       customClass: 'customize-message-box'
     });
     if (action === 'confirm') {
-      if (window.SITE_TYPE === '1') { // firebase
-        const auth = getAuth();
-        await signOut(auth);
-      }
+      const auth = getAuth();
+      await signOut(auth);
       useLogin.toLoginOut()
       router.push({ path: '/home' });
     }

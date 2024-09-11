@@ -5,13 +5,13 @@
   // fireBase配置，目前一共3个
   const firebaseConfig = {
     dev: { // 开发
-      apiKey: "AIzaSyB8a05dm3VCcRN8eImD5ZybGF8RgbzcCu0",
-      authDomain: "safegenai-dev.firebaseapp.com",
-      projectId: "safegenai-dev",
-      storageBucket: "safegenai-dev.appspot.com",
-      messagingSenderId: "847517741728",
-      appId: "1:847517741728:web:b89c41f5785b167b3fcfc5",
-      measurementId: "G-8R17BPY4B7"
+      apiKey: "AIzaSyBwRz_z_8XxjHEpUImBE1Tt-OZZeLpSUC8",
+      authDomain: "mojogogoai-dev.firebaseapp.com",
+      projectId: "mojogogoai-dev",
+      storageBucket: "mojogogoai-dev.appspot.com",
+      messagingSenderId: "1065366463732",
+      appId: "1:1065366463732:web:210adcaf208d7fe8406aa1",
+      measurementId: "G-1NJ0ELV9D8"
     },
     test: { // 测试
       apiKey: "AIzaSyBgHkwdzyU7fMSfO5fLAdyQvxXansM_o-k",
@@ -38,41 +38,26 @@
     // local start
     "localhost":{
       FIREBASE_CONFIG: firebaseConfig.dev,
-      WEBSITE_HOME:  "http://192.168.50.203:80",
-      BASE_API: "/v2",
-      SITE_TYPE: "1" // 1:firebase,2:sms
+      BASE_API: "http://dev.mojogogo.ai/v1/",
     },
     // ...others
-    "192.168.50.22":{
-      FIREBASE_CONFIG: firebaseConfig.dev,
-      WEBSITE_HOME:  "http://192.168.50.91:8040",
-      BASE_API: "/v2",
-      SITE_TYPE: "1" // 1:firebase,2:sms
-    },
     // local end
 
 
     // online start
-    "dev.safegen.ai":{ // dev
+    "dev.mojogogo.ai":{ // dev
       FIREBASE_CONFIG: firebaseConfig.dev,
-      WEBSITE_HOME:  "https://dev.safegen.ai:8001",
-      BASE_API: "https://dev.safegen.ai:8001/v2",
-      SITE_TYPE: "1"
+      BASE_API: "http://dev.mojogogo.ai/v1/",
     },
-    "test.safegen.ai":{ // test
+    "test.mojogogo.ai":{ // test
       FIREBASE_CONFIG: firebaseConfig.test,
-      WEBSITE_HOME:  "https://test.safegen.ai:8001",
-      BASE_API: "https://test.safegen.ai:8001/v2",
-      SITE_TYPE: "1"
+      BASE_API: "https://dev.mojogogo.ai:8001/v2",
     },
-    "safegen.ai":{ // prod
+    "mojogogo.ai":{ // prod
       FIREBASE_CONFIG: firebaseConfig.prod,
-      WEBSITE_HOME: "https://www.safegen.ai",
-      BASE_API: "https://api.safegen.ai/v2",
-      SITE_TYPE: "1"
+      BASE_API: "https://api.mojogogo.ai/v2",
     }
-    // ...others
-    // online end
+     // online end
   }
 
   // 匹配配置
@@ -82,20 +67,14 @@
     for (const key in hostList) {
       if (key === curHostname) {
         window.FIREBASE_CONFIG = hostList[key].FIREBASE_CONFIG;
-        window.WEBSITE_HOME =  hostList[key].WEBSITE_HOME;
         window.BASE_API = hostList[key].BASE_API;
-        window.SITE_TYPE = hostList[key].SITE_TYPE;
-        window.IS_DEMO = hostList[key].IS_DEMO;
       }
     }
 
     if (!window.FIREBASE_CONFIG) { // 没有匹配到配置，默认使用生产环境
       let host = "safegen.ai"
       window.FIREBASE_CONFIG = hostList[host].FIREBASE_CONFIG;
-      window.WEBSITE_HOME =  hostList[host].WEBSITE_HOME;
       window.BASE_API = hostList[host].BASE_API;
-      window.SITE_TYPE = hostList[host].SITE_TYPE;
-      window.IS_DEMO = hostList[key].IS_DEMO;
     }
   }
   setConfig()

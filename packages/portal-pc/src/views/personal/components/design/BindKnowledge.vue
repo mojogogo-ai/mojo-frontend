@@ -79,7 +79,7 @@
             <div class="text-[var(--el-text-color-placeholder)] text-xs mb-2 inline-flex items-center">
               {{ t('base.label.createdAt') }}:
               {{
-                isCn ? base.created_at : dayjs(base.created_at)
+                dayjs(base.created_at)
                   .subtract(new Date().getTimezoneOffset(), 'minute')
                   .format('YYYY-MM-DD HH:mm:ss')
               }}
@@ -114,9 +114,6 @@ const visible = ref(false);
 const hoverState = reactive({});
 const __data = reactive({ baseList: [] });
 let isLoading = ref(false);
-const isCn = computed(() => {
-  return  window.SITE_TYPE && window.SITE_TYPE === '2'
-});
 
 const open = () => {
   visible.value = true;

@@ -188,8 +188,8 @@
 <script setup>
 import { filesize } from 'filesize';
 import { getToken } from '@gptx/base/utils/auth';
-import { getCurLang } from '@gptx/base';
-import { isMobi } from '@gptx/base/utils/index';
+// import { getCurLang } from '@gptx/base';
+// import { isMobi } from '@gptx/base/utils/index';
 import { downloadDocSample, saveKnowledgeDocFiles } from '@gptx/base/api/knowledge';
 import { t } from '@gptx/base/i18n';
 import IconHtml from '@/assets/images/base/upload/html.svg';
@@ -315,13 +315,12 @@ const onConfirmFileList = async () => {
 
 // 限制上传
 const handleBeforeUpload = async (file) => {
-  const lang = getCurLang();
+  // const lang = getCurLang();
   let authToken = await getToken();
   headers.value.Authorization = 'Bearer ' + authToken;
-  headers.value['X-Client-Locale'] = lang === 'zh' ? 'zh-CN' : lang;
-  headers.value['X-Client-Timezone-Offset'] = new Date().getTimezoneOffset(); // timezone offset
-  headers.value['X-Client-Type'] = isMobi() ? 'H5' : 'WEB'; // X-Client-Type
-  headers.value['X-Client-Site'] = window.SITE_TYPE; // X-Client-Site
+  // headers.value['X-Client-Locale'] = lang === 'zh' ? 'zh-CN' : lang;
+  // headers.value['X-Client-Timezone-Offset'] = new Date().getTimezoneOffset(); // timezone offset
+  // headers.value['X-Client-Type'] = isMobi() ? 'H5' : 'WEB'; // X-Client-Type
   const isLt1M = file.size / 1024 / 1024 < 20;
   if (!isLt1M) {
     ElMessage.error(`${t('base.fileName')}${file.name}${t('base.p')}20MB!`);

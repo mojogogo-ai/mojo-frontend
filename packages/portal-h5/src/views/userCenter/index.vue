@@ -8,7 +8,7 @@
           <van-cell>
             <div class="flex items-center text-base">
               <div class="mr-3">{{ t('user.d') }}</div>
-              <div class="mr-3 flex flex-1 justify-end">
+              <div class="flex justify-end flex-1 mr-3">
                 <van-image
                   width="32px"
                   height="32px"
@@ -23,10 +23,10 @@
             </div>
           </van-cell>
           <van-cell>
-            <div class="flex w-full items-center text-base">
+            <div class="flex items-center w-full text-base">
               <div class="mr-3">{{ t('user.nickName') }}</div>
-              <div class="mr-3 flex-1 overflow-hidden text-right">
-                <div class="line-clamp-1 w-full">@{{ user.nickName }}</div>
+              <div class="flex-1 mr-3 overflow-hidden text-right">
+                <div class="w-full line-clamp-1">@{{ user.nickName }}</div>
               </div>
               <van-icon
                 name="arrow"
@@ -35,10 +35,10 @@
             </div>
           </van-cell>
           <van-cell>
-            <div class="flex w-full items-center text-base">
+            <div class="flex items-center w-full text-base">
               <div class="mr-3">{{ t('user.account') }}</div>
-              <div class="mr-3 flex-1 overflow-hidden text-right">
-                <div class="line-clamp-1 w-full">{{ user.email || user.phoneNumber }}</div>
+              <div class="flex-1 mr-3 overflow-hidden text-right">
+                <div class="w-full line-clamp-1">{{ user.email || user.phoneNumber }}</div>
               </div>
               <van-icon
                 name="arrow"
@@ -54,7 +54,7 @@
           <van-cell @click="toInnerPage('/tasks')">
             <div class="flex items-center text-base">
               <div class="mr-3">MojoGogo Point</div>
-              <div class="mr-3 flex flex-1 justify-end">
+              <div class="flex justify-end flex-1 mr-3">
                 <van-tag size="large">25,500 pts</van-tag>
               </div>
               <van-icon
@@ -66,7 +66,7 @@
           <van-cell @click="toInnerPage('/refer')">
             <div class="flex items-center text-base">
               <div class="mr-3">Refer friends</div>
-              <div class="mr-3 flex flex-1 justify-end" />
+              <div class="flex justify-end flex-1 mr-3" />
               <van-icon
                 name="arrow"
                 color="#7a7a7a"
@@ -87,10 +87,10 @@
               :columns-field-names="{ text: 'lable' }"
               @update:model-value="changeLangCommand"
             >
-              <div class="flex w-full items-center text-base">
+              <div class="flex items-center w-full text-base">
                 <div class="mr-3">{{ t('user.preferredLanguage') }}</div>
-                <div class="mr-3 flex-1 overflow-hidden text-right">
-                  <div class="line-clamp-1 w-full">
+                <div class="flex-1 mr-3 overflow-hidden text-right">
+                  <div class="w-full line-clamp-1">
                     <div class="text-base">{{ language }}</div>
                   </div>
                 </div>
@@ -121,7 +121,7 @@
 </template>
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getCurLang, supportLang } from '@gptx/base';
+// import { getCurLang, supportLang } from '@gptx/base';
 import { getAuth, signOut } from 'firebase/auth';
 import useUserStore from '@/store/modules/user.js';
 import useLoginStore from '@/store/modules/login';
@@ -131,13 +131,13 @@ const router = useRouter();
 const user = useUserStore();
 const useLogin = useLoginStore();
 
-const curLang = ref(getCurLang());
-const langList = supportLang(); // 支持切换的语言
-const language = computed(() => {
-  return langList.find((i) => {
-    return i.value === curLang.value;
-  }).lable;
-});
+// const curLang = ref(getCurLang());
+// const langList = supportLang(); // 支持切换的语言
+// const language = computed(() => {
+//   return langList.find((i) => {
+//     return i.value === curLang.value;
+//   }).lable;
+// });
 // const isCn = computed(() => {
 //   return window.SITE_TYPE && window.SITE_TYPE === '2';
 // });
@@ -145,11 +145,11 @@ const language = computed(() => {
 /* ref dom */
 const baseInfoRef = ref(null);
 
-const changeLangCommand = (command) => {
-  if (command === curLang) return;
-  localStorage.setItem('lang', command);
-  window.location.reload();
-};
+// const changeLangCommand = (command) => {
+//   if (command === curLang) return;
+//   localStorage.setItem('lang', command);
+//   window.location.reload();
+// };
 const logout = async () => {
   try {
     const action = await showConfirmDialog({

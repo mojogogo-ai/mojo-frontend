@@ -53,6 +53,7 @@ const dialogVisible = ref(false);
 const firebaseLoading = ref(false)
 
 const handleToken = (user) => {
+  console.log(user,'user999')
   if (user) {
     firebaseLoading.value = true
     user.getIdToken().then((accessToken) => {
@@ -63,11 +64,9 @@ const handleToken = (user) => {
           nickName: user.displayName,
         };
         
-        welcomeAccess(accessToken, '').then((res) => {
-            if (res.code === 200) {
-              if (res.data && res.data.system_chat) {
-                localStorage.setItem('user', JSON.stringify(res.data.user_info));
-              }
+        welcomeAccess(accessToken).then((res) => {
+          console.log(res,'res000')
+            if (res.code === 0) {
               userStore.loginOthers(userInfo)
               emit('close')
               dialogVisible.value = false;

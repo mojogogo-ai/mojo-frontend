@@ -21,10 +21,7 @@ import './permission' // permission control
 import '@/styles/lib/tailwind.css'
 
 import { initializeApp } from 'firebase/app'
-// Initialize Firebase
-if (window.SITE_TYPE === '1') { // firebase
     initializeApp(FIREBASE_CONFIG);
- }
 
 const app = createApp(App)
 const pinia = createPinia()

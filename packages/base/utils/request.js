@@ -22,12 +22,6 @@ service.interceptors.request.use(
       }
     }
 
-    const lang = getCurLang()
-    config.headers['X-Client-Locale'] = lang === 'zh' ? 'zh-CN' : lang
-    config.headers['X-Client-Timezone-Offset'] = new Date().getTimezoneOffset() // timezone offset
-    config.headers['X-Client-Type'] = isMobi() ? 'H5' : 'WEB'// X-Client-Type
-    config.headers['X-Client-Site'] = window.SITE_TYPE // X-Client-Site
-    
     return config
   },
   (error) => {
@@ -52,14 +46,12 @@ service.interceptors.response.use(
       ElMessage.warning(t('login.re-login'))
       window.location.href = window.location.origin +  window.location.pathname + '#login'
 
-      if (window.SITE_TYPE === '1') { // firebase
-        const auth = getAuth();
-        signOut(auth).then(() => {
-          // Sign-out successful.
-        }).catch(() => {
-          // An error happened.
-        });
-      }
+      const auth = getAuth();
+      signOut(auth).then(() => {
+        // Sign-out successful.
+      }).catch(() => {
+        // An error happened.
+      });
       return Promise.reject('error 401')
     } else {
       ElMessage({ message: msg,  type: 'error' })

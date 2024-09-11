@@ -95,11 +95,7 @@ const AllTabList = ref([
 ]);
 
 const tabList = computed(()=>{
-  if (window.SITE_TYPE && window.SITE_TYPE === '2') {
-    return AllTabList.value.filter((i)=>{ return i.name!=='social' })
-  } else {
     return AllTabList.value
-  }
 })
 const currentTab = ref('plat');
 
