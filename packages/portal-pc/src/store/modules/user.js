@@ -41,7 +41,7 @@ const useUserStore = defineStore('user', {
             this.uid = user.uid || ''
             this.email = user.email || '';
             this.points = user.points || 0;
-            this.referalCode = user.referal_code || '';
+            this.referalCode = user.referral_code || '';
             localStorage.setItem('user', JSON.stringify(res.data.user));
           }
         })

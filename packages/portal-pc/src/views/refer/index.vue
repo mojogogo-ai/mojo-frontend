@@ -16,8 +16,11 @@
       <div class="mb-24 mt-8 flex flex-col items-center justify-center">
         <div class="homepage-code pb-4">Referral code:</div>
         <div class="refer-code">
-          23102455
-          <div class="refer-code-icon">
+          {{ user.referalCode }}
+          <div
+            class="refer-code-icon cursor-pointer"
+            @click="copyReferralCode(false)"
+          >
             <el-icon>
               <CopyDocument />
             </el-icon>
@@ -26,6 +29,7 @@
         <el-button
           class="w-[490px]"
           type="primary"
+          @click="copyReferralCode(true)"
         >
           Invite
         </el-button>
@@ -35,6 +39,27 @@
 </template>
 <script setup>
 import SocialMedia from '@/assets/images/refer/social-media.svg';
+import useUserStore from '@/store/modules/user.js';
+import { useClipboard } from '@vueuse/core';
+import { t } from '@gptx/base/i18n/index.js';
+
+const user = useUserStore();
+
+const copyReferralCode = (isWithLink) => {
+  console.log('copyReferralCode', isWithLink)
+  let copyText = user.referalCode;
+  if (isWithLink) {
+    const { origin, pathname } = window.location;
+    copyText = `${origin}${pathname}#/home?referral_code=${user.referalCode}`;
+  }
+  const { copy, copied } = useClipboard({ copyText, legacy: true });
+  copy(copyText);
+  if (copied) {
+    ElMessage.success(t('bots.bb'));
+  } else {
+    ElMessage.error(t('chat.copy2'));
+  }
+};
 </script>
 <style scoped lang="scss">
 .homepage-title {
