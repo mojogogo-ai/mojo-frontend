@@ -80,7 +80,7 @@ jobs:
           if [[ $BRANCH_NAME == "main" ]]; then
             echo "CLOUDFRONT_ID=???" >> $GITHUB_ENV
           elif [[ $BRANCH_NAME == "develop" ]]; then
-            echo "CLOUDFRONT_ID=E3LXJSISYGIU6I" >> $GITHUB_ENV
+            echo "CLOUDFRONT_ID=E36N073WH9X2JK" >> $GITHUB_ENV
           elif [[ $BRANCH_NAME == "release/v"* ]]; then
             if [[ $BRANCH_NAME == *"beta" ]]; then
               echo "CLOUDFRONT_ID=E3JIE3I173BQ5Z" >> $GITHUB_ENV
