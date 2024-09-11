@@ -66,7 +66,7 @@ const handleToken = (user) => {
         
         welcomeAccess(accessToken).then((res) => {
           console.log(res,'res000')
-            if (res.code === 0) {
+            if (res.code === 200) {
               userStore.loginOthers(userInfo)
               emit('close')
               dialogVisible.value = false;

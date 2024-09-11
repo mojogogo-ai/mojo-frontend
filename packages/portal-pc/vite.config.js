@@ -34,13 +34,11 @@ export default defineConfig(({ mode, command }) => {
       host: true,
       open: true,
       proxy: {
-        // https://cn.vitejs.dev/config/#server-proxy
-        // '/v1': {
-        //   // target: 'http://192.168.50.203:80/', // 开发
-        //   target: 'http://dev.mojogogo.ai/v1/', // 开发
-        //   changeOrigin: true,
-        //   // rewrite: (p) => p.replace(/^\/proxy-api/, '/v1')
-        // }
+        '/v1': {
+          target: 'https://api-dev.mojogogo.ai/portal/', // 开发
+          changeOrigin: true,
+          // rewrite: (p) => p.replace(/^\/proxy-api/, '/v1')
+        }
       }
     },
     optimizeDeps: optimize, // 目前没用到
