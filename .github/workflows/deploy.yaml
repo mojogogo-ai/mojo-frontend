@@ -1,0 +1,101 @@
+name: Upload to S3 and Invalidate CloudFront
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+on:
+  push:
+    branches:
+      - develop
+      # - main
+    paths-ignore:
+      - 'README.md'
+      # - '.github/**'
+
+env:
+  AWS_REGION: us-west-1
+  AWS_ASSUME_ROLE: arn:aws:iam::650443235714:role/mojogogo-aiGithubRole
+  CLOUDFRONT_ID: E3LXJSISYGIU6I
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install 
+
+      - name: Build Artifact
+        run: pnpm run build 
+
+      - name: Extract repository name
+        run: |
+          REPO_NAME=$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f2)
+          echo "The repository name is ${REPO_NAME}"
+          echo "REPO_NAME=${REPO_NAME}" >> $GITHUB_ENV
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+
+      - name: Extract tag name
+        id: extract_tag
+        run: echo "TAG_NAME=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
+
+      - name: Set S3 Bucket Name
+        id: set_bucket_name
+        run: |
+          if [[ $BRANCH_NAME == "main" ]]; then
+            echo "S3_BUCKET_NAME=$REPO_NAME" >> $GITHUB_ENV
+          elif [[ $BRANCH_NAME == "develop" ]]; then
+            echo "S3_BUCKET_NAME=$REPO_NAME-dev" >> $GITHUB_ENV
+          elif [[ $BRANCH_NAME == "release/v"* ]]; then
+            if [[ $BRANCH_NAME == *"beta" ]]; then
+              echo "S3_BUCKET_NAME=$REPO_NAME-stage" >> $GITHUB_ENV
+            else
+              echo "S3_BUCKET_NAME=$REPO_NAME-test" >> $GITHUB_ENV
+            fi
+          fi
+
+      - name: Set Cloudfront Id from branch name
+        id: set_cloudfront_id
+        run: |
+          if [[ $BRANCH_NAME == "main" ]]; then
+            echo "CLOUDFRONT_ID=???" >> $GITHUB_ENV
+          elif [[ $BRANCH_NAME == "develop" ]]; then
+            echo "CLOUDFRONT_ID=E3LXJSISYGIU6I" >> $GITHUB_ENV
+          elif [[ $BRANCH_NAME == "release/v"* ]]; then
+            if [[ $BRANCH_NAME == *"beta" ]]; then
+              echo "CLOUDFRONT_ID=E3JIE3I173BQ5Z" >> $GITHUB_ENV
+            else
+              echo "CLOUDFRONT_ID=E3SDQIHOKDU31N" >> $GITHUB_ENV
+            fi
+          fi
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ASSUME_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy pc to S3
+        run: aws s3 sync packages/protal-pc/dist s3://${{ env.S3_BUCKET_NAME }} --delete
+
+      - name: Deploy h5 to S3
+        run: aws s3 sync packages/protal-h5/dist s3://${{ env.S3_BUCKET_NAME }}/h5 --delete
+
+      - name: Invalidate CloudFront
+        run: aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_ID }} --paths "/*"
