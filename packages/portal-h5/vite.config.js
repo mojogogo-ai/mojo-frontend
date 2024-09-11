@@ -14,7 +14,7 @@ export default defineConfig(({ mode, command }) => {
     // 部署生产环境和开发环境下的URL。
     // 默认情况下，vite 会假设你的应用是被部署在一个域名的根路径上
     // 例如 https://www.dappworks.com/。如果应用被部署在一个子路径上，你就需要用这个选项指定这个子路径。例如，如果你的应用被部署在 https://www.dappworks.vip/admin/，则设置 baseUrl 为 /admin/。
-    base: command === 'build' || process.env.npm_lifecycle_event==='preview' ? '/portal-h5/' : '/',
+    base: command === 'build' || process.env.npm_lifecycle_event==='preview' ? '/h5/' : '/',
     plugins: [
       ...createVitePlugins(env, command === 'build'),
     ],

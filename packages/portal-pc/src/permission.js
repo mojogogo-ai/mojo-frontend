@@ -9,7 +9,7 @@ import { useDynamicTitle } from '@gptx/base/utils/dynamicTitle'
 router.beforeEach((to, from, next) => {
   // to h5
   if (isMobi()) {
-      window.location.href = new URL(window.location).origin + '/portal-h5';
+      window.location.href = new URL(window.location).origin + '/h5';
       next(false)
   }
   handleRoute(to, from, next)
