@@ -1,4 +1,4 @@
-import { welcomeAccess } from '@gptx/base/api/login';
+import { getUserInfo } from '@gptx/base/api/user';
 import { removeToken, setToken, setTokenExpire } from '@gptx/base/utils/auth';
 import defAva from '@/assets/logo/avatar-default.svg';
 
@@ -29,25 +29,22 @@ const useUserStore = defineStore('user', {
         resolve();
       });
     },
-    updateSysInfo() {
-      welcomeAccess()
-        .then((res) => {
-          console.log(res, 'res999');
-          if (res.data && res.data.user) {
-            const user = res.data.user;
-            const avatar = user.avatar === '' || user.avatar == null ? defAva : user.avatar;
-            this.nickName = user.nickname; // 昵称
-            this.avatar = avatar; // 头像
-            this.uid = user.uid || ''
-            this.email = user.email || '';
-            this.points = user.points || 0;
-            this.referalCode = user.referral_code || '';
-            localStorage.setItem('user', JSON.stringify(res.data.user));
-          }
-        })
-        .catch((err) => {
-          console.log(err, 'err');
-        });
+    async updateSysInfo() {
+      try {
+        const { code, data } = await getUserInfo();
+        if (code === 200 && data) {
+          const avatar = data.avatar === '' || data.avatar == null ? defAva : data.avatar;
+          this.nickName = data.nickname; // 昵称
+          this.avatar = avatar; // 头像
+          this.uid = data.uid || '';
+          this.email = data.email || '';
+          this.points = data.points || 0;
+          this.referalCode = data.referral_code || '';
+          localStorage.setItem('user', JSON.stringify(data));
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 });

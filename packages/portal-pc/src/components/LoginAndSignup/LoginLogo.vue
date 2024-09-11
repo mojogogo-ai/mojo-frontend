@@ -9,17 +9,24 @@
       />
       {{ $t('common.productName') }}
     </a>
-    <div class="my-8">
+    <div v-if="title" class="my-8">
+      {{ title }}
+    </div>
+    <div v-else class="my-8">
       {{ isLoginForm? 'Login' :'Sign up' }}
     </div>
   </div>
 </template>
-  
+
 <script setup>
 defineProps({
   isLoginForm: {
     type: Boolean,
     required: true
+  },
+  title: {
+    type: String,
+    default: ''
   }
 });
 </script>
@@ -51,4 +58,3 @@ defineProps({
   }
 }
 </style>
-  

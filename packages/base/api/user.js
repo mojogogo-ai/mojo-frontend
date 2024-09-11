@@ -9,7 +9,6 @@ export function updateUserInfo(data) {
   });
 }
 
-
 // 用户头像上传
 export function uploadAvatar(data) {
   return request({
@@ -32,5 +31,25 @@ export function userAvatarUpload(data, config) {
     },
     data,
     ...config
+  });
+}
+
+// get user info
+export function getUserInfo(token) {
+  return request({
+    url: '/v1/user/info',
+    method: 'get',
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  });
+}
+
+// confirm user invite
+export function confirmUserInvite(data) {
+  return request({
+    url: '/v1/user/invite',
+    method: 'post',
+    data
   });
 }

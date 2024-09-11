@@ -127,10 +127,6 @@ const infoList = ref([
   }
 ]);
 
-onBeforeMount(() => {
-  useUserStore().updateSysInfo();
-});
-
 // skip page
 const toPage = (item) => {
   console.log(item, 'item999');
