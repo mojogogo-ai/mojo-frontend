@@ -1,6 +1,7 @@
 * {
   /* 整个滚动条 */
   ::-webkit-scrollbar {
+    display: none;
     /* 对应纵向滚动条的宽度 */
     width: 6px;
     /* 对应横向滚动条的宽度 */

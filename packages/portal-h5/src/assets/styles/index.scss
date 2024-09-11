@@ -101,7 +101,7 @@ body {
 
   .van-cell {
     --van-cell-text-color: var(--h5-text-color-regular);
-    --van-cell-background: rgba(0, 0, 0, 0.5);
+    --van-cell-background: var(--h5-fill-color-light);
     backdrop-filter: var(--backdrop-blur);
 
     &__value {
