@@ -15,7 +15,7 @@ on:
 env:
   AWS_REGION: us-west-1
   AWS_ASSUME_ROLE: arn:aws:iam::650443235714:role/mojogogo-aiGithubRole
-  CLOUDFRONT_ID: E3LXJSISYGIU6I
+  CLOUDFRONT_ID: E36N073WH9X2JK
 
 jobs:
   build-and-deploy:
