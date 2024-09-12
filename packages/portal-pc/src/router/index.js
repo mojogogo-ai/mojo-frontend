@@ -98,18 +98,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/bot/:id?',
-    name: 'BotChat',
-    component: () => import('@/views/assistant/chat'),
-    meta: { title: t('menu.ass')}
-  },
-  {
-    path: '/bot-shared/:id?',
-    name: 'BotShared',
-    component: () => import('@/views/assistant/share'),
-    meta: { title: t('menu.ass')}
-  },
-  {
     path: '',
     component: Layout,
     children: [
