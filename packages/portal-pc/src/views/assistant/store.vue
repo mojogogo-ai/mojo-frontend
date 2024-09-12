@@ -4,7 +4,7 @@
       <!-- <div class="text-xl font-black">
         {{ t('menu.ass') }}
       </div> -->
-      <el-row>
+      <!-- <el-row>
         <el-col :span="6">
           <el-input
             v-model="appName"
@@ -13,22 +13,9 @@
             @input="onSearch"
           />
         </el-col>
-      </el-row>
+      </el-row> -->
     </div>
-    <div class="app-page-content flex flex-col">
-      <!--
-      <div class="shrink-0">
-        <el-segmented
-          v-model="activeTab"
-          :options="tabList.map((_) => ({ value: _.id, label: _.name }))"
-          @change="onTabChange"
-        >
-          <template #default="{ item: { label } }">
-            {{ t(label) }}
-          </template>
-        </el-segmented>
-      </div>
-      -->
+    <div class="flex flex-col app-page-content">
       <div
         v-loading="isLoading"
         element-loading-background="transparent"
@@ -49,17 +36,6 @@
               @open-new-chat="onOpenNewChat(appInfo)"
               @duplicate="onDuplicate(appInfo)"
             />
-            <!--
-            <el-pagination
-              class="mt-3 px-4 justify-center"
-              layout="prev, pager, next"
-              hide-on-single-page
-              background
-              :current-page="pageNum"
-              :page-size="pageSize"
-              :total="totalSize"
-            />
-            -->
           </div>
         </el-scrollbar>
         <template v-if="!__data.storeList.length && !isLoading">
@@ -71,22 +47,16 @@
         </template>
       </div>
     </div>
-    <bot-base-info
-      ref="baseInfoRef"
-      @after-create="onAfterCreate"
-    />
   </div>
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getList, getListCategory } from '@gptx/base/api/assistant-store';
+import { getList } from '@gptx/base/api/assistant-store';
 import { ListItem } from './components/store/index.js';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
 
 const router = useRouter();
-const tabList = reactive([]);
-const activeTab = ref(10000);
 const __data = reactive({
   storeList: []
 });
@@ -114,10 +84,6 @@ const onSearch = () => {
     getStoreList();
   }, 300);
 };
-const onTabChange = (value) => {
-  activeTab.value = value;
-  onSearch();
-};
 const onDropDownClick = (plat, { shared_social }) => {
   const { link } = shared_social[plat];
   window.open(link, '_blank');
@@ -130,14 +96,15 @@ const getStoreList = async () => {
   try {
     const { code, data } = await getList({
       search: appName.value,
-      category_id: activeTab.value,
+      // category_id: activeTab.value,
       page_num: pageNum,
       page_size: pageSize
     });
+    console.log(data,'data888')
     if (code === 200) {
       const {
         list,
-        page: { total }
+        total
       } = data;
       __data.storeList.push(...list);
       pageNum++;
@@ -149,20 +116,6 @@ const getStoreList = async () => {
     setTimeout(() => {
       isLoading.value = false;
     }, 300);
-  } catch (error) {
-    console.log(error);
-  }
-};
-const _getListCategory = async () => {
-  try {
-    const {
-      code,
-      data: { list }
-    } = await getListCategory();
-    if (code === 200) {
-      tabList.push(...list);
-      activeTab.value = list[0].id;
-    }
   } catch (error) {
     console.log(error);
   }
@@ -181,12 +134,8 @@ const onDuplicate = (appInfo) => {
     // category_id: appInfo.app_categories.map((_) => _.id)
   });
 };
-const onAfterCreate = async (data) => {
-  if (data && data.app_id) router.push(`/design/${data.app_id}`);
-};
 
 onMounted(async () => {
-  await _getListCategory();
   onSearch();
 });
 </script>

@@ -24,24 +24,23 @@
           <div class="flex items-center">
             <div
               class="line-clamp-1 flex-1 text-xl text-[var(--el-color-primary)]"
-              :title="appInfo.app_name"
+              :title="appInfo.name"
             >
-              {{ appInfo.app_name }}
+              {{ appInfo.name }}
             </div>
           </div>
           <div class="mt-2">
-            <el-avatar
+            <!-- <el-avatar
               class="align-middle"
               :size="16"
-            />
-            <span class="mr-1 text-xs text-[var(--el-text-color-placeholder)]"> user1518405835467 </span>
-            <span class="text-xs text-[var(--el-text-color-placeholder)]"> @{{ appInfo.author_name }} </span>
+            /> -->
+            <span class="text-xs text-[var(--el-text-color-placeholder)]"> @{{ appInfo.create_name }} </span>
           </div>
           <div
             class="my-1 line-clamp-4 h-[80px] text-[var(--el-text-color-placeholder)]"
-            :title="appInfo.app_description"
+            :title="appInfo.introduction"
           >
-            {{ appInfo.app_description }}
+            {{ appInfo.introduction }}
           </div>
           <div
             v-if="appInfo.app_categories && appInfo.app_categories.length"
@@ -87,7 +86,7 @@ import IconSlack from '@/assets/images/bots/publish/slack.svg';
 import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
 import IconReddit from '@/assets/images/bots/publish/reddit.svg';
 
-const props = defineProps({
+defineProps({
   appInfo: {
     type: Object,
     default: () => ({})
@@ -106,15 +105,6 @@ const platIcons = {
   line: IconLine
 };
 
-// watch(
-//   () => props.appInfo,
-//   ({ shared_social }) => {
-//     platList = [...Object.values(shared_social).filter((_) => _.enabled === true)];
-//   },
-//   {
-//     immediate: true
-//   }
-// );
 </script>
 
 <style lang="scss" scoped></style>

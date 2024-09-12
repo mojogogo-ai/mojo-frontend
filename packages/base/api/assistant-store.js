@@ -11,7 +11,7 @@ export const getListCategory = (params) =>
 // get list
 export const getList = (params) =>
   request({
-    url: '/portal/store/list-app',
+    url: '/v1//bot/list',
     method: 'get', 
     params
   });
