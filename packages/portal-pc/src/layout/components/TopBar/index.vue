@@ -181,30 +181,33 @@ watch(
   },
   { immediate: false }
 );
+onBeforeMount(() => {
+  const { query } = route;
+  if (query && query.referral_code) window.sessionStorage.setItem('referral_code', query.referral_code);
+});
 </script>
 
 <style lang="scss">
 .customs-sub-menu {
   border-radius: 20px;
-  padding: 15px;
+  padding: 10px 0;
 
-  &:hover {
-    background-color: transparent !important;
-  }
+  &.el-menu--horizontal {
+    .el-menu {
+      box-shadow: none !important;
+    }
 
-  .el-menu {
-    box-shadow: none !important;
-  }
-
-  .el-menu-item {
-    height: 70px !important;
-    line-height: unset !important;
+    .el-menu-item {
+      min-height: 70px;
+      height: auto !important;
+      padding: 15px;
+      line-height: unset !important;
+    }
   }
 }
 
 .el-popper .el-menu--horizontal .el-menu .el-menu-item:not(.is-disabled):focus,
 .el-popper .el-menu--horizontal .el-menu .el-menu-item:not(.is-disabled):hover {
-  background-color: transparent !important;
-  opacity: 0.75;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 </style>

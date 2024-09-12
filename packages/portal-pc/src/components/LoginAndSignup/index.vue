@@ -53,10 +53,14 @@ const dialogVisible = ref(false);
 // const AppleProvider = new OAuthProvider("apple.com");
 const firebaseLoading = ref(false);
 
-const handleToken = async (user) => {
-  if (user) {
-    firebaseLoading.value = true;
-    try {
+const handleToken = async (authResult) => {
+  firebaseLoading.value = true;
+  try {
+    if (user) {
+      const {
+        user,
+        additionalUserInfo: { isNewUser }
+      } = authResult;
       const accessToken = await user.getIdToken();
 
       const userInfo = {
@@ -65,20 +69,29 @@ const handleToken = async (user) => {
         id: user.uid,
         nickName: user.displayName
       };
-
-      const res = await welcomeAccess(accessToken);
-      if (res.code === 200) {
-        userStore.loginOthers(userInfo);
-        emit('close');
-        dialogVisible.value = false;
-        // window.location.reload();
-        // router.push({ path: "/home" });
+      let res;
+      const referralCode = window.sessionStorage.getItem('referral_code');
+      if (isNewUser) {
+        if (referralCode) {
+          res = await welcomeAccess(accessToken, { referral_code: referralCode });
+        } else {
+          res = await welcomeAccess(accessToken);
+          emit('referral');
+        }
+      } else {
+        res = await welcomeAccess(accessToken);
       }
-      firebaseLoading.value = false;
-    } catch (e) {
-      console.log(e);
-      firebaseLoading.value = false;
+      if (res.code === 200) {
+        await userStore.loginOthers(userInfo);
+        emit('close');
+        firebaseLoading.value = false;
+        dialogVisible.value = false;
+        window.sessionStorage.removeItem('referral_code');
+      }
     }
+  } catch (e) {
+    console.log(e);
+    firebaseLoading.value = false;
   }
 };
 
@@ -89,15 +102,8 @@ const userStore = useUserStore();
 const handleFireBaseUI = () => {
   let uiConfig = {
     callbacks: {
-      signInSuccessWithAuthResult: async function (authResult) {
-        console.log('signInSuccess: ', authResult);
-        await handleToken(authResult.user);
-        const {
-          additionalUserInfo: { isNewUser }
-        } = authResult;
-        if (isNewUser) {
-          emit('referral');
-        }
+      signInSuccessWithAuthResult: function (authResult) {
+        handleToken(authResult);
         return false;
       }
     },
