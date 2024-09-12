@@ -6,15 +6,15 @@
       input-area
       @search="onSearch"
     />
-    <van-search
+    <!-- <van-search
       v-model="appName"
       class="store-search"
       placeholder="Search"
       shape="round"
       background="transparent"
       @search="onSearch"
-    />
-    <div class="app-page-content flex flex-col">
+    /> -->
+    <div class="flex flex-col app-page-content">
       <!--      <div class="shrink-0">
               <van-tabs
                 v-model:active="activeTab"
@@ -30,7 +30,7 @@
             </div>-->
       <div
         v-if="isLoading"
-        class="flex flex-1 items-center justify-center"
+        class="flex items-center justify-center flex-1"
       >
         <van-loading
           class="cover-loading"
@@ -78,13 +78,13 @@
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getList, getListCategory } from '@gptx/base/api/assistant-store';
+import { getList } from '@gptx/base/api/assistant-store';
 import { ListItem } from './components/store/index.js';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
 
 const router = useRouter();
-const tabList = reactive([]);
-const activeTab = ref(10000);
+// const tabList = reactive([]);
+// const activeTab = ref(10000);
 const __data = reactive({
   storeList: []
 });
@@ -111,10 +111,6 @@ const onSearch = (value) => {
     getStoreList();
   }, 300);
 };
-const onTabChange = ({ name }) => {
-  activeTab.value = name;
-  onSearch();
-};
 const onDropDownClick = (plat, { shared_social }) => {
   const { link } = shared_social[plat];
   window.open(link, '_blank');
@@ -128,14 +124,14 @@ const getStoreList = async () => {
   try {
     const { code, data } = await getList({
       search: appName.value,
-      category_id: activeTab.value,
+      // category_id: activeTab.value,
       page_num: pageNum,
       page_size: pageSize
     });
     if (code === 200) {
       const {
         list,
-        page: { total }
+        total
       } = data;
       __data.storeList.push(...list);
       pageNum++;
@@ -150,20 +146,7 @@ const getStoreList = async () => {
     console.log(error);
   }
 };
-const _getListCategory = async () => {
-  try {
-    const {
-      code,
-      data: { list }
-    } = await getListCategory();
-    if (code === 200) {
-      tabList.push(...list);
-      activeTab.value = list[0].id;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+
 const onScroll = ({ target: { scrollTop, scrollHeight, offsetHeight } }) => {
   if (scrollHeight - offsetHeight <= scrollTop) getStoreList();
 };
@@ -182,7 +165,6 @@ const afterCreateBot = async (data) => {
 };
 
 onMounted(async () => {
-  await _getListCategory();
   onSearch();
 });
 </script>

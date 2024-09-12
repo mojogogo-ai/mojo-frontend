@@ -23,11 +23,12 @@
                 style="border: 1px solid rgba(224, 255, 49, 0.5)"
                 class="rounded-full px-3 py-1 mx-2 text-xs text-[#e1ff01]"
               >
-                <CountTo
+                <span>{{ user.points }} pts</span>
+                <!-- <CountTo
                   suffix="pts"
                   :decimals="0"
                   :end-val="user.points"
-                />
+                /> -->
               </div>
             </div>
           </div>

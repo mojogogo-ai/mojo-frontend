@@ -9,7 +9,7 @@
           <el-image
             class="page-list-img"
             fit="cover"
-            :src="appInfo.app_icon || defaultBotImage"
+            :src="appInfo.icon || defaultBotImage"
           >
             <template #error>
               <div class="page-list-img__error">
@@ -42,7 +42,7 @@
           >
             {{ appInfo.introduction }}
           </div>
-          <div
+          <!-- <div
             v-if="appInfo.app_categories && appInfo.app_categories.length"
             class="mt-2"
           >
@@ -53,7 +53,7 @@
             >
               {{ t(name) }}
             </el-tag>
-          </div>
+          </div> -->
         </div>
       </div>
       <template #footer>
@@ -76,7 +76,7 @@
 </template>
 
 <script setup>
-import { t } from '@gptx/base/i18n';
+// import { t } from '@gptx/base/i18n';
 import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
 import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
 import IconDiscord from '@/assets/images/bots/publish/discord.svg';

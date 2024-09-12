@@ -84,9 +84,9 @@ const onSearch = () => {
     getStoreList();
   }, 300);
 };
-const onDropDownClick = (plat, { shared_social }) => {
-  const { link } = shared_social[plat];
-  window.open(link, '_blank');
+const onDropDownClick = (plat, { address }) => {
+  // const { link } = shared_social[plat];
+  window.open(address, '_blank');
 };
 const onOpenNewChat = ({ app_id }) => {
   router.push(`/bot/${app_id}`);
