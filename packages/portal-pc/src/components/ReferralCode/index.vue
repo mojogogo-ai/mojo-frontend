@@ -5,10 +5,13 @@
     width="800px"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    :before-close="close"
+    :before-close="onBeforeClose"
   >
     <LoginLogo title="Referral Code" />
-    <el-form class="referral-form mx-auto mb-12 w-[500px]">
+    <el-form
+      class="referral-form mx-auto mb-12 w-[500px]"
+      :disabled="isLoading"
+    >
       <el-form-item>
         <el-input
           v-model="code"
@@ -25,6 +28,7 @@
           type="info"
           size="large"
           class="w-full"
+          :loading="isLoading"
           @click="emit('confirm', code)"
         >
           Continue
@@ -40,26 +44,37 @@ import { ElMessageBox } from 'element-plus';
 const emit = defineEmits(['close', 'confirm']);
 const isDialogVisible = ref(false);
 const code = ref('');
+const isLoading = ref(false);
 
 const open = () => {
   isDialogVisible.value = true;
 };
 
-const close = async () => {
+const close = () => {
+  isDialogVisible.value = false;
+  emit('close');
+};
+
+const onBeforeClose = async () => {
   try {
     const action = await ElMessageBox.confirm('Are you sure to skip referral?', {
       title: 'System Tip',
       customClass: 'referral-confirm'
     });
     if (action === 'confirm') {
-      isDialogVisible.value = false;
+      close();
     }
   } catch (e) {
     console.log(e);
   }
+  emit('close');
 };
 
-defineExpose({ close, open });
+const setIsLoading = (loading) => {
+  isLoading.value = loading;
+};
+
+defineExpose({ close, open, setIsLoading });
 </script>
 
 <style lang="scss">
@@ -94,6 +109,8 @@ defineExpose({ close, open });
     --el-input-border-color: var(-el-border-color);
     --el-input-text-color: var(--el-text-color-primary);
     --el-input-placeholder-color: var(--el-text-color-secondary);
+    --el-disabled-bg-color: rgba(0, 0, 0, 0.1);
+    --el-disabled-text-color: var(--el-text-color-secondary);
   }
 
   .el-button {
@@ -102,6 +119,8 @@ defineExpose({ close, open });
       --el-button-text-color: var(--el-color-black);
       --el-button-hover-bg-color: var(--el-text-color-secondary);
       --el-button-hover-text-color: var(--el-text-color-placeholder);
+      --el-button-disabled-bg-color: rgba(0, 0, 0, 0.3);
+      --el-button-disabled-text-color: var(--el-text-color-secondary);
     }
   }
 }

@@ -48,7 +48,7 @@ export function getUserInfo(token) {
 // confirm user invite
 export function confirmUserInvite(data) {
   return request({
-    url: '/v1/user/invite',
+    url: '/v1/user/invited',
     method: 'post',
     data
   });

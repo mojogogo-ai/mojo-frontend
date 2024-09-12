@@ -120,13 +120,18 @@ const onOpenReferralCodeDialog = async () => {
   await nextTick();
   referralCodeRef.value.open();
 };
-//TODO
+
 const onConfirmUserInvite = async (refer_code) => {
-  const res = await confirmUserInvite({ refer_code });
-  if (res.code === 200) {
-    ElMessage.success(res.message);
-  } else {
-    ElMessage.error(res.message);
+  try {
+    referralCodeRef.value.setIsLoading(true);
+    const { code } = await confirmUserInvite({ refer_code });
+    if (code === 200) {
+      referralCodeRef.value.setIsLoading(false);
+      referralCodeRef.value.close();
+    }
+  } catch (e) {
+    console.log(e);
+    referralCodeRef.value.setIsLoading(false);
   }
 };
 
@@ -184,7 +189,7 @@ watch(
   padding: 15px;
 
   &:hover {
-    background-color: none !important;
+    background-color: transparent !important;
   }
 
   .el-menu {
@@ -193,7 +198,7 @@ watch(
 
   .el-menu-item {
     height: 70px !important;
-    line-height: none !important;
+    line-height: unset !important;
   }
 }
 

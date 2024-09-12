@@ -1,5 +1,5 @@
 import { getUserInfo } from '@gptx/base/api/user';
-import { removeToken, setToken, setTokenExpire } from '@gptx/base/utils/auth';
+import { getIsLogin, removeToken, setToken, setTokenExpire } from '@gptx/base/utils/auth';
 import defAva from '@/assets/logo/avatar-default.svg';
 
 const useUserStore = defineStore('user', {
@@ -31,16 +31,19 @@ const useUserStore = defineStore('user', {
     },
     async updateSysInfo() {
       try {
-        const { code, data } = await getUserInfo();
-        if (code === 200 && data) {
-          const avatar = data.avatar === '' || data.avatar == null ? defAva : data.avatar;
-          this.nickName = data.nickname; // 昵称
-          this.avatar = avatar; // 头像
-          this.uid = data.uid || '';
-          this.email = data.email || '';
-          this.points = data.points || 0;
-          this.referalCode = data.referral_code || '';
-          localStorage.setItem('user', JSON.stringify(data));
+        const isLogin = await getIsLogin();
+        if (isLogin) {
+          const { code, data } = await getUserInfo();
+          if (code === 200 && data) {
+            const avatar = data.avatar === '' || data.avatar == null ? defAva : data.avatar;
+            this.nickName = data.nickname; // 昵称
+            this.avatar = avatar; // 头像
+            this.uid = data.uid || '';
+            this.email = data.email || '';
+            this.points = data.points || 0;
+            this.referalCode = data.referral_code || '';
+            localStorage.setItem('user', JSON.stringify(data));
+          }
         }
       } catch (e) {
         console.log(e);
