@@ -4,7 +4,7 @@
       class="flex-none"
       :collapse="false"
     />
-    <div class="flex-1 overflow-x-hidden overflow-y-auto">
+    <div class="flex-1 overflow-y-auto overflow-x-hidden">
       <div class="sidebar-menu">
         <sidebar-item :item="indexPage" />
       </div>
@@ -31,8 +31,14 @@
       </template>
     </div>
     <div class="sidebar-menu">
-      <user v-if="isLogin" class="flex-none" />
-      <NoLogin v-else @login-signup="onCreateClick" />
+      <user
+        v-if="isLogin"
+        class="flex-none"
+      />
+      <NoLogin
+        v-else
+        @login-signup="onCreateClick"
+      />
     </div>
   </div>
 </template>
@@ -43,14 +49,18 @@ import SidebarItem from './SidebarItem';
 import NoLogin from './NoLogin';
 import User from './User';
 import { constantRoutes } from '@/router';
-import { getIsLogin } from '@gptx/base/utils/auth'
-    
-import useLoginStore from '@/store/modules/login'
+import { getIsLogin } from '@gptx/base/utils/auth';
+
+import useLoginStore from '@/store/modules/login';
+
 const useLogin = useLoginStore();
 
 const isLogin = ref(false);
-onBeforeMount(async () => {
-    isLogin.value = await getIsLogin()
+const setIsLogin = async () => {
+  isLogin.value = await getIsLogin();
+};
+onBeforeMount(() => {
+  setIsLogin();
 });
 
 // 左边侧边栏菜单
@@ -99,11 +109,14 @@ const personalPage = computed(() => {
 
 const onCreateClick = () => {
   const useLogin = useLoginStore();
-  useLogin.openLoginDialog()
+  useLogin.openLoginDialog();
 };
-watch(() => useLogin.isLogOut,() => { 
-  isLogin.value = false
-},{ immediate: false });
-
-
+watch(
+  () => useLogin.isLogOut,
+  () => {
+    isLogin.value = false;
+  },
+  { immediate: false }
+);
+defineExpose({ setIsLogin });
 </script>

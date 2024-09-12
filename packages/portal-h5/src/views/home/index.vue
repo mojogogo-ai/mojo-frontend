@@ -8,9 +8,11 @@
         power of AI to streamline operations, enhance customer engagement, and protect data privacy - all in one place.
       </div>
       <van-button
+        v-if="!isLogin"
         class="mb-4"
         size="large"
         type="primary"
+        @click="onOpenLoginDialog"
       >
         Log in
       </van-button>
@@ -73,6 +75,32 @@
 import { t } from '@gptx/base/i18n';
 import Pic1 from '@/assets/images/homepage/pic1.png';
 import Pic2 from '@/assets/images/homepage/pic2.png';
+import { getIsLogin } from '@gptx/base/utils/auth';
+import useLoginStore from '@/store/modules/login.js';
+
+const route = useRoute();
+let isLogin = ref(false);
+const useLogin = useLoginStore();
+const isOpened = computed(() => useLogin.loginDialog);
+
+const onOpenLoginDialog = () => {
+  useLogin.openLoginDialog();
+};
+
+watch(
+  isOpened,
+  async (val) => {
+    isLogin.value = await getIsLogin();
+  },
+  {
+    immediate: true
+  }
+);
+
+onBeforeMount(async () => {
+  const { query } = route;
+  if (query && query.referral_code) window.sessionStorage.setItem('referral_code', query.referral_code);
+});
 </script>
 
 <style lang="scss" scoped>

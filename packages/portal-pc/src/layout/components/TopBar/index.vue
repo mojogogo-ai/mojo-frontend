@@ -111,6 +111,8 @@ const handleSelect = (key, keyPath) => {
 onBeforeMount(async () => {
   await useUserStore().updateSysInfo();
   isLogin.value = await getIsLogin();
+  const { query } = route;
+  if (query && query.referral_code) window.sessionStorage.setItem('referral_code', query.referral_code);
 });
 const onLoginClose = async () => {
   await useUser.updateSysInfo();
@@ -181,10 +183,6 @@ watch(
   },
   { immediate: false }
 );
-onBeforeMount(() => {
-  const { query } = route;
-  if (query && query.referral_code) window.sessionStorage.setItem('referral_code', query.referral_code);
-});
 </script>
 
 <style lang="scss">

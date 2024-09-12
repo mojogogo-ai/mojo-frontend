@@ -1,24 +1,36 @@
 <template>
   <div class="login-logo">
-    <a
-      class="login-logo__link"
-    >
+    <a class="login-logo__link">
       <svg-icon
+        class="mr-2"
         name="logo"
       />
       {{ $t('common.productName') }}
     </a>
-    <div class="my-8">
-      {{ isLoginForm? 'Login' :'Sign up' }}
+    <div
+      v-if="title"
+      class="my-8"
+    >
+      {{ title }}
+    </div>
+    <div
+      v-else
+      class="my-8"
+    >
+      {{ isLoginForm ? 'Login' : 'Sign up' }}
     </div>
   </div>
 </template>
-  
+
 <script setup>
 defineProps({
   isLoginForm: {
     type: Boolean,
     required: true
+  },
+  title: {
+    type: String,
+    default: ''
   }
 });
 </script>
@@ -31,23 +43,19 @@ defineProps({
   color: #000;
 
   a {
-    font-family: "Druk Wide Bold", monospace;
+    font-family: 'Druk Wide Bold', monospace;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 4px 0 0;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 700;
     color: #000;
   }
-  > div{
-    font-family: Inter;
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 31.47px;
-    text-align: center;
 
+  > div {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
   }
 }
 </style>
-  

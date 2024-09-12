@@ -1,7 +1,7 @@
 <template>
   <div class="app-page">
     <page-header class="shrink-0" />
-    <div class="font-Inter mb-4 mt-16 flex justify-center text-[32px] text-highlight">Your Task List</div>
+    <div class="font-Inter text-highlight mb-4 mt-16 flex justify-center text-[32px]">Your Task List</div>
     <div class="app-page-content flex flex-col">
       <!--
       <div class="shrink-0">
@@ -44,9 +44,6 @@
             <list-item
               v-for="appInfo in __data.storeList"
               :app-info="appInfo"
-              @open-with="onDropDownClick($event, appInfo)"
-              @open-new-chat="onOpenNewChat(appInfo)"
-              @duplicate="onDuplicate(appInfo)"
             />
           </div>
         </div>
@@ -59,16 +56,12 @@
         </template>
       </div>
     </div>
-    <bot-base-info
-      ref="baseInfoRef"
-      @after-create="onAfterCreate"
-    />
   </div>
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getList, getListCategory } from '@gptx/base/api/assistant-store';
+import { getList } from '@gptx/base/api/assistant-store';
 import ListItem from './components/ListItem';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
 import TaskImg01 from '@/assets/images/tasks/01.svg';
@@ -108,44 +101,13 @@ const onSearch = () => {
     getStoreList();
   }, 300);
 };
-const onDropDownClick = (plat, { shared_social }) => {
-  const { link } = shared_social[plat];
-  window.open(link, '_blank');
-};
-const onOpenNewChat = ({ app_id }) => {
-  router.push(`/bot/${app_id}`);
-};
 const getStoreList = async () => {
   if (!isLoadMore) return;
-  /*try {
-    const { code, data } = await getList({
-      search: appName.value,
-      category_id: activeTab.value,
-      page_num: pageNum,
-      page_size: pageSize
-    });
-    if (code === 200) {
-      const {
-        list,
-        page: { total }
-      } = data;
-      __data.storeList.push(...list);
-      pageNum++;
-      if (__data.storeList.length >= total) {
-        isLoadMore = false;
-      }
-    }
-    setTimeout(() => {
-      isLoading.value = false;
-    }, 300);
-  } catch (error) {
-    console.log(error);
-  }*/
   __data.storeList.push(
     ...[
       {
         app_name: 'Sign up with Mojo Gogo',
-        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_description: 'Sign up/Log in with Apple ID,Gmail,or other email account.',
         app_icon: TaskImg01,
         points: '+ 200 pts'
       },
@@ -166,22 +128,22 @@ const getStoreList = async () => {
         app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
         app_icon: TaskImg04,
         points: '+ 5 pts'
-      },*/
+      },
       {
         app_name: 'Interact with ChatBot',
         app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
         app_icon: TaskImg05,
         points: '+ 5 pts'
-      },
+      },*/
       {
         app_name: 'Refer Friends',
-        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_description: 'Refer friends to use and successfully complete the registration.',
         app_icon: TaskImg06,
         points: '+ 50 pts'
       },
       {
         app_name: 'Daily Login and Check-In',
-        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+        app_description: 'Daily login,check-in and interact.',
         app_icon: TaskImg07,
         points: '+ 5 pts'
       }
@@ -192,40 +154,12 @@ const getStoreList = async () => {
     isLoading.value = false;
   }, 300);
 };
-const _getListCategory = async () => {
-  try {
-    const {
-      code,
-      data: { list }
-    } = await getListCategory();
-    if (code === 200) {
-      tabList.push(...list);
-      activeTab.value = list[0].id;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
 const onScroll = ({ scrollTop }) => {
   const wrap = scrollbar.value.wrapRef;
   if (wrap.scrollHeight - scrollTop <= wrap.offsetHeight) getStoreList();
 };
-// duplicate assistant
-const onDuplicate = (appInfo) => {
-  baseInfoRef.value.open({
-    from_id: appInfo.app_id,
-    name: `${appInfo.app_name}${t('bots.backup')}`,
-    icon: appInfo.app_icon,
-    description: appInfo.app_description
-    // category_id: appInfo.app_categories.map((_) => _.id)
-  });
-};
-const onAfterCreate = async (data) => {
-  if (data && data.app_id) router.push(`/design/${data.app_id}`);
-};
 
 onMounted(async () => {
-  await _getListCategory();
   onSearch();
 });
 </script>
@@ -250,6 +184,7 @@ onMounted(async () => {
     height: 80px;
   }
 }
+
 .store-scroll {
   height: 100%;
   overflow: hidden auto;

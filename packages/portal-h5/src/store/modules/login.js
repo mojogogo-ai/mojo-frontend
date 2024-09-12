@@ -8,7 +8,10 @@ const useUserStore = defineStore(
     }),
     actions: {
       openLoginDialog () {
-        this.loginDialog =  !this.loginDialog
+        this.loginDialog =  true
+      },
+      closeLoginDialog () {
+        this.loginDialog =  false
       },
       toLoginOut () {
         this.isLogOut =  !this.isLogOut
