@@ -16,18 +16,12 @@
 
           <div class="flex flex-col">
             <div>
-              <div class="user-code">{{ user.uid }}</div>
+              <div class="user-code">@{{ user.nickName }}</div>
             </div>
             <div class="flex items-center">
               <div
-                class="nick-name"
-                :title="`@${user.nickName}`"
-              >
-                @{{ user.nickName }}
-              </div>
-              <div
                 style="border: 1px solid rgba(224, 255, 49, 0.5)"
-                class="rounded-full px-3 py-1 text-xs text-[#e1ff01]"
+                class="rounded-full px-3 py-1 mx-2 text-xs text-[#e1ff01]"
               >
                 <CountTo
                   suffix="pts"
@@ -41,16 +35,16 @@
       </template>
       <template #default>
         <div>
-          <div class="avatar-wrapper2 flex items-center p-5">
+          <div class="flex items-center px-5 avatar-wrapper2">
             <el-avatar
               :size="70"
               :src="user.avatar"
             />
 
             <div class="flex flex-col">
-              <div>
+              <!-- <div>
                 <div class="user-code">{{ user.uid }}</div>
-              </div>
+              </div> -->
               <div class="flex items-center">
                 <div
                   class="nick-name"
@@ -167,13 +161,6 @@ const logoutHandle = async () => {
   border-radius: 8px;
   cursor: pointer;
 
-  .user-avatar {
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-  }
-
   .nick-name {
     margin: 0 10px;
     font-size: 13px;
@@ -205,12 +192,6 @@ const logoutHandle = async () => {
   align-items: center;
   border-radius: 8px;
 
-  .user-avatar {
-    cursor: pointer;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-  }
 
   .nick-name {
     margin: 0 0 6px 10px;
