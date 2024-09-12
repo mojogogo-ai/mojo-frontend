@@ -1,7 +1,7 @@
 <template>
   <div class="app-page">
     <div class="font-Inter mb-5 mt-10 flex justify-center text-[32px] text-[#E1FF01]">Your Task List</div>
-    <div class="app-page-content flex flex-col">
+    <div class="flex flex-col app-page-content">
       <div
         v-loading="isLoading"
         element-loading-background="transparent"
@@ -18,9 +18,6 @@
             <list-item
               v-for="appInfo in __data.storeList"
               :app-info="appInfo"
-              @open-with="onDropDownClick($event, appInfo)"
-              @open-new-chat="onOpenNewChat(appInfo)"
-              @duplicate="onDuplicate(appInfo)"
             />
           </div>
         </el-scrollbar>
@@ -33,41 +30,29 @@
         </template>
       </div>
     </div>
-    <bot-base-info
-      ref="baseInfoRef"
-      @after-create="onAfterCreate"
-    />
   </div>
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getList, getListCategory } from '@gptx/base/api/assistant-store';
 import ListItem from './components/ListItem';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
 import TaskImg01 from '@/assets/images/tasks/01.svg';
-import TaskImg02 from '@/assets/images/tasks/02.svg';
-import TaskImg03 from '@/assets/images/tasks/03.svg';
-import TaskImg04 from '@/assets/images/tasks/04.svg';
-import TaskImg05 from '@/assets/images/tasks/05.svg';
+// import TaskImg02 from '@/assets/images/tasks/02.svg';
+// import TaskImg03 from '@/assets/images/tasks/03.svg';
+// import TaskImg04 from '@/assets/images/tasks/04.svg';
+// import TaskImg05 from '@/assets/images/tasks/05.svg';
 import TaskImg06 from '@/assets/images/tasks/06.svg';
 import TaskImg07 from '@/assets/images/tasks/07.svg';
 
-const router = useRouter();
-const tabList = reactive([]);
-const activeTab = ref(10000);
 const __data = reactive({
   storeList: []
 });
-let pageNum = 1;
-let pageSize = 36;
 let isLoadMore = true;
-const appName = ref('');
 let timer = null;
 const isLoading = ref(true);
 /* ref dom */
 const scrollbar = ref(null);
-const baseInfoRef = ref(null);
 
 const onSearch = () => {
   if (timer) {
@@ -75,46 +60,15 @@ const onSearch = () => {
     timer = null;
   }
   timer = setTimeout(() => {
-    pageNum = 1;
     isLoadMore = true;
     __data.storeList = [];
     isLoading.value = true;
     getStoreList();
   }, 300);
 };
-const onDropDownClick = (plat, { shared_social }) => {
-  const { link } = shared_social[plat];
-  window.open(link, '_blank');
-};
-const onOpenNewChat = ({ app_id }) => {
-  router.push(`/bot/${app_id}`);
-};
+
 const getStoreList = async () => {
   if (!isLoadMore) return;
-  /*try {
-    const { code, data } = await getList({
-      search: appName.value,
-      category_id: activeTab.value,
-      page_num: pageNum,
-      page_size: pageSize
-    });
-    if (code === 200) {
-      const {
-        list,
-        page: { total }
-      } = data;
-      __data.storeList.push(...list);
-      pageNum++;
-      if (__data.storeList.length >= total) {
-        isLoadMore = false;
-      }
-    }
-    setTimeout(() => {
-      isLoading.value = false;
-    }, 300);
-  } catch (error) {
-    console.log(error);
-  }*/
   __data.storeList.push(
     ...[
       {
@@ -166,40 +120,12 @@ const getStoreList = async () => {
     isLoading.value = false;
   }, 300);
 };
-const _getListCategory = async () => {
-  try {
-    const {
-      code,
-      data: { list }
-    } = await getListCategory();
-    if (code === 200) {
-      tabList.push(...list);
-      activeTab.value = list[0].id;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
 const onScroll = ({ scrollTop }) => {
   const wrap = scrollbar.value.wrapRef;
   if (wrap.scrollHeight - scrollTop <= wrap.offsetHeight) getStoreList();
 };
-// duplicate assistant
-const onDuplicate = (appInfo) => {
-  baseInfoRef.value.open({
-    from_id: appInfo.app_id,
-    name: `${appInfo.app_name}${t('bots.backup')}`,
-    icon: appInfo.app_icon,
-    description: appInfo.app_description
-    // category_id: appInfo.app_categories.map((_) => _.id)
-  });
-};
-const onAfterCreate = async (data) => {
-  if (data && data.app_id) router.push(`/design/${data.app_id}`);
-};
 
 onMounted(async () => {
-  await _getListCategory();
   onSearch();
 });
 </script>
