@@ -33,6 +33,7 @@
           <van-button
             class="w-4/5"
             type="primary"
+            @click="jump('/user')"
           >
             Personal
           </van-button>
@@ -55,6 +56,7 @@
           <van-button
             class="w-4/5"
             type="primary"
+            @click="jump('/assistant')"
           >
             Explore
           </van-button>
@@ -79,6 +81,7 @@ import { getIsLogin } from '@gptx/base/utils/auth';
 import useLoginStore from '@/store/modules/login.js';
 
 const route = useRoute();
+const router = useRouter();
 let isLogin = ref(false);
 const useLogin = useLoginStore();
 const isOpened = computed(() => useLogin.loginDialogVisible);
@@ -86,6 +89,10 @@ const isOpened = computed(() => useLogin.loginDialogVisible);
 const onOpenLoginDialog = () => {
   useLogin.setLoginDialogVisible(true);
 };
+
+const jump = (path) => {
+  router.push(path);
+}
 
 watch(
   isOpened,
