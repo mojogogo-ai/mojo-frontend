@@ -5,6 +5,7 @@
     width="500"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
+    :before-close="onBeforeClose"
   >
     <div
       v-if="dialogVisible"
@@ -26,9 +27,9 @@
       />
       <div class="login-footer">
         By continuing, you are agreeing to Mojo Gogo’s
-        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Terms of Service </span>
+        <span class="cursor-pointer underline underline-offset-4 hover:opacity-75"> Terms of Service </span>
         and
-        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Privacy Policy. </span>
+        <span class="cursor-pointer underline underline-offset-4 hover:opacity-75"> Privacy Policy. </span>
       </div>
     </div>
   </el-dialog>
@@ -47,12 +48,16 @@ import 'firebaseui/dist/firebaseui.css';
 import { welcomeAccess } from '@gptx/base/api/login';
 import { nextTick } from 'vue';
 
-const emit = defineEmits(['close', 'referral']);
+const emit = defineEmits(['close', 'dialog-close', 'referral']);
 const dialogVisible = ref(false);
 
 // const AppleProvider = new OAuthProvider("apple.com");
 const firebaseLoading = ref(false);
 
+const onBeforeClose = (done) => {
+  emit('dialog-close');
+  done();
+};
 const handleToken = async (authResult) => {
   firebaseLoading.value = true;
   try {

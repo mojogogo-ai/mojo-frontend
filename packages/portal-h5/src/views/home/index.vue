@@ -81,10 +81,10 @@ import useLoginStore from '@/store/modules/login.js';
 const route = useRoute();
 let isLogin = ref(false);
 const useLogin = useLoginStore();
-const isOpened = computed(() => useLogin.loginDialog);
+const isOpened = computed(() => useLogin.loginDialogVisible);
 
 const onOpenLoginDialog = () => {
-  useLogin.openLoginDialog();
+  useLogin.setLoginDialogVisible(true);
 };
 
 watch(

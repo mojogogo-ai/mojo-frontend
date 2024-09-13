@@ -21,7 +21,7 @@ async function handleRoute(to, from, next) {
   } else { // 没有登录，没有token
     if (whiteList.indexOf(toPatch) ===-1) {
       const useLogin = useLoginStore();
-      useLogin.openLoginDialog()
+      useLogin.setLoginDialogVisible(true)
       next('/home')
     } else {
       next()

@@ -109,7 +109,7 @@ const personalPage = computed(() => {
 
 const onCreateClick = () => {
   const useLogin = useLoginStore();
-  useLogin.openLoginDialog();
+  useLogin.setLoginDialogVisible(true);
 };
 watch(
   () => useLogin.isLogOut,

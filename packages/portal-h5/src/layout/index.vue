@@ -15,6 +15,7 @@
       <!-- login or sign up -->
       <LoginAndSignup
         ref="loginRef"
+        @dialog-close="onLoginDialogClose"
         @close="onLoginClose"
         @referral="onOpenReferralCodeDialog"
       />
@@ -50,10 +51,13 @@ const botRef = ref(null);
 const referralCodeRef = ref(null);
 const sidebarRef = ref(null);
 
+const onLoginDialogClose = () => {
+  useLogin.setLoginDialogVisible(false);
+};
 const onLoginClose = async () => {
   await useUser.updateSysInfo();
   if (sidebarRef.value) sidebarRef.value.setIsLogin();
-  else useLogin.closeLoginDialog();
+  onLoginDialogClose()
 };
 const onOpenReferralCodeDialog = async () => {
   await nextTick();
@@ -82,8 +86,9 @@ watch(
 );
 
 watch(
-  () => useLogin.loginDialog,
+  () => useLogin.loginDialogVisible,
   (isOpen) => {
+    console.log(isOpen)
     if (isOpen) loginRef.value.open();
   },
   { immediate: false }

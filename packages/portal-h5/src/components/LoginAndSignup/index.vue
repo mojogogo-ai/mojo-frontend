@@ -12,6 +12,7 @@
     }"
     :close-on-click-overlay="false"
     :close-on-popstate="false"
+    :before-close="onBeforeClose"
   >
     <div
       v-if="dialogVisible"
@@ -54,12 +55,15 @@ import 'firebaseui/dist/firebaseui.css';
 import { welcomeAccess } from '@gptx/base/api/login';
 import { nextTick } from 'vue';
 
-const emit = defineEmits(['close', 'referral']);
+const emit = defineEmits(['close', 'dialog-close', 'referral']);
 const dialogVisible = ref(false);
 
 // const AppleProvider = new OAuthProvider("apple.com");
 const firebaseLoading = ref(false);
-
+const onBeforeClose = () => {
+  emit('dialog-close');
+  return true;
+};
 const handleToken = async (authResult) => {
   firebaseLoading.value = true;
   try {

@@ -68,6 +68,7 @@
   <!-- login or sign up -->
   <LoginAndSignup
     ref="loginRef"
+    @dialog-close="onCloseLoginDialog"
     @close="onLoginClose"
     @referral="onOpenReferralCodeDialog"
   />
@@ -114,9 +115,13 @@ onBeforeMount(async () => {
   const { query } = route;
   if (query && query.referral_code) window.sessionStorage.setItem('referral_code', query.referral_code);
 });
+const onCloseLoginDialog = () => {
+  useLogin.setLoginDialogVisible(false);
+};
 const onLoginClose = async () => {
   await useUser.updateSysInfo();
   isLogin.value = await getIsLogin();
+  onCloseLoginDialog();
 };
 const onOpenReferralCodeDialog = async () => {
   await nextTick();
@@ -142,7 +147,7 @@ const onCreateClick = () => {
     botRef.value.open();
   } else {
     // to  login
-    loginRef.value.open();
+    useLogin.setLoginDialogVisible(true);
   }
 };
 
@@ -161,9 +166,9 @@ watch(
 );
 
 watch(
-  () => useLogin.loginDialog,
-  () => {
-    loginRef.value.open();
+  () => useLogin.loginDialogVisible,
+  (open) => {
+    if (open) loginRef.value.open();
   },
   { immediate: false }
 );
