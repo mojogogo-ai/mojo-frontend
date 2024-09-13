@@ -4,7 +4,6 @@
       v-model:show="storeLayout.isSHowSidebar"
       position="left"
       class="sidebar-popup"
-      @opened="onPopupOpen"
     >
       <Sidebar
         ref="sidebarRef"

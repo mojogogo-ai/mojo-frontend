@@ -69,10 +69,6 @@
         </template>
       </div>
     </div>
-    <bot-base-info
-      ref="baseInfoRef"
-      @after-create="afterCreateBot"
-    />
   </div>
 </template>
 
@@ -83,28 +79,21 @@ import { ListItem } from './components/store/index.js';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
 
 const router = useRouter();
-// const tabList = reactive([]);
-// const activeTab = ref(10000);
 const __data = reactive({
   storeList: []
 });
-let pageNum = 1;
-let pageSize = 18;
 let isLoadMore = true;
-const appName = ref('');
 let timer = null;
 const isLoading = ref(true);
 /* ref dom */
 const scrollbar = ref(null);
-const baseInfoRef = ref(null);
 
-const onSearch = (value) => {
+const onSearch = () => {
   if (timer) {
     clearTimeout(timer);
     timer = null;
   }
   timer = setTimeout(() => {
-    pageNum = 1;
     isLoadMore = true;
     __data.storeList = [];
     isLoading.value = true;
@@ -123,10 +112,10 @@ const getStoreList = async () => {
   if (!isLoadMore) return;
   try {
     const { code, data } = await getList({
-      search: appName.value,
+      // search: appName.value,
       // category_id: activeTab.value,
-      page_num: pageNum,
-      page_size: pageSize
+      // page_num: pageNum,
+      // page_size: pageSize
     });
     if (code === 200) {
       const {
@@ -134,7 +123,6 @@ const getStoreList = async () => {
         total
       } = data;
       __data.storeList.push(...list);
-      pageNum++;
       if (__data.storeList.length >= total) {
         isLoadMore = false;
       }
@@ -149,19 +137,6 @@ const getStoreList = async () => {
 
 const onScroll = ({ target: { scrollTop, scrollHeight, offsetHeight } }) => {
   if (scrollHeight - offsetHeight <= scrollTop) getStoreList();
-};
-// duplicate assistant
-const onDuplicate = (app) => {
-  baseInfoRef.value.open({
-    from_id: app.app_id,
-    name: `${app.app_name}${t('bots.backup')}`,
-    icon: app.app_icon,
-    description: app.app_description
-    // category_id: app.categories.map((_) => _.id)
-  });
-};
-const afterCreateBot = async (data) => {
-  if (data && data.app_id) router.push(`/design/${data.app_id}`);
 };
 
 onMounted(async () => {
