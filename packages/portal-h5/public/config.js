@@ -51,11 +51,11 @@
     },
     "test.mojogogo.ai":{ // test
       FIREBASE_CONFIG: firebaseConfig.test,
-      BASE_API: "https://dev.mojogogo.ai:8001/v2",
+      BASE_API: "https://api-test.mojogogo.ai/portal/",
     },
     "mojogogo.ai":{ // prod
       FIREBASE_CONFIG: firebaseConfig.prod,
-      BASE_API: "https://api.mojogogo.ai/v2",
+      BASE_API: "https://api.mojogogo.ai/portal/",
     }
      // online end
   }
@@ -72,7 +72,7 @@
     }
 
     if (!window.FIREBASE_CONFIG) { // 没有匹配到配置，默认使用生产环境
-      let host = "safegen.ai"
+      let host = "mojogogo.ai"
       window.FIREBASE_CONFIG = hostList[host].FIREBASE_CONFIG;
       window.BASE_API = hostList[host].BASE_API;
     }
