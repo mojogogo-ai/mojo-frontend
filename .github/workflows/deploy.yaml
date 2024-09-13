@@ -67,7 +67,7 @@ jobs:
             echo "S3_BUCKET_NAME=$REPO_NAME" >> $GITHUB_ENV
           elif [[ $BRANCH_NAME == "develop" ]]; then
             echo "S3_BUCKET_NAME=$REPO_NAME-dev" >> $GITHUB_ENV
-          elif [[ $BRANCH_NAME == "release/v"* ]]; then
+          elif [[ $BRANCH_NAME == "release/"* ]]; then
             echo "S3_BUCKET_NAME=$REPO_NAME-test" >> $GITHUB_ENV
           fi
 
