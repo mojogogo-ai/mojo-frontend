@@ -10,8 +10,8 @@ on:
       - release/**
     paths-ignore:
       - 'README.md'
-      - '.github/**'
-      
+      # - '.github/**'
+
 
 env:
   AWS_REGION: us-west-1
