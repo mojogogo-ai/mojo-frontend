@@ -206,34 +206,37 @@ export default {
         };
       }
     },
+    getBase64ByBlob(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(blob);
+      });
+    },
     // 上传图片
     uploadImg() {
       this.$refs.cropper.getCropBlob(async (data) => {
         try {
+          this.subLoading = true;
           const formData = new FormData();
           // 都是.png的格式
-          let fileOfBlob = new File([data], new Date().getTime() + '.png', {
-            type: data.type
-          });
-          // console.log(data,'data11')
-          // console.log(fileOfBlob,'fileOfBlob')
-          formData.append('file', fileOfBlob);
-          this.subLoading = true;
-          let response = null;
-          if (this.user) {
-            response = await userAvatarUpload(formData);
-          } else {
-            response = await uploadAvatar(formData);
-          }
-          if (response.code !== 200) return false;
+          let base64ImgData = await this.getBase64ByBlob(data);
+          formData.append('file', base64ImgData);
+          // let response = null;
+          // if (this.user) {
+          //   response = await userAvatarUpload(formData);
+          // } else {
+          //   response = await uploadAvatar(formData);
+          // }
+          // if (response.code !== 200) return false;
           this.open = false;
-          const imgUrl = response.data.location;
-          this.options.img = imgUrl;
+          this.options.img = base64ImgData;
           this.subLoading = false;
           this.$emit('updateAvatar', this.options.img);
+          this.$emit('update:modelValue', this.options.img);
           this.visible = false;
-        }
-        catch (e) {
+        } catch (e) {
           console.log(e);
           this.subLoading = false;
         }

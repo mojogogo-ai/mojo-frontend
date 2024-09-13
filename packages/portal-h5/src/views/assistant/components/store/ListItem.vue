@@ -71,6 +71,7 @@
         /> -->
         <svg-icon
           name="telegram"
+          class="text-[#409eff]"
           size="20"
           @click="openTg()"
         />

@@ -115,9 +115,9 @@ const onSubmit = async () => {
     const isValid = await formRef.value.validate();
     if (isValid) {
       let params = {
-        nick_name: form.nick_name,
-        photo_url: form.photo_url.startsWith('http')?form.photo_url:"",
-      }
+        nickname: form.nick_name,
+        photo_url: form.photo_url === defaultAvatar ? '' : form.photo_url
+      };
       const { code } = await updateUserInfo(params);
       if (code === 200) {
         user.updateUserInfo('nickName', form.nick_name);

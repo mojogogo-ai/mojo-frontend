@@ -3,7 +3,7 @@ import request from '@gptx/base/utils/request';
 // 更新用户信息
 export function updateUserInfo(data) {
   return request({
-    url: '/portal/user/update',
+    url: '/v1/user/update',
     method: 'post',
     data
   });
