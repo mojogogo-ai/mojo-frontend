@@ -34,7 +34,6 @@
               :app-info="appInfo"
               @open-with="onDropDownClick($event, appInfo)"
               @open-new-chat="onOpenNewChat(appInfo)"
-              @duplicate="onDuplicate(appInfo)"
             />
           </div>
         </el-scrollbar>
@@ -69,7 +68,6 @@ let timer = null;
 const isLoading = ref(true);
 /* ref dom */
 const scrollbar = ref(null);
-const baseInfoRef = ref(null);
 
 const onSearch = () => {
   if (timer) {
@@ -124,16 +122,6 @@ const onScroll = ({ scrollTop }) => {
   const wrap = scrollbar.value.wrapRef;
   if (wrap.scrollHeight - scrollTop <= wrap.offsetHeight) getStoreList();
 };
-// duplicate assistant
-const onDuplicate = (appInfo) => {
-  baseInfoRef.value.open({
-    from_id: appInfo.app_id,
-    name: `${appInfo.app_name}${t('bots.backup')}`,
-    icon: appInfo.app_icon,
-    description: appInfo.app_description
-    // category_id: appInfo.app_categories.map((_) => _.id)
-  });
-};
 
 onMounted(async () => {
   onSearch();
@@ -148,5 +136,6 @@ onMounted(async () => {
 
 .app-page-content {
   overflow: hidden;
+  min-height: 500px;
 }
 </style>
