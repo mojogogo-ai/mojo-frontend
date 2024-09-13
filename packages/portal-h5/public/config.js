@@ -14,13 +14,13 @@
       measurementId: "G-1NJ0ELV9D8"
     },
     test: { // 测试
-      apiKey: "AIzaSyBgHkwdzyU7fMSfO5fLAdyQvxXansM_o-k",
-      authDomain: "safegenai-test.firebaseapp.com",
-      projectId: "safegenai-test",
-      storageBucket: "safegenai-test.appspot.com",
-      messagingSenderId: "451603715668",
-      appId: "1:451603715668:web:fd56410134e6663379bfc1",
-      measurementId: "G-7XLS82VYCQ"
+      apiKey: "AIzaSyCwhF5UU5iO0khow3SZWTdwrdcErMTFMZs",
+      authDomain: "mojogogo-test.firebaseapp.com",
+      projectId: "mojogogo-test",
+      storageBucket: "mojogogo-test.appspot.com",
+      messagingSenderId: "933096028546",
+      appId: "1:933096028546:web:cd5a89c830e500ab44f79b",
+      measurementId: "G-85PYGRHFH9"
     },
     prod: { // 生产
       apiKey: "AIzaSyCO5kZ02rlCwcoapJjqEWkLV4V-n5pg00s",
@@ -52,6 +52,10 @@
     "test.mojogogo.ai":{ // test
       FIREBASE_CONFIG: firebaseConfig.test,
       BASE_API: "https://api-test.mojogogo.ai/portal/",
+    },
+    "dhj2jrp434pn8.cloudfront.net":{ // test
+      FIREBASE_CONFIG: firebaseConfig.test,
+      BASE_API: "https://mojogogo-test-2063971065.us-west-1.elb.amazonaws.com/portal/",
     },
     "mojogogo.ai":{ // prod
       FIREBASE_CONFIG: firebaseConfig.prod,
