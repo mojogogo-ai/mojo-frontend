@@ -7,15 +7,15 @@ on:
   push:
     branches:
       - develop
-      # - main
+      - release/**
     paths-ignore:
       - 'README.md'
-      # - '.github/**'
+      - '.github/**'
 
 env:
   AWS_REGION: us-west-1
   AWS_ASSUME_ROLE: arn:aws:iam::650443235714:role/mojogogo-aiGithubRole
-  CLOUDFRONT_ID: E36N073WH9X2JK
+  CLOUDFRONT_ID: E1VC8THOG18KIV
 
 jobs:
   build-and-deploy:
@@ -67,11 +67,7 @@ jobs:
           elif [[ $BRANCH_NAME == "develop" ]]; then
             echo "S3_BUCKET_NAME=$REPO_NAME-dev" >> $GITHUB_ENV
           elif [[ $BRANCH_NAME == "release/v"* ]]; then
-            if [[ $BRANCH_NAME == *"beta" ]]; then
-              echo "S3_BUCKET_NAME=$REPO_NAME-stage" >> $GITHUB_ENV
-            else
-              echo "S3_BUCKET_NAME=$REPO_NAME-test" >> $GITHUB_ENV
-            fi
+            echo "S3_BUCKET_NAME=$REPO_NAME-test" >> $GITHUB_ENV
           fi
 
       - name: Set Cloudfront Id from branch name
