@@ -74,7 +74,6 @@
       let host = "mojogogo.ai"
       window.FIREBASE_CONFIG = hostList[host].FIREBASE_CONFIG;
       window.BASE_API = hostList[host].BASE_API;
-      window.IS_DEMO = hostList[key].IS_DEMO;
     }
   }
   setConfig()
