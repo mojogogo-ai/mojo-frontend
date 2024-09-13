@@ -59,11 +59,8 @@ const router = useRouter();
 const __data = reactive({
   storeList: []
 });
-let pageNum = 1;
-let pageSize = 18;
 let totalSize = ref(0);
 let isLoadMore = true;
-const appName = ref('');
 let timer = null;
 const isLoading = ref(true);
 /* ref dom */
@@ -75,7 +72,6 @@ const onSearch = () => {
     timer = null;
   }
   timer = setTimeout(() => {
-    pageNum = 1;
     isLoadMore = true;
     __data.storeList = [];
     isLoading.value = true;
@@ -93,10 +89,10 @@ const getStoreList = async () => {
   if (!isLoadMore) return;
   try {
     const { code, data } = await getList({
-      search: appName.value,
+      // search: appName.value,
       // category_id: activeTab.value,
-      page_num: pageNum,
-      page_size: pageSize
+      // page_num: pageNum,
+      // page_size: pageSize
     });
     console.log(data,'data888')
     if (code === 200) {
@@ -105,7 +101,6 @@ const getStoreList = async () => {
         total
       } = data;
       __data.storeList.push(...list);
-      pageNum++;
       totalSize.value = total;
       if (__data.storeList.length >= total) {
         isLoadMore = false;

@@ -2,7 +2,7 @@
   <el-dialog
     v-model="dialogVisible"
     class="login-dialog"
-    width="800"
+    width="500"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
@@ -26,9 +26,9 @@
       />
       <div class="login-footer">
         By continuing, you are agreeing to Mojo Gogo’s
-        <span class="cursor-pointer underline underline-offset-4 hover:opacity-75"> Terms of Service </span>
+        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Terms of Service </span>
         and
-        <span class="cursor-pointer underline underline-offset-4 hover:opacity-75"> Privacy Policy. </span>
+        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Privacy Policy. </span>
       </div>
     </div>
   </el-dialog>
