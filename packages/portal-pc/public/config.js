@@ -54,7 +54,7 @@
     },
     "dhj2jrp434pn8.cloudfront.net":{ // test
       FIREBASE_CONFIG: firebaseConfig.test,
-      BASE_API: "https://mojogogo-test-2063971065.us-west-1.elb.amazonaws.com/portal/",
+      BASE_API: "http://mojogogo-test-2063971065.us-west-1.elb.amazonaws.com/portal/",
     },
     "mojogogo.ai":{ // prod
       FIREBASE_CONFIG: firebaseConfig.prod,
