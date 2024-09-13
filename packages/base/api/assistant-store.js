@@ -11,7 +11,7 @@ export const getListCategory = (params) =>
 // get list
 export const getList = (params) =>
   request({
-    url: '/v1//bot/list',
+    url: '/v1/bot/list',
     method: 'get', 
     params
   });

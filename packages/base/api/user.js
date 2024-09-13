@@ -53,3 +53,12 @@ export function confirmUserInvite(data) {
     data
   });
 }
+
+// oss 
+export function getOssPresignedUrl(params) {
+  return request({
+    url: '/v1/oss/presigned-url',
+    method: 'get',
+    params
+  });
+}
