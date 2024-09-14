@@ -8,7 +8,7 @@
           <van-cell>
             <div class="flex items-center text-base">
               <div class="mr-3">{{ t('user.d') }}</div>
-              <div class="mr-3 flex flex-1 justify-end">
+              <div class="flex justify-end flex-1 mr-3">
                 <van-image
                   width="32px"
                   height="32px"
@@ -23,10 +23,10 @@
             </div>
           </van-cell>
           <van-cell>
-            <div class="flex w-full items-center text-base">
+            <div class="flex items-center w-full text-base">
               <div class="mr-3">{{ t('user.nickName') }}</div>
-              <div class="mr-3 flex-1 overflow-hidden text-right">
-                <div class="line-clamp-1 w-full">@{{ user.nickName }}</div>
+              <div class="flex-1 mr-3 overflow-hidden text-right">
+                <div class="w-full line-clamp-1">@{{ user.nickName }}</div>
               </div>
               <van-icon
                 name="arrow"
@@ -35,10 +35,10 @@
             </div>
           </van-cell>
           <van-cell>
-            <div class="flex w-full items-center text-base">
+            <div class="flex items-center w-full text-base">
               <div class="mr-3">{{ t('user.account') }}</div>
-              <div class="mr-3 flex-1 overflow-hidden text-right">
-                <div class="line-clamp-1 w-full">{{ user.email || user.phoneNumber }}</div>
+              <div class="flex-1 mr-3 overflow-hidden text-right">
+                <div class="w-full line-clamp-1">{{ user.email || user.phoneNumber }}</div>
               </div>
               <van-icon
                 name="arrow"
@@ -54,7 +54,7 @@
           <van-cell @click="toInnerPage('/tasks')">
             <div class="flex items-center text-base">
               <div class="mr-3">MojoGogo Point</div>
-              <div class="mr-3 flex flex-1 justify-end">
+              <div class="flex justify-end flex-1 mr-3">
                 <van-tag size="large">{{ user.points }} pts</van-tag>
               </div>
               <van-icon
@@ -66,7 +66,7 @@
           <van-cell @click="toInnerPage('/refer')">
             <div class="flex items-center text-base">
               <div class="mr-3">Refer friends</div>
-              <div class="mr-3 flex flex-1 justify-end" />
+              <div class="flex justify-end flex-1 mr-3" />
               <van-icon
                 name="arrow"
                 color="#7a7a7a"
@@ -159,11 +159,8 @@ const logout = async () => {
       showConfirmButton: true
     });
     if (action === 'confirm') {
-      if (window.SITE_TYPE === '1') {
-        // firebase
-        const auth = getAuth();
-        await signOut(auth);
-      }
+      const auth = getAuth();
+      await signOut(auth);
       await user.logOut();
       useLogin.toLoginOut();
       router.push({ path: '/home' });

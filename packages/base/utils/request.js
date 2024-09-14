@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken, removeToken } from '@gptx/base/utils/auth'
-import { isMobi } from '@gptx/base/utils/index'
+// import { isMobi } from '@gptx/base/utils/index'
 import { getAuth, signOut } from "firebase/auth";
-import { getCurLang } from '@gptx/base'
+// import { getCurLang } from '@gptx/base'
 import { t } from '@gptx/base/i18n'
 
 // create axios 

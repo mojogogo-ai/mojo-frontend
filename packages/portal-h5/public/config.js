@@ -23,13 +23,13 @@
       measurementId: "G-85PYGRHFH9"
     },
     prod: { // 生产
-      apiKey: "AIzaSyCwhF5UU5iO0khow3SZWTdwrdcErMTFMZs",
-      authDomain: "mojogogo-test.firebaseapp.com",
-      projectId: "mojogogo-test",
-      storageBucket: "mojogogo-test.appspot.com",
-      messagingSenderId: "933096028546",
-      appId: "1:933096028546:web:cd5a89c830e500ab44f79b",
-      measurementId: "G-85PYGRHFH9"
+      apiKey: "AIzaSyCWYpMkBLgpcklWeNmbnogs4M_xbN2F6bw",
+      authDomain: "mojogogoai.firebaseapp.com",
+      projectId: "mojogogoai",
+      storageBucket: "mojogogoai.appspot.com",
+      messagingSenderId: "254276203503",
+      appId: "1:254276203503:web:b33b7d2de699e7a3cffc1a",
+      measurementId: "G-MMLB093GVF"
     }
   }
 
