@@ -28,6 +28,7 @@
       <van-button
         class="mt-6 w-full"
         :loading="isLoading"
+        :disabled="!code"
         @click="emit('confirm', code)"
       >
         Continue
