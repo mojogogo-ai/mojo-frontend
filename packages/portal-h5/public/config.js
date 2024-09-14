@@ -23,13 +23,13 @@
       measurementId: "G-85PYGRHFH9"
     },
     prod: { // 生产
-      apiKey: "AIzaSyCO5kZ02rlCwcoapJjqEWkLV4V-n5pg00s",
-      authDomain: "safegenai.firebaseapp.com",
-      projectId: "safegenai",
-      storageBucket: "safegenai.appspot.com",
-      messagingSenderId: "798564444468",
-      appId: "1:798564444468:web:933586eb28186149015d61",
-      measurementId: "G-FTD43PXGLN"
+      apiKey: "AIzaSyCWYpMkBLgpcklWeNmbnogs4M_xbN2F6bw",
+      authDomain: "mojogogoai.firebaseapp.com",
+      projectId: "mojogogoai",
+      storageBucket: "mojogogoai.appspot.com",
+      messagingSenderId: "254276203503",
+      appId: "1:254276203503:web:b33b7d2de699e7a3cffc1a",
+      measurementId: "G-MMLB093GVF"
     }
   }
 
@@ -52,10 +52,6 @@
     "test.mojogogo.ai":{ // test
       FIREBASE_CONFIG: firebaseConfig.test,
       BASE_API: "https://api-test.mojogogo.ai/portal/",
-    },
-    "dhj2jrp434pn8.cloudfront.net":{ // test
-      FIREBASE_CONFIG: firebaseConfig.test,
-      BASE_API: "http://mojogogo-test-2063971065.us-west-1.elb.amazonaws.com/portal/",
     },
     "mojogogo.ai":{ // prod
       FIREBASE_CONFIG: firebaseConfig.prod,

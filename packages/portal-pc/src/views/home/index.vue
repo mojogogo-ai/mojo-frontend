@@ -7,7 +7,7 @@
         Discover the future of business with Mojo GoGo. Our platform allows businesses and individuals to harness the
         power of AI to streamline operations, enhance customer engagement, and protect data privacy - all in one place.
       </div>
-      <div class="mb-24 mt-8 flex justify-center">
+      <div class="flex justify-center mt-8 mb-24">
         <el-button
           v-if="!isLogin"
           type="primary"
@@ -27,12 +27,12 @@
                 routine tasks, and leverage AI-driven insights for smarter decision-making.
               </div>
               <div class="pt-8">
-                <el-button
+                <!-- <el-button
                   type="primary"
                   @click="toPage('/user')"
                 >
                   Personal
-                </el-button>
+                </el-button> -->
               </div>
             </div>
           </el-card>
@@ -45,7 +45,7 @@
           />
         </div>
       </div>
-      <div class="mt-4 flex w-full">
+      <div class="flex w-full mt-4">
         <div class="shrink-0">
           <el-image
             class="h-[515px] w-[776px]"

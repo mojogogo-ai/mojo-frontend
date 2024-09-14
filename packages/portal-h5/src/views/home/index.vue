@@ -30,13 +30,13 @@
             Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
             routine tasks, and leverage AI-driven insights for smarter decision-making.
           </div>
-          <van-button
+          <!-- <van-button
             class="w-4/5"
             type="primary"
             @click="jump('/user')"
           >
             Personal
-          </van-button>
+          </van-button> -->
         </van-cell>
       </div>
       <div class="page-list">
@@ -96,7 +96,7 @@ const jump = (path) => {
 
 watch(
   isOpened,
-  async (val) => {
+  async () => {
     isLogin.value = await getIsLogin();
   },
   {

@@ -55,7 +55,7 @@
             <div class="flex items-center text-base">
               <div class="mr-3">MojoGogo Point</div>
               <div class="flex justify-end flex-1 mr-3">
-                <van-tag size="large">25,500 pts</van-tag>
+                <van-tag size="large">{{ user.points }} pts</van-tag>
               </div>
               <van-icon
                 name="arrow"
@@ -159,11 +159,8 @@ const logout = async () => {
       showConfirmButton: true
     });
     if (action === 'confirm') {
-      if (window.SITE_TYPE === '1') {
-        // firebase
-        const auth = getAuth();
-        await signOut(auth);
-      }
+      const auth = getAuth();
+      await signOut(auth);
       await user.logOut();
       useLogin.toLoginOut();
       router.push({ path: '/home' });

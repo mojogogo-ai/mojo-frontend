@@ -7,7 +7,9 @@ const useUserStore = defineStore('user', {
     nickName: '',
     avatar: '',
     email: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    referalCode: '',
+    points: 0
   }),
   actions: {
     loginOthers(authUserInfo) {
