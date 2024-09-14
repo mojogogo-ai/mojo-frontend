@@ -34,7 +34,7 @@ service.interceptors.response.use(
   (res) => {
     const code = res.data.code || 200
     // error msg
-    const msg = res.data.msg || t('menu.i')
+    const msg = res.data.message || t('menu.i')
     // blob
     if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
       return res.data
