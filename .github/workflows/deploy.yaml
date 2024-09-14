@@ -69,7 +69,7 @@ jobs:
         id: set_cloudfront_id
         run: |
           if [[ $BRANCH_NAME == "main" ]]; then
-            echo "CLOUDFRONT_ID=???" >> $GITHUB_ENV
+            echo "CLOUDFRONT_ID=EQQIDGD2NBXS4" >> $GITHUB_ENV
           elif [[ $BRANCH_NAME == "develop" ]]; then
             echo "CLOUDFRONT_ID=E36N073WH9X2JK" >> $GITHUB_ENV
           elif [[ $BRANCH_NAME == "release/v"* ]]; then
