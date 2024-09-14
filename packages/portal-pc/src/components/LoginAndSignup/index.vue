@@ -26,10 +26,10 @@
         style="border-color: rgba(0, 0, 0, 0.3)"
       />
       <div class="login-footer">
-        By continuing, you are agreeing to Mojo Gogo’s
+        <!-- By continuing, you are agreeing to Mojo Gogo’s
         <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Terms of Service </span>
         and
-        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Privacy Policy. </span>
+        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Privacy Policy. </span> -->
       </div>
     </div>
   </el-dialog>
@@ -62,21 +62,21 @@ const handleToken = async (authResult) => {
   firebaseLoading.value = true;
   try {
     const {
-        user,
-        additionalUserInfo: { isNewUser }
-      } = authResult;
+      user,
+      additionalUserInfo: { isNewUser }
+    } = authResult;
 
-      console.log(authResult, authResult.additionalUserInfo.providerId,'authResultauthResult666')
-      if(isNewUser && authResult.additionalUserInfo.providerId!=='google.com'){//
-        sendEmailVerification(authResult.user);
-      }
+    console.log(authResult, authResult.additionalUserInfo.providerId,'authResultauthResult666')
+    if(isNewUser && authResult.additionalUserInfo.providerId!=='google.com'){// 第一次邮箱注册触发的登录
+      sendEmailVerification(authResult.user);
+    }
     if (!user.emailVerified) { // 未验证邮箱
       emit('close');
       firebaseLoading.value = false;
       dialogVisible.value = false;
 
       ElMessageBox.confirm(
-        'Please check your email inbox and click on the verification link to complete your registration. This step is necessary to verify your email address before you can access the full features of our application.If you don’t see the email in your inbox, please check your spam or junk folder.',
+        'Please check your email inbox and click on the verification link to complete your registration.',
         'Email Verification Required',
         {
           confirmButtonText: 'OK',
@@ -91,7 +91,6 @@ const handleToken = async (authResult) => {
         })
         return false
     }
-  firebaseLoading.value = true;
     if (user) {
       const accessToken = await user.getIdToken();
 

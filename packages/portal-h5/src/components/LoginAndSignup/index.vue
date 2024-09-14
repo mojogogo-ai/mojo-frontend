@@ -33,10 +33,10 @@
         style="border-color: rgba(0, 0, 0, 0.3)"
       />
       <div class="login-footer">
-        By continuing, you are agreeing to Mojo Gogo’s
+        <!-- By continuing, you are agreeing to Mojo Gogo’s
         <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Terms of Service </span>
         and
-        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Privacy Policy. </span>
+        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Privacy Policy. </span> -->
       </div>
     </div>
   </van-popup>
@@ -69,35 +69,32 @@ const handleToken = async (authResult) => {
   firebaseLoading.value = true;
   try {
     const {
-        user,
-        additionalUserInfo: { isNewUser }
-      } = authResult;
-      
-      console.log(authResult, authResult.additionalUserInfo.providerId,'authResultauthResult666')
-      if(isNewUser && authResult.additionalUserInfo.providerId!=='google.com'){//
-        sendEmailVerification(authResult.user);
-      }
-      if (!user.emailVerified) { // 未验证邮箱
-        emit('close');
-        firebaseLoading.value = false;
-        dialogVisible.value = false;
-
-        ElMessageBox.confirm(
-          'Please check your email inbox and click on the verification link to complete your registration. This step is necessary to verify your email address before you can access the full features of our application.If you don’t see the email in your inbox, please check your spam or junk folder.',
-          'Email Verification Required',
-          {
-            confirmButtonText: 'OK',
-            showClose:false,
-            cancelButtonText: 'Not found, resend',
-            type: 'warning',
-          }).then(() => {
+      user,
+      additionalUserInfo: { isNewUser }
+    } = authResult;
     
-          }).catch(() => {
-              // 再次发送验证邮件
-              sendEmailVerification(authResult.user);
-          })
-          return false
-      }
+    console.log(authResult, authResult.additionalUserInfo.providerId,'authResultauthResult666')
+    if(isNewUser && authResult.additionalUserInfo.providerId!=='google.com'){// 第一次邮箱注册触发的登录
+      sendEmailVerification(authResult.user);
+    }
+    if (!user.emailVerified) { // 未验证邮箱
+      emit('close');
+      firebaseLoading.value = false;
+      dialogVisible.value = false;
+
+      showConfirmDialog({
+        title: 'Email Verification Required',
+        message:'Please check your email inbox and click on the verification link to complete your registration.',
+        cancelButtonTex:'Not found, resend'
+      }).then(() => {
+          // on confirm
+      })
+      .catch(() => {
+          // 再次发送验证邮件
+          sendEmailVerification(authResult.user);
+      });
+      return false
+    }
     if (user) {
 
       const accessToken = await user.getIdToken();
