@@ -33,6 +33,7 @@
               v-for="appInfo in __data.storeList"
               :app-info="appInfo"
               @open-with="onDropDownClick($event, appInfo)"
+              @open-dig="onDigClick()"
               @open-new-chat="onOpenNewChat(appInfo)"
             />
           </div>
@@ -81,6 +82,9 @@ const onSearch = () => {
 const onDropDownClick = (plat, { address }) => {
   // const { link } = shared_social[plat];
   window.open(address, '_blank');
+};
+const onDigClick = () => {
+  window.open('https://virtual-human.mojogogo.ai/', '_blank');
 };
 const onOpenNewChat = ({ app_id }) => {
   router.push(`/bot/${app_id}`);

@@ -58,6 +58,18 @@
       </div>
       <template #footer>
         <div class="justify-end page-list-option">
+          <!-- 大漂亮独有 -->
+          <el-button
+            v-if="appInfo.id===1"
+            size="small"
+            link
+            @click="emits('open-dig')"
+          >
+            <el-image
+              class="plat-icon"
+              :src="IconAi"
+            />
+          </el-button>
           <el-button
             v-for="{ s_name } in platList"
             size="small"
@@ -85,6 +97,7 @@ import IconMessenger from '@/assets/images/bots/publish/messenger.svg';
 import IconSlack from '@/assets/images/bots/publish/slack.svg';
 import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
 import IconReddit from '@/assets/images/bots/publish/reddit.svg';
+import IconAi from '@/assets/images/bots/publish/ai.svg';
 
 defineProps({
   appInfo: {
@@ -92,7 +105,7 @@ defineProps({
     default: () => ({})
   }
 });
-const emits = defineEmits(['open-new-chat', 'open-with', 'duplicate']);
+const emits = defineEmits(['open-new-chat', 'open-with',  'open-dig', 'duplicate']);
 
 let platList = reactive([{ s_name: 'telegram' }]);
 const platIcons = {
