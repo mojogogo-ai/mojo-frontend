@@ -14,22 +14,22 @@
       measurementId: "G-1NJ0ELV9D8"
     },
     test: { // 测试
-      apiKey: "AIzaSyBgHkwdzyU7fMSfO5fLAdyQvxXansM_o-k",
-      authDomain: "safegenai-test.firebaseapp.com",
-      projectId: "safegenai-test",
-      storageBucket: "safegenai-test.appspot.com",
-      messagingSenderId: "451603715668",
-      appId: "1:451603715668:web:fd56410134e6663379bfc1",
-      measurementId: "G-7XLS82VYCQ"
+      apiKey: "AIzaSyCwhF5UU5iO0khow3SZWTdwrdcErMTFMZs",
+      authDomain: "mojogogo-test.firebaseapp.com",
+      projectId: "mojogogo-test",
+      storageBucket: "mojogogo-test.appspot.com",
+      messagingSenderId: "933096028546",
+      appId: "1:933096028546:web:cd5a89c830e500ab44f79b",
+      measurementId: "G-85PYGRHFH9"
     },
     prod: { // 生产
-      apiKey: "AIzaSyCO5kZ02rlCwcoapJjqEWkLV4V-n5pg00s",
-      authDomain: "safegenai.firebaseapp.com",
-      projectId: "safegenai",
-      storageBucket: "safegenai.appspot.com",
-      messagingSenderId: "798564444468",
-      appId: "1:798564444468:web:933586eb28186149015d61",
-      measurementId: "G-FTD43PXGLN"
+      apiKey: "AIzaSyCWYpMkBLgpcklWeNmbnogs4M_xbN2F6bw",
+      authDomain: "mojogogoai.firebaseapp.com",
+      projectId: "mojogogoai",
+      storageBucket: "mojogogoai.appspot.com",
+      messagingSenderId: "254276203503",
+      appId: "1:254276203503:web:b33b7d2de699e7a3cffc1a",
+      measurementId: "G-MMLB093GVF"
     }
   }
 

@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken, removeToken } from '@gptx/base/utils/auth'
-import { isMobi } from '@gptx/base/utils/index'
+// import { isMobi } from '@gptx/base/utils/index'
 import { getAuth, signOut } from "firebase/auth";
-import { getCurLang } from '@gptx/base'
+// import { getCurLang } from '@gptx/base'
 import { t } from '@gptx/base/i18n'
 
 // create axios 
@@ -34,7 +34,7 @@ service.interceptors.response.use(
   (res) => {
     const code = res.data.code || 200
     // error msg
-    const msg = res.data.msg || t('menu.i')
+    const msg = res.data.message || t('menu.i')
     // blob
     if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
       return res.data

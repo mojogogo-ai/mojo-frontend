@@ -17,16 +17,18 @@
       <div class="mb-24 mt-8 flex w-full flex-col items-center justify-center px-8">
         <div class="homepage-code pb-4">Referral code:</div>
         <div class="refer-code">
-          23102455
+          {{ user.referalCode }}
           <div class="refer-code-icon">
-            <el-icon>
-              <CopyDocument />
-            </el-icon>
+            <svg-icon
+              name="copy"
+              @click="copyReferralCode(false)"
+            />
           </div>
         </div>
         <van-button
           type="primary"
           size="large"
+          @click="copyReferralCode(true)"
         >
           Invite
         </van-button>
@@ -36,6 +38,28 @@
 </template>
 <script setup>
 import SocialMedia from '@/assets/images/refer/social-media.svg';
+import useUserStore from '@/store/modules/user.js';
+import { useClipboard } from '@vueuse/core';
+import { t } from '@gptx/base/i18n/index.js';
+import { showToast } from 'vant';
+
+const user = useUserStore();
+
+const copyReferralCode = (isWithLink) => {
+  console.log('copyReferralCode', isWithLink);
+  let copyText = user.referalCode;
+  if (isWithLink) {
+    const { origin, pathname } = window.location;
+    copyText = `${origin}${pathname}#/home?referral_code=${user.referalCode}`;
+  }
+  const { copy, copied } = useClipboard({ copyText, legacy: true });
+  copy(copyText);
+  if (copied) {
+    showToast(t('bots.bb'));
+  } else {
+    showToast(t('chat.copy2'));
+  }
+};
 </script>
 <style scoped lang="scss">
 .homepage-title {

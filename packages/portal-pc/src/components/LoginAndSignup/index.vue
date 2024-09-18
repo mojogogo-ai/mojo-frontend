@@ -26,10 +26,10 @@
         style="border-color: rgba(0, 0, 0, 0.3)"
       />
       <div class="login-footer">
-        By continuing, you are agreeing to Mojo Gogo’s
-        <span class="cursor-pointer underline underline-offset-4 hover:opacity-75"> Terms of Service </span>
+        <!-- By continuing, you are agreeing to Mojo Gogo’s
+        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Terms of Service </span>
         and
-        <span class="cursor-pointer underline underline-offset-4 hover:opacity-75"> Privacy Policy. </span>
+        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Privacy Policy. </span> -->
       </div>
     </div>
   </el-dialog>
@@ -38,7 +38,7 @@
 <script setup>
 import useUserStore from '@/store/modules/user';
 // import { t } from '@gptx/base/i18n';
-
+import { sendEmailVerification } from "firebase/auth";
 import firebase from 'firebase/compat/app';
 import LoginLogo from './LoginLogo';
 import * as firebaseui from 'firebaseui';
@@ -61,11 +61,37 @@ const onBeforeClose = (done) => {
 const handleToken = async (authResult) => {
   firebaseLoading.value = true;
   try {
+    const {
+      user,
+      additionalUserInfo: { isNewUser }
+    } = authResult;
+
+    console.log(authResult, authResult.additionalUserInfo.providerId,'authResultauthResult666')
+    if(isNewUser && authResult.additionalUserInfo.providerId!=='google.com'){// 第一次邮箱注册触发的登录
+      sendEmailVerification(authResult.user);
+    }
+    if (!user.emailVerified) { // 未验证邮箱
+      emit('close');
+      firebaseLoading.value = false;
+      dialogVisible.value = false;
+
+      ElMessageBox.confirm(
+        'Please check your email inbox and click on the verification link to complete your registration.',
+        'Email Verification Required',
+        {
+          confirmButtonText: 'OK',
+          showClose:false,
+          cancelButtonText: 'Not found, resend',
+          type: 'warning',
+        }).then(() => {
+  
+        }).catch(() => {
+            // 再次发送验证邮件
+            sendEmailVerification(authResult.user);
+        })
+        return false
+    }
     if (user) {
-      const {
-        user,
-        additionalUserInfo: { isNewUser }
-      } = authResult;
       const accessToken = await user.getIdToken();
 
       const userInfo = {
@@ -76,15 +102,15 @@ const handleToken = async (authResult) => {
       };
       let res;
       const referralCode = window.sessionStorage.getItem('referral_code');
-      if (isNewUser) {
-        if (referralCode) {
-          res = await welcomeAccess(accessToken, { referral_code: referralCode });
-        } else {
-          res = await welcomeAccess(accessToken);
-          emit('referral');
-        }
+
+      if (referralCode) {
+        res = await welcomeAccess(accessToken, { referral_code: referralCode });
       } else {
         res = await welcomeAccess(accessToken);
+        console.log(res, 'res999')
+        if (res.data.user.first_login ===1) {
+          emit('referral');
+        } 
       }
       if (res.code === 200) {
         await userStore.loginOthers(userInfo);

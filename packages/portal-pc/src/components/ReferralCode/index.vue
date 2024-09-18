@@ -29,6 +29,7 @@
           size="large"
           class="w-full"
           :loading="isLoading"
+          :disabled="!code"
           @click="emit('confirm', code)"
         >
           Continue

@@ -88,7 +88,6 @@ watch(
 watch(
   () => useLogin.loginDialogVisible,
   (isOpen) => {
-    console.log(isOpen)
     if (isOpen) loginRef.value.open();
   },
   { immediate: false }

@@ -28,6 +28,7 @@
       <van-button
         class="mt-6 w-full"
         :loading="isLoading"
+        :disabled="!code"
         @click="emit('confirm', code)"
       >
         Continue
@@ -97,6 +98,8 @@ defineExpose({ close, open, setIsLoading });
       --van-field-input-text-color: var(--van-black);
       --van-field-label-color: var(--h5-text-color-secondary);
       --van-field-label-width: fit-content;
+      --van-field-input-disabled-text-color: var(--h5-text-color-secondary);
+      --van-field-disabled-text-color: var(--h5-text-color-secondary);
       border-radius: 12px;
     }
   }

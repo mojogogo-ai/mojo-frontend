@@ -111,6 +111,7 @@ const logout = async () => {
     if (action === 'confirm') {
       const auth = getAuth();
       await signOut(auth);
+      await user.logOut();
       useLogin.toLoginOut()
       router.push({ path: '/home' });
     }

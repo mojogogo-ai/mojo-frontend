@@ -30,12 +30,13 @@
             Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
             routine tasks, and leverage AI-driven insights for smarter decision-making.
           </div>
-          <van-button
+          <!-- <van-button
             class="w-4/5"
             type="primary"
+            @click="jump('/user')"
           >
             Personal
-          </van-button>
+          </van-button> -->
         </van-cell>
       </div>
       <div class="page-list">
@@ -55,6 +56,7 @@
           <van-button
             class="w-4/5"
             type="primary"
+            @click="jump('/assistant')"
           >
             Explore
           </van-button>
@@ -79,6 +81,7 @@ import { getIsLogin } from '@gptx/base/utils/auth';
 import useLoginStore from '@/store/modules/login.js';
 
 const route = useRoute();
+const router = useRouter();
 let isLogin = ref(false);
 const useLogin = useLoginStore();
 const isOpened = computed(() => useLogin.loginDialogVisible);
@@ -87,9 +90,13 @@ const onOpenLoginDialog = () => {
   useLogin.setLoginDialogVisible(true);
 };
 
+const jump = (path) => {
+  router.push(path);
+}
+
 watch(
   isOpened,
-  async (val) => {
+  async () => {
     isLogin.value = await getIsLogin();
   },
   {
