@@ -64,11 +64,14 @@
         </div>
       </div>
       <div class="justify-end page-list-option">
-        <!-- <svg-icon
-          name="chat"
+        <!-- 大漂亮独有 -->
+        <svg-icon
+          v-if="appInfo.id===1"
+          name="ai2"
+          class="text-[#409eff] mr-3"
           size="20"
-          @click="emits('open-with', addClass)"
-        /> -->
+          @click="openDig()"
+        />
         <svg-icon
           name="telegram"
           class="text-[#409eff]"
@@ -111,7 +114,9 @@ const showMoreAction = ref(false);
 const openTg = ()=>{
   window.open(props.appInfo.address, '_blank');
 }
-
+const openDig = () => {
+  window.open('https://virtual-human.mojogogo.ai/', '_blank');
+};
 </script>
 
 <style lang="scss" scoped>
