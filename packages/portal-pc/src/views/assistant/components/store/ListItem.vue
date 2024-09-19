@@ -65,9 +65,9 @@
             link
             @click="emits('open-dig')"
           >
-            <el-image
-              class="plat-icon"
-              :src="IconAi"
+            <svg-icon
+              name="chat"
+              class="text-[#409eff]  text-[24px] mr-1"
             />
           </el-button>
           <el-button
@@ -97,7 +97,6 @@ import IconMessenger from '@/assets/images/bots/publish/messenger.svg';
 import IconSlack from '@/assets/images/bots/publish/slack.svg';
 import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
 import IconReddit from '@/assets/images/bots/publish/reddit.svg';
-import IconAi from '@/assets/images/bots/publish/ai.svg';
 
 defineProps({
   appInfo: {
