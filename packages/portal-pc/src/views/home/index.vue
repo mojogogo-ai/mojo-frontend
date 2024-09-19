@@ -1,5 +1,5 @@
 <template>
-  <div class="app-page">
+  <div class="app-page font-[TTNormsPro]">
     <div class="app-page-content">
       <div class="h-[148px]" />
       <div class="homepage-title">{{ t('common.productName') }}</div>
@@ -7,7 +7,7 @@
         Discover the future of business with Mojo GoGo. Our platform allows businesses and individuals to harness the
         power of AI to streamline operations, enhance customer engagement, and protect data privacy - all in one place.
       </div>
-      <div class="flex justify-center mt-8 mb-24">
+      <div class="mb-24 mt-8 flex justify-center">
         <el-button
           v-if="!isLogin"
           type="primary"
@@ -45,7 +45,7 @@
           />
         </div>
       </div>
-      <div class="flex w-full mt-4">
+      <div class="mt-4 flex w-full">
         <div class="shrink-0">
           <el-image
             class="h-[515px] w-[776px]"

@@ -8,6 +8,7 @@
           mode="horizontal"
           :ellipsis="false"
           :router="true"
+          class="font-[TTNormsPro]"
           @select="handleSelect"
         >
           <el-menu-item

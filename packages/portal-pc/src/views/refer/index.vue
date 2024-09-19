@@ -15,7 +15,7 @@
       </div>
       <div class="mb-24 mt-8 flex flex-col items-center justify-center">
         <div class="homepage-code pb-4">Referral code:</div>
-        <div class="refer-code">
+        <div class="refer-code font-[TTNormsPro]">
           {{ user.referalCode }}
           <div
             class="refer-code-icon cursor-pointer"

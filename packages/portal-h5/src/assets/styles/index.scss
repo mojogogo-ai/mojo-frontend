@@ -7,8 +7,13 @@
 }
 
 @font-face {
-  font-family: "TT Norms Pro";
+  font-family: "TTNormsPro";
   src: url("../fonts/TT Norms Pro Regular.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter.ttf") format("truetype");
 }
 
 * {
@@ -49,7 +54,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: TT Norms Pro, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
   Segoe UI, Arial, Roboto, "PingFang SC", "miui", "Hiragino Sans GB", "Microsoft Yahei",
   sans-serif;
   font-weight: 400;

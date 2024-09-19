@@ -1,5 +1,5 @@
 <template>
-  <div class="app-page">
+  <div class="app-page font-[TTNormsPro]">
     <page-header />
     <div class="app-page-content">
       <div class="homepage-title">{{ t('common.productName') }}</div>
