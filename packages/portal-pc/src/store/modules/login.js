@@ -1,4 +1,4 @@
-const useUserStore = defineStore('login', {
+const useLoginStore = defineStore('login', {
   state: () => ({
     loginDialogVisible: false,
     isLogOut: false
@@ -13,4 +13,4 @@ const useUserStore = defineStore('login', {
   }
 });
 
-export default useUserStore;
+export default useLoginStore;

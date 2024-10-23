@@ -9,14 +9,22 @@ const useUserStore = defineStore('user', {
     email: '',
     uid: '',
     points: 0,
-    referalCode: ''
+    referalCode: '',
+    isLoggedIn: false // 新增用于统一管理登录状态
   }),
   actions: {
     loginOthers(authUserInfo) {
-      setToken(authUserInfo.accessToken);
-      setTokenExpire(authUserInfo.stsTokenManager.expirationTime);
-      console.log(authUserInfo, 'loginOthers');
-      return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        try {
+          setToken(authUserInfo.accessToken);
+          setTokenExpire(authUserInfo.stsTokenManager.expirationTime);
+          this.isLoggedIn = true; // 更新登录状态
+          console.log(authUserInfo, 'loginOthers');
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      });
     },
     updateUserInfo(key, value) {
       this[key] = value;
@@ -26,18 +34,20 @@ const useUserStore = defineStore('user', {
         removeToken();
         localStorage.removeItem('user');
         localStorage.removeItem('humanVerified');
+        this.$reset(); // 重置用户信息，清空状态
         resolve();
       });
     },
     async updateSysInfo() {
       try {
         const isLogin = await getIsLogin();
+        this.isLoggedIn = isLogin; // 更新登录状态
         if (isLogin) {
           const { code, data } = await getUserInfo();
           if (code === 200 && data) {
             const avatar = data.avatar === '' || data.avatar == null ? defAva : data.avatar;
-            this.nickName = data.nickname; // 昵称
-            this.avatar = avatar; // 头像
+            this.nickName = data.nickname;
+            this.avatar = avatar;
             this.uid = data.uid || '';
             this.email = data.email || '';
             this.points = data.points || 0;

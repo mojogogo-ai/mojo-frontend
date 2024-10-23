@@ -50,26 +50,29 @@ import { nextTick } from 'vue';
 
 const emit = defineEmits(['close', 'dialog-close', 'referral']);
 const dialogVisible = ref(false);
-
-// const AppleProvider = new OAuthProvider("apple.com");
 const firebaseLoading = ref(false);
+
+// 检查 Firebase 是否已经初始化
+if (!firebase.apps.length) {
+  firebase.initializeApp(window.FIREBASE_CONFIG);
+}
 
 const onBeforeClose = (done) => {
   emit('dialog-close');
   done();
 };
+
 const handleToken = async (authResult) => {
   firebaseLoading.value = true;
   try {
-    const {
-      user,
-      additionalUserInfo: { isNewUser }
-    } = authResult;
+    const { user, additionalUserInfo: { isNewUser } } = authResult;
 
-    console.log(authResult, authResult.additionalUserInfo.providerId,'authResultauthResult666')
-    if(isNewUser && authResult.additionalUserInfo.providerId!=='google.com'){// 第一次邮箱注册触发的登录
-      sendEmailVerification(authResult.user);
+    console.log(authResult, authResult.additionalUserInfo.providerId,'authResultauthResult666');
+
+    if (isNewUser && authResult.additionalUserInfo.providerId !== 'google.com') { // 第一次邮箱注册触发的登录
+      await sendEmailVerification(authResult.user);
     }
+
     if (!user.emailVerified) { // 未验证邮箱
       emit('close');
       firebaseLoading.value = false;
@@ -80,38 +83,43 @@ const handleToken = async (authResult) => {
         'Email Verification Required',
         {
           confirmButtonText: 'OK',
-          showClose:false,
+          showClose: false,
           cancelButtonText: 'Not found, resend',
           type: 'warning',
         }).then(() => {
-  
-        }).catch(() => {
-            // 再次发送验证邮件
-            sendEmailVerification(authResult.user);
-        })
-        return false
+        // 处理用户点击确认的逻辑
+      }).catch(async () => {
+        // 再次发送验证邮件
+        await sendEmailVerification(authResult.user);
+        ElMessage({
+          message: 'Verification email sent again, please check your inbox.',
+          type: 'info',
+        });
+      });
+      return false;
     }
+
     if (user) {
       const accessToken = await user.getIdToken();
-
       const userInfo = {
         ...user._delegate,
         accessToken: accessToken,
         id: user.uid,
         nickName: user.displayName
       };
+
       let res;
       const referralCode = window.sessionStorage.getItem('referral_code');
-
       if (referralCode) {
         res = await welcomeAccess(accessToken, { referral_code: referralCode });
       } else {
         res = await welcomeAccess(accessToken);
-        console.log(res, 'res999')
-        if (res.data.user.first_login ===1) {
+        console.log(res, 'res999');
+        if (res.data.user.first_login === 1) {
           emit('referral');
-        } 
+        }
       }
+
       if (res.code === 200) {
         await userStore.loginOthers(userInfo);
         emit('close');
@@ -123,15 +131,18 @@ const handleToken = async (authResult) => {
   } catch (e) {
     console.log(e);
     firebaseLoading.value = false;
+    ElMessage({
+      message: 'An error occurred during login, please try again later.',
+      type: 'error',
+    });
   }
 };
 
 const userStore = useUserStore();
-// const router = useRouter();
 
 // FireBaseUI login
 const handleFireBaseUI = () => {
-  let uiConfig = {
+  const uiConfig = {
     callbacks: {
       signInSuccessWithAuthResult: function (authResult) {
         handleToken(authResult);
@@ -139,39 +150,24 @@ const handleFireBaseUI = () => {
       }
     },
     signInFlow: 'popup',
-    // signInSuccessUrl: "",
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID
-      // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-      // firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-      // firebase.auth.GithubAuthProvider.PROVIDER_ID,
-      // AppleProvider.providerId,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
     ]
   };
-  firebase.initializeApp(window.FIREBASE_CONFIG);
 
-  if (firebaseui.auth.AuthUI.getInstance()) {
-    const ui = firebaseui.auth.AuthUI.getInstance();
-    ui.start('#firebaseui-auth-container', uiConfig);
-  } else {
-    const ui = new firebaseui.auth.AuthUI(firebase.auth());
-    // The start method will wait until the DOM is loaded.
-    ui.start('#firebaseui-auth-container', uiConfig);
-  }
+  const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+  ui.start('#firebaseui-auth-container', uiConfig);
 };
-onMounted(() => {});
 
-// open dialog
 const open = () => {
   dialogVisible.value = true;
   nextTick(() => {
     handleFireBaseUI();
   });
 };
+
 defineExpose({ open });
-// export { open }
 </script>
 
 <style lang="scss">
