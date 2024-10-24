@@ -32,11 +32,11 @@
               Explore
             </template>
             <el-menu-item
-              style="min-width: 240px"
+              style="min-width: 240px;"
               index="/assistant"
             >
-              <div class="flex">
-                <div class="mr-2 flex h-9 w-9 items-center justify-center rounded-full bg-black">
+              <div class="flex  px-[5px] ">
+                <div class="mr-[16px] flex h-9 w-9 items-center justify-center rounded-full bg-black">
                   <svg-icon
                     style="color: rgba(225, 255, 1, 1); font-size: 24px"
                     name="bot-store"
@@ -44,7 +44,12 @@
                 </div>
                 <div class="flex flex-col">
                   <div class="mb-3 font-['Inter'] text-xl font-bold text-black">{{ $t('menu.ass') }}</div>
-                  <span class="text-sm font-medium text-black">Offer daily clothing inspirations for you every day.</span>
+                  <div
+                    class="text-sm font-medium text-wrap
+                   text-black w-[243px]"
+                  >
+                    Offer daily clothing inspirations for you every day.
+                  </div>
                 </div>
               </div>
             </el-menu-item>
@@ -56,6 +61,36 @@
         <el-button round class="font-[TTNormsPro]">
           + Create Bot
         </el-button>
+      </div>
+      <div class="lang-select mr-[34px]">
+        <el-dropdown style="--el-dropdown-menuItem-hover-color: red"  placement="bottom-start">
+          <el-button circle style="border: none!important;outline: none;width: 40px;height: 40px;">
+            <template #icon>
+              <el-icon style="width: 40px;height: 40px;">
+                <template #default>
+                  <svg style="width: 40px;height: 40px;display: block;font-size: 40px;" width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="bitcoin-icons:globe-outline">
+                      <rect y="0.5" width="40" height="40" rx="20" fill="white" fill-opacity="0.1"/>
+                      <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="white" stroke-opacity="0.1"/>
+                      <g id="Group">
+                        <path id="Vector" d="M20.0003 30.5057C22.137 30.5057 23.8691 26.0297 23.8691 20.5082C23.8691 14.9868 22.137 10.5107 20.0003 10.5107C17.8637 10.5107 16.1316 14.9868 16.1316 20.5082C16.1316 26.0297 17.8637 30.5057 20.0003 30.5057Z" stroke="#E1FF01" stroke-width="1.25"/>
+                        <path id="Vector_2" d="M20.0002 30.501C25.5231 30.501 30.0002 26.0238 30.0002 20.501C30.0002 14.9781 25.5231 10.501 20.0002 10.501C14.4774 10.501 10.0002 14.9781 10.0002 20.501C10.0002 26.0238 14.4774 30.501 20.0002 30.501Z" stroke="#E1FF01" stroke-width="1.25"/>
+                        <path id="Vector_3" d="M10.0005 20.4951L30.0005 20.5076" stroke="#E1FF01" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                      </g>
+                    </g>
+                  </svg>
+                </template>
+              </el-icon>
+            </template>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>The Action 1st</el-dropdown-item>
+              <el-dropdown-item>The Action 2st</el-dropdown-item>
+              <el-dropdown-item>The Action 3st</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
       <div class="flex items-center">
         <!-- <el-button
@@ -280,10 +315,18 @@ watch(
     bottom: 11.5px;
   }
 }
-.customs-sub-menu {
-  border-radius: 20px;
-  padding: 10px 0;
 
+
+
+</style>
+<style lang="scss">
+.customs-sub-menu {
+  border-radius: 20px!important;
+  overflow: hidden;
+  //padding: 10px 0;
+ .el-menu--popup{
+   padding: 0;
+ }
 
   &.el-menu--horizontal {
     .el-menu {
@@ -293,7 +336,7 @@ watch(
     .el-menu-item {
       min-height: 70px;
       height: auto !important;
-      padding: 15px;
+      padding: 20px 15px;
       line-height: unset !important;
     }
   }
