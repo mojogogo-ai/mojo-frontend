@@ -7,103 +7,124 @@
     :close-on-press-escape="false"
     :before-close="onBeforeClose"
   >
-    <div
-      v-if="dialogVisible"
-      class="flex flex-col items-center"
-    >
+    <div class="h-[100%] relative lt-xl:bg-[var(--login-bg-color)] lt-sm:px-10px lt-xl:px-10px lt-md:px-10px">
+      <ElScrollbar class="h-full">
+        <div class="relative flex mx-auto min-h-100vh">
+          <div class="flex-1 p-30px lt-sm:p-10px dark:bg-[var(--login-bg-color)] relative">
+            <Transition appear enter-active-class="animate__animated animate__bounceInRight">
+              <div class="h-full flex items-center m-auto w-[100%] at-2xl:max-w-500px at-xl:max-w-500px at-md:max-w-500px at-lg:max-w-500px">
+                <LoginForm
+                  v-if="isLogin"
+                  class="p-20px h-auto m-auto lt-xl:rounded-3xl lt-xl:light:bg-white"
+                  @to-register="toRegister"
+                />
+                <RegisterForm
+                  v-else
+                  class="p-20px h-auto m-auto lt-xl:rounded-3xl lt-xl:light:bg-white"
+                  @to-login="toLogin"
+                />
+              </div>
+            </Transition>
+          </div>
+        </div>
+      </ElScrollbar>
+    </div>
+
+    <!-- Google 登录按钮及其他内容 -->
+    <div v-if="dialogVisible" class="flex flex-col items-center mt-4">
       <LoginLogo :is-login-form="true" />
-      <div class="ml-0 sm:ml-0 md:ml-[10px]">
-        <!-- <el-progress v-if="firebaseLoading" :percentage="100" :format="(percentage) => (percentage === 100 ? '' : `${percentage}%`)" :indeterminate="true" /> -->
-        <div
-          id="firebaseui-auth-container"
-          class="firebaseui-auth-container"
-        />
-      </div>
+      <el-button type="primary" icon="el-icon-google" @click="openGoogleLogin">
+        Google 登录
+      </el-button>
+
+      <div id="firebaseui-auth-container" class="firebaseui-auth-container" />
 
       <!-- FOOTER -->
-      <el-divider
-        class="mt-20"
-        style="border-color: rgba(0, 0, 0, 0.3)"
-      />
+      <el-divider class="mt-20" style="border-color: rgba(0, 0, 0, 0.3)" />
       <div class="login-footer">
-        <!-- By continuing, you are agreeing to Mojo Gogo’s
-        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Terms of Service </span>
-        and
-        <span class="underline cursor-pointer underline-offset-4 hover:opacity-75"> Privacy Policy. </span> -->
+        <!-- 服务条款及隐私政策（此处可根据需要添加） -->
       </div>
     </div>
   </el-dialog>
 </template>
 
 <script setup>
-import useUserStore from '@/store/modules/user';
-// import { t } from '@gptx/base/i18n';
-import { sendEmailVerification } from "firebase/auth";
-import firebase from 'firebase/compat/app';
+import { ref, defineEmits, nextTick } from 'vue';
+import { ElScrollbar, ElButton, ElDivider } from 'element-plus';
 import LoginLogo from './LoginLogo';
+import { LoginForm, RegisterForm } from '@/components/LoginAndSignup/components';
+import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
-// import { OAuthProvider } from "firebase/auth";
-
+import { sendEmailVerification } from "firebase/auth";
 import { welcomeAccess } from '@gptx/base/api/login';
-import { nextTick } from 'vue';
 
 const emit = defineEmits(['close', 'dialog-close', 'referral']);
 const dialogVisible = ref(false);
+const isLogin = ref(true); // 控制显示登录或注册
 const firebaseLoading = ref(false);
 
-// 检查 Firebase 是否已经初始化
+// 切换到注册表单
+const toRegister = () => {
+  isLogin.value = false;
+};
+
+// 切换到登录表单
+const toLogin = () => {
+  isLogin.value = true;
+};
+
+// Firebase 初始化
 if (!firebase.apps.length) {
   firebase.initializeApp(window.FIREBASE_CONFIG);
 }
 
+// 弹窗关闭前触发的事件
 const onBeforeClose = (done) => {
   emit('dialog-close');
   done();
 };
 
+// 处理 Firebase 认证结果
 const handleToken = async (authResult) => {
   firebaseLoading.value = true;
   try {
     const { user, additionalUserInfo: { isNewUser } } = authResult;
-
-    console.log(authResult, authResult.additionalUserInfo.providerId,'authResultauthResult666');
-
-    if (isNewUser && authResult.additionalUserInfo.providerId !== 'google.com') { // 第一次邮箱注册触发的登录
+    if (isNewUser && authResult.additionalUserInfo.providerId !== 'google.com') {
       await sendEmailVerification(authResult.user);
     }
 
-    if (!user.emailVerified) { // 未验证邮箱
+    if (!user.emailVerified) {
       emit('close');
       firebaseLoading.value = false;
       dialogVisible.value = false;
 
       ElMessageBox.confirm(
-        'Please check your email inbox and click on the verification link to complete your registration.',
-        'Email Verification Required',
+        '请检查邮箱并点击验证链接完成注册。',
+        '邮箱验证',
         {
-          confirmButtonText: 'OK',
+          confirmButtonText: '确认',
           showClose: false,
-          cancelButtonText: 'Not found, resend',
+          cancelButtonText: '重新发送',
           type: 'warning',
-        }).then(() => {
-        // 处理用户点击确认的逻辑
+        }
+      ).then(() => {
+        // 用户确认
       }).catch(async () => {
-        // 再次发送验证邮件
         await sendEmailVerification(authResult.user);
         ElMessage({
-          message: 'Verification email sent again, please check your inbox.',
+          message: '验证邮件已重新发送，请检查邮箱。',
           type: 'info',
         });
       });
-      return false;
+      return;
     }
 
     if (user) {
       const accessToken = await user.getIdToken();
       const userInfo = {
         ...user._delegate,
-        accessToken: accessToken,
+        accessToken,
         id: user.uid,
         nickName: user.displayName
       };
@@ -114,7 +135,6 @@ const handleToken = async (authResult) => {
         res = await welcomeAccess(accessToken, { referral_code: referralCode });
       } else {
         res = await welcomeAccess(accessToken);
-        console.log(res, 'res999');
         if (res.data.user.first_login === 1) {
           emit('referral');
         }
@@ -129,18 +149,15 @@ const handleToken = async (authResult) => {
       }
     }
   } catch (e) {
-    console.log(e);
     firebaseLoading.value = false;
     ElMessage({
-      message: 'An error occurred during login, please try again later.',
+      message: '登录出错，请稍后重试。' + e,
       type: 'error',
     });
   }
 };
 
-const userStore = useUserStore();
-
-// FireBaseUI login
+// 初始化 FirebaseUI 登录
 const handleFireBaseUI = () => {
   const uiConfig = {
     callbacks: {
@@ -160,7 +177,16 @@ const handleFireBaseUI = () => {
   ui.start('#firebaseui-auth-container', uiConfig);
 };
 
-const open = () => {
+// 打开 FirebaseUI 登录界面
+const openGoogleLogin = () => {
+  nextTick(() => {
+    handleFireBaseUI();
+  });
+};
+
+// 控制弹窗显示并切换视图
+const open = (isLoginView = true) => {
+  isLogin.value = isLoginView; // 根据传入标志决定显示登录或注册表单
   dialogVisible.value = true;
   nextTick(() => {
     handleFireBaseUI();
@@ -170,29 +196,8 @@ const open = () => {
 defineExpose({ open });
 </script>
 
-<style lang="scss">
-.login-dialog {
-  background-color: var(--el-color-primary);
-
-  .el-dialog__close {
-    color: #000;
-    font-size: 20px;
-  }
-
-  .el-dialog__headerbtn:focus .el-dialog__close,
-  .el-dialog__headerbtn:hover .el-dialog__close {
-    color: #000 !important;
-    opacity: 0.75;
-  }
-
-  .login-footer {
-    width: 348px;
-    height: 50px;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 25px;
-    text-align: center;
-    color: #000;
-  }
+<style scoped>
+.login-dialog .el-dialog__header {
+  display: none; /* 隐藏默认弹窗标题栏 */
 }
 </style>

@@ -58,7 +58,7 @@
       </div>
       <div class="create-bot-button">
         <!--        create bot button-->
-        <el-button round class="font-[TTNormsPro]">
+        <el-button round class="font-[TTNormsPro]" @click="onCreateClick">
           + Create Bot
         </el-button>
       </div>
@@ -93,16 +93,8 @@
         </el-dropdown>
       </div>
       <div class="flex items-center">
-        <!-- <el-button
-  style="margin-right: 10px;"
-  type="primary"
-  round
-  @click="onCreateClick()"
->
-  + Create Bot
-</el-button> -->
         <User v-if="isLogin" class="flex-none" />
-        <NoLogin v-else @login="onCreateClick" />
+        <NoLogin v-else @login="onLoginClick" />
       </div>
     </div>
   </el-header>
@@ -134,7 +126,8 @@ import useBotStore from '@/store/modules/bot';
 import useUserStore from '@/store/modules/user.js';
 import { confirmUserInvite } from '@gptx/base/api/user.js';
 import { useRoute } from 'vue-router';
-import { ArrowRight, WarningFilled } from '@element-plus/icons-vue';
+import LoginAndSignup from '@/components/LoginAndSignup';
+import CreateBot from '@/components/CreateBot';
 
 const route = useRoute();
 const useLogin = useLoginStore();
@@ -189,11 +182,22 @@ const onConfirmUserInvite = async (refer_code) => {
   }
 };
 
+
+
 const onCreateClick = () => {
   if (isLogin.value && botRef.value) {
     botRef.value.open();
   } else {
     useLogin.setLoginDialogVisible(true);
+  }
+};
+
+const onLoginClick = (val) => {
+  if(val) {
+    useLogin.setLoginDialogVisible(true);
+  } else {
+    // useLogin.setLoginDialogVisible(false);
+    // console.log('login');
   }
 };
 

@@ -135,6 +135,7 @@ export const constantRoutes = [
     ]
   }
 ];
+export const asyncRouterMap = []
 
 const getRoutes = function () {
   return constantRoutes

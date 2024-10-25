@@ -2,7 +2,7 @@ import { getUserInfo } from '@gptx/base/api/user';
 import { getIsLogin, removeToken, setToken, setTokenExpire } from '@gptx/base/utils/auth';
 import defAva from '@/assets/logo/avatar-default.svg';
 
-const useUserStore = defineStore('user', {
+export const useUserStore = defineStore('user', {
   state: () => ({
     nickName: '',
     avatar: '',
