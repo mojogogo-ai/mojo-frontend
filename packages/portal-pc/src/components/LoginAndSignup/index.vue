@@ -49,6 +49,7 @@
 </template>
 
 <script setup>
+import useUserStore from '@/store/modules/user'
 import { ref, defineEmits, nextTick } from 'vue';
 import { ElScrollbar, ElButton, ElDivider } from 'element-plus';
 import LoginLogo from './LoginLogo';
@@ -149,13 +150,16 @@ const handleToken = async (authResult) => {
       }
     }
   } catch (e) {
+    console.log(e);
     firebaseLoading.value = false;
     ElMessage({
-      message: '登录出错，请稍后重试。' + e,
+      message: 'An error occurred during login, please try again later.',
       type: 'error',
     });
   }
 };
+
+const userStore = useUserStore();
 
 // 初始化 FirebaseUI 登录
 const handleFireBaseUI = () => {
