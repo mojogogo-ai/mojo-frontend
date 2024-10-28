@@ -1,9 +1,11 @@
 <script setup lang="tsx">
-import { ref, reactive, defineEmits } from 'vue'
+import { ref, reactive } from 'vue'
 import { t } from '@gptx/base/i18n'
 import { useValidator } from '@/hooks/web/useValidator'
-import { ElInput, ElForm, ElFormItem } from 'element-plus'
+import { ElInput, ElForm, ElFormItem, ElButton, ElMessage } from 'element-plus'
 import { IAgree } from '@/components/IAgree'
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
+
 const emit = defineEmits(['to-login'])
 
 const { required, check } = useValidator()
@@ -18,9 +20,27 @@ const formData = reactive({
 })
 
 const rules = reactive({
-  username: [required()],
-  password: [required()],
-  check_password: [required()],
+  username: [
+    required(),
+    { type: 'email', message: t('register.invalidEmail'), trigger: 'blur' }
+  ],
+  password: [
+    required(),
+    { min: 6, message: t('register.passwordLength'), trigger: 'blur' }
+  ],
+  check_password: [
+    required(),
+    {
+      validator: (rule, value, callback) => {
+        if (value !== formData.password) {
+          callback(new Error(t('register.passwordMismatch')))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'blur'
+    }
+  ],
   code: [required()],
   iAgree: [required(), check()]
 })
@@ -46,14 +66,31 @@ const toLogin = () => {
   emit('to-login')
 }
 
+// Firebase Registration
 const loginRegister = async () => {
   formRef.value?.validate(async (valid) => {
     if (valid) {
+      loading.value = true
       try {
-        loading.value = true
-        // Handle registration logic here
-        // For now, just redirect to login
+        // Firebase email/password registration
+        const userCredential = await createUserWithEmailAndPassword(auth, formData.username, formData.password)
+
+        // Send email verification
+        await sendEmailVerification(userCredential.user)
+        ElMessage.success(t('register.checkEmailVerification'))
+
+        // Optionally store user info and proceed
+        const userInfo = {
+          email: userCredential.user.email,
+          uid: userCredential.user.uid
+        }
+        console.log('User registered:', userInfo)
+
+        // Redirect to login or handle post-registration
         toLogin()
+      } catch (error) {
+        ElMessage.error(t('register.registerError'))
+        console.error(error)
       } finally {
         loading.value = false
       }
@@ -78,6 +115,7 @@ const loginRegister = async () => {
       <el-input
         v-model="formData.username"
         :placeholder="t('login.usernamePlaceholder')"
+        autocomplete="email"
       />
     </el-form-item>
 
@@ -92,7 +130,7 @@ const loginRegister = async () => {
     <el-form-item prop="check_password" :label="t('login.checkPassword')" class="w-full">
       <el-input
         v-model="formData.check_password"
-        :placeholder="t('login.passwordPlaceholder')"
+        :placeholder="t('login.checkPasswordPlaceholder')"
         show-password
       />
     </el-form-item>
