@@ -1,16 +1,34 @@
 <script setup lang="tsx">
 import { ref, reactive, onMounted, watch, defineEmits, unref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ElCheckbox, ElLink, ElIcon, ElForm, ElFormItem, ElInput, ElDivider, ElMessage } from 'element-plus'
+import {
+  ElCheckbox,
+  ElLink,
+  ElIcon,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElDivider,
+  ElMessage,
+  ElMessageBox
+} from 'element-plus';
 import { useValidator } from '@/hooks/web/useValidator'
 import { useAppStore } from '@/store/modules/app'
 import { useUserStore } from '@/store/modules/user'
 import { usePermissionStore } from '@/store/modules/permission'
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { t } from '@gptx/base/i18n'
-import { Search } from '@element-plus/icons-vue'
+import facebookIcon from '@/assets/svg/facebook.svg'
+import googleIcon from '@/assets/svg/google.svg'
+import appleIcon from '@/assets/svg/apple.svg'
+// firebase auth
+import { getAuth } from "firebase/auth";
+import { app, auth } from "@/utils/firebase.js"; // 假设你在 firebase.js 中初始化了 Firebase 应用
+import { welcomeAccess } from '@gptx/base/api/login';
+import { sendEmailVerification } from "firebase/auth";
+const emit = defineEmits(['close', 'dialog-close', 'referral', 'to-register']);
+import { ElScrollbar, ElButton } from 'element-plus';
 
-const emit = defineEmits(['to-register'])
 const router = useRouter()
 const route = useRoute()
 
@@ -93,20 +111,80 @@ const openGoogleLogin = async () => {
 
 // Handle Firebase Token and Set User Data
 const handleFirebaseToken = async (authResult) => {
-  const { user } = authResult
-  const accessToken = await user.getIdToken()
-  const userInfo = {
-    email: user.email,
-    displayName: user.displayName,
-    uid: user.uid,
-    accessToken
+  firebaseLoading.value = true
+  try {
+    const { user, additionalUserInfo } = authResult
+    const isNewUser = additionalUserInfo?.isNewUser
+    const providerId = additionalUserInfo?.providerId
+
+    // Send verification email if new user and not Google sign-in
+    if (isNewUser && providerId !== 'google.com') {
+      await sendEmailVerification(user)
+    }
+
+    // Check if email is verified
+    if (!user.emailVerified) {
+      emit('close')
+      firebaseLoading.value = false
+      // dialogVisible.value = false
+
+      ElMessageBox.confirm(
+        t('login.checkEmailVerificationPrompt'),
+        t('login.emailVerificationTitle'),
+        {
+          confirmButtonText: t('login.confirm'),
+          showClose: false,
+          cancelButtonText: t('login.resend'),
+          type: 'warning',
+        }
+      ).then(() => {
+        // User confirms and closes dialog
+      }).catch(async () => {
+        // Resend email verification
+        await sendEmailVerification(user)
+        ElMessage({
+          message: t('login.verificationEmailResent'),
+          type: 'info',
+        })
+      })
+      return
+    }
+
+    // Set user info and handle referral logic
+    const accessToken = await user.getIdToken()
+    const userInfo = {
+      ...user, // Spread user properties
+      accessToken,
+      id: user.uid,
+      nickName: user.displayName
+    }
+
+    let res
+    const referralCode = window.sessionStorage.getItem('referral_code')
+    if (referralCode) {
+      res = await welcomeAccess(accessToken, { referral_code: referralCode })
+    } else {
+      res = await welcomeAccess(accessToken)
+      if (res.data?.user?.first_login === 1) {
+        emit('referral')
+      }
+    }
+
+    if (res?.code === 200) {
+      await userStore.loginOthers(userInfo)
+      emit('close')
+      // dialogVisible.value = false
+      window.sessionStorage.removeItem('referral_code')
+    }
+  } catch (error) {
+    console.error(error)
+    ElMessage({
+      message: t('login.loginErrorRetry'),
+      type: 'error',
+    })
+  } finally {
+    firebaseLoading.value = false
   }
-
-  await userStore.loginOthers(userInfo)
-
-  // Redirect to desired route
-  const routePath = redirect.value || permissionStore.addRouters[0].path
-  router.push({ path: routePath })
 }
 
 const toRegister = () => {
@@ -129,8 +207,6 @@ const toForgetPassword = () => {
       size="large"
       class="w-full"
     >
-      <h2 class="text-2xl text-[#000000] font-bold text-center w-full">{{ t('login.login') }}</h2>
-
       <el-form-item prop="username" class="w-full">
         <el-input
           v-model="formData.username"
@@ -198,60 +274,60 @@ const toForgetPassword = () => {
             class="cursor-pointer ant-icon"
             @click="handleIconClick('github')"
           >
-            <Search />
+            <template #default>
+              <img :src="facebookIcon" alt="facebook">
+            </template>
           </el-icon>
           <el-icon
             :size="48"
             class="cursor-pointer ant-icon"
             @click="handleIconClick('github')"
           >
-            <Search />
+            <template #default>
+              <img :src="appleIcon" alt="apple">
+            </template>
           </el-icon>
           <el-icon
             :size="48"
             class="cursor-pointer ant-icon"
-            @click="handleIconClick('github')"
+            :loading="firebaseLoading"
+            @click="openGoogleLogin"
           >
-            <Search />
+            <template #default>
+              <img :src="googleIcon" alt="google">
+            </template>
           </el-icon>
-        </div>
-      </el-form-item>
 
-      <el-form-item class="w-full">
-        <div class="flex justify-between w-full">
-          <el-icon
-            :size="iconSize"
-            class="cursor-pointer ant-icon"
-            @click="handleIconClick('github')"
-          >
-            <i class="vi vi-ant-design:github-filled" />
-          </el-icon>
-          <el-icon
-            :size="iconSize"
-            class="cursor-pointer ant-icon"
-            @click="handleIconClick('wechat')"
-          >
-            <i class="vi vi-ant-design:wechat-filled" />
-          </el-icon>
-          <el-icon
-            :size="iconSize"
-            class="cursor-pointer ant-icon"
-            @click="handleIconClick('alipay')"
-          >
-            <i class="vi vi-ant-design:alipay-circle-filled" />
-          </el-icon>
-          <el-icon
-            :size="iconSize"
-            class="cursor-pointer ant-icon"
-            @click="handleIconClick('weibo')"
-          >
-            <i class="vi vi-ant-design:weibo-circle-filled" />
-          </el-icon>
         </div>
       </el-form-item>
+      <el-divider class="mt-[20px] mb-[20px]" style="border-color: rgba(0, 0, 0, 0.3)" />
+      <div class="login-footer mx-auto">
+        <!-- 服务条款及隐私政策（此处可根据需要添加） -->
+        <div class=" font-inter
+        w-full
+        text-center
+  text-[15px]
+  font-normal
+  leading-[25px]">By continuing, you are agreeing to</div>
+        <div class=" font-inter
+             w-full
+        text-center
+  text-[15px]
+  font-normal
+  leading-[25px]">
+          Mojo Gogo’s <span class="text-[#000] underline font-inter
+  text-[15px]
+  font-normal
+  leading-[25px] cursor-pointer" >Terms of Service</span > and <span class="text-[#000] underline font-inter
+  text-[15px]
+  font-normal
+
+   cursor-pointer
+  leading-[25px]">Privacy Policy</span>
+        </div>
+      </div>
     </el-form>
-
-  </div>
+</div>
 
 </template>
 <style scoped lang="scss">
@@ -287,6 +363,20 @@ const toForgetPassword = () => {
     --el-input-inner-height: 60px;
     --el-disabled-bg-color: rgba(0, 0, 0, 0.1);
     --el-disabled-text-color: var(--el-text-color-secondary);
+    font-family: Inter;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    // placeholder样式
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.70);
+      font-family: Inter;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
   }
   .el-button {
     --el-button-size: 60px;
