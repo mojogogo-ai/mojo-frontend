@@ -69,6 +69,7 @@
 import { t } from '@gptx/base/i18n';
 import { ElMessageBox } from 'element-plus';
 import { generateKnowledgeIcon } from '@gptx/base/api/knowledge';
+import { generateAvatarIcon } from '@gptx/base/api/user.js';
 
 const props = defineProps({
   customStyle: {
@@ -110,9 +111,9 @@ const _generateKnowledgeIcon = async () => {
     const {
       code,
       data: { icon_url, remaining }
-    } = await generateKnowledgeIcon({
-      bot_name: props.name,
-      description: props.description
+    } = await generateAvatarIcon({
+      // bot_name: props.name,
+      // description: props.description
     });
     if (code === 200) {
       if (remaining <= 0) return ElMessageBox({ title: t('common.c'), message: t('common.aiGenerateMaxLength') });

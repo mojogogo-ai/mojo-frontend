@@ -10,12 +10,13 @@
       <div class="mb-24 mt-8 flex justify-center">
         <el-button
           v-if="!isLogin"
+          class="bg-[#ffffff] text-[#000000] border-[1px] border-[#000000] hover:bg-[#ffffff] hover:text-[#000000] hover:border-[#000000] "
           type="primary"
           @click="toLogin"
         >
-          Log in
+          Sign Up
         </el-button>
-        <!-- <el-button type="primary" @click="toCreate"> + Create Bot </el-button> -->
+        <el-button type="primary" @click="toCreate"> + Create Bot </el-button>
       </div>
       <div class="flex w-full">
         <div class="mr-[24px] flex-1">
@@ -75,6 +76,7 @@
       </div>
       <div class="h-[266px]" />
     </div>
+    <upload-knowledge-sources />
   </div>
 </template>
 <script setup>
@@ -84,6 +86,7 @@ import Pic2 from '@/assets/images/homepage/pic2.png';
 import { getIsLogin } from '@gptx/base/utils/auth';
 import useLoginStore from '@/store/modules/login';
 import useBotStore from '@/store/modules/bot';
+import UploadKnowledgeSources from '@/components/UploadKnowledgeSources/index.vue';
 
 const useLogin = useLoginStore();
 const useBot = useBotStore();
@@ -110,14 +113,14 @@ watch(
 );
 
 const toLogin = () => {
-  useLogin.setLoginDialogVisible(true); // open login dialog
+  useLogin.setLoginDialogVisible(true, 'signup'); // open login dialog
 };
 
 const toCreate = () => {
   if (isLogin.value) {
     useBot.openCreateBotDialog(); //open create bot dialog
   } else {
-    useLogin.setLoginDialogVisible(true); // open login dialog
+    useLogin.setLoginDialogVisible(true, 'login'); // open login dialog
   }
 };
 

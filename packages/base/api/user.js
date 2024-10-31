@@ -21,6 +21,14 @@ export function uploadAvatar(data) {
   });
 }
 
+//generate icon
+export const generateAvatarIcon = (data) =>
+  request({
+    url: '/v1/user/generate-icon',
+    method: 'post',
+    data
+  });
+
 // user avatar upload
 export function userAvatarUpload(data, config) {
   return request({
@@ -58,6 +66,14 @@ export function confirmUserInvite(data) {
 export function getOssPresignedUrl(params) {
   return request({
     url: '/v1/oss/presigned-url',
+    method: 'get',
+    params
+  });
+}
+// oss v2 /portal/v1/oss/upload/presignUrl
+export function getOssPresignedUrlV2(params) {
+  return request({
+    url: '/v1/oss/upload/presignUrl',
     method: 'get',
     params
   });

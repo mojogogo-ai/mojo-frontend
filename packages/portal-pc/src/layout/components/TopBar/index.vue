@@ -63,7 +63,7 @@
         </el-button>
       </div>
       <div class="lang-select mr-[34px]">
-        <el-dropdown style="--el-dropdown-menuItem-hover-color: red"  placement="bottom-start">
+        <el-dropdown style="--el-dropdown-menuItem-hover-color: red" placement="bottom-start">
           <el-button circle style="border: none!important;outline: none;width: 40px;height: 40px;">
             <template #icon>
               <el-icon style="width: 40px;height: 40px;">
@@ -194,10 +194,11 @@ const onCreateClick = () => {
 
 const onLoginClick = (val) => {
   if(val) {
-    useLogin.setLoginDialogVisible(true);
+    useLogin.setLoginDialogVisible(true, 'login');
   } else {
     // useLogin.setLoginDialogVisible(false);
     // console.log('login');
+    useLogin.setLoginDialogVisible(true, 'signup');
   }
 };
 

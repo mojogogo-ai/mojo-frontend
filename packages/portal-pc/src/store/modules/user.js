@@ -10,7 +10,17 @@ export const useUserStore = defineStore('user', {
     uid: '',
     points: 0,
     referalCode: '',
-    isLoggedIn: false // 新增用于统一管理登录状态
+    isLoggedIn: false, // 新增用于统一管理登录状态
+    id: 0,
+    nickname: '',
+    referral_code: '',
+    username: '',
+    twitter_link: '',
+    facebook_link: '',
+    instagram_link: '',
+    gender: 0,
+    invite_nums: 0,
+    displayName: ''
   }),
   actions: {
     loginOthers(authUserInfo) {
@@ -45,6 +55,12 @@ export const useUserStore = defineStore('user', {
         if (isLogin) {
           const { code, data } = await getUserInfo();
           if (code === 200 && data) {
+            // 遍历data, 全部赋值给store
+            for (const key in data) {
+              if (Object.hasOwnProperty.call(data, key)) {
+                this[key] = data[key];
+              }
+            }
             const avatar = data.avatar === '' || data.avatar == null ? defAva : data.avatar;
             this.nickName = data.nickname;
             this.avatar = avatar;

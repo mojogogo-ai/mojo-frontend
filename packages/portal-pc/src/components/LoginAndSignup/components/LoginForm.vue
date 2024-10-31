@@ -1,42 +1,19 @@
 <script setup lang="tsx">
-import { ref, reactive, onMounted, watch, defineEmits, unref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import {
-  ElCheckbox,
-  ElLink,
-  ElIcon,
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElDivider,
-  ElMessage,
-  ElMessageBox
-} from 'element-plus';
-import { useValidator } from '@/hooks/web/useValidator'
-import { useAppStore } from '@/store/modules/app'
+import { ref, reactive, onMounted, watch, defineEmits } from 'vue'
+import { useRoute } from 'vue-router'
+import { ElForm, ElFormItem, ElInput, ElMessage, ElMessageBox, ElButton } from 'element-plus'
 import { useUserStore } from '@/store/modules/user'
-import { usePermissionStore } from '@/store/modules/permission'
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth'
 import { t } from '@gptx/base/i18n'
-import facebookIcon from '@/assets/svg/facebook.svg'
-import googleIcon from '@/assets/svg/google.svg'
-import appleIcon from '@/assets/svg/apple.svg'
-// firebase auth
-import { getAuth } from "firebase/auth";
-import { app, auth } from "@/utils/firebase.js"; // 假设你在 firebase.js 中初始化了 Firebase 应用
-import { welcomeAccess } from '@gptx/base/api/login';
-import { sendEmailVerification } from "firebase/auth";
-const emit = defineEmits(['close', 'dialog-close', 'referral', 'to-register']);
-import { ElScrollbar, ElButton } from 'element-plus';
+// Firebase auth
+import { auth } from "@/utils/firebase.js" // Assuming you have initialized Firebase in firebase.js
+import { welcomeAccess } from '@gptx/base/api/login'
+import { validatorEmail, validatorPassword } from '@gptx/base/utils/validator'
+import ForgotPasswordButton from './forgotPasswordButton.vue';
 
-const router = useRouter()
+const emit = defineEmits(['close', 'dialog-close', 'referral', 'to-register'])
 const route = useRoute()
-
-const appStore = useAppStore()
 const userStore = useUserStore()
-const permissionStore = usePermissionStore()
-
-const { required } = useValidator()
 
 const formRef = ref()
 const formData = reactive({
@@ -44,20 +21,17 @@ const formData = reactive({
   password: ''
 })
 
-// const remember = ref(userStore.getRememberMe)
 const loading = ref(false)
 const firebaseLoading = ref(false)
 const redirect = ref<string>('')
 
+// Validation rules
 const rules = reactive({
-  username: [required()],
-  password: [required()]
+  username: [{ validator: validatorEmail, trigger: 'blur' }],
+  password: [{ validator: validatorPassword, trigger: 'blur' }]
 })
 
-const iconSize = 30
-const iconColor = '#999'
-const hoverColor = 'var(--el-color-primary)'
-
+// Initialize login information if stored
 const initLoginInfo = () => {
   const loginInfo = userStore.getLoginInfo
   if (loginInfo) {
@@ -85,8 +59,7 @@ const signIn = async () => {
         const userCredential = await signInWithEmailAndPassword(auth, formData.username, formData.password)
         await handleFirebaseToken(userCredential)
       } catch (error) {
-        ElMessage.error(t('login.loginError'))
-        console.error(error)
+        handleFirebaseError(error)
       } finally {
         loading.value = false
       }
@@ -94,20 +67,7 @@ const signIn = async () => {
   })
 }
 
-// Google Login with Firebase
-const openGoogleLogin = async () => {
-  firebaseLoading.value = true
-  try {
-    const provider = new GoogleAuthProvider()
-    const userCredential = await signInWithPopup(auth, provider)
-    await handleFirebaseToken(userCredential)
-  } catch (error) {
-    ElMessage.error(t('login.googleLoginError'))
-    console.error(error)
-  } finally {
-    firebaseLoading.value = false
-  }
-}
+
 
 // Handle Firebase Token and Set User Data
 const handleFirebaseToken = async (authResult) => {
@@ -126,7 +86,6 @@ const handleFirebaseToken = async (authResult) => {
     if (!user.emailVerified) {
       emit('close')
       firebaseLoading.value = false
-      // dialogVisible.value = false
 
       ElMessageBox.confirm(
         t('login.checkEmailVerificationPrompt'),
@@ -137,26 +96,31 @@ const handleFirebaseToken = async (authResult) => {
           cancelButtonText: t('login.resend'),
           type: 'warning',
         }
-      ).then(() => {
-        // User confirms and closes dialog
-      }).catch(async () => {
-        // Resend email verification
-        await sendEmailVerification(user)
-        ElMessage({
-          message: t('login.verificationEmailResent'),
-          type: 'info',
+      )
+        .then(() => {
+          // User confirms and closes dialog
         })
-      })
+        .catch(async () => {
+          // Resend email verification
+          await sendEmailVerification(user)
+          ElMessage({
+            message: t('login.verificationEmailResent'),
+            type: 'info',
+          })
+        })
       return
     }
 
     // Set user info and handle referral logic
     const accessToken = await user.getIdToken()
     const userInfo = {
-      ...user, // Spread user properties
+      ...user,
+      email: user.email,
+      displayName: user.displayName,
+      nickName: user.displayName,
+      uid: user.uid,
       accessToken,
       id: user.uid,
-      nickName: user.displayName
     }
 
     let res
@@ -173,7 +137,8 @@ const handleFirebaseToken = async (authResult) => {
     if (res?.code === 200) {
       await userStore.loginOthers(userInfo)
       emit('close')
-      // dialogVisible.value = false
+      // firebaseLoading.value = false;
+      // dialogVisible.value = false;
       window.sessionStorage.removeItem('referral_code')
     }
   } catch (error) {
@@ -187,16 +152,22 @@ const handleFirebaseToken = async (authResult) => {
   }
 }
 
+
+
 const toRegister = () => {
   emit('to-register')
 }
+const forgotPasswordButtonRef = ref()
+
 const toForgetPassword = () => {
-  // router.push({ name: 'ForgetPassword' })
+  // Redirect to forget password page or trigger forget password logic
+  forgotPasswordButtonRef.value.openForgotPasswordDialog()
+
 }
 </script>
 
 <template>
-  <div class="light-mode-section">
+  <div class="login-mode-section">
     <el-form
       ref="formRef"
       theme="light"
@@ -210,26 +181,17 @@ const toForgetPassword = () => {
       <el-form-item prop="username" class="w-full">
         <el-input
           v-model="formData.username"
-          :placeholder="t('login.username')"
+          :placeholder="t('login.usernamePlaceholder')"
         />
       </el-form-item>
 
       <el-form-item prop="password" class="w-full">
         <el-input
           v-model="formData.password"
-          :placeholder="t('login.password')"
+          :placeholder="t('login.passwordPlaceholder')"
           show-password
         />
       </el-form-item>
-
-      <!--    <el-form-item class="w-full">-->
-      <!--      <div class="flex justify-between items-center w-full">-->
-      <!--        <el-checkbox v-model="remember">{{ t('login.remember') }}</el-checkbox>-->
-      <!--        <el-link type="primary" underline="false">-->
-      <!--          {{ t('login.forgetPassword') }}-->
-      <!--        </el-link>-->
-      <!--      </div>-->
-      <!--    </el-form-item>-->
 
       <el-form-item class="w-full pt-[20px] mb-[18px]">
         <el-button
@@ -243,95 +205,31 @@ const toForgetPassword = () => {
       </el-form-item>
 
       <el-form-item class="w-full mb-[36px]">
-        <div class="link-button">
-          <el-button style="text-align: left;justify-content: flex-start;text-decoration: underline" link class="w-full font-Inter text-[15px]" @click="toRegister">
+        <div class="link-button flex justify-between">
+          <el-button
+            link
+            class="font-Inter text-[15px] text-left underline"
+            @click="toRegister"
+          >
             {{ t('login.notAccount') }}
           </el-button>
-          <el-button style="justify-content: flex-end; text-decoration: underline" link class="w-full font-Inter text-[15px]" @click="toForgetPassword">
+          <el-button
+            link
+            class="font-Inter text-[15px] text-right underline"
+            @click="toForgetPassword"
+          >
             {{ t('login.forgetPassword') }}
           </el-button>
         </div>
       </el-form-item>
-
-
-      <el-divider
-        class="bg-[transparent]"
-        :content-position="'center'">{{ t('login.orContinueWith') }}</el-divider>
-
-      <!-- Google Login Button -->
-      <el-form-item class="w-full text-center mt-4">
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          icon="el-icon-google"-->
-<!--          @click="openGoogleLogin"-->
-<!--          :loading="firebaseLoading"-->
-<!--        >-->
-<!--          Google {{ t('login.signIn') }}-->
-<!--        </el-button>-->
-        <div class="flex justify-center items-center gap-5 mx-auto">
-          <el-icon
-            :size="48"
-            class="cursor-pointer ant-icon"
-            @click="handleIconClick('github')"
-          >
-            <template #default>
-              <img :src="facebookIcon" alt="facebook">
-            </template>
-          </el-icon>
-          <el-icon
-            :size="48"
-            class="cursor-pointer ant-icon"
-            @click="handleIconClick('github')"
-          >
-            <template #default>
-              <img :src="appleIcon" alt="apple">
-            </template>
-          </el-icon>
-          <el-icon
-            :size="48"
-            class="cursor-pointer ant-icon"
-            :loading="firebaseLoading"
-            @click="openGoogleLogin"
-          >
-            <template #default>
-              <img :src="googleIcon" alt="google">
-            </template>
-          </el-icon>
-
-        </div>
-      </el-form-item>
-      <el-divider class="mt-[20px] mb-[20px]" style="border-color: rgba(0, 0, 0, 0.3)" />
-      <div class="login-footer mx-auto">
-        <!-- 服务条款及隐私政策（此处可根据需要添加） -->
-        <div class=" font-inter
-        w-full
-        text-center
-  text-[15px]
-  font-normal
-  leading-[25px]">By continuing, you are agreeing to</div>
-        <div class=" font-inter
-             w-full
-        text-center
-  text-[15px]
-  font-normal
-  leading-[25px]">
-          Mojo Gogo’s <span class="text-[#000] underline font-inter
-  text-[15px]
-  font-normal
-  leading-[25px] cursor-pointer" >Terms of Service</span > and <span class="text-[#000] underline font-inter
-  text-[15px]
-  font-normal
-
-   cursor-pointer
-  leading-[25px]">Privacy Policy</span>
-        </div>
-      </div>
     </el-form>
-</div>
+    <ForgotPasswordButton ref="forgotPasswordButtonRef" />
 
+  </div>
 </template>
+
 <style scoped lang="scss">
-.light-mode-section{
+.login-mode-section{
   width: 100%;
   :deep(.el-divider) {
     margin-top: 38px;
@@ -368,7 +266,6 @@ const toForgetPassword = () => {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    // placeholder样式
     &::placeholder {
       color: rgba(0, 0, 0, 0.70);
       font-family: Inter;
