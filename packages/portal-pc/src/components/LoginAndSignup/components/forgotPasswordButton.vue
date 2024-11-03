@@ -5,6 +5,8 @@ import { ElInput, ElForm, ElFormItem, ElButton, ElMessage, ElDialog } from 'elem
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { auth } from "@/utils/firebase.js" // Assuming Firebase is initialized in this file
 import mojoDialog from '@/components/mojoDialog/index.vue'
+import { validatorEmail } from '@gptx/base/utils/validator'
+
 // State for dialog visibility
 const forgotPasswordDialogVisible = ref(false)
 
@@ -18,10 +20,13 @@ const loading = ref(false)
 
 // Email validation rules
 const rules = reactive({
-  email: [
-    { required: true, message: t('forgotPassword.emailRequired'), trigger: 'blur' },
-    { type: 'email', message: t('forgotPassword.invalidEmail'), trigger: 'blur' }
-  ]
+  // email: [
+  //   { required: true, message: t('forgotPassword.emailRequired'), trigger: 'blur' },
+  //   { type: 'email', message: t('forgotPassword.invalidEmail'), trigger: 'blur' }
+  // ]
+  // username: [{ validator: validatorEmail, trigger: 'blur' }],
+  email: [{ validator: validatorEmail, trigger: 'blur', required: true }]
+
 })
 
 // Function to open the "Forgot Password" dialog

@@ -9,6 +9,15 @@ export function updateUserInfo(data) {
   });
 }
 
+// updatePersonalInfo
+export function updatePersonalInfo(data) {
+  return request({
+    url: '/v1/user/update-personal-info',
+    method: 'post',
+    data
+  });
+}
+
 // 用户头像上传
 export function uploadAvatar(data) {
   return request({
@@ -73,7 +82,52 @@ export function getOssPresignedUrl(params) {
 // oss v2 /portal/v1/oss/upload/presignUrl
 export function getOssPresignedUrlV2(params) {
   return request({
-    url: '/v1/oss/upload/presignUrl',
+    url: '/v1/oss/upload/presign-url',
+    method: 'get',
+    params,
+    // headers: {
+    //   Authorization: 'Bearer ' + token
+    // }
+  });
+}
+// /portal/v1/oss/get/presign-url
+export function getOssUrlV2(params) {
+  return request({
+    url: '/v1/oss/get/presign-url',
+    method: 'get',
+    params
+  });
+}
+
+// /portal/v1/user/cancel
+export function cancelUser(data) {
+  return request({
+    url: '/v1/user/cancel',
+    method: 'post',
+    data
+  });
+}
+
+// /portal/v1/user/bind-email-refer
+export function bindEmailRefer(data) {
+  return request({
+    url: '/v1/user/bind-email-refer',
+    method: 'post',
+    data
+  });
+}
+
+// check-in
+export function checkIn() {
+  return request({
+    url: '/v1/user/check-in',
+    method: 'post'
+  });
+}
+// /portal/v1/user/point-log-list
+export function getPointLogList(params) {
+  return request({
+    url: '/v1/user/point-log-list',
     method: 'get',
     params
   });

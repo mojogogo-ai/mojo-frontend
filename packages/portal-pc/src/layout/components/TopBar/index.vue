@@ -63,7 +63,7 @@
         </el-button>
       </div>
       <div class="lang-select mr-[34px]">
-        <el-dropdown style="--el-dropdown-menuItem-hover-color: red" placement="bottom-start">
+        <el-dropdown v-if="langList.length" style="--el-dropdown-menuItem-hover-color: red" placement="bottom-start">
           <el-button circle style="border: none!important;outline: none;width: 40px;height: 40px;">
             <template #icon>
               <el-icon style="width: 40px;height: 40px;">
@@ -85,9 +85,9 @@
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>The Action 1st</el-dropdown-item>
-              <el-dropdown-item>The Action 2st</el-dropdown-item>
-              <el-dropdown-item>The Action 3st</el-dropdown-item>
+              <el-dropdown-item v-for="item in langList" @click="changeLangCommand(item)">
+                {{ item.lable }}
+              </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -108,7 +108,17 @@
   />
 
   <!-- create bot -->
-  <CreateBot ref="botRef" />
+  <bot-base-info
+    ref="baseInfoRef"
+    @after-create="afterCreateBot"
+  />
+  <UploadKnowledgeSources
+    ref="uploadKnowledgeSourcesRef"
+    width="600px"
+    @after-upload-knowledge-sources="afterUploadKnowledgeSources"
+  />
+  <PublishDialog ref="publishDialogRef"></PublishDialog>
+
   <!--  referral code  -->
   <referral-code
     ref="referralCodeRef"
@@ -128,6 +138,11 @@ import { confirmUserInvite } from '@gptx/base/api/user.js';
 import { useRoute } from 'vue-router';
 import LoginAndSignup from '@/components/LoginAndSignup';
 import CreateBot from '@/components/CreateBot';
+import { getCurLang, supportLang } from '@gptx/base';
+import BotBaseInfo from '@/components/BotBaseInfo'
+import UploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vue';
+import PublishDialog from '@/views/personal/components/publish/PublishDialog.vue';
+import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 const route = useRoute();
 const useLogin = useLoginStore();
@@ -135,7 +150,7 @@ const useBot = useBotStore();
 const useUser = useUserStore();
 
 const loginRef = ref(null);
-const botRef = ref(null);
+const baseInfoRef = ref(null);
 const isLogin = ref(false);
 const referralCodeRef = ref(null);
 
@@ -143,7 +158,17 @@ const activeIndex = ref('/home');
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath);
 };
-
+const publishDialogRef = ref(null);
+eventBus.on('publishBot', ({id}) => {
+  publishDialogRef.value.open({ id });
+});
+eventBus.on('createBot', () => {
+  if(isLogin.value) {
+    if (baseInfoRef.value) baseInfoRef.value.open();
+  } else {
+    useLogin.setLoginDialogVisible(true, 'login');
+  }
+});
 onBeforeMount(async () => {
   await useUser.updateSysInfo();
   isLogin.value = await getIsLogin();
@@ -185,8 +210,8 @@ const onConfirmUserInvite = async (refer_code) => {
 
 
 const onCreateClick = () => {
-  if (isLogin.value && botRef.value) {
-    botRef.value.open();
+  if (isLogin.value && baseInfoRef.value) {
+    baseInfoRef.value.open();
   } else {
     useLogin.setLoginDialogVisible(true);
   }
@@ -231,14 +256,40 @@ watch(
   },
   { immediate: false }
 );
+const uploadKnowledgeSourcesRef = ref(null);
+const afterUploadKnowledgeSources = ({id}) => {
+  publishDialogRef.value.open({ id });
+};
+const afterCreateBot = async (data) => {
+  // router.push(`/design/${app_id}`);
+  console.log('afterCreateBot', data);
+  // 广播创建成功
+  eventBus.emit('createBotSuccess', data);
+  // TODO
+  uploadKnowledgeSourcesRef.value.open({ id: data.id });
+};
 
 watch(
   () => useBot.createBotDialog,
   () => {
-    if (botRef.value) botRef.value.open();
+    if (baseInfoRef.value) baseInfoRef.value.open();
   },
   { immediate: false }
 );
+
+const curLang = getCurLang();
+const langList = supportLang(); // 支持切换的语言
+// const language = computed(() => {
+//   return langList.find((i) => {
+//     return i.value === curLang;
+//   }).value;
+// });
+const changeLangCommand = (item) => {
+  console.log(item);
+  localStorage.setItem('lang', item.value);
+  window.location.reload();
+};
+
 </script>
 
 
@@ -321,10 +372,13 @@ watch(
   }
 }
 
-
+ :deep(.el-dropdown-menu__item) {
+   color: #000000!important;
+ }
 
 </style>
 <style lang="scss">
+
 .customs-sub-menu {
   border-radius: 20px!important;
   overflow: hidden;

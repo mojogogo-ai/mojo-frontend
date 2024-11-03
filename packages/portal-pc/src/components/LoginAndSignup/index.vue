@@ -103,7 +103,7 @@
 
 <script setup>
 import useUserStore from '@/store/modules/user'
-import { ref, defineEmits, nextTick } from 'vue';
+import { ref } from 'vue';
 import { ElScrollbar, ElButton, ElDivider, ElFormItem, ElIcon, ElMessageBox, ElMessage } from 'element-plus';
 import LoginLogo from './LoginLogo';
 import { LoginForm, RegisterForm } from '@/components/LoginAndSignup/components';

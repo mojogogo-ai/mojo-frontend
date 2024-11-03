@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/
 import { auth } from "@/utils/firebase.js" // Assuming Firebase is initialized in this file
 import { handleFirebaseError } from '@/utils/firebase.js'
 import { validatorEmail, validatorPassword } from '@gptx/base/utils/validator'
+import {bindEmailRefer} from '@gptx/base/api/user'
 
 const emit = defineEmits(['to-login'])
 
@@ -35,6 +36,18 @@ const loginRegister = async () => {
     if (valid) {
       loading.value = true
       try {
+        if(formData.referral_code) {
+          // console.log('Referral code:', formData.referral_code)
+          try {
+            await bindEmailRefer({
+              email: formData.username,
+              refer_code: formData.referral_code
+            })
+          } catch (error) {
+            console.error('Failed to bind referral code:', error)
+            ElMessage.error(t('login.invalidReferralCode'))
+          }
+        }
         // Firebase email/password registration
         const userCredential = await createUserWithEmailAndPassword(auth, formData.username, formData.password)
 

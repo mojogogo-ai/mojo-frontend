@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ref, reactive, onMounted, watch, defineEmits } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElForm, ElFormItem, ElInput, ElMessage, ElMessageBox, ElButton } from 'element-plus'
 import { useUserStore } from '@/store/modules/user'

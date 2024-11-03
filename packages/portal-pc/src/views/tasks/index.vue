@@ -18,6 +18,7 @@
             <list-item
               v-for="appInfo in __data.storeList"
               :app-info="appInfo"
+              @click="onTaskClick(appInfo)"
             />
           </div>
         </el-scrollbar>
@@ -31,6 +32,10 @@
       </div>
     </div>
   </div>
+  <CheckIn
+    width="800px"
+    ref="checkInRef"
+/>
 </template>
 
 <script setup>
@@ -44,6 +49,7 @@ import TaskImg01 from '@/assets/images/tasks/01.svg';
 // import TaskImg05 from '@/assets/images/tasks/05.svg';
 import TaskImg06 from '@/assets/images/tasks/06.svg';
 import TaskImg07 from '@/assets/images/tasks/07.svg';
+import CheckIn from '@/views/tasks/components/Check-In.vue';
 
 const __data = reactive({
   storeList: []
@@ -53,7 +59,7 @@ let timer = null;
 const isLoading = ref(true);
 /* ref dom */
 const scrollbar = ref(null);
-
+const checkInRef = ref(null);
 const onSearch = () => {
   if (timer) {
     clearTimeout(timer);
@@ -111,18 +117,28 @@ const getStoreList = async () => {
         app_name: 'Daily Login and Check-In',
         app_description: 'Daily login,check-in and interact.',
         app_icon: TaskImg07,
-        points: '+ 5 pts'
+        points: '+ 5 pts',
+        id: 7
       }
     ]
   );
   isLoadMore = false;
   setTimeout(() => {
     isLoading.value = false;
-  }, 300);
+  }, 30);
 };
 const onScroll = ({ scrollTop }) => {
   const wrap = scrollbar.value.wrapRef;
   if (wrap.scrollHeight - scrollTop <= wrap.offsetHeight) getStoreList();
+};
+
+const onTaskClick = (appInfo) => {
+  console.log('appInfo', appInfo);
+  if(appInfo.id === 7) {
+    // router.push({ name: 'daily-check-in' });
+    checkInRef.value.open();
+
+  }
 };
 
 onMounted(async () => {
@@ -138,7 +154,7 @@ onMounted(async () => {
 :deep(.page-list) {
   width: 50%;
   max-width: unset;
-
+  cursor: pointer;
   .page-list__inner {
     .el-card__body {
       min-height: 152px;

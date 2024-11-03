@@ -4,10 +4,10 @@
       <user-avatar-oss
         :avatar="iconUrl || defaultAvatar"
         :custom-style="{
-        height: '123px',
-        width: '123px',
-        ...customStyle
-      }"
+          height: '123px',
+          width: '123px',
+          ...customStyle
+        }"
         :title="title"
         @update-avatar="onAvatarUpload"
       />
@@ -50,11 +50,11 @@
             :disabled="isAIloading || !name"
             @click="_generateKnowledgeIcon"
           >
-            <svg-icon
-              class="text-xl"
-              name="ai"
-            />
-            {{ t('base.ai_generate') }}
+            <svg xmlns="http://www.w3.org/2000/svg" width="43" height="42" viewBox="0 0 43 42" fill="none">
+              <path d="M10.1362 2.62598L11.9087 7.41601L16.6987 9.18848L11.9087 10.9609L10.1362 15.751L8.36376 10.9609L3.57373 9.18848L8.36376 7.41601L10.1362 2.62598Z" fill="#E1FF01" fill-opacity="0.7" />
+              <path d="M27.1987 11.8135L30.2119 19.9565L38.355 22.9697L30.2119 25.9829L27.1987 34.126L24.1855 25.9829L16.0425 22.9697L24.1855 19.9565L27.1987 11.8135Z" fill="#E1FF01" fill-opacity="0.7" />
+            </svg>
+            <span>{{ t('base.ai_generate_0') }}</span>
           </button>
         </template>
         <template #content>
@@ -110,16 +110,19 @@ const _generateKnowledgeIcon = async () => {
     emits('before-generate');
     const {
       code,
-      data: { icon_url, remaining }
+      data: { url, remaining }
     } = await generateAvatarIcon({
       // bot_name: props.name,
       // description: props.description
     });
     if (code === 200) {
       if (remaining <= 0) return ElMessageBox({ title: t('common.c'), message: t('common.aiGenerateMaxLength') });
-      iconUrl.value = icon_url;
-      aiImageList.push(icon_url);
-      emits('change', icon_url);
+      iconUrl.value = url;
+      // // TODO:
+      // iconUrl.value  = 'http://localhost:9004/src/assets/images/homepage/pic1.png'
+      if(aiImageList.length > 3) aiImageList.shift();
+      aiImageList.push(url);
+      emits('change', url);
     }
     isAIloading.value = false;
     emits('after-generate');
@@ -144,13 +147,13 @@ const onChangeGeneratedIcon = (url) => {
   display: flex;
   align-items: center;
   flex: 1;
-  height: 80px;
-  width: 224px;
-  padding: 0 8px;
-  margin-left: 18px;
-  background-color: var(--el-input-bg-color);
-  border-radius: 8px;
-  backdrop-filter: var(--backdrop-blur);
+  //height: 80px;
+  //width: 224px;
+  //padding: 0 8px;
+  margin-left: 36px;
+  //background-color: var(--el-input-bg-color);
+  //border-radius: 8px;
+  //backdrop-filter: var(--backdrop-blur);
 }
 
 .ai-generate {
@@ -159,17 +162,38 @@ const onChangeGeneratedIcon = (url) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 64px;
-  width: 64px;
-  font-size: 12px;
-  line-height: 1.4;
-  color: var(--el-text-color-placeholder);
-  background-color: var(--el-input-bg-color);
-  border-radius: 8px;
+  width: 90px;
+  height: 90px;
+  &button{
+    padding-top: 14px;
+  }
+  //font-size: 12px;
+  //line-height: 1.4;
+  //color: var(--el-text-color-placeholder);
+  //background-color: var(--el-input-bg-color);
+  border-radius: 12px;
   border: 1px solid var(--el-border-color-light);
   cursor: pointer;
   overflow: hidden;
-  backdrop-filter: var(--backdrop-blur);
+  color: rgba(225, 255, 1, 0.70);
+  text-align: center;
+  font-feature-settings: 'dlig' on;
+  font-family: "TT Norms Pro";
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 29.571px;
+  background: rgba(0, 0, 0, 0.50);
+
+  span {
+    svg{
+      width: 43px;
+      height: 42px;
+      font-size: 42px;
+    }
+
+    //margin-bottom: ;
+  }
 
   &::after {
     display: flex;

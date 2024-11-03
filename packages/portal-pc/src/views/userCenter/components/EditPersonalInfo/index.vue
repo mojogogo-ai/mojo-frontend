@@ -1,136 +1,233 @@
 <template>
-  <el-dialog
-    v-model="dialogVisible"
-    width="622px"
-    :title="t('user.editProfile')"
+  <mojoDialogTranslucent
+    v-model="isVisible"
+    width="600px"
+    custom-class="edit-personal-info-dialog"
+    class="edit-personal-info-dialog"
+    :title="t('profile.editPersonalInfo')"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
+    destroy-on-close
   >
     <el-form
       ref="formRef"
       label-position="top"
       :model="form"
       :rules="rules"
-      :disabled="isLoading"
+      :disabled="loading || isAIloading"
+      @submit.prevent
     >
+      <!-- Username -->
       <el-form-item
-        :label="t('user.d')"
-        prop="photo_url"
-      >
-        <user-avatar
-          user
-          :avatar="form.photo_url || defaultAvatar"
-          :custom-style="{
-            height: '80px',
-            width: '80px'
-          }"
-          round-cropper-image
-          @update-avatar="onAvatarUpload"
-        />
-      </el-form-item>
-      <el-form-item
-        :label="t('user.nickName')"
-        prop="nick_name"
+        :label="t('profile.username')"
+        prop="username"
       >
         <el-input
-          v-model="form.nick_name"
-          maxlength="20"
-          show-word-limit
-        >
-          <template #prefix><span class="mr-2">@</span></template>
-        </el-input>
+          v-model="form.username"
+          readonly
+          :placeholder="'readOnly'"
+          clearable
+        />
       </el-form-item>
+
+      <!-- Alias -->
       <el-form-item
-        :label="t('user.account')"
+        :label="t('profile.alias')"
+        prop="alias"
+      >
+        <el-input
+          v-model="form.alias"
+          :placeholder="t('profile.enterAlias')"
+          clearable
+        />
+      </el-form-item>
+
+      <!-- Email -->
+      <el-form-item
+        :label="t('profile.email')"
         prop="email"
-        required
       >
         <el-input
           v-model="form.email"
-          disabled
+          readonly
+          :placeholder="'readOnly'"
+          clearable
         />
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button @click="dialogVisible = false">
+      <el-button
+        :disabled="loading"
+        @click="close"
+      >
         {{ t('common.cancel') }}
       </el-button>
       <el-button
         type="primary"
-        linear
-        :loading="isLoading"
-        @click="onSubmit"
+        style="margin-left: 16px;width: 140px;"
+        :loading="loading"
+        :disabled="loading"
+        @click="submitProfileInfo(formRef)"
       >
-        {{ t('common.confirm') }}
+        {{ t('common.save') }}
       </el-button>
     </template>
-  </el-dialog>
+  </mojoDialogTranslucent>
 </template>
+
 <script setup>
 import { t } from '@gptx/base/i18n';
-import defaultAvatar from '@/assets/logo/avatar-default.svg';
 import useUserStore from '@/store/modules/user.js';
-import { updateUserInfo } from '@gptx/base/api/user.js';
+import { updatePersonalInfo, updateUserInfo } from '@gptx/base/api/user.js';
+import { ElMessage } from 'element-plus';
+import { validatorEmail } from '@gptx/base/utils/validator'
+import mojoDialogTranslucent from '@/components/mojoDialogTranslucent/index.vue';
 
-const user = useUserStore();
-const formRef = ref();
+const userStore = useUserStore();
+const isVisible = ref(false);
 const form = reactive({
-  nick_name: '',
-  email: '',
-  photo_url: ''
+  username: '',
+  alias: '',
+  email: ''
 });
 const rules = reactive({
-  nick_name: [
-    {
-      required: true,
-      message: t('user.nameRequired'),
-      trigger: 'blur'
-    }
-  ],
-  photo_url: [
-    {
-      required: true,
-      message: t('user.avatarRequired'),
-      trigger: 'blur'
-    }
-  ]
+  // username: [{ required: true, message: t('profile.ruleMessage.username'), trigger: 'blur' }],
+  // alias: [{ required: true, message: t('profile.ruleMessage.alias'), trigger: 'blur' }],
+  // email: [{validator: validatorEmail, trigger: 'blur'}, { required: true, message: t('profile.ruleMessage.email'), trigger: 'blur' }]
 });
-const dialogVisible = ref(false);
-const isLoading = ref(false);
+const formRef = ref(null);
+const loading = ref(false);
+const isAIloading = ref(false);
 
-// open dialog
 const open = () => {
-  dialogVisible.value = true;
-  form.nick_name = user.nickName;
-  form.email = user.email || user.phoneNumber;
-  form.photo_url = user.avatar;
+  form.username = userStore.username;
+  form.alias = userStore.nickname;
+  form.email = userStore.email;
+  isVisible.value = true;
 };
-// after avtar upload
-const onAvatarUpload = (url) => (form.photo_url = url);
-// submit action
-const onSubmit = async () => {
-  try {
-    if (isLoading.value) return;
-    isLoading.value = true;
-    const isValid = await formRef.value.validate();
-    if (isValid) {
-      let params = {
-        nickname: form.nick_name,
-        photo_url: form.photo_url === defaultAvatar ? '' : form.photo_url
-      };
-      const { code } = await updateUserInfo(params);
-      if (code === 200) {
-        user.updateUserInfo('nickName', form.nick_name);
-        user.updateUserInfo('avatar', form.photo_url);
-        dialogVisible.value = false;
+const close = () => {
+  isVisible.value = false;
+  formRef.value.resetFields();
+};
+const submitProfileInfo = async (el) => {
+  if (loading.value) return;
+  await el.validate(async (valid) => {
+    if (valid) {
+      loading.value = true;
+      try {
+        await updateUserInfo({
+          // username: form.username,
+          nick_name: form.alias,
+          // email: form.email
+        }).then(async () => {
+          await userStore.updateSysInfo()
+          ElMessage({
+            message: 'Profile updated successfully!',
+            type: 'success',
+            duration: 2000
+          });
+        });
+      } catch (e) {
+        console.error(e);
+        ElMessage({
+          message: 'Failed to update profile. Please try again later.',
+          type: 'error',
+          duration: 2000
+        });
+      } finally {
+        loading.value = false;
+        close();
       }
     }
-  } catch (e) {
-    console.log(e);
-    isLoading.value = false;
-  }
+  });
 };
-
 defineExpose({ open });
 </script>
-<style lang="scss" scoped></style>
+
+
+<style lang="scss" scoped>
+
+.base-info-img {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #eee;
+    font-size: 24px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: rgba(#000, 0.4);
+    content: '+';
+    opacity: 0;
+  }
+
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+.base-info-avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.base-list-row {
+  display: flex;
+}
+
+.base-list-col {
+  & + & {
+    margin-left: 16px;
+  }
+}
+
+.base-list-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: var(--el-fill-color-light);
+    color: var(--el-text-color-secondary);
+    font-size: 20px;
+  }
+}
+
+.base-list-option {
+  padding-top: 4px;
+  color: #999;
+  font-size: 20px;
+  line-height: 32px;
+  border-top: 1px solid #eee;
+
+  .base-list-col {
+    display: flex;
+    align-items: center;
+
+    & + .base-list-col {
+      margin-left: 8px;
+    }
+  }
+}
+
+.el-card__body {
+  //padding: 12px 16px !important;
+}
+</style>

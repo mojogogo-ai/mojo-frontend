@@ -10,8 +10,8 @@
         <div class="profile-header">
           <div class="profile-header-text">My Profile</div>
           <div class="profile-content h-[103px] w-full">
-            <img :src="user.avatar" alt="User Profile" class="profile-image block">
-            <div class="user-info w-full">
+            <el-avatar :src="user.avatar" fit="cover" shape="square" :size="103" alt="User Profile" class="profile-image block" />
+            <div class="user-info flex-1">
               <div class="flex  justify-between">
                 <div class="user-points">{{ user.points }} pts</div>
                 <button class="edit-button" @click="editProfile">
@@ -24,7 +24,7 @@
               </div>
               <div class="flex gap-32">
                 <div>
-                  <div class="user-nickname">{{ user.nickname }}</div>
+                  <div class="user-nickname">{{ user.username || '-' }}</div>
                   <div class="alias">@{{ user.nickname }}</div>
                 </div>
                 <div class="socials">
@@ -97,74 +97,73 @@
         <div class="profile-actions">
           <div class="actions">
             <button class="delete-button" @click="deleteAccount">Delete Account</button>
-            <button class="logout-button" @click="logout">Logout</button>
+            <button class="logout-button" @click="logout">{{ t('user.b') }}</button>
           </div>
         </div>
-
       </div>
 
-      <div class="user-center">
-        <el-divider border-style="hidden" />
-        <el-card shadow="never">
-          <div class="text-base">
-            <div class="mb-4">{{ t('user.b1') }}</div>
-            <div class="px-8">
-              <div class="flex items-center mb-2">
-                <div class="mr-3">{{ t('user.d') }}:</div>
-                <div class="w-fit">
-                  <el-avatar
-                    :size="60"
-                    :src="user.avatar"
-                  />
-                </div>
-              </div>
-              <div class="flex mb-2">
-                <div class="mr-3">{{ t('user.nickName') }}:</div>
-                <div class="w-fit">@{{ user.nickName }}</div>
-              </div>
-              <div class="flex mb-8">
-                <div class="mr-3">{{ t('user.account') }}:</div>
-                <div class="w-fit">{{ user.email || user.phoneNumber }}</div>
-              </div>
-              <div class="flex mb-4">
-                <el-button @click="onEditClick">{{ t('user.edit') }}</el-button>
-                <el-button
-                  type="primary"
-                  linear
-                  @click="logout"
-                >
-                  {{ t('user.b') }}
-                </el-button>
-              </div>
-            </div>
-          </div>
-        </el-card>
-        <!-- <el-divider border-style="hidden" />
-        <el-card
-          v-model="language"
-          shadow="never"
-        >
-          <div class="text-base">
-            <div class="mb-4">{{ t('user.usualSetting') }}</div>
-            <div class="px-8">
-              <div class="mb-2">{{ t('user.performanceLanguage') }}</div>
-              <div class="mb-4 w-fit">
-                <el-select
-                  v-model="language"
-                  style="width: 338px"
-                  @change="changeLangCommand"
-                >
-                  <el-option
-                    v-for="{ value, lable } in langList"
-                    :value="value"
-                    :label="lable"
-                  />
-                </el-select>
-              </div>
-            </div>
-          </div>
-        </el-card> -->
-      </div>
+      <!--      <div class="user-center">-->
+      <!--        <el-divider border-style="hidden" />-->
+      <!--        <el-card shadow="never">-->
+      <!--          <div class="text-base">-->
+      <!--            <div class="mb-4">{{ t('user.b1') }}</div>-->
+      <!--            <div class="px-8">-->
+      <!--              <div class="flex items-center mb-2">-->
+      <!--                <div class="mr-3">{{ t('user.d') }}:</div>-->
+      <!--                <div class="w-fit">-->
+      <!--                  <el-avatar-->
+      <!--                    :size="60"-->
+      <!--                    :src="user.avatar"-->
+      <!--                  />-->
+      <!--                </div>-->
+      <!--              </div>-->
+      <!--              <div class="flex mb-2">-->
+      <!--                <div class="mr-3">{{ t('user.nickName') }}:</div>-->
+      <!--                <div class="w-fit">@{{ user.nickName }}</div>-->
+      <!--              </div>-->
+      <!--              <div class="flex mb-8">-->
+      <!--                <div class="mr-3">{{ t('user.account') }}:</div>-->
+      <!--                <div class="w-fit">{{ user.email || user.phoneNumber }}</div>-->
+      <!--              </div>-->
+      <!--              <div class="flex mb-4">-->
+      <!--                <el-button @click="onEditClick">{{ t('user.edit') }}</el-button>-->
+      <!--                <el-button-->
+      <!--                  type="primary"-->
+      <!--                  linear-->
+      <!--                  @click="logout"-->
+      <!--                >-->
+      <!--                  {{ t('user.b') }}-->
+      <!--                </el-button>-->
+      <!--              </div>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--        </el-card>-->
+      <!--         <el-divider border-style="hidden" />-->
+      <!--        <el-card-->
+      <!--          v-model="language"-->
+      <!--          shadow="never"-->
+      <!--        >-->
+      <!--          <div class="text-base">-->
+      <!--            <div class="mb-4">{{ t('user.usualSetting') }}</div>-->
+      <!--            <div class="px-8">-->
+      <!--              <div class="mb-2">{{ t('user.performanceLanguage') }}</div>-->
+      <!--              <div class="mb-4 w-fit">-->
+      <!--                <el-select-->
+      <!--                  v-model="language"-->
+      <!--                  style="width: 338px"-->
+      <!--                  @change="changeLangCommand"-->
+      <!--                >-->
+      <!--                  <el-option-->
+      <!--                    v-for="{ value, lable } in langList"-->
+      <!--                    :value="value"-->
+      <!--                    :label="lable"-->
+      <!--                  />-->
+      <!--                </el-select>-->
+      <!--              </div>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--        </el-card>-->
+      <!--      </div>-->
     </div>
     <base-info ref="baseInfoRef" />
     <EditPersonalInfo ref="editPersonalInfoRef" />
@@ -173,7 +172,7 @@
 </template>
 <script setup>
 import { t } from '@gptx/base/i18n';
-// import { getCurLang, supportLang } from '@gptx/base';
+import { getCurLang, supportLang } from '@gptx/base';
 import { ElMessageBox } from 'element-plus';
 import { getAuth, signOut } from 'firebase/auth';
 import useUserStore from '@/store/modules/user.js';
@@ -182,19 +181,20 @@ import BaseInfo from './components/BaseInfo';
 import { useRouter } from 'vue-router';
 import EditPersonalInfo from './components/EditPersonalInfo';
 import EditProfile from './components/EditProfile';
+import { cancelUser } from '@gptx/base/api/user.js';
 
 const router = useRouter();
 const user = useUserStore();
 const useLogin = useLoginStore();
 console.log(user)
 
-// const curLang = getCurLang();
-// const langList = supportLang(); // 支持切换的语言
-// const language = computed(() => {
-//   return langList.find((i) => {
-//     return i.value === curLang;
-//   }).value;
-// });
+const curLang = getCurLang();
+const langList = supportLang(); // 支持切换的语言
+const language = computed(() => {
+  return langList.find((i) => {
+    return i.value === curLang;
+  }).value;
+});
 
 /* ref dom */
 const baseInfoRef = ref(null);
@@ -202,10 +202,10 @@ const editPersonalInfoRef = ref(null);
 const editProfileRef = ref(null);
 
 
-// const changeLangCommand = (command) => {
-//   localStorage.setItem('lang', command);
-//   window.location.reload();
-// };
+const changeLangCommand = (command) => {
+  localStorage.setItem('lang', command);
+  window.location.reload();
+};
 const logout = async () => {
   try {
     const action = await ElMessageBox.confirm(t('user.c'), '', {
@@ -231,7 +231,7 @@ const onEditClick = () => {
 
 
 const personalInfo = computed(() => [
-  { label: 'Username', value: user.nickname || '' },
+  { label: 'Username', value: user.username || '-' },
   { label: 'Alias', value:  ('@' + user.nickname) || '' },
   { label: 'Email', value: user.email || '' },
 ]);
@@ -254,10 +254,36 @@ const editPersonalInfo = () => {
 };
 
 const deleteAccount = () => {
-  if (confirm('Are you sure you want to delete your account?')) {
+  // if (confirm('Are you sure you want to delete your account?')) {
+  //   // Add logic to delete account
+  //   alert('Account deleted');
+  // }
+  ElMessageBox.confirm('Are you sure you want to delete your account?', 'Warning', {
+    confirmButtonText: 'Delete',
+    cancelButtonText: 'Cancel',
+    type: 'warning'
+  }).then(() => {
     // Add logic to delete account
-    alert('Account deleted');
-  }
+    cancelUser().then(() => {
+      // 提示
+      ElMessageBox.alert('Account deleted', 'Success', {
+        confirmButtonText: 'OK',
+        type: 'success'
+      });
+    }).catch(() => {
+      // 提示
+      ElMessageBox.alert('Failed to delete account', 'Error', {
+        confirmButtonText: 'OK',
+        type: 'error'
+      });
+    });
+  }).catch(() => {
+    // 提示
+    // ElMessageBox.alert('Canceled', 'Info', {
+    //   confirmButtonText: 'OK',
+    //   type: 'info'
+    // });
+  });
 };
 
 
@@ -301,7 +327,7 @@ onMounted(() => {
 }
 .profile-settings {
   color: #ffffff;
-  margin: 0 auto;
+  margin: 115px auto auto;
   width: 800px;
   height: 589px;
   flex-shrink: 0;
@@ -329,6 +355,8 @@ onMounted(() => {
   .profile-content{
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
   }
 }
 .profile-image {

@@ -160,7 +160,7 @@
           type="primary"
           linear
           :loading="subLoading"
-          @click="uploadImg()"
+          @click="uploadImg"
         >
           提 交
         </el-button>
@@ -172,11 +172,13 @@
 <script>
 import 'vue-cropper/dist/index.css';
 import { VueCropper } from 'vue-cropper';
-import { getOssPresignedUrl } from '@gptx/base/api/user';
+import { getOssPresignedUrlV2, getOssUrlV2 } from '@gptx/base/api/user';
 import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core';
 import { t } from '@gptx/base/i18n';
 import { ElMessage } from 'element-plus';
+import CryptoJS from 'crypto-js';
+
 export default {
   components: { VueCropper },
   props: {
@@ -280,46 +282,82 @@ export default {
         };
       }
     },
-    // 上传图片
-    uploadImg() {
+// 上传文件
+    async uploadFile (upload_url, file, form_data) {
+      // 创建 FormData 对象并附加上传所需的字段
+      const form = new FormData();
+
+      // 将 form_data 中的键值对添加到 form_data 对象中
+      for (const [key, value] of Object.entries(form_data)) {
+        form.append(key, value);
+      }
+      // 最后添加文件本身
+      form.append('file', file);
+
+      // 使用 POST 请求上传文件
+      await axios.post(upload_url, form, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+    },
+    generateFileHash(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const fileData = event.target.result;
+          const wordArray = CryptoJS.lib.WordArray.create(fileData); // 使用 WordArray 创建 SHA256 输入
+          const hash = CryptoJS.SHA256(wordArray).toString(CryptoJS.enc.Hex);
+          console.log('文件哈希:', hash);
+          resolve(hash);
+        };
+        reader.onerror = (error) => reject(error);
+        reader.readAsArrayBuffer(file); // 读取文件内容为 ArrayBuffer
+      });
+    },
+// 上传头像图片
+    async uploadImg () {
       this.$refs.cropper.getCropBlob(async (data) => {
         try {
-          // 都是.png的格式
+          // 创建文件对象
           let fileOfBlob = new File([data], new Date().getTime() + '.png', { type: data.type });
-          console.log(fileOfBlob,'fileOfBlob')
+          console.log(fileOfBlob, 'fileOfBlob');
+
+          // 生成文件哈希值
+          const fileHash = await this.generateFileHash(fileOfBlob);
+          const fileSize = fileOfBlob.size;
+          const fileName = fileOfBlob.name;
 
           this.subLoading = true;
-          const res = await getOssPresignedUrl({biz_type:'avatar', file_name: fileOfBlob.name });
-          console.log(res,'resres999')
-          try {
-            axios.put(res.data.url, fileOfBlob, {
-              headers: {
-                'Content-Type': fileOfBlob.type,
-              }
-            }).then(res2 => {
-              console.log('成功:', res2);
-              if(res2.status === 200) {
-                this.open = false;
-                const imgUrl =res.data.url.split('?')[0];
-                this.options.img = imgUrl;
-                this.subLoading = false;
-                this.$emit('updateAvatar', this.options.img);
-                this.visible = false;
-              }
-            }).catch(err => {
-              console.log(err)
-            })
-          } catch (e) {
-            console.log(e);
-            this.subLoading = false;
-          }
-        }
-        catch (e) {
-          console.log(e);
+          // 获取预签名 URL
+          const presignedData = await getOssPresignedUrlV2({
+            biz_type: 'avatar',
+            file_name: fileName,
+            file_size: fileSize,
+            file_hash: fileHash
+          });
+          const { upload_url,file_url, form_data } = presignedData.data;
+
+          // 使用上传 URL 和表单数据上传文件
+          await this.uploadFile(upload_url, fileOfBlob, form_data);
+          // const fileHttpUrl = await getOssUrlV2({
+          //   file_url: file_key,
+          //   file_key
+          // })
+          console.log(file_url, 'file_url');
+          // 提取文件访问 URL
+          const imgUrl = file_url.split('?')[0];
+          console.log('头像上传成功:', imgUrl);
+          this.options.img = imgUrl;
+          this.$emit('updateAvatar', this.options.img);
+          this.visible = false;
+        } catch (error) {
+          console.error('头像上传失败:', error);
+        } finally {
           this.subLoading = false;
+          this.open = false;
         }
       });
     },
+
     // 实时预览
     realTime(data) {
       this.previews = data;

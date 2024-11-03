@@ -1,7 +1,7 @@
 <template>
-  <el-dialog
+  <mojoDialogTranslucent
     v-model="isVisible"
-    width="622px"
+    width="600px"
     :title="t('profile.editProfile')"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -91,12 +91,14 @@
         {{ t('common.save') }}
       </el-button>
     </template>
-  </el-dialog>
+  </mojoDialogTranslucent>
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
 import useUserStore from '@/store/modules/user.js';
+import { updateUserInfo } from '@gptx/base/api/user.js';
+import { ElMessage } from 'element-plus';
 
 const userStore = useUserStore();
 const isVisible = ref(false);
@@ -134,17 +136,31 @@ const submitProfileInfo = async (el) => {
     if (valid) {
       loading.value = true;
       try {
-        userStore.avatar = form.avatar;
-        // userStore.nickname = form.nickname;
-        userStore.twitter_link = form.twitter_link;
-        userStore.instagram_link = form.instagram_link;
-        userStore.facebook_link = form.facebook_link;
-        // Simulated API call to update profile
         console.log('Profile updated successfully', form);
+        updateUserInfo({
+          avatar: form.avatar,
+          twitter_link: form.twitter_link,
+          instagram_link: form.instagram_link,
+          facebook_link: form.facebook_link
+        }).then(() => {
+          // 提示更新成功
+          ElMessage({
+            message: 'Profile updated successfully!',
+            type: 'success',
+            duration: 2000
+          });
+        });
         close();
       } catch (e) {
         console.error(e);
+        // 提示更新失败
+        ElMessage({
+          message: 'Failed to update profile. Please try again later.',
+          type: 'error',
+          duration: 2000
+        });
       } finally {
+        await userStore.updateSysInfo()
         loading.value = false;
       }
     }

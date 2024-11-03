@@ -2,8 +2,8 @@
   <el-dialog
     v-bind="$attrs"
     v-model="visible"
-    class="login-dialog"
-    width="500"
+    width="600px"
+    class="mojo-dialog-translucent"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     @close="handleClose"
@@ -89,28 +89,42 @@ function updateThemeColor(color) {
 </script>
 
 <style  lang="scss">
-/* 定义弹窗自定义样式 */
-.mojo-dialog .el-dialog__header {
-  background-color: var(--dialog-header-bg-color);
-  color: var(--dialog-header-text-color);
-  background-color: var(--el-color-primary);
-
+.mojo-dialog-translucent{
+  padding: 24px!important;
+  .el-dialog__body{
+    padding: 0!important;
+  }
+  .el-dialog__headerbtn{
+    top:14px;
+    right: 14px;
+    font-size: 24px;
+  }
+  .el-dialog__footer{
+    padding: 24px 0 12px!important;
+    border-top: 0!important;
+  }
 }
-.mojo-dialog .el-dialog__close {
-  color: #000;
-  font-size: 20px;
-}
-
-.mojo-dialog .el-dialog__headerbtn:focus .el-dialog__close,
-.mojo-dialog .el-dialog__headerbtn:hover .el-dialog__close {
-  color: #000 !important;
-  opacity: 0.75;
-}
-
-.mojo-dialog .el-dialog__body {
-  background-color: var(--dialog-body-bg-color);
-  color: var(--dialog-body-text-color);
-}
+//.mojo-dialog-translucent .el-dialog__header {
+//  background-color: var(--dialog-header-bg-color);
+//  color: var(--dialog-header-text-color);
+//  background-color: var(--el-color-primary);
+//
+//}
+//.mojo-dialog-translucent .el-dialog__close {
+//  color: #000;
+//  font-size: 20px;
+//}
+//
+//.mojo-dialog-translucent .el-dialog__headerbtn:focus .el-dialog__close,
+//.mojo-dialog-translucent .el-dialog__headerbtn:hover .el-dialog__close {
+//  color: #000 !important;
+//  opacity: 0.75;
+//}
+//
+//.mojo-dialog-translucent .el-dialog__body {
+//  background-color: var(--dialog-body-bg-color);
+//  color: var(--dialog-body-text-color);
+//}
 
 
 
