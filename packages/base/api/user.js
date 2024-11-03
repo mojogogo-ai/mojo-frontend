@@ -132,3 +132,12 @@ export function getPointLogList(params) {
     params
   });
 }
+
+// /portal/v1/user/invited
+export function invitedInfo(data) {
+  return request({
+    url: '/v1/user/invited',
+    method: 'post',
+    data
+  });
+}

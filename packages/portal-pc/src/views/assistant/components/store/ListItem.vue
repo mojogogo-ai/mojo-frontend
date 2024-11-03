@@ -160,4 +160,5 @@ const platIcons = {
      }
    }
  }
+
 </style>
