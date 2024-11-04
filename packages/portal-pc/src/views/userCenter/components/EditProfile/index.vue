@@ -104,7 +104,7 @@ const userStore = useUserStore();
 const isVisible = ref(false);
 const form = reactive({
   avatar: '',
-  // nickname: '',
+  is_personalize_image_icon: false,
   twitter_link: '',
   instagram_link: '',
   facebook_link: ''
@@ -117,7 +117,11 @@ const formRef = ref(null);
 const loading = ref(false);
 const isAIloading = ref(false);
 
-const onImageChange = (url) => (form.avatar = url);
+const onImageChange = (url, is_personalize_image_icon) => {
+  form.avatar = url
+  form.is_personalize_image_icon = is_personalize_image_icon
+}
+
 const open = () => {
   form.avatar = userStore.avatar;
   // form.nickname = userStore.nickname;
@@ -141,7 +145,8 @@ const submitProfileInfo = async (el) => {
           avatar: form.avatar,
           twitter_link: form.twitter_link,
           instagram_link: form.instagram_link,
-          facebook_link: form.facebook_link
+          facebook_link: form.facebook_link,
+          is_personalize_image_icon: form.is_personalize_image_icon
         }).then(() => {
           // 提示更新成功
           ElMessage({

@@ -102,6 +102,7 @@ const emits = defineEmits(['before-generate', 'after-generate', 'change']);
 const aiImageList = reactive([]);
 const iconUrl = ref('');
 const isAIloading = ref(false);
+const is_personalize_image_icon = ref(false);
 //generate icon
 const _generateKnowledgeIcon = async () => {
   if (isAIloading.value) return;
@@ -134,11 +135,13 @@ const _generateKnowledgeIcon = async () => {
 };
 const onAvatarUpload = (url) => {
   iconUrl.value = url;
-  emits('change', url);
+  is_personalize_image_icon.value = true;
+  emits('change', url, is_personalize_image_icon.value);
 };
 const onChangeGeneratedIcon = (url) => {
   iconUrl.value = url;
-  emits('change', url);
+  is_personalize_image_icon.value = false;
+  emits('change', url, is_personalize_image_icon.value);
 };
 </script>
 

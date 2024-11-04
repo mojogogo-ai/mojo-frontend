@@ -123,7 +123,8 @@ const form = reactive({
   introduction: '',
   classification: [],
   gender: null,
-  third_company: ''
+  third_company: '',
+  is_personalize_image_icon: false
 });
 const rules = reactive({
   icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
@@ -170,7 +171,10 @@ const close = () => {
   isVisible.value = false;
   formRef.value.resetFields();
 };
-const onImageChange = (url) => (form.icon = url);
+const onImageChange = (url, is_personalize_image_icon) => {
+  form.icon = url
+  form.is_personalize_image_icon = is_personalize_image_icon
+};
 // commit action
 const submitBaseInfo = async (el) => {
   if (loading.value) return;
