@@ -260,16 +260,19 @@ const beforeUpload = (file) => {
   const isAllowedType = ['pdf', 'txt', 'pptx'].includes(file.name.split('.').pop().toLowerCase());
   const isWithinSizeLimit = file.size / 1024 / 1024 < 100;
   if (!isAllowedType) {
-    this.$message.error('Only PDF, TXT, PPTX files are allowed!');
+    // this.$message.error('Only PDF, TXT, PPTX files are allowed!');
+    ElMessage.error('Only PDF, TXT, PPTX files are allowed!');
   }
   if (!isWithinSizeLimit) {
-    this.$message.error('File size exceeds 100 MB limit!');
+    // this.$message.error('File size exceeds 100 MB limit!');
+    ElMessage.error('File size exceeds 100 MB limit!');
   }
   return isAllowedType && isWithinSizeLimit;
 };
 
 const handleExceed = () => {
-  this.$message.warning('You can upload up to 5 files only.');
+  // this.$message.warning('You can upload up to 5 files only.');
+  ElMessage.warning('You can upload up to 5 files only.');
 };
 
 defineExpose({ open });

@@ -123,6 +123,9 @@ const showFilter = computed(() => {
 eventBus.on('createBotSuccess', () => {
   _getMyBotList();
 });
+eventBus.on('botPublishSuccess', () => {
+  _getMyBotList();
+});
 const createNewBot = () => {
   eventBus.emit('createBot');
 };

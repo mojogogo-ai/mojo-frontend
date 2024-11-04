@@ -67,7 +67,7 @@
       </div>
       <div class="check-in-btn cursor-pointer">
         <div
-          @click="checkInHandler"
+          @click="dayCheckInHandler"
         >
           <svg width="413" height="77" viewBox="0 0 413 77" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g filter="url(#filter0_d_850_459)">
@@ -99,7 +99,7 @@
 <script setup>
 import { ref, reactive, nextTick } from 'vue';
 import { t } from '@gptx/base/i18n';
-import { checkIn } from '@gptx/base/api/user';
+import { dayCheckIn } from '@gptx/base/api/user';
 import { ElMessage } from 'element-plus'; // Adjust this import as necessary
 
 
@@ -115,10 +115,10 @@ const open = async (option) => {
 const close = () => {
   isVisible.value = false;
 };
-const checkInHandler = async() => {
+const dayCheckInHandler = async() => {
   console.log('check in');
   try{
-    await checkIn();
+    await dayCheckIn();
     ElMessage.success('Check in successfully');
   }catch(e){
     console.log(e);

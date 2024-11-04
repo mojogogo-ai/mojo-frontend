@@ -87,11 +87,12 @@
 import { ref, reactive, nextTick } from 'vue';
 import { t } from '@gptx/base/i18n';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user';
-import {botInfo} from '@gptx/base/api/application';
+import {botInfo, botPublish} from '@gptx/base/api/application';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import { ElMessage } from 'element-plus';
 import ConfigureTelegramDialog from '@/views/personal/components/publish/ConfigureTelegramDialog.vue';
+import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 const emits = defineEmits(['after-upload-knowledge-sources', 'after-update']);
 const isVisible = ref(false);
@@ -186,49 +187,23 @@ const checkboxChange = (item, checked) => {
 
 
 const submitForm = async () => {
-  if (form.fileList.length === 0) {
-    formRef.value.validateField('fileList');
-    return;
-  }
   if(botId.value ===null) {
     ElMessage.error('Please select a bot first!');
     return;
   }
   loading.value = true;
   try {
-    // 遍历每个文件并上传
-    const fileDataList = [];
-    for (const fileData of form.fileList) {
-      const { file, name, size, hash } = fileData;
-
-      // 获取预签名 URL
-      const presignedData = await getPresignedUrl(name, size, hash);
-      const { upload_url, form_data, file_id_list } = presignedData.data;
-      // 上传文件
-      await uploadFile(upload_url, file, form_data);
-      fileDataList.push(...file_id_list);
-      // 保存文件 URL，便于后续使用（例如展示或提交到后端）
-      fileData.url = presignedData.data.file_url;
-      console.log('文件上传成功:', fileData.url);
-    }
-
-    // 提交表单数据的 API 调用
-    // if (isEdit.value) {
-    //   await updateKnowledgeBase(form);
-    //   emits('after-update');
-    // } else {
-    //   await createKnowledgeBase(form);
-    //   emits('after-create');
-    // }
-    await botFileSave({
-      bot_id: botId.value,
-      file_id_list: fileDataList
+    //botPublish
+    await botPublish({
+      id: botId.value,
     });
-    ElMessage.success('Files uploaded successfully!');
+    ElMessage.success('Bot publish successfully!');
     emits('after-upload-knowledge-sources');
+    eventBus.emit('botPublishSuccess');
     close();
   } catch (error) {
-    console.error('文件上传失败:', error);
+    console.error('Bot publish failed:', error);
+    ElMessage.error('Bot publish failed!');
   } finally {
     loading.value = false;
   }

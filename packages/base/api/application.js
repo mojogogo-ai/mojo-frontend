@@ -45,6 +45,15 @@ export function getAppList(params) {
   });
 }
 
+// /portal/v1/bot/publish
+export function botPublish(data) {
+  return request({
+    url: '/v1/bot/publish',
+    method: 'post',
+    data
+  });
+}
+
 // /portal/v1/bot/my-list
 export function getMyBotList(params) {
   return request({

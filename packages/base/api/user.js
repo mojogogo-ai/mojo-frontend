@@ -9,6 +9,14 @@ export function updateUserInfo(data) {
   });
 }
 
+///portal/v1/user/day-check-in
+export function dayCheckIn() {
+  return request({
+    url: '/v1/user/day-check-in',
+    method: 'post'
+  });
+}
+
 // updatePersonalInfo
 export function updatePersonalInfo(data) {
   return request({
@@ -71,7 +79,7 @@ export function confirmUserInvite(data) {
   });
 }
 
-// oss 
+// oss
 export function getOssPresignedUrl(params) {
   return request({
     url: '/v1/oss/presigned-url',

@@ -104,7 +104,8 @@ const getStoreList = async () => {
         list,
         total
       } = data;
-      __data.storeList.push(...list);
+      let _list = list || []
+      __data.storeList.push(..._list);
       totalSize.value = total;
       if (__data.storeList.length >= total) {
         isLoadMore = false;

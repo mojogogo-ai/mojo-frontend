@@ -158,7 +158,7 @@
             {{ bot.introduction }}
           </div>
           <div class="bmicl-toolbar">
-            <div v-show="bot.published" class="bmiclt-btn bb-publish">
+            <div v-show="bot.published == '1'" class="bmiclt-btn bb-publish">
               Published
             </div>
           </div>
@@ -212,6 +212,7 @@
 <!--              {{ t('bots.unpublish') }}-->
 <!--            </el-dropdown-item>-->
             <el-dropdown-item
+              v-if="bot.published != '1'"
               @click.stop="toPublish(bot)"
             >
               publish
