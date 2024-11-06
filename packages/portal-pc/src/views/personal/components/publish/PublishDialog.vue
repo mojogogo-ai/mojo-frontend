@@ -18,7 +18,7 @@
         <div v-for="item in publishOptions" class="pdc-list-item">
           <div class="configure-left">
             <el-checkbox
-              :checked="item.checked" :disabled="item.id === 'telegram' && !item.telegram_token || item.id === 'discard' && !item.discard_token"
+              v-model="item.checked" :disabled="item.id === 'telegram' && !item.telegram_token || item.id === 'discard' && !item.discard_token"
               @change="(checked) => {
               checkboxChange(item, checked)
             }"
@@ -75,7 +75,7 @@
     </div>
     <div class="divider-line"></div>
     <template #footer>
-      <el-button type="primary" :loading="loading" :disabled="loading || !uncheckedOptions" @click="submitForm">
+      <el-button type="primary" :loading="loading" :disabled="loading || uncheckedOptions.length === 0" @click="submitForm">
         {{ 'Publish' }}
       </el-button>
     </template>
@@ -106,6 +106,15 @@ const form = reactive({
   fileList: []
 });
 
+
+const afterUpdate = (option) => {
+ if(option.token_type === 'telegram') {
+   publishOptions[0].telegram_token = option.token;
+ } else if(option.token_type === 'discard') {
+   publishOptions[1].discard_token = option.token;
+ }
+}
+const configureDiscordDialogRef = ref(null);
 const publishOptions = reactive([
   {
     id: 'telegram',
@@ -120,17 +129,8 @@ const publishOptions = reactive([
     checked: false
   }
 ])
-const afterUpdate = (option) => {
- if(option.token_type === 'telegram') {
-   publishOptions[0].telegram_token = option.token;
- } else if(option.token_type === 'discard') {
-   publishOptions[1].discard_token = option.token;
- }
-}
-const configureDiscordDialogRef = ref(null);
-
-// publishOptions 内 不包含checked为true的项目
-const uncheckedOptions = computed(() => publishOptions.filter(item => !item.checked));
+const uncheckedOptions = computed(() => publishOptions.filter(item => item.checked));
+console.log(uncheckedOptions.value, 'uncheckedOptions')
 const configureTelegramDialogRef = ref(null);
 const goConfigure = (item) => {
   if (item.id === 'telegram') {
@@ -179,11 +179,13 @@ const close = () => {
   publishOptions.forEach(item => {
     item.telegram_token = '';
     item.discard_token = '';
+    item.checked = false;
   });
 };
 
 const checkboxChange = (item, checked) => {
-  item.checked = checked;
+  console.log(item, checked)
+  // item.checked = checked;
 };
 
 
