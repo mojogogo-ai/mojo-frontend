@@ -115,8 +115,8 @@ const form = reactive({
 const rules = reactive({
   // icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
-  description: [{ required: true, message: t('bots.ruleMessage.description') }],
-  category_id: [{ required: true, message: t('bots.ruleMessage.catalog'), trigger: 'change' }]
+  // description: [{ required: true, message: t('bots.ruleMessage.description') }],
+  // category_id: [{ required: true, message: t('bots.ruleMessage.catalog'), trigger: 'change' }]
 });
 const catalogList = reactive([]);
 const formRef = ref(null);

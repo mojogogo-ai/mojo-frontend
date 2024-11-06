@@ -6,6 +6,7 @@
       "search": "Search"
     },
     "ai_generate": "Generate",
+    "ai_generate_0": "AI Generate",
     "b": "Base",
     "btn": "Click to upload",
     "c": "Please enter a valid link",
@@ -110,6 +111,8 @@
     "label": {
       "bindKnowledgeBase": "Bind base",
       "catalog": "Assistant classification",
+      "conversationStyle": "Conversation style",
+      "gender": "Gender Identity",
       "description": "Assistant introduction",
       "isVoice": "Turn on",
       "model": "Model",
@@ -145,7 +148,9 @@
     "place": {
       "catalog": "please select a type",
       "description": "Introduce the functions of the assistant, which will be displayed to users of the assistant",
-      "name": "Give your assistant a unique name"
+      "name": "Give your assistant a unique name",
+      "conversationStyle": "Select the style of the assistant's conversation",
+      "gender": "Select the "
     },
     "placeholder": {
       "autoReply": "Please enter fixed reply content",
@@ -299,6 +304,7 @@
     "query": "Search",
     "reset": "Reset",
     "search": "Search",
+    "save": "Save",
     "showThisLabel": "Whether to display this label",
     "stopResponding": "Stop Responding",
     "theme": {
@@ -311,7 +317,19 @@
     "unbind": "unbind",
     "unbindTip": "Do you confirm the deauthorization?",
     "upload": "upload",
-    "wrong": "Something went wrong, please try again later."
+    "wrong": "Something went wrong, please try again later.",
+    "noContent": "No content yet"
+  },
+  "forgotPassword": {
+    "dialogTitle": "Forgot Password?",
+    "emailLabel": "Please enter your email below",
+    "emailPlaceholder": "Email",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Invalid email address",
+    "resetEmailSent": "A password reset email has been sent to your email address.",
+    "resetEmailFailed": "Failed to send password reset email. Please try again.",
+    "cancel": "Cancel",
+    "send": "Continue"
   },
   "login": {
     "b": "Must be a valid Email",
@@ -322,7 +340,65 @@
     "phoneNumber": "Enter a valid phone number",
     "re-login": "The authentication has expired. Please log in again!",
     "tips-3": "Please enter your password",
-    "validPassword": "The password must be at least 8 characters long, and include both uppercase and lowercase letters, as well as numbers"
+    "validPassword": "The password must be at least 8 characters long, and include both uppercase and lowercase letters, as well as numbers",
+    "register": "Sign Up",
+    "username": "Email",
+    "login": "Login",
+    "usernamePlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "invalidEmail": "Please enter a valid email address",
+    "passwordLength": "Password must be at least 6 characters",
+    "passwordMismatch": "Passwords do not match",
+    "code": "Verification Code",
+    "codePlaceholder": "Enter verification code",
+    "getCode": "Get Code",
+    "agreeTerms": "I agree to the",
+    "userAgreement": "User Agreement",
+    "hasUser": "Already have an account? Login",
+    "registerSuccess": "Registration successful!",
+    "forgetPassword": "Forgot password?",
+    "notAccount": "Not a member? Sign up",
+    "orContinueWith": "or continue with",
+    "invitationCodePlaceholder": "Referral code (optional)",
+    "checkEmailVerification": "Please check your email for verification code",
+    "emailAlreadyInUse": "This email address is already in use. Please use a different email or login.",
+    "invalidEmailServer": "The email address is not valid. Please enter a correct email.",
+    "wrongPassword": "The password is incorrect. Please try again.",
+    "userNotFound": "No user found with this email address. Please check the email or register.",
+    "weakPassword": "The password is too weak. Please enter a stronger password with at least 6 characters.",
+    "loginErrorRetry": "An error occurred during login. Please try again later.",
+    "tooManyRequests": "Too many requests. Please try again later.",
+    "networkRequestFailed": "Network request failed. Please check your network connection.",
+    "operationNotAllowed": "Operation not allowed. Please try again later."
+  },
+  "profile": {
+    "editProfile": "Edit Profile",
+    "uploadProfilePhoto": "Upload your profile photo",
+    "nickname": "Nickname",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "enterNickname": "Enter your nickname",
+    "enterTwitterLink": "Your Twitter link",
+    "enterFacebookLink": "Your Facebook link",
+    "enterInstagramLink": "Your Instagram link",
+    "editPersonalInfo": "Edit Personal Information",
+    "username": "Username",
+    "alias": "Alias",
+    "email": "Email",
+    "enterUsername": "Enter your username",
+    "enterAlias": "Enter your alias",
+    "enterEmail": "Enter your email",
+    "ruleMessage": {
+      "avatar": "Profile photo is required",
+      "nickname": "Nickname is required",
+      "username": "Please enter your username",
+      "alias": "Please enter your alias",
+      "email": "Please enter your email"
+    },
+    "generateTooltip": "AI Generate"
   },
   "menu": {
     "ass": "Bot Store",

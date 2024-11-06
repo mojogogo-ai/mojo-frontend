@@ -87,6 +87,13 @@
     "showFailToast": true,
     "showNotify": true,
     "showToast": true,
-    "showSuccessToast": true
+    "showSuccessToast": true,
+    "onWatcherCleanup": true,
+    "useId": true,
+    "useModel": true,
+    "useTemplateRef": true,
+    "DirectiveBinding": true,
+    "MaybeRef": true,
+    "MaybeRefOrGetter": true
   }
 }

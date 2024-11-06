@@ -30,14 +30,13 @@ export default defineConfig(({ mode, command }) => {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
     },
     server: {
-      port: 9001,
+      port: 9004,
       host: true,
       open: true,
       proxy: {
         '/v1': {
           target: 'https://api-dev.mojogogo.ai/portal/', // 开发
           changeOrigin: true,
-          // rewrite: (p) => p.replace(/^\/proxy-api/, '/v1')
         }
       }
     },
@@ -72,7 +71,12 @@ export default defineConfig(({ mode, command }) => {
       drop: ["console", "debugger"],
     },
     css: {
-      preprocessorOptions: { css: { charset: false } },
+      preprocessorOptions: { 
+        css: { charset: false },
+        scss: {
+          api: 'modern-compiler' // or 'modern'
+        }
+       },
       // vite集成了postcss，可直接在此处写postcss的相关配置。无需单独安装postcss
       postcss: {
         plugins: [

@@ -102,6 +102,19 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
+        path: '/pointsHistory',
+        component: () => import('@/views/pointsHistory/index.vue'),
+        name: 'pointsHistory',
+        meta: { title: 'pointsHistoryList'}
+      }
+    ]
+
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
         path: '/user',
         component: () => import('@/views/userCenter/index'),
         name: 'user',
@@ -135,6 +148,7 @@ export const constantRoutes = [
     ]
   }
 ];
+export const asyncRouterMap = []
 
 const getRoutes = function () {
   return constantRoutes

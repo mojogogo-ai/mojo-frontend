@@ -1,8 +1,12 @@
 <template>
-  <div class="app-page">
+  <div class="bot-management">
+    <div class="bot-management-title">
+      Bot Management
+    </div>
     <div
       v-if="showFilter"
-      class="app-page-top"
+      style="visibility: hidden"
+      class="bot-management-top"
     >
       <el-form
         class="flex"
@@ -16,7 +20,7 @@
         >
           <el-select
             v-model="form.published"
-            @change="_getAppList"
+            @change="_getMyBotList"
           >
             <el-option
               v-for="{ label, value } in statusOptionList"
@@ -32,14 +36,14 @@
             prefix-icon="search"
             class="w-[312px]"
             :placeholder="t('bots.a9')"
-            @input="_getAppList"
+            @input="_getMyBotList"
           />
         </el-form-item>
       </el-form>
     </div>
     <div
       v-loading="isLoading"
-      class="app-page-content"
+      class="bot-management-content"
       element-loading-background="transparent"
       :element-loading-text="t('common.loading')"
     >
@@ -47,14 +51,14 @@
         v-if="botList.length && !isLoading"
         class="h-full"
       >
-        <div class="pt-3">
+        <div class="pt-3 flex gap-5 flex-wrap">
           <list-item
             v-for="bot in botList"
-            class="app-page-item"
+            class="bot-management-item"
             :bot="bot"
             @chat="onChat($event, bot)"
-            @delete="_getAppList"
-            @refresh-list="_getAppList"
+            @delete="_getMyBotList"
+            @refresh-list="_getMyBotList"
           />
         </div>
       </el-scrollbar>
@@ -64,7 +68,7 @@
           :image="emptyRobotImageUrl"
         >
           <template #description>
-            <div class="text-[16px] font-black">{{ t('bots.not_found') }}</div>
+            <div class="no-content-psl font-black">{{ t('common.noContent') }}</div>
           </template>
         </el-empty>
         <el-empty
@@ -72,34 +76,32 @@
           :image="emptyRobotImageUrl"
         >
           <template #description>
-            <div class="text-[16px] font-black">{{ t('base.create_new') }}</div>
+            <div class="no-content-psl font-black">{{ t('common.noContent') }}</div>
           </template>
           <el-button
             type="primary"
             linear
+            class="new-bot-btn"
             @click="createNewBot"
           >
-            {{ t('bots.new') }}
+            + {{ t('bots.new') }}
           </el-button>
         </el-empty>
       </template>
     </div>
   </div>
-  <bot-base-info
-    ref="baseInfoRef"
-    @after-create="afterCreateBot"
-  />
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
-import { getAppList } from '@gptx/base/api/application';
+import emptyRobotImageUrl from '@/assets/images/smart-people.svg';
+import { getMyBotList } from '@gptx/base/api/application';
 import ListItem from './components/list/ListItem.vue';
+import { useRouter } from 'vue-router';
+import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 const router = useRouter();
 /* ref dom */
-const baseInfoRef = ref(null);
 
 const form = reactive({
   published: '',
@@ -117,23 +119,26 @@ const botList = ref([]);
 const showFilter = computed(() => {
   return botList.value.length || form.search || form.published !== '';
 });
-
-const createNewBot = () => baseInfoRef.value.open();
-const afterCreateBot = async ({ app_id }) => {
-  router.push(`/design/${app_id}`);
+// 监听createBotSuccess，刷新
+eventBus.on('createBotSuccess', () => {
+  _getMyBotList();
+});
+eventBus.on('botPublishSuccess', () => {
+  _getMyBotList();
+});
+const createNewBot = () => {
+  eventBus.emit('createBot');
 };
-const _getAppList = async () => {
+const _getMyBotList = async () => {
   isLoading.value = true;
   try {
-    const result = await getAppList(form);
+    const result = await getMyBotList(form);
     const {
       code,
       data: { list }
     } = result;
-    if (code === 200) botList.value = list;
-    setTimeout(() => {
-      isLoading.value = false;
-    }, 300);
+    if (code === 200) botList.value = list || [];
+    isLoading.value = false;
   } catch (e) {
     console.log(e);
     isLoading.value = false;
@@ -144,7 +149,7 @@ const onChat = (plat, { shared_social }) => {
   window.open(link, '_blank');
 };
 onMounted(() => {
-  _getAppList();
+  _getMyBotList();
 });
 </script>
 
@@ -153,7 +158,47 @@ onMounted(() => {
   margin-top: 0;
 }
 
-.app-page-top {
+.bot-management-top {
   margin-bottom: 0;
+}
+:deep(.el-empty) {
+  margin-top: 120px;
+}
+:deep(.el-empty__image) {
+  width: 240px;
+}
+
+.bot-management-title{
+  margin-top: 70px;
+  color: var(--Style, #E1FF01);
+  text-align: center;
+  font-feature-settings: 'dlig' on;
+  font-family: Inter;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 23px; /* 71.875% */
+}
+:deep(.el-empty__description){
+  margin-top: 40px;
+  margin-bottom: 20px;
+  .no-content-psl{
+    color: rgba(255, 255, 255, 0.70);
+    text-align: center;
+    font-feature-settings: 'dlig' on;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px; /* 105.556% */
+  }
+}
+:deep(.new-bot-btn) {
+  display: inline-flex;
+  padding: 16px 79.5px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  background: var(--Style, #E1FF01);
 }
 </style>
