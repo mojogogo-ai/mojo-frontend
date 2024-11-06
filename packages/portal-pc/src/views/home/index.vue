@@ -86,7 +86,7 @@ import Pic2 from '@/assets/images/homepage/pic2.png';
 import { getIsLogin } from '@gptx/base/utils/auth';
 import useLoginStore from '@/store/modules/login';
 import useBotStore from '@/store/modules/bot';
-import UploadKnowledgeSources from '@/components/UploadKnowledgeSources/index.vue';
+import UploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vue';
 
 const useLogin = useLoginStore();
 const useBot = useBotStore();
