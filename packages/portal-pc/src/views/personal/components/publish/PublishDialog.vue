@@ -75,11 +75,12 @@
     </div>
     <div class="divider-line"></div>
     <template #footer>
-      <el-button type="primary" :loading="loading" :disabled="loading || uncheckedOptions" @click="submitForm">
+      <el-button type="primary" :loading="loading" :disabled="loading || !uncheckedOptions" @click="submitForm">
         {{ 'Publish' }}
       </el-button>
     </template>
     <ConfigureTelegramDialog ref="configureTelegramDialogRef" @after-update="afterUpdate" />
+    <ConfigureDiscordDialog ref="configureDiscordDialogRef" @after-update="afterUpdate" />
   </mojoDialogTranslucent>
 </template>
 
@@ -93,6 +94,7 @@ import CryptoJS from 'crypto-js';
 import { ElMessage } from 'element-plus';
 import ConfigureTelegramDialog from '@/views/personal/components/publish/ConfigureTelegramDialog.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
+import ConfigureDiscordDialog from '@/views/personal/components/publish/ConfigureDiscordDialog.vue';
 
 const emits = defineEmits(['after-upload-knowledge-sources', 'after-update']);
 const isVisible = ref(false);
@@ -125,6 +127,7 @@ const afterUpdate = (option) => {
    publishOptions[1].discard_token = option.token;
  }
 }
+const configureDiscordDialogRef = ref(null);
 
 // publishOptions 内 不包含checked为true的项目
 const uncheckedOptions = computed(() => publishOptions.filter(item => !item.checked));
@@ -137,11 +140,14 @@ const goConfigure = (item) => {
       token_type: 'telegram'
     });
   } else if (item.id === 'discard') {
-   //  window.open('https://discord.com/developers/docs/intro');
+    configureDiscordDialogRef.value.open({
+      bot_id: botId.value,
+      token: item.discard_token || '',
+      token_type: 'discard'
+    });
   }
 };
 
-const formRef = ref(null);
 const loading = ref(false);
 
 
@@ -196,6 +202,8 @@ const submitForm = async () => {
     //botPublish
     await botPublish({
       id: botId.value,
+      telegram_token: publishOptions[0].telegram_token,
+      discard_token: publishOptions[1].discard_token
     });
     ElMessage.success('Bot publish successfully!');
     emits('after-upload-knowledge-sources');
