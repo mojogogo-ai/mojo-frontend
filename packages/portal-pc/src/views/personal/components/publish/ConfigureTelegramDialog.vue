@@ -18,6 +18,10 @@
       <div class="pdc-list">
         <el-input v-model="option.token"/>
       </div>
+<!--      option.address-->
+      <div class="pdc-list">
+        <el-input v-model="option.address" />
+      </div>
     </div>
     <template #footer>
       <el-button type="primary" :loading="loading" :disabled="loading || !option.token" @click="submitForm">
@@ -51,6 +55,7 @@ const option = ref({
   bot_id: null,
   token: '',
   token_type: 'telegram',
+  address: ''
 });
 
 const open = async (data) => {
@@ -65,6 +70,7 @@ const close = () => {
   option.value = {
     bot_id: null,
     token: '',
+    address: '',
     token_type: 'telegram'
   };
 };
@@ -78,17 +84,32 @@ const submitForm = async () => {
   }
   try {
     loading.value = true;
+    if(!option.value.bot_id) {
+      ElMessage.error('Please select a bot');
+      return;
+    }
+    if(!option.value.token) {
+      ElMessage.error('Please enter the Telegram Bot token');
+      return;
+    }
+    if(!option.value.address) {
+      ElMessage.error('Please enter the Telegram Bot address');
+      return;
+    }
     const res = await botAuthorize({
       id: option.value.bot_id,
       token: option.value.token,
-      token_type: option.value.token_type
+      // 1 telegram 2 discord
+      token_type: option.value.token_type === 'telegram' ? 1 : 2,
+      address: option.value.address
     });
     if(res.code === 200) {
       ElMessage.success('Authorization success');
       emits('after-update', {
         bot_id: option.value.bot_id,
         token: option.value.token,
-        token_type: option.value.token_type
+        token_type: option.value.token_type,
+        address: option.value.address
       });
       close();
     } else {

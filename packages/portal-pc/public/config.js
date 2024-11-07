@@ -38,7 +38,7 @@
     // local start
     "localhost":{
       FIREBASE_CONFIG: firebaseConfig.dev,
-      BASE_API: "",
+      BASE_API: "https://api-dev.mojogogo.ai/portal/",
     },
     // ...others
     // local end
@@ -46,7 +46,7 @@
     // online start
     "dev.mojogogo.ai":{ // dev
       FIREBASE_CONFIG: firebaseConfig.dev,
-      BASE_API: "",
+      BASE_API: "https://api-dev.mojogogo.ai/portal/",
     },
     "test.mojogogo.ai":{ // test
       FIREBASE_CONFIG: firebaseConfig.test,

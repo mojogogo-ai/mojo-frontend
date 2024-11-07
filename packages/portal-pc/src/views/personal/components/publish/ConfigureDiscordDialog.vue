@@ -2,21 +2,25 @@
   <mojoDialogTranslucent
     v-model="isVisible"
     v-bind="$attrs"
-    :title="'Configure discard bot'"
+    :title="'Configure discord bot'"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     destroy-on-close
   >
     <div class="pd-title">
-      Connect to Discord bots and chat with this bot in discard App.<br>
-      <span>How to get discard Bot token ?</span>
+      Connect to Discord bots and chat with this bot in discord App.<br>
+      <span>How to get discord Bot token ?</span>
     </div>
     <div class="pd-content">
       <div class="pdc-title">
-        discard Bot token <span>*</span>
+        discord Bot token <span>*</span>
       </div>
       <div class="pdc-list">
         <el-input v-model="option.token"/>
+      </div>
+      <!--      option.address-->
+      <div class="pdc-list">
+        <el-input v-model="option.address" />
       </div>
     </div>
     <template #footer>
@@ -41,7 +45,7 @@ const isVisible = ref(false);
 const goConfigure = (item) => {
   // if (item.id === 'telegram') {
   //   window.open('https://core.telegram.org/bots/api');
-  // } else if (item.id === 'discard') {
+  // } else if (item.id === 'discord') {
   //   window.open('https://discord.com/developers/docs/intro');
   // }
 };
@@ -50,7 +54,8 @@ const loading = ref(false);
 const option = ref({
   bot_id: null,
   token: '',
-  token_type: 'telegram',
+  token_type: 'discord',
+  address: ''
 });
 
 const open = async (data) => {
@@ -65,7 +70,8 @@ const close = () => {
   option.value = {
     bot_id: null,
     token: '',
-    token_type: 'telegram'
+    address: '',
+    token_type: 'discord'
   };
 };
 
@@ -73,22 +79,37 @@ const close = () => {
 
 const submitForm = async () => {
   if(!option.value.token) {
-    ElMessage.error('Please enter the discard Bot token');
+    ElMessage.error('Please enter the discord Bot token');
     return;
   }
   try {
     loading.value = true;
+    if(!option.value.bot_id) {
+      ElMessage.error('Please select a bot');
+      return;
+    }
+    if(!option.value.token) {
+      ElMessage.error('Please enter the Discord Bot token');
+      return;
+    }
+    if(!option.value.address) {
+      ElMessage.error('Please enter the Discord Bot address');
+      return;
+    }
     const res = await botAuthorize({
       id: option.value.bot_id,
       token: option.value.token,
-      token_type: option.value.token_type
+      token_type: option.value.token_type,
+      address: option.value.address
     });
     if(res.code === 200) {
       ElMessage.success('Authorization success');
       emits('after-update', {
         bot_id: option.value.bot_id,
         token: option.value.token,
-        token_type: option.value.token_type
+        // token_type: option.value.token_type === 'telegram' ? 1 : 2,
+        token_type: option.value.token_type === 'discord' ? 2 : 1,
+        address: option.value.address
       });
       close();
     } else {
