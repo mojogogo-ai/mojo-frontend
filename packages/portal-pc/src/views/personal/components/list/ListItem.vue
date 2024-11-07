@@ -172,14 +172,14 @@
       </div>
     </div>
     <div class="bmi-bottom">
-      <div class="bmi-share-bar">
-        <div class="bmi-s-b-item">
+      <div class="bmi-share-bar cursor-pointer">
+        <div class="bmi-s-b-item" @click.stop="goLink(bot, 'discord')">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
             <rect x="0.94873" width="24" height="24" rx="12" fill="white"/>
             <path d="M19.1964 6.20799C18.016 5.65567 16.7671 5.26322 15.4829 5.04102C15.323 5.33021 15.1361 5.71918 15.0072 6.02862C13.6226 5.82041 12.2507 5.82041 10.8916 6.02862C10.7628 5.71925 10.5717 5.33021 10.4102 5.04102C9.12477 5.26331 7.87487 5.65676 6.69387 6.21087C4.34374 9.76229 3.70664 13.2254 4.02516 16.6395C5.58391 17.8035 7.09451 18.5106 8.57965 18.9734C8.94877 18.4658 9.27504 17.9284 9.55509 17.3668C9.02186 17.1638 8.5078 16.9136 8.01904 16.6192C8.14766 16.5239 8.27325 16.4245 8.39564 16.3213C11.3573 17.7066 14.5754 17.7066 17.5018 16.3213C17.6247 16.4239 17.7503 16.5232 17.8783 16.6192C17.3888 16.9144 16.8738 17.1651 16.3395 17.3683C16.6211 17.9322 16.9468 18.4701 17.3149 18.9748C18.8015 18.5121 20.3135 17.805 21.8722 16.6395C22.246 12.6817 21.2338 9.25041 19.1964 6.20799ZM9.95861 14.5399C9.06951 14.5399 8.34037 13.7098 8.34037 12.6991C8.34037 11.6884 9.05397 10.8569 9.95861 10.8569C10.8633 10.8569 11.5924 11.6869 11.5769 12.6991C11.5783 13.7098 10.8633 14.5399 9.95861 14.5399ZM15.9388 14.5399C15.0497 14.5399 14.3206 13.7098 14.3206 12.6991C14.3206 11.6884 15.0341 10.8569 15.9388 10.8569C16.8435 10.8569 17.5725 11.6869 17.557 12.6991C17.557 13.7098 16.8435 14.5399 15.9388 14.5399Z" fill="#5865F2"/>
           </svg>
         </div>
-        <div class="bmi-s-b-item">
+        <div class="bmi-s-b-item" @click.stop="goLink(bot, 'telegram')">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
             <g clip-path="url(#clip0_994_681)">
               <path d="M12.9487 0C9.76686 0 6.71248 1.26506 4.46436 3.51469C2.21393 5.76522 0.949374 8.81734 0.94873 12C0.94873 15.1813 2.21436 18.2357 4.46436 20.4853C6.71248 22.7349 9.76686 24 12.9487 24C16.1306 24 19.185 22.7349 21.4331 20.4853C23.6831 18.2357 24.9487 15.1813 24.9487 12C24.9487 8.81869 23.6831 5.76431 21.4331 3.51469C19.185 1.26506 16.1306 0 12.9487 0Z" fill="url(#paint0_linear_994_681)"/>
@@ -255,6 +255,26 @@ const props = defineProps({
 });
 const publishDialogRef = ref(null);
 const emit = defineEmits(['chat', 'delete', 'refresh-list']);
+
+const goLink = (bot, platform) => {
+  // emit('chat', { bot, platform });
+  let url
+  console.log(bot)
+  if(platform === 'telegram') {
+     url = bot.telegram_address
+  } else if(platform === 'discord') {
+     url = bot.discord_address
+  }
+  if(!url) {
+    ElMessageBox.alert('Please configure the platform address first', 'Tips', {
+      confirmButtonText: 'OK',
+      type: 'warning'
+    });
+    return
+  }
+  emit('chat', { url });
+};
+
 
 let platList = reactive([]);
 const platIcons = {

@@ -18,7 +18,7 @@
         <div v-for="item in publishOptions" class="pdc-list-item">
           <div class="configure-left">
             <el-checkbox
-              v-model="item.checked" :disabled="item.id === 'telegram' && !item.telegram_token || item.id === 'discard' && !item.discard_token"
+              v-model="item.checked" :disabled="item.id === 'telegram' && !item.telegram_token || item.id === 'discard' && !item.discord_token"
               @change="(checked) => {
                 checkboxChange(item, checked)
               }"
@@ -57,7 +57,7 @@
 
             <div class="ml-8">
               <div
-                v-if="item.id === 'telegram' && !item.telegram_token || item.id === 'discard' && !item.discard_token"
+                v-if="item.id === 'telegram' && !item.telegram_token || item.id === 'discard' && !item.discord_token"
                 class="not-configured"
               >
                 Not configured
@@ -114,7 +114,7 @@ const afterUpdate = (option) => {
    publishOptions[0].address = option.address;
 
  } else if(option.token_type === 'discard') {
-   publishOptions[1].discard_token = option.token;
+   publishOptions[1].discord_token = option.token;
     publishOptions[1].address = option.address;
  }
 }
@@ -131,7 +131,7 @@ const publishOptions = reactive([
   {
     id: 'discard',
     name: 'Discord',
-    discard_token: '',
+    discord_token: '',
     address: '',
     checked: false
   }
@@ -150,7 +150,7 @@ const goConfigure = (item) => {
   } else if (item.id === 'discard') {
     configureDiscordDialogRef.value.open({
       bot_id: botId.value,
-      token: item.discard_token || '',
+      token: item.discord_token || '',
       address: item.address || '',
       token_type: 'discard'
     });
@@ -171,7 +171,7 @@ const open = async (option) => {
     if(code === 200) {
       publishOptions.forEach(item => {
         item.telegram_token = data.telegram_token;
-        item.discard_token = data.discard_token;
+        item.discord_token = data.discord_token;
         item.address = data.address;
       });
     } else {
@@ -188,7 +188,7 @@ const close = () => {
   botId.value = null;
   publishOptions.forEach(item => {
     item.telegram_token = '';
-    item.discard_token = '';
+    item.discord_token = '';
     item.address = '';
     item.checked = false;
   });
@@ -216,7 +216,8 @@ const submitForm = async () => {
     await botPublish({
       id: botId.value,
       telegram_token: publishOptions[0].telegram_token,
-      discard_token: publishOptions[1].discard_token
+      discord_token: publishOptions[1].discord_token,
+      address: publishOptions[0].address || publishOptions[1].address
     });
     ElMessage.success('Bot publish successfully!');
     emits('after-upload-knowledge-sources');

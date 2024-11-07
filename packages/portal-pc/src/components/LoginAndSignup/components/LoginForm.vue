@@ -10,6 +10,7 @@ import { auth } from "@/utils/firebase.js" // Assuming you have initialized Fire
 import { welcomeAccess } from '@gptx/base/api/login'
 import { validatorEmail, validatorPassword } from '@gptx/base/utils/validator'
 import ForgotPasswordButton from './forgotPasswordButton.vue';
+import {handleFirebaseError} from '@/utils/firebase.js'
 
 const emit = defineEmits(['close', 'dialog-close', 'referral', 'to-register'])
 const route = useRoute()

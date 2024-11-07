@@ -8,8 +8,8 @@
     :before-close="onBeforeClose"
   >
     <!-- Google 登录按钮及其他内容 -->
-    <div v-if="dialogVisible" class="flex flex-col items-center mt-4 light-mode-section">
-      <LoginLogo :is-login-form="isLoginView" />
+    <div v-if="dialogVisible" v-loading="firebaseLoading" class="flex flex-col items-center mt-4 light-mode-section">
+      <LoginLogo :is-login-form="isLoginView"  />
       <div class="h-[100%] w-full relative lt-xl:bg-[var(--login-bg-color)] lt-sm:px-10px lt-xl:px-10px lt-md:px-10px">
         <ElScrollbar class="h-full">
           <div class="relative flex mx-auto min-h-100vh">
@@ -327,6 +327,9 @@ defineExpose({ open });
   }
 </style>
 <style scoped lang="scss">
+:deep(.el-loading-mask) {
+  background: transparent;
+}
 .login-dialog .el-dialog__header {
   display: none; /* 隐藏默认弹窗标题栏 */
 }
