@@ -59,6 +59,7 @@
             @chat="onChat($event, bot)"
             @delete="_getMyBotList"
             @refresh-list="_getMyBotList"
+            @click="editBot(bot)"
           />
         </div>
       </el-scrollbar>
@@ -97,11 +98,8 @@ import { t } from '@gptx/base/i18n';
 import emptyRobotImageUrl from '@/assets/images/smart-people.svg';
 import { getMyBotList } from '@gptx/base/api/application';
 import ListItem from './components/list/ListItem.vue';
-import { useRouter } from 'vue-router';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
-const router = useRouter();
-/* ref dom */
 
 const form = reactive({
   published: '',
@@ -109,11 +107,6 @@ const form = reactive({
   page_num: 1,
   page_size: 10 */
 });
-const statusOptionList = [
-  { value: '', label: t('base.title.select_status') },
-  { value: true, label: t('bots.published') },
-  { value: false, label: t('bots.unpublished') }
-];
 const isLoading = ref(false);
 const botList = ref([]);
 const showFilter = computed(() => {
@@ -128,6 +121,9 @@ eventBus.on('botPublishSuccess', () => {
 });
 const createNewBot = () => {
   eventBus.emit('createBot');
+};
+const editBot = (bot) => {
+  eventBus.emit('editBot', bot);
 };
 const _getMyBotList = async () => {
   isLoading.value = true;
@@ -144,9 +140,10 @@ const _getMyBotList = async () => {
     isLoading.value = false;
   }
 };
-const onChat = (plat, { shared_social }) => {
-  const { link } = shared_social[plat];
-  window.open(link, '_blank');
+const onChat = ({ url }) => {
+  // console.log('onChat', url);
+  // const { url } = {url};
+  window.open(url, '_blank');
 };
 onMounted(() => {
   _getMyBotList();
