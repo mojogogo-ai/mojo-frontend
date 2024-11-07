@@ -38,7 +38,7 @@
     // local start
     "localhost":{
       FIREBASE_CONFIG: firebaseConfig.dev,
-      BASE_API: "",
+      BASE_API: "https://api-dev.mojogogo.ai/portal/",
     },
     // ...others
     // local end

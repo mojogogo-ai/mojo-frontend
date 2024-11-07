@@ -120,6 +120,7 @@ const afterUpdate = (option) => {
 }
 const configureDiscordDialogRef = ref(null);
 const publishOptions = reactive([
+  // 1 telegram 2 discord
   {
     id: 'telegram',
     name: 'Telegram',

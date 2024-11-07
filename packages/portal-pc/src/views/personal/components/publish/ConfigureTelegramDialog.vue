@@ -99,7 +99,8 @@ const submitForm = async () => {
     const res = await botAuthorize({
       id: option.value.bot_id,
       token: option.value.token,
-      token_type: option.value.token_type,
+      // 1 telegram 2 discord
+      token_type: option.value.token_type === 'telegram' ? 1 : 2,
       address: option.value.address
     });
     if(res.code === 200) {
