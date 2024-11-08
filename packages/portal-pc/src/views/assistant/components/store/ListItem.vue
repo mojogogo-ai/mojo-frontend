@@ -90,18 +90,28 @@
               />
             </el-button>
             <el-button
-              v-for="{ s_name } in platList"
+              v-if="appInfo.telegram_address"
               size="small"
               link
-              @click="emits('open-with', s_name)"
+              @click="emits('open-with', 'telegram')"
             >
               <el-image
                 class="plat-icon"
-                :src="platIcons[s_name]"
+                :src="platIcons['telegram']"
+              />
+            </el-button>
+            <el-button
+              v-if="appInfo.discord_address"
+              size="small"
+              link
+              @click="emits('open-with', 'discord')"
+            >
+              <el-image
+                class="plat-icon"
+                :src="platIcons['discord_address']"
               />
             </el-button>
           </div>
-
         </div>
       </template>
     </el-card>

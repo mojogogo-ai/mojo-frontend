@@ -79,9 +79,14 @@ const onSearch = () => {
     getStoreList();
   }, 300);
 };
-const onDropDownClick = (plat, { address }) => {
+const onDropDownClick = (plat, data) => {
   // const { link } = shared_social[plat];
-  window.open(address, '_blank');
+  // window.open(address, '_blank');
+  if(plat === 'telegram'){
+    window.open(data.telegram_address, '_blank');
+  }else if(plat === 'discord'){
+    window.open(data.discord_address, '_blank');
+  }
 };
 const onDigClick = () => {
   window.open('https://virtual-human.mojogogo.ai/', '_blank');
