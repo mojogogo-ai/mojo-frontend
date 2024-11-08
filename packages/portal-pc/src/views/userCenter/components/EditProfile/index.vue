@@ -142,7 +142,7 @@ const submitProfileInfo = async (el) => {
       try {
         console.log('Profile updated successfully', form);
         updateUserInfo({
-          avatar: form.avatar,
+          photo_url: form.avatar,
           twitter_link: form.twitter_link,
           instagram_link: form.instagram_link,
           facebook_link: form.facebook_link,
