@@ -36,9 +36,10 @@
           :placeholder="t('bots.place.catalog')"
         >
           <el-option
-            v-for="{ name, id } in genderList"
-            :label="t(name)"
-            :value="id"
+            v-for="item in genderList"
+            :key="item.id"
+            :label="t(item.name)"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
@@ -110,9 +111,10 @@
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getAppCategory, createBot, updateAppInfo } from '@gptx/base/api/application';
+import { getBotInfo, createBot, botEdit } from '@gptx/base/api/application';
 import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
 import { storeAppCopy } from '@gptx/base/api/chat.js';
+import { ElMessage } from 'element-plus';
 
 const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
@@ -156,17 +158,44 @@ const isCopy = ref(false);
 const open = async (option) => {
   isCopy.value = !!(option && option.from_id);
   isEdit.value = !!(option && option?.id);
-  if (isCopy.value) form.from_id = option.from_id;
-  form.icon = option?.icon || '';
-  form.name = option?.name || '';
-  form.introduction = option?.introduction || '';
-  form.classification = option?.classification || [];
-  form.gender = option?.gender
+  // if (isCopy.value) form.from_id = option.from_id;
+  // form.icon = option?.icon || '';
+  // form.name = option?.name || '';
+  // form.introduction = option?.introduction || '';
+  // form.classification = option?.classification || [];
+  // form.gender = option?.gender
+  // console.log(option, 'option')
   if (option?.id) form.id = option?.id;
   isVisible.value = true;
+  if(isEdit.value) {
+    loading.value = true;
+    try {
+      const { code, data } = await getBotInfo({
+        id: option.id
+      });
+      // console.log(data, 'data')
+      if (code === 200) {
+        form.icon = data.icon;
+        form.name = data.name;
+        form.introduction = data.introduction;
+        form.classification = data.classification;
+        form.gender = data.gender
+        console.log(data,data)
+        console.log(form, 'form')
+      }
+    } catch (error) {
+      console.log(error);
+      // 获取详情失败
+      ElMessage.error(t('bots.error.getDetail'));
+    } finally {
+      loading.value = false;
+    }
+  } else {
+    formRef.value.resetFields();
+  }
   await nextTick();
-  formRef.value.resetFields();
-};
+
+}
 const close = () => {
   isVisible.value = false;
   formRef.value.resetFields();
@@ -190,7 +219,7 @@ const submitBaseInfo = async (el) => {
 const editAppInfo = async () => {
   try {
     loading.value = true;
-    const result = await updateAppInfo(form);
+    const result = await botEdit(form);
     if (result.code === 200) {
       loading.value = false;
       emits('after-update');

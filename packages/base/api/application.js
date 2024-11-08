@@ -63,6 +63,15 @@ export function getMyBotList(params) {
   });
 }
 
+// /portal/v1/bot/info
+export function getBotInfo(params) {
+  return request({
+    url: '/v1/bot/info',
+    method: 'get',
+    params
+  });
+}
+
 // evaluate
 export function evaluateApi(data) {
   return request({
@@ -124,7 +133,14 @@ export function updateAppInfo(data) {
     data
   });
 }
-
+// /portal/v1/bot/edit
+export function botEdit(data) {
+  return request({
+    url: '/v1/bot/edit',
+    method: 'post',
+    data
+  });
+}
 // get bot analyze static data
 export function getAnalyzeData(params) {
   return request({

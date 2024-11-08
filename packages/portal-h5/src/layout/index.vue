@@ -12,16 +12,13 @@
     </van-popup>
     <div class="main-container">
       <app-main />
-      <!-- login or sign up -->
       <LoginAndSignup
         ref="loginRef"
         @dialog-close="onLoginDialogClose"
         @close="onLoginClose"
         @referral="onOpenReferralCodeDialog"
       />
-      <!-- create bot -->
       <CreateBot ref="botRef" />
-      <!--  referral code  -->
       <referral-code
         ref="referralCodeRef"
         @confirm="onConfirmUserInvite"

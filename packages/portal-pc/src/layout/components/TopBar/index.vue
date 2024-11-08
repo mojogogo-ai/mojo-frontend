@@ -117,8 +117,7 @@
     width="600px"
     @after-upload-knowledge-sources="afterUploadKnowledgeSources"
   />
-  <PublishDialog ref="publishDialogRef"></PublishDialog>
-
+  <PublishDialog ref="publishDialogRef"/>
   <!--  referral code  -->
   <referral-code
     ref="referralCodeRef"
@@ -165,6 +164,13 @@ eventBus.on('publishBot', ({id}) => {
 eventBus.on('createBot', () => {
   if(isLogin.value) {
     if (baseInfoRef.value) baseInfoRef.value.open();
+  } else {
+    useLogin.setLoginDialogVisible(true, 'login');
+  }
+});
+eventBus.on('editBot', (option) => {
+  if(isLogin.value) {
+    if (baseInfoRef.value) baseInfoRef.value.open(option);
   } else {
     useLogin.setLoginDialogVisible(true, 'login');
   }
