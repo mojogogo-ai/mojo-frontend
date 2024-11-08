@@ -163,7 +163,7 @@ eventBus.on('publishBot', ({id}) => {
 });
 eventBus.on('createBot', () => {
   if(isLogin.value) {
-    if (baseInfoRef.value) baseInfoRef.value.open();
+    if (baseInfoRef.value) baseInfoRef.value.open({});
   } else {
     useLogin.setLoginDialogVisible(true, 'login');
   }
@@ -278,7 +278,7 @@ const afterCreateBot = async (data) => {
 watch(
   () => useBot.createBotDialog,
   () => {
-    if (baseInfoRef.value) baseInfoRef.value.open();
+    if (baseInfoRef.value) baseInfoRef.value.open({});
   },
   { immediate: false }
 );

@@ -156,8 +156,8 @@ const isAIloading = ref(false);
 const isCopy = ref(false);
 
 const open = async (option) => {
-  isCopy.value = !!(option && option.from_id);
-  isEdit.value = !!(option && option?.id);
+  // isCopy.value = !!(option && option.from_id);
+  // isEdit.value = !!(option && option?.id);
   // if (isCopy.value) form.from_id = option.from_id;
   // form.icon = option?.icon || '';
   // form.name = option?.name || '';
@@ -166,6 +166,7 @@ const open = async (option) => {
   // form.gender = option?.gender
   // console.log(option, 'option')
   if (option?.id) form.id = option?.id;
+  isEdit.value = !!option?.id;
   isVisible.value = true;
   if(isEdit.value) {
     loading.value = true;
@@ -191,10 +192,18 @@ const open = async (option) => {
       loading.value = false;
     }
   } else {
-    formRef.value.resetFields();
+    // await nextTick();
+    // alert(1)
+    form.id = '';
+    form.icon = '';
+    form.name = '';
+    form.introduction = '';
+    form.classification = [];
+    form.gender = null;
+    form.third_company = '';
+    form.is_personalize_image_icon = false;
+    // formRef.value.resetFields();
   }
-  await nextTick();
-
 }
 const close = () => {
   isVisible.value = false;
@@ -223,6 +232,7 @@ const editAppInfo = async () => {
     if (result.code === 200) {
       loading.value = false;
       emits('after-update');
+      formRef.value.resetFields();
       close();
     }
     loading.value = false;
