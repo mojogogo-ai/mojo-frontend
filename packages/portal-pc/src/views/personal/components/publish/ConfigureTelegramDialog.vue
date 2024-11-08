@@ -3,9 +3,11 @@
     v-model="isVisible"
     v-bind="$attrs"
     :title="'Configure Telegram bot'"
+    class="m-d-t-c"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     destroy-on-close
+    append-to-body
   >
     <div class="pd-title">
       Connect to Discord bots and chat with this bot in Telegram App.<br>
@@ -19,6 +21,9 @@
         <el-input v-model="option.token"/>
       </div>
 <!--      option.address-->
+      <div class="pdc-title mt-[20px]">
+        Telegram Address <span>*</span>
+      </div>
       <div class="pdc-list">
         <el-input v-model="option.address" />
       </div>
@@ -127,8 +132,24 @@ const submitForm = async () => {
 defineExpose({ open });
 </script>
 
+<style  lang="scss">
+.m-d-t-c {
+  --el-dialog-margin-top: 6vh;
+  --el-dialog-bg-color: rgba(255, 255, 255, 0.15)!important;
+  --el-dialog-border-radius: var(--el-border-radius-large);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  backdrop-filter: var(--backdrop-blur);
+  .el-dialog__title{
+    color: #ffffff;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
+
 .pd-title{
+
   color: rgba(255, 255, 255, 0.70);
   font-feature-settings: 'dlig' on;
   font-family: "TT Norms Pro";

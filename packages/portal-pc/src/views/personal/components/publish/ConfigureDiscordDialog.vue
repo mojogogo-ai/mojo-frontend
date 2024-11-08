@@ -3,6 +3,7 @@
     v-model="isVisible"
     v-bind="$attrs"
     :title="'Configure discord bot'"
+    class="m-d-t-c"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     destroy-on-close
@@ -99,7 +100,7 @@ const submitForm = async () => {
     const res = await botAuthorize({
       id: option.value.bot_id,
       token: option.value.token,
-      token_type: option.value.token_type,
+        token_type: option.value.token_type === 'telegram' ? 1 : 2,
       address: option.value.address
     });
     if(res.code === 200) {
@@ -127,8 +128,24 @@ const submitForm = async () => {
 defineExpose({ open });
 </script>
 
+<style  lang="scss">
+.m-d-t-c {
+  --el-dialog-margin-top: 6vh;
+  --el-dialog-bg-color: rgba(255, 255, 255, 0.15)!important;
+  --el-dialog-border-radius: var(--el-border-radius-large);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  backdrop-filter: var(--backdrop-blur);
+  .el-dialog__title{
+    color: #ffffff;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
+
 .pd-title{
+
   color: rgba(255, 255, 255, 0.70);
   font-feature-settings: 'dlig' on;
   font-family: "TT Norms Pro";

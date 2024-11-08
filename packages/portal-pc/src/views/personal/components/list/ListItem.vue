@@ -39,7 +39,7 @@
   <!--                </el-button>-->
   <!--                <template #dropdown>-->
   <!--                  <el-dropdown-item-->
-  <!--                    v-if="bot.published"-->
+  <!--                    v-if="bot.public"-->
   <!--                    icon="sort-down"-->
   <!--                    @click.stop="onUnpublish(bot.id)"-->
   <!--                  >-->
@@ -80,8 +80,8 @@
   <!--      <template #footer>-->
   <!--        <div class="page-list-option">-->
   <!--          <span class="mr-auto text-xs text-[var(&#45;&#45;el-text-color-placeholder)]">-->
-  <!--            &lt;!&ndash;            <el-icon :class="{ 'text-[var(&#45;&#45;el-color-primary)]': bot.published }"><Promotion /></el-icon>-->
-  <!--            {{ bot.published ? t('bots.published') : t('bots.unpublished') }}&ndash;&gt;-->
+  <!--            &lt;!&ndash;            <el-icon :class="{ 'text-[var(&#45;&#45;el-color-primary)]': bot.public }"><Promotion /></el-icon>-->
+  <!--            {{ bot.public ? t('bots.public') : t('bots.unpublic') }}&ndash;&gt;-->
   <!--          </span>-->
   <!--          <el-dropdown v-if="platList && platList.length">-->
   <!--            <el-button-->
@@ -158,7 +158,7 @@
             {{ bot.introduction }}
           </div>
           <div class="bmicl-toolbar">
-            <div v-show="bot.published == '1'" class="bmiclt-btn bb-publish">
+            <div v-show="bot.public == '1'" class="bmiclt-btn bb-publish">
               Published
             </div>
           </div>
@@ -205,13 +205,13 @@
           </el-button>
           <template #dropdown>
             <!--            <el-dropdown-item-->
-            <!--              v-if="bot.published"-->
+            <!--              v-if="bot.public"-->
             <!--              @click.stop="onUnpublish(bot.id)"-->
             <!--            >-->
             <!--              {{ t('bots.unpublish') }}-->
             <!--            </el-dropdown-item>-->
             <el-dropdown-item
-              v-if="bot.published != '1'"
+              v-if="bot.public != '1'"
               @click.stop="toPublish(bot)"
             >
               publish

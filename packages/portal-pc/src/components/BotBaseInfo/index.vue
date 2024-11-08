@@ -207,6 +207,14 @@ const open = async (option) => {
 }
 const close = () => {
   isVisible.value = false;
+  form.id = '';
+  form.icon = '';
+  form.name = '';
+  form.introduction = '';
+  form.classification = [];
+  form.gender = null;
+  form.third_company = '';
+  form.is_personalize_image_icon = false;
   formRef.value.resetFields();
 };
 const onImageChange = (url, is_personalize_image_icon) => {
@@ -233,6 +241,13 @@ const editAppInfo = async () => {
       loading.value = false;
       emits('after-update');
       formRef.value.resetFields();
+      emits('after-create', {
+        id: form.id,
+        icon: form.icon,
+        name: form.name,
+        introduction: form.introduction,
+        classification: form.classification,
+      });
       close();
     }
     loading.value = false;

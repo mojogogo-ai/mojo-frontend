@@ -200,11 +200,6 @@ const checkboxChange = (item, checked) => {
 };
 
 
-
-
-
-
-
 const submitForm = async () => {
   if(botId.value ===null) {
     ElMessage.error('Please select a bot first!');
