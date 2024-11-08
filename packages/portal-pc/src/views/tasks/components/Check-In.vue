@@ -100,12 +100,13 @@
 import { ref, reactive, nextTick } from 'vue';
 import { t } from '@gptx/base/i18n';
 import { dayCheckIn } from '@gptx/base/api/user';
-import { ElMessage } from 'element-plus'; // Adjust this import as necessary
+import { ElMessage } from 'element-plus';
+import useUserStore from '@/store/modules/user.js'; // Adjust this import as necessary
 
 
 const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
-
+const user = useUserStore();
 const open = async (option) => {
   isVisible.value = true;
   await nextTick();
@@ -120,9 +121,10 @@ const dayCheckInHandler = async() => {
   try{
     await dayCheckIn();
     ElMessage.success('Check in successfully');
+    await user.updateSysInfo();
   }catch(e){
     console.log(e);
-    ElMessage.error('Check in failed');
+    // ElMessage.error('Check in failed');
   } finally {
     close();
   }
