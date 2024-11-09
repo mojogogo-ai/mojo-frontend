@@ -42,7 +42,6 @@
       </el-form>
     </div>
     <div
-      v-loading="isLoading"
       class="bot-management-content"
       element-loading-background="transparent"
       :element-loading-text="t('common.loading')"
@@ -51,7 +50,7 @@
         v-if="botList.length && !isLoading"
         class="h-full"
       >
-        <div class="pt-3 flex gap-5 flex-wrap">
+        <div class="pt-3 flex gap-5 flex-wrap" v-loading="isLoading">
           <list-item
             v-for="bot in botList"
             class="bot-management-item"

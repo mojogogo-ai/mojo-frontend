@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="ppb-more">
-        <div class="ppb-more-text">
+        <div class="ppb-more-text" @click="goMorePoints">
           How to earn more
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
@@ -92,6 +92,10 @@ const onDigClick = () => {
 
 const onOpenNewChat = ({ app_id }) => {
   router.push(`/bot/${app_id}`);
+};
+
+const goMorePoints = () => {
+  router.push('/tasks');
 };
 
 const getStoreList = async () => {

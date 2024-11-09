@@ -172,7 +172,7 @@ const open = async (option) => {
       publishOptions.forEach(item => {
         item.telegram_token = data.telegram_token;
         item.discord_token = data.discord_token;
-        item.address = data.address;
+        item.address = data.telegram_address || data.discord_address;
       });
     } else {
       ElMessage.error('Failed to get bot info');

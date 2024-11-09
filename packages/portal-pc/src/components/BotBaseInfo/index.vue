@@ -143,9 +143,9 @@ const catalogList = reactive([
 ]);
 // user gender,0 none-binary 1 male 2 female
 const genderList = reactive([
-  { id: 0, name: 'none-binary' },
-  { id: 1, name: 'male' },
-  { id: 2, name: 'female' }
+  { id: 0, name: 'None-binary' },
+  { id: 1, name: 'Male' },
+  { id: 2, name: 'Female' }
 ]);
 
 
@@ -181,8 +181,7 @@ const open = async (option) => {
         form.introduction = data.introduction;
         form.classification = data.classification;
         form.gender = data.gender
-        console.log(data,data)
-        console.log(form, 'form')
+        form.files = data.files;
       }
     } catch (error) {
       console.log(error);
@@ -240,14 +239,15 @@ const editAppInfo = async () => {
     if (result.code === 200) {
       loading.value = false;
       emits('after-update');
-      formRef.value.resetFields();
       emits('after-create', {
         id: form.id,
         icon: form.icon,
         name: form.name,
         introduction: form.introduction,
         classification: form.classification,
+        files: form?.files || null
       });
+      formRef.value.resetFields();
       close();
     }
     loading.value = false;

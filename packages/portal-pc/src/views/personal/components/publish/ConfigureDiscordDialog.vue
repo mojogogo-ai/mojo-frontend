@@ -20,9 +20,9 @@
         <el-input v-model="option.token"/>
       </div>
       <!--      option.address-->
-      <div class="pdc-list">
-        <el-input v-model="option.address" />
-      </div>
+<!--      <div class="pdc-list">-->
+<!--        <el-input v-model="option.address" />-->
+<!--      </div>-->
     </div>
     <template #footer>
       <el-button type="primary" :loading="loading" :disabled="loading || !option.token" @click="submitForm">
@@ -101,7 +101,8 @@ const submitForm = async () => {
       id: option.value.bot_id,
       token: option.value.token,
         token_type: option.value.token_type === 'telegram' ? 1 : 2,
-      address: option.value.address
+      address: ''
+      // discord暂无adress
     });
     if(res.code === 200) {
       ElMessage.success('Authorization success');
@@ -110,7 +111,8 @@ const submitForm = async () => {
         token: option.value.token,
         // token_type: option.value.token_type === 'telegram' ? 1 : 2,
         token_type: option.value.token_type === 'discord' ? 2 : 1,
-        address: option.value.address
+        address: ''
+        // discord暂无adress
       });
       close();
     } else {

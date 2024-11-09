@@ -59,7 +59,7 @@
 import { ref, reactive, nextTick } from 'vue';
 import { t } from '@gptx/base/i18n';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user';
-import {botFileSave} from '@gptx/base/api/application';
+import { botFileSave, updateBotFile } from '@gptx/base/api/application';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import { ElMessage } from 'element-plus';
@@ -83,16 +83,32 @@ const formRef = ref(null);
 const loading = ref(false);
 const isUploading = ref(false);
 const selectedFile = ref(null);
-const fileHash = ref('');
 const selectedFileName = ref('');
-const fileSize = ref(0);
 
 const open = async (option) => {
   isVisible.value = true;
   await nextTick();
   formRef.value.resetFields();
   botId.value = option.id;
+
+  // 如果提供了文件列表，则进入编辑模式并加载文件
+  if (option.files && Array.isArray(option.files)) {
+    isEdit.value = true;
+    form.fileList = option.files.map((file) => ({
+      id: file.id,
+      file: new File([""], file.file_name), // 使用空文件对象仅作展示
+      name: file.file_name,
+      size: 0, // 大小可以省略或保持默认值，因为已有文件无需验证大小
+      url: file.file_url, // 已有文件的URL，便于显示和后续操作
+    }));
+  } else {
+    // 新增模式
+    isEdit.value = false;
+    form.fileList = [];
+  }
 };
+
+
 
 const close = () => {
   isVisible.value = false;
@@ -170,8 +186,6 @@ const generateFileHash = (file) => {
   });
 };
 
-
-
 const uploadFile = async (upload_url, file, form_data) => {
   const form = new FormData();
 
@@ -187,48 +201,52 @@ const uploadFile = async (upload_url, file, form_data) => {
 };
 
 const submitForm = async () => {
-  if (form.fileList.length === 0) {
-    formRef.value.validateField('fileList');
-    return;
-  }
-  if(botId.value ===null) {
+  // if (form.fileList.length === 0) {
+  //   // 提示文件设置为空
+  // }
+  if (botId.value === null) {
     ElMessage.error('Please select a bot first!');
     return;
   }
   loading.value = true;
   try {
-    // 遍历每个文件并上传
     const fileDataList = [];
     for (const fileData of form.fileList) {
-      const { file, name, size, hash } = fileData;
-
-      // 获取预签名 URL
-      const presignedData = await getPresignedUrl(name, size, hash);
-      const { upload_url, form_data, file_id_list } = presignedData.data;
-      // 上传文件
-      await uploadFile(upload_url, file, form_data);
-      fileDataList.push(...file_id_list);
-      // 保存文件 URL，便于后续使用（例如展示或提交到后端）
-      fileData.url = presignedData.data.file_url;
-      console.log('文件上传成功:', fileData.url);
+      if (!fileData.url) { // 新增文件
+        const { file, name, size, hash } = fileData;
+        const presignedData = await getPresignedUrl(name, size, hash);
+        const { upload_url, form_data, file_id_list } = presignedData.data;
+        await uploadFile(upload_url, file, form_data);
+        fileDataList.push(...file_id_list);
+        fileData.url = presignedData.data.file_url;
+        console.log('文件上传成功:', fileData.url);
+      } else {
+        // 已有文件直接使用其ID
+        fileDataList.push(fileData.id);
+      }
     }
 
-    // 提交表单数据的 API 调用
-    // if (isEdit.value) {
-    //   await updateKnowledgeBase(form);
-    //   emits('after-update');
-    // } else {
-    //   await createKnowledgeBase(form);
-    //   emits('after-create');
-    // }
-    await botFileSave({
-      bot_id: botId.value,
-      file_id_list: fileDataList
-    });
-    ElMessage.success('Files uploaded successfully!');
-    emits('after-upload-knowledge-sources', {
-      id: botId.value,
-    });
+    // 根据 isEdit 状态选择调用不同的 API
+    if (isEdit.value) {
+      await updateBotFile({
+        bot_id: botId.value,
+        file_id_list: fileDataList,
+      });
+      ElMessage.success('Files updated successfully!');
+      emits('after-upload-knowledge-sources', {
+        id: botId.value,
+      });
+    } else {
+      await botFileSave({
+        bot_id: botId.value,
+        file_id_list: fileDataList,
+      });
+      ElMessage.success('Files uploaded successfully!');
+      emits('after-upload-knowledge-sources', {
+        id: botId.value,
+      });
+    }
+
     close();
   } catch (error) {
     console.error('文件上传失败:', error);
@@ -236,13 +254,12 @@ const submitForm = async () => {
     loading.value = false;
   }
 };
-
 // 修改 getPresignedUrl 函数，使其可以接受每个文件的信息
 const getPresignedUrl = async (fileName, fileSize, fileHash) => {
   isUploading.value = true;
   try {
     const response = await getOssPresignedUrlV2({
-      biz_type: 'static',
+      biz_type: 'users',
       file_name: fileName,
       file_size: fileSize,
       file_hash: fileHash

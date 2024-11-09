@@ -89,6 +89,7 @@ const emits = defineEmits(['open-new-chat', 'open-with',  'open-dig', 'duplicate
     height: 1px;
     background: rgba(255, 255, 255, 0.10);
     width: 100%;
+    margin-bottom: 28px;
   }
 }
 </style>

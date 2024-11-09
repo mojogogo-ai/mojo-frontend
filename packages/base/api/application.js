@@ -116,6 +116,15 @@ export function botFileSave(data) {
   });
 }
 
+// updateBotFile
+export function updateBotFile(data) {
+  return request({
+    url: '/v1/bot/file-edit',
+    method: 'post',
+    data
+  });
+}
+
 // get app base info
 export function getAppInfo(params) {
   return request({

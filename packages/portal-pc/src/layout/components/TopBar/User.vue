@@ -54,7 +54,7 @@
 
             <div class="flex flex-col ml-[20px] ">
               <div class="w-[194px] mb-[6px]">
-                <div class="user-code">{{ user.uid }}</div>
+                <div class="user-code">{{ user.nickName }}</div>
               </div>
               <div class="flex items-center">
                 <div
@@ -83,6 +83,7 @@
               </span>
               <div
                 v-if="item.id === 2"
+                @click.stop="goPointsHistory"
                 class="ml-[40px] h-[29px] rounded-full bg-black px-[12px] text-[15px] leading-[29px] text-[var(--el-text-color-regular)] font-[600] "
               >
                 {{ user.points }} pts
@@ -141,6 +142,10 @@ const toPage = (item) => {
   } else {
     router.push({ path: item.path });
   }
+};
+
+const goPointsHistory = () => {
+  router.push({ path: '/pointsHistory' });
 };
 
 const logoutHandle = async () => {
