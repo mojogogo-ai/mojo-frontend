@@ -1,22 +1,22 @@
 <template>
-  <van-popup
+  <mojoDialogTranslucent
     v-model:show="isVisible"
-    class="cover-popup"
-    position="bottom"
+    v-bind="$attrs"
     closeable
     round
-    @close="emits('close')"
+    teleport="body"
+    @close="close"
   >
-    <div class="cover-popup-head">
+    <template #title>
       {{ isEdit ? t('base.edit') : t('bots.new') }}
-    </div>
-    <div class="cover-popup-body">
+    </template>
+    <div class="bbi-dialog-body">
       <van-form
         ref="formRef"
         class="cover-form"
         label-align="top"
         :disabled="loading || isAIloading"
-        @submit="submitBaseInfo"
+        @submit.prevent
       >
         <van-field
           v-model="form.name"
@@ -31,35 +31,52 @@
           :rules="rules.name"
         />
         <van-field
-          name="category_id"
+          name="classification"
           background
           required
-          :label="t('bots.label.catalog')"
-          :rules="rules.category_id"
+          :label="t('bots.label.classification')"
+          :rules="rules.classification"
+          clearable
         >
           <template #input>
-            <multi-selector
-              v-model="form.category_id"
+            <selector
+              v-model="form.classification"
               :columns="catalogList.map((_) => ({ ..._, label: t(_.name) }))"
               :columns-field-names="{ text: 'label', value: 'id' }"
-              :limit="3"
               :placeholder="t('bots.place.catalog')"
             />
           </template>
         </van-field>
         <van-field
-          v-model="form.description"
-          name="description"
+          name="gender"
+          background
+          required
+          :label="t('bots.label.gender')"
+          :rules="rules.gender"
+          clearable
+        >
+          <template #input>
+            <selector
+              v-model="form.gender"
+              :columns="genderList.map((_) => ({ ..._, label: t(_.name) }))"
+              :columns-field-names="{ text: 'label', value: 'id' }"
+              :placeholder="t('bots.place.catalog')"
+            />
+          </template>
+        </van-field>
+        <van-field
+          v-model="form.introduction"
+          name="introduction"
           type="textarea"
           maxlength="2000"
           show-word-limit
           clearable
           background
           required
-          :rows="6"
+          :rows="3"
           :label="t('bots.label.description')"
           :placeholder="t('bots.place.description')"
-          :rules="rules.description"
+          :rules="rules.introduction"
         />
         <van-field
           :label="t('bots.icon')"
@@ -68,10 +85,10 @@
           :rules="rules.icon"
         >
           <template #input>
-            <avatar-generator
+            <profile-avatar-generator
               :default-avatar="form.icon || defaultRobotAvatar"
               :name="form.name"
-              :description="form.description"
+              :introduction="form.introduction"
               :title="t('bots.icon')"
               :disabled-tooltip-text="t('bots.generateIconTooltip')"
               @before-generate="isAIloading = true"
@@ -81,35 +98,36 @@
           </template>
         </van-field>
       </van-form>
+      <div class="bbi-dialog-foot">
+        <van-button
+          size="middle"
+          :disabled="loading"
+          @click="close"
+        >
+          {{ t('common.cancel') }}
+        </van-button>
+        <van-button
+          type="primary"
+          size="middle"
+          linear
+          :loading="loading"
+          :disabled="loading"
+          @click="submitBaseInfo"
+        >
+          {{ t('common.confirm') }}
+        </van-button>
+      </div>
+
     </div>
-    <div class="cover-popup-foot">
-      <van-button
-        size="small"
-        :disabled="loading"
-        @click="close"
-      >
-        {{ t('common.cancel') }}
-      </van-button>
-      <van-button
-        type="primary"
-        size="small"
-        linear
-        :loading="loading"
-        :disabled="loading"
-        @click="submitBaseInfo(formRef)"
-      >
-        {{ t('common.b') }}
-      </van-button>
-    </div>
-  </van-popup>
+  </mojoDialogTranslucent>
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getAppCategory, quickCreateApp, updateAppInfo } from '@gptx/base/api/application';
+import { getBotInfo, createBot, botEdit } from '@gptx/base/api/application';
 import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
-import defaultBaseAvatar from '@/assets/logo/knowledge-icon-default.svg';
 import { storeAppCopy } from '@gptx/base/api/chat.js';
+import { ElMessage } from 'element-plus';
 
 const emits = defineEmits(['after-create', 'after-update', 'close']);
 const isVisible = ref(false);
@@ -117,70 +135,132 @@ const isEdit = ref(false);
 const form = reactive({
   icon: '',
   name: '',
-  description: '',
-  category_id: []
+  introduction: '',
+  classification: null,
+  gender: null,
+  third_company: '',
+  is_personalize_image_icon: false
 });
 const rules = reactive({
   icon: [
     {
       message: t('bots.ruleMessage.icon'),
       trigger: 'change',
-      validator: () => !!(form.icon && form.icon !== defaultBaseAvatar)
+      validator: () => !!(form.icon && form.icon !== defaultRobotAvatar)
     }
   ],
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
-  description: [{ required: true, message: t('bots.ruleMessage.description') }],
-  category_id: [
+  introduction: [{ required: true, message: t('bots.ruleMessage.introduction') }],
+  classification: [
     {
       message: t('bots.ruleMessage.catalog'),
-      validator: () => !!(form.category_id && form.category_id.length > 0)
+      validator: () => !!(form.classification && form.classification.length > 0)
     }
-  ]
+  ],
+  gender: [{
+    message: t('bots.ruleMessage.catalog'),
+    validator: () => (form.gender !== null)
+
+  }]
 });
-const catalogList = reactive([]);
+const catalogList = reactive([
+  // Natural Professional Passionate Customize
+  { id: 'Natural', name: 'Natural' },
+  { id: 'Professional', name: 'Professional' },
+  { id: 'Passionate', name: 'Passionate' },
+  { id: 'Customize', name: 'Customize' }
+]);
+const genderList = reactive([
+  { id: 0, name: 'None-binary' },
+  { id: 1, name: 'Male' },
+  { id: 2, name: 'Female' }
+]);
 const formRef = ref(null);
 const loading = ref(false);
 const isAIloading = ref(false);
 const isCopy = ref(false);
 
 const open = async (option) => {
-  isCopy.value = !!(option && option.from_id);
-  isEdit.value = !!(option && option?.id);
-  if (isCopy.value) form.from_id = option.from_id;
-  form.icon = option?.icon || '';
-  form.name = option?.name || '';
-  form.description = option?.description || '';
-  form.category_id = option?.category_id || [];
   if (option?.id) form.id = option?.id;
+  isEdit.value = !!option?.id;
   isVisible.value = true;
-  // await nextTick();
-  // formRef.value.resetFields();
-};
+  if(isEdit.value) {
+    loading.value = true;
+    try {
+      const { code, data } = await getBotInfo({
+        id: option.id
+      });
+      // console.log(data, 'data')
+      if (code === 200) {
+        form.icon = data.icon;
+        form.name = data.name;
+        form.introduction = data.introduction;
+        form.classification = data.classification;
+        form.gender = data.gender
+        form.files = data.files;
+      }
+    } catch (error) {
+      console.log(error);
+      // 获取详情失败
+      ElMessage.error(t('bots.error.getDetail'));
+    } finally {
+      loading.value = false;
+    }
+  } else {
+    // await nextTick();
+    // alert(1)
+    form.id = '';
+    form.icon = '';
+    form.name = '';
+    form.introduction = '';
+    form.classification = [];
+    form.gender = null;
+    form.third_company = '';
+    form.is_personalize_image_icon = false;
+    // formRef.value.resetFields();
+  }
+}
 const close = () => {
   isVisible.value = false;
-  formRef.value.resetFields();
+  form.id = '';
+  form.icon = '';
+  form.name = '';
+  form.introduction = '';
+  form.classification = [];
+  form.gender = null;
+  form.third_company = '';
+  form.is_personalize_image_icon = false;
+  // formRef.value.resetFields();
 };
-const onImageChange = (url) => (form.icon = url);
+const onImageChange = (url, is_personalize_image_icon) => {
+  form.icon = url
+  form.is_personalize_image_icon = is_personalize_image_icon
+};
 // commit action
 const submitBaseInfo = async (el) => {
-  try {
-    if (loading.value) return;
-    await el.validate();
-    if (isCopy.value) await copyApp();
-    else if (isEdit.value) await editAppInfo();
-    else await createNewBot();
-  } catch (e) {
-    console.log(e);
-  }
+  if (loading.value) return;
+  await formRef.value.validate();
+  if (isCopy.value) await copyApp();
+  else if (isEdit.value) await editAppInfo();
+  else await createNewBot();
 };
 // update info
 const editAppInfo = async () => {
   try {
     loading.value = true;
-    const result = await updateAppInfo(form);
+    const result = await botEdit(form);
     if (result.code === 200) {
       loading.value = false;
       emits('after-update');
+      emits('after-create', {
+        id: form.id,
+        icon: form.icon,
+        name: form.name,
+        introduction: form.introduction,
+        classification: form.classification,
+        files: form?.files || null
+      });
+      // formRef.value.resetFields();
       close();
     }
     loading.value = false;
@@ -193,10 +273,10 @@ const editAppInfo = async () => {
 const createNewBot = async () => {
   try {
     loading.value = true;
-    const result = await quickCreateApp(form);
+    const result = await createBot(form);
     if (result.code === 200) {
       loading.value = false;
-      emits('after-create');
+      emits('after-create', result.data);
       close();
     }
     loading.value = false;
@@ -221,87 +301,32 @@ const copyApp = async () => {
     loading.value = false;
   }
 };
-const _getAppCategory = async () => {
-  try {
-    const {
-      code,
-      data: { list }
-    } = await getAppCategory({ pid: 10000 });
-    if (code === 200) {
-      catalogList.push(...list);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+
 defineExpose({ open });
-onMounted(async () => {
-  await _getAppCategory();
-});
 </script>
 
 <style lang="scss" scoped>
-.base-info-img {
-  position: relative;
-  width: 88px;
-  height: 88px;
-  cursor: pointer;
-  border-radius: 8px;
-  overflow: hidden;
-
-  &::after {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #eee;
-    font-size: 24px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: rgba(#000, 0.4);
-    content: '+';
-    opacity: 0;
+.bbi-dialog {
+  &-head {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
   }
 
-  &:hover {
-    &::after {
-      opacity: 1;
+  &-body {
+    padding: 16px;
+  }
+
+  &-foot {
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    :deep(.van-button) {
+      width: 45%;
+      padding: 10px 20px;
     }
   }
 }
-
-.base-info-avatar {
-  width: 100%;
-  height: 100%;
-}
-
-.base-list-row {
-  display: flex;
-}
-
-.base-list-col {
-  & + & {
-    margin-left: 16px;
-  }
-}
-
-.base-list-option {
-  padding-top: 4px;
-  color: #999;
-  font-size: 20px;
-  line-height: 32px;
-  border-top: 1px solid #eee;
-
-  .base-list-col {
-    display: flex;
-    align-items: center;
-
-    & + .base-list-col {
-      margin-left: 8px;
-    }
-  }
-}
-
 </style>

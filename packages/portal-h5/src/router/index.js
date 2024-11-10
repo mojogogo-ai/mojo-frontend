@@ -83,25 +83,25 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '',
-  //   component: Layout,
-  //   groupName: 'menu.group.c',
-  //   children: [
-  //     {
-  //       path: '/base',
-  //       component: () => import('@/views/base/list'),
-  //       name: 'BaseList',
-  //       meta: { title: t('menu.b'), icon: 'knowledge' }
-  //     },
-  //     {
-  //       path: '/base_detail/:id?',
-  //       component: () => import('@/views/base/detail'),
-  //       name: 'BaseDetail',
-  //       meta: { title: t('menu.b'), icon: 'knowledge' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '',
+    component: Layout,
+    groupName: 'menu.group.c',
+    children: [
+      {
+        path: '/base',
+        component: () => import('@/views/base/list'),
+        name: 'BaseList',
+        meta: { title: t('menu.b'), icon: 'knowledge' }
+      },
+      {
+        path: '/base_detail/:id?',
+        component: () => import('@/views/base/detail'),
+        name: 'BaseDetail',
+        meta: { title: t('menu.b'), icon: 'knowledge' }
+      }
+    ]
+  },
   {
     path: '',
     component: Layout,
@@ -125,6 +125,20 @@ export const constantRoutes = [
         path: '/user',
         component: () => import('@/views/userCenter/index'),
         name: 'user',
+        meta: { title: t('menu.d'), icon: 'user' }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    groupName: 'menu.group.m',
+    hidden: true,
+    children: [
+      {
+        path: '/pointsHistory',
+        component: () => import('@/views/pointsHistory/index'),
+        name: 'pointsHistory',
         meta: { title: t('menu.d'), icon: 'user' }
       }
     ]

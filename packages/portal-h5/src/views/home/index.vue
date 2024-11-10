@@ -9,12 +9,20 @@
       </div>
       <van-button
         v-if="!isLogin"
-        class="mb-4"
+        class="mb-4 white-btn"
         size="large"
         type="primary"
         @click="onOpenLoginDialog"
       >
-        Log in
+        Sign up
+      </van-button>
+      <van-button
+        class="mb-4"
+        size="large"
+        type="primary"
+        @click="createBot"
+      >
+        + Create Bot
       </van-button>
       <!-- <van-button
         class="mb-[80px]"
@@ -79,6 +87,7 @@ import Pic1 from '@/assets/images/homepage/pic1.png';
 import Pic2 from '@/assets/images/homepage/pic2.png';
 import { getIsLogin } from '@gptx/base/utils/auth';
 import useLoginStore from '@/store/modules/login.js';
+import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -87,7 +96,16 @@ const useLogin = useLoginStore();
 const isOpened = computed(() => useLogin.loginDialogVisible);
 
 const onOpenLoginDialog = () => {
-  useLogin.setLoginDialogVisible(true);
+  useLogin.setLoginDialogVisible(true, 'signup');
+};
+
+const createBot = async() => {
+  let isLogin = await getIsLogin();
+   if(isLogin) {
+     eventBus.emit('createBot');
+   } else {
+      useLogin.setLoginDialogVisible(true, 'login');
+    }
 };
 
 const jump = (path) => {
@@ -135,7 +153,10 @@ onBeforeMount(async () => {
     border-radius: 20px;
   }
 }
-
+.white-btn{
+  --van-button-primary-background: #ffffff;
+  --van-button-primary-border-color: #ffffff;
+}
 .homepage-title {
   display: flex;
   flex-direction: column;

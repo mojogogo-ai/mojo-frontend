@@ -262,21 +262,7 @@ watch(
   },
   { immediate: false }
 );
-const uploadKnowledgeSourcesRef = ref(null);
-const afterUploadKnowledgeSources = ({id}) => {
-  publishDialogRef.value.open({ id });
-};
-const afterCreateBot = async (data) => {
-  // router.push(`/design/${app_id}`);
-  console.log('afterCreateBot', data);
-  // 广播创建成功
-  eventBus.emit('createBotSuccess', data);
-  // TODO
-  uploadKnowledgeSourcesRef.value.open({
-    id: data?.id,
-    files: data?.files || null
-  });
-};
+
 
 watch(
   () => useBot.createBotDialog,

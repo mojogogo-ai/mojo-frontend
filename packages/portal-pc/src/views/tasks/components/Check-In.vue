@@ -1,6 +1,7 @@
 <template>
   <mojoDialog
     v-model="isVisible"
+    v-bind="$attrs"
     width="600 px"
     :close-on-click-modal="false"
     :close-on-press-escape="false"

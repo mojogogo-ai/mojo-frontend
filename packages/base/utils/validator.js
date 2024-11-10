@@ -47,6 +47,26 @@ export const validatorPassword = (rule, value, callback) => {// Login
         callback();
     }
 };
+
+export const validatorEmailVant = (value) => {
+    const regEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+    if (!value) {
+        return t("login.b")
+    }
+    if (!regEmail.test(value)) {
+        return t("login.b")
+    }
+    return true
+}
+
+export const validatorPasswordVant = (value) => {
+    const password = /^(\w|\W){6,20}$/
+    if (!value || !password.test(value)) {
+        return t("login.validPassword")
+    }
+    return true
+}
+
 export const validatorRegiterPassword = (rule, value, callback) => {// Regiter
     const password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,}$/;
     if (!value || !password.test(value)) {

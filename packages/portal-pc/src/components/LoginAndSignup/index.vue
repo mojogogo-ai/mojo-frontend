@@ -100,25 +100,21 @@
 
   </el-dialog>
 </template>
-
 <script setup>
 import useUserStore from '@/store/modules/user'
 import { ref } from 'vue';
-import { ElScrollbar, ElButton, ElDivider, ElFormItem, ElIcon, ElMessageBox, ElMessage } from 'element-plus';
+import { ElScrollbar, ElDivider, ElIcon, ElMessageBox, ElMessage } from 'element-plus';
 import LoginLogo from './LoginLogo';
 import { LoginForm, RegisterForm } from '@/components/LoginAndSignup/components';
-import firebase from 'firebase/compat/app';
-import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 import { welcomeAccess } from '@gptx/base/api/login';
 import facebookIcon from '@/assets/svg/Facebook.svg';
 import appleIcon from '@/assets/svg/apple.svg';
 import googleIcon from '@/assets/svg/google.svg';
 import { t } from '@gptx/base/i18n/index.js';
-import { FacebookAuthProvider, OAuthProvider,signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth'
+import { FacebookAuthProvider, OAuthProvider, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth'
 import { handleFirebaseError, auth } from '@/utils/firebase.js';
 import useLoginStore from '@/store/modules/login.js';
-
 const emit = defineEmits(['close', 'dialog-close', 'referral']);
 const dialogVisible = ref(false);
 const isLoginView = ref(true); // 控制显示登录或注册
@@ -282,33 +278,7 @@ const handleFirebaseToken = async (authResult) => {
     firebaseLoading.value = false
   }
 };
-
-
-
 const userStore = useUserStore();
-
-// 初始化 FirebaseUI 登录
-// const handleFireBaseUI = () => {
-//   const uiConfig = {
-//     callbacks: {
-//       signInSuccessWithAuthResult: function (authResult) {
-//         handleToken(authResult);
-//         return false;
-//       }
-//     },
-//     signInFlow: 'popup',
-//     signInOptions: [
-//       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-//       firebase.auth.EmailAuthProvider.PROVIDER_ID,
-//     ]
-//   };
-//
-//   const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-//   ui.start('#firebaseui-auth-container', uiConfig);
-// };
-
-
-
 // 控制弹窗显示并切换视图
 const open = () => {
   dialogVisible.value = true;

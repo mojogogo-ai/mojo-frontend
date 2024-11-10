@@ -1,124 +1,4 @@
 <template>
-  <!--  <div class="relative page-list">-->
-  <!--    <el-card-->
-  <!--      class="page-list__inner"-->
-  <!--      shadow="hover"-->
-  <!--    >-->
-  <!--      <div class="flex mb-2">-->
-  <!--        <div class="app-page-col">-->
-  <!--          <el-image-->
-  <!--            class="cursor-pointer page-list-img"-->
-  <!--            fit="cover"-->
-  <!--            :src="bot.icon || defaultBotImage"-->
-  <!--            @click="toBotDetail"-->
-  <!--          >-->
-  <!--            <template #error>-->
-  <!--              <div class="page-list-img__error">-->
-  <!--                <el-icon>-->
-  <!--                  <Picture />-->
-  <!--                </el-icon>-->
-  <!--              </div>-->
-  <!--            </template>-->
-  <!--          </el-image>-->
-  <!--        </div>-->
-  <!--        <div class="relative flex-1 app-page-col">-->
-  <!--          <div class="flex items-center">-->
-  <!--            <div-->
-  <!--              class="mr-2 line-clamp-1 h-[24px] flex-1 cursor-pointer pr-3 text-base text-[var(&#45;&#45;el-color-primary)]"-->
-  <!--              :title="bot.name"-->
-  <!--              @click="toBotDetail"-->
-  <!--            >-->
-  <!--              {{ bot.name }}-->
-  <!--            </div>-->
-  <!--            <div class="more-option-trigger">-->
-  <!--              <el-dropdown trigger="click">-->
-  <!--                <el-button link>-->
-  <!--                  <el-icon>-->
-  <!--                    <MoreFilled />-->
-  <!--                  </el-icon>-->
-  <!--                </el-button>-->
-  <!--                <template #dropdown>-->
-  <!--                  <el-dropdown-item-->
-  <!--                    v-if="bot.public"-->
-  <!--                    icon="sort-down"-->
-  <!--                    @click.stop="onUnpublish(bot.id)"-->
-  <!--                  >-->
-  <!--                    {{ t('bots.unpublish') }}-->
-  <!--                  </el-dropdown-item>-->
-  <!--                  <el-dropdown-item-->
-  <!--                    class="is-delete"-->
-  <!--                    icon="delete"-->
-  <!--                    @click.stop="onDelete(bot.id)"-->
-  <!--                  >-->
-  <!--                    {{ t('bots.delete') }}-->
-  <!--                  </el-dropdown-item>-->
-  <!--                </template>-->
-  <!--              </el-dropdown>-->
-  <!--            </div>-->
-  <!--          </div>-->
-  <!--          <div-->
-  <!--            class="my-2 line-clamp-4 h-[80px] cursor-pointer text-[var(&#45;&#45;el-text-color-placeholder)]"-->
-  <!--            :title="bot.description"-->
-  <!--            @click="toBotDetail"-->
-  <!--          >-->
-  <!--            {{ bot.description }}-->
-  <!--          </div>-->
-  <!--          <div-->
-  <!--            v-if="bot.app_categories && bot.app_categories.length"-->
-  <!--            class="mt-2"-->
-  <!--          >-->
-  <!--            <el-tag-->
-  <!--              v-for="{ name } in appInfo.app_categories"-->
-  <!--              class="mr-1"-->
-  <!--              type="info"-->
-  <!--            >-->
-  <!--              {{ t(name) }}-->
-  <!--            </el-tag>-->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--      <template #footer>-->
-  <!--        <div class="page-list-option">-->
-  <!--          <span class="mr-auto text-xs text-[var(&#45;&#45;el-text-color-placeholder)]">-->
-  <!--            &lt;!&ndash;            <el-icon :class="{ 'text-[var(&#45;&#45;el-color-primary)]': bot.public }"><Promotion /></el-icon>-->
-  <!--            {{ bot.public ? t('bots.public') : t('bots.unpublic') }}&ndash;&gt;-->
-  <!--          </span>-->
-  <!--          <el-dropdown v-if="platList && platList.length">-->
-  <!--            <el-button-->
-  <!--              class="ml-1"-->
-  <!--              size="small"-->
-  <!--              @click.stop="() => {}"-->
-  <!--            >-->
-  <!--              {{ t('store.action.plat') }}-->
-  <!--            </el-button>-->
-  <!--            <template #dropdown>-->
-  <!--              <el-dropdown-menu>-->
-  <!--                <el-dropdown-item-->
-  <!--                  v-for="{ s_name } in platList"-->
-  <!--                  @click.stop="emit('chat', s_name)"-->
-  <!--                >-->
-  <!--                  <el-image-->
-  <!--                    class="plat-icon"-->
-  <!--                    :src="platIcons[s_name]"-->
-  <!--                  />-->
-  <!--                  <span class="capitalize">{{ s_name }}</span>-->
-  <!--                </el-dropdown-item>-->
-  <!--              </el-dropdown-menu>-->
-  <!--            </template>-->
-  <!--          </el-dropdown>-->
-  <!--          <el-button-->
-  <!--            class="ml-1"-->
-  <!--            type="primary"-->
-  <!--            size="small"-->
-  <!--            linear-->
-  <!--            @click.stop="toBotDetail"-->
-  <!--          >-->
-  <!--            {{ t('bots.view') }}-->
-  <!--          </el-button>-->
-  <!--        </div>-->
-  <!--      </template>-->
-  <!--    </el-card>-->
-  <!--  </div>-->
   <div class="bot-manage-item cursor-pointer">
     <div class="bmi-content">
       <div class="bmic-left">
@@ -204,12 +84,6 @@
             </el-icon>
           </el-button>
           <template #dropdown>
-            <!--            <el-dropdown-item-->
-            <!--              v-if="bot.public"-->
-            <!--              @click.stop="onUnpublish(bot.id)"-->
-            <!--            >-->
-            <!--              {{ t('bots.unpublish') }}-->
-            <!--            </el-dropdown-item>-->
             <el-dropdown-item
               v-if="bot.public != '1'"
               @click.stop="toPublish(bot)"
@@ -243,7 +117,6 @@ import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
 import IconReddit from '@/assets/images/bots/publish/reddit.svg';
 import { ElMessageBox } from 'element-plus';
 import useUserStore from '@/store/modules/user.js';
-import PublishDialog from '../publish/PublishDialog.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 const props = defineProps({
@@ -274,17 +147,6 @@ const goLink = (bot, platform) => {
   emit('chat', { url });
 };
 
-
-let platList = reactive([]);
-const platIcons = {
-  telegram: IconTelegram,
-  slack: IconSlack,
-  instagram: IconInstagram,
-  reddit: IconReddit,
-  discord: IconDiscord,
-  messenger: IconMessenger,
-  line: IconLine
-};
 // open bot sub page design(unused)|analyze(used)
 const toBotDetail = () => {
   const { id } = props.bot;
@@ -336,16 +198,6 @@ const user = useUserStore();
 const toPublish = async ({ id }) => {
   eventBus.emit('publishBot', { id });
 };
-
-// watch(
-//   () => props.bot,
-//   ({ shared_social }) => {
-//     platList = [...Object.values(shared_social).filter((_) => _.enabled === true)];
-//   },
-//   {
-//     immediate: true
-//   }
-// );
 </script>
 
 <style lang="scss" scoped>

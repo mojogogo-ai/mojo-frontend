@@ -1,6 +1,7 @@
 <template>
   <mojoDialogTranslucent
     v-model="isVisible"
+    v-bind="$attrs"
     width="600px"
     :title="t('profile.editProfile')"
     :close-on-click-modal="false"

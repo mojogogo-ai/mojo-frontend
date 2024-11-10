@@ -1,6 +1,7 @@
 <template>
   <mojoDialogTranslucent
     v-model="isVisible"
+    v-bind="$attrs"
     width="622px"
     :title="isEdit ? t('base.edit') : t('bots.new')"
     :close-on-click-modal="false"
@@ -156,15 +157,6 @@ const isAIloading = ref(false);
 const isCopy = ref(false);
 
 const open = async (option) => {
-  // isCopy.value = !!(option && option.from_id);
-  // isEdit.value = !!(option && option?.id);
-  // if (isCopy.value) form.from_id = option.from_id;
-  // form.icon = option?.icon || '';
-  // form.name = option?.name || '';
-  // form.introduction = option?.introduction || '';
-  // form.classification = option?.classification || [];
-  // form.gender = option?.gender
-  // console.log(option, 'option')
   if (option?.id) form.id = option?.id;
   isEdit.value = !!option?.id;
   isVisible.value = true;
@@ -288,23 +280,8 @@ const copyApp = async () => {
     loading.value = false;
   }
 };
-// const _getAppCategory = async () => {
-//   try {
-//     const {
-//       code,
-//       data: { list }
-//     } = await getAppCategory({ pid: 10000 });
-//     if (code === 200) {
-//       catalogList.push(...list);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+
 defineExpose({ open });
-onMounted(async () => {
-  // await _getAppCategory();
-});
 </script>
 
 <style lang="scss" scoped>

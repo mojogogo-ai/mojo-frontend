@@ -79,15 +79,7 @@ defineExpose({ close, open, setIsLoading });
   --van-popup-close-icon-color: var(--h5-text-color-primary);
   background-color: var(--van-blue);
 
-  .login-footer {
-    width: 348px;
-    height: 50px;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 25px;
-    text-align: center;
-    color: #000;
-  }
+
 }
 
 .referral-form {

@@ -1,10 +1,5 @@
 <template>
   <div class="app-page">
-    <!--    <div class="app-page-top">-->
-    <!--      <div class="text-lg font-black">-->
-    <!--        {{ t('user.a') }}-->
-    <!--      </div>-->
-    <!--    </div>-->
     <div class="app-page-content">
       <div class="profile-settings">
         <div class="profile-header">
@@ -101,71 +96,7 @@
           </div>
         </div>
       </div>
-
-      <!--      <div class="user-center">-->
-      <!--        <el-divider border-style="hidden" />-->
-      <!--        <el-card shadow="never">-->
-      <!--          <div class="text-base">-->
-      <!--            <div class="mb-4">{{ t('user.b1') }}</div>-->
-      <!--            <div class="px-8">-->
-      <!--              <div class="flex items-center mb-2">-->
-      <!--                <div class="mr-3">{{ t('user.d') }}:</div>-->
-      <!--                <div class="w-fit">-->
-      <!--                  <el-avatar-->
-      <!--                    :size="60"-->
-      <!--                    :src="user.avatar"-->
-      <!--                  />-->
-      <!--                </div>-->
-      <!--              </div>-->
-      <!--              <div class="flex mb-2">-->
-      <!--                <div class="mr-3">{{ t('user.nickName') }}:</div>-->
-      <!--                <div class="w-fit">@{{ user.nickName }}</div>-->
-      <!--              </div>-->
-      <!--              <div class="flex mb-8">-->
-      <!--                <div class="mr-3">{{ t('user.account') }}:</div>-->
-      <!--                <div class="w-fit">{{ user.email || user.phoneNumber }}</div>-->
-      <!--              </div>-->
-      <!--              <div class="flex mb-4">-->
-      <!--                <el-button @click="onEditClick">{{ t('user.edit') }}</el-button>-->
-      <!--                <el-button-->
-      <!--                  type="primary"-->
-      <!--                  linear-->
-      <!--                  @click="logout"-->
-      <!--                >-->
-      <!--                  {{ t('user.b') }}-->
-      <!--                </el-button>-->
-      <!--              </div>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </el-card>-->
-      <!--         <el-divider border-style="hidden" />-->
-      <!--        <el-card-->
-      <!--          v-model="language"-->
-      <!--          shadow="never"-->
-      <!--        >-->
-      <!--          <div class="text-base">-->
-      <!--            <div class="mb-4">{{ t('user.usualSetting') }}</div>-->
-      <!--            <div class="px-8">-->
-      <!--              <div class="mb-2">{{ t('user.performanceLanguage') }}</div>-->
-      <!--              <div class="mb-4 w-fit">-->
-      <!--                <el-select-->
-      <!--                  v-model="language"-->
-      <!--                  style="width: 338px"-->
-      <!--                  @change="changeLangCommand"-->
-      <!--                >-->
-      <!--                  <el-option-->
-      <!--                    v-for="{ value, lable } in langList"-->
-      <!--                    :value="value"-->
-      <!--                    :label="lable"-->
-      <!--                  />-->
-      <!--                </el-select>-->
-      <!--              </div>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </el-card>-->
-      <!--      </div>-->
     </div>
-    <base-info ref="baseInfoRef" />
     <EditPersonalInfo ref="editPersonalInfoRef" />
     <EditProfile ref="editProfileRef" />
   </div>
@@ -197,7 +128,6 @@ const language = computed(() => {
 });
 
 /* ref dom */
-const baseInfoRef = ref(null);
 const editPersonalInfoRef = ref(null);
 const editProfileRef = ref(null);
 
@@ -224,9 +154,6 @@ const logout = async () => {
   } catch (e) {
     console.log(e);
   }
-};
-const onEditClick = () => {
-  baseInfoRef.value.open();
 };
 
 

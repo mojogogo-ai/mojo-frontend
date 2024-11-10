@@ -1,23 +1,22 @@
 <template>
   <div class="app-page">
     <page-header class="shrink-0" />
-    <div class="font-Inter text-highlight mb-4 mt-16 flex justify-center text-[32px]">Your Task List</div>
+    <div class="tasks-title">Your Task List</div>
     <div class="app-page-content flex flex-col">
-      <!--
-      <div class="shrink-0">
-        <van-tabs
-          v-model:active="activeTab"
-          background="transparent"
-          @click-tab="onTabChange"
-        >
-          <van-tab
-            v-for="{ id, name } in tabList"
-            :name="id"
-            :title="t(name)"
-          />
-        </van-tabs>
-      </div>
-      -->
+<!--      <div class="shrink-0">-->
+<!--        <van-tabs-->
+<!--          v-model:active="activeTab"-->
+<!--          background="transparent"-->
+<!--          @click-tab="onTabChange"-->
+<!--        >-->
+<!--          <van-tab-->
+<!--            v-for="{ id, name } in tabList"-->
+<!--            :name="id"-->
+<!--            :title="t(name)"-->
+<!--          />-->
+<!--        </van-tabs>-->
+<!--      </div>-->
+
       <div
         v-if="isLoading"
         class="flex flex-1 items-center justify-center"
@@ -42,6 +41,7 @@
         >
           <div class="pt-3">
             <list-item
+              @click="onItemClick(appInfo)"
               v-for="appInfo in __data.storeList"
               :app-info="appInfo"
             />
@@ -56,6 +56,10 @@
         </template>
       </div>
     </div>
+    <CheckIn
+      width="800px"
+      ref="checkInRef"
+    />
   </div>
 </template>
 
@@ -71,6 +75,7 @@ import TaskImg04 from '@/assets/images/tasks/04.svg';
 import TaskImg05 from '@/assets/images/tasks/05.svg';
 import TaskImg06 from '@/assets/images/tasks/06.svg';
 import TaskImg07 from '@/assets/images/tasks/07.svg';
+import CheckIn from './components/Check-In.vue';
 
 const router = useRouter();
 const tabList = reactive([]);
@@ -99,7 +104,7 @@ const onSearch = () => {
     __data.storeList = [];
     isLoading.value = true;
     getStoreList();
-  }, 300);
+  }, 30);
 };
 const getStoreList = async () => {
   if (!isLoadMore) return;
@@ -111,7 +116,7 @@ const getStoreList = async () => {
         app_icon: TaskImg01,
         points: '+ 200 pts'
       },
-      /*{
+      {
         app_name: 'Create AI Me',
         app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
         app_icon: TaskImg02,
@@ -134,7 +139,7 @@ const getStoreList = async () => {
         app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
         app_icon: TaskImg05,
         points: '+ 5 pts'
-      },*/
+      },
       {
         app_name: 'Refer Friends',
         app_description: 'Refer friends to use and successfully complete the registration.',
@@ -142,6 +147,7 @@ const getStoreList = async () => {
         points: '+ 50 pts'
       },
       {
+        id: 'checkIn',
         app_name: 'Daily Login and Check-In',
         app_description: 'Daily login,check-in and interact.',
         app_icon: TaskImg07,
@@ -158,6 +164,13 @@ const onScroll = ({ scrollTop }) => {
   const wrap = scrollbar.value.wrapRef;
   if (wrap.scrollHeight - scrollTop <= wrap.offsetHeight) getStoreList();
 };
+const checkInRef = ref(null);
+const onItemClick = (appInfo) => {
+  // check in
+  if (appInfo.id === 'checkIn') {
+    checkInRef.value.open();
+  }
+};
 
 onMounted(async () => {
   onSearch();
@@ -165,6 +178,18 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
+.tasks-title{
+  color: var(--Style, #E1FF01);
+  text-align: center;
+  font-feature-settings: 'dlig' on;
+  font-family: Inter;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 23px; /* 95.833% */
+  margin-top: 48px;
+  margin-bottom: 48px;
+}
 .app-page-content {
   overflow: hidden;
 }

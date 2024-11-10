@@ -1,6 +1,7 @@
 <template>
   <mojoDialogTranslucent
     v-model="isVisible"
+    v-bind="$attrs"
     width="600px"
     custom-class="edit-personal-info-dialog"
     class="edit-personal-info-dialog"
