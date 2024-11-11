@@ -99,6 +99,7 @@ import IconWebsite from '@/assets/images/bots/publish/website.svg';
 import IconJavascript from '@/assets/images/bots/publish/javascript.svg';
 // import IconRobot from '@/assets/images/bots/publish/robot.svg';
 import { WebsiteConfigure, WebsiteShare } from './Website/index';
+import { showFailToast, showSuccessToast } from 'vant';
 
 const props = defineProps({
   botId: {

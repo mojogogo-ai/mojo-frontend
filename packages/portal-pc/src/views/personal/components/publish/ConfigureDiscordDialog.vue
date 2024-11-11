@@ -93,10 +93,10 @@ const submitForm = async () => {
       ElMessage.error('Please enter the Discord Bot token');
       return;
     }
-    if(!option.value.address) {
-      ElMessage.error('Please enter the Discord Bot address');
-      return;
-    }
+    // if(!option.value.address) {
+    //   ElMessage.error('Please enter the Discord Bot address');
+    //   return;
+    // }
     const res = await botAuthorize({
       id: option.value.bot_id,
       token: option.value.token,

@@ -106,6 +106,7 @@ import { useDebounceFn } from '@vueuse/core';
 import { t } from '@gptx/base/i18n';
 import { ElMessage } from 'element-plus';
 import CryptoJS from 'crypto-js';
+import { showFailToast } from 'vant';
 
 export default {
   components: { VueCropper },

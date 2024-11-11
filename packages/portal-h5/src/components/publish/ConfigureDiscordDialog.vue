@@ -41,7 +41,7 @@
 <script setup>
 import { ref } from 'vue';
 import { botAuthorize } from '@gptx/base/api/application';
-import { Toast } from 'vant';
+import { showToast, Toast } from 'vant';
 
 const emits = defineEmits(['after-upload-knowledge-sources', 'after-update']);
 const isVisible = ref(false);
