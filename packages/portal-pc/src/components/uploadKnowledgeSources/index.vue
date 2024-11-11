@@ -19,16 +19,16 @@
         :label="'Select the knowledge sources that your bot uses for its responses'"
         prop="fileList"
       >
-        <el-upload
-          :file-list="form.fileList"
-          class="upload-demo w-full mt-[16px]"
-          ref="uploadRef"
-          :auto-upload="false"
-          :limit="5"
-          :accept="'application/pdf,.txt,.pptx'"
-          :on-change="handleFileSelect"
-          :before-upload="beforeUpload"
-          :on-exceed="handleExceed"
+        <el-upload :file-list="form.fileList"
+                   class="upload-demo w-full mt-[16px]"
+                   ref="uploadRef"
+                   :auto-upload="false"
+                   :limit="5"
+                   :accept="'application/pdf,.txt,.pptx'"
+                   :on-change="handleFileSelect"
+                   :before-upload="beforeUpload"
+                   :on-exceed="handleExceed"
+                   :on-remove="handleFileRemove"
         >
           <div class="upload-custom">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="37" viewBox="0 0 36 37" fill="none">
@@ -84,6 +84,13 @@ const loading = ref(false);
 const isUploading = ref(false);
 const selectedFile = ref(null);
 const selectedFileName = ref('');
+const handleFileRemove = (file) => {
+  // 从 fileList 中移除该文件
+  console.log('item.file', form.fileList)
+  console.log(file, '文件')
+  form.fileList = form.fileList.filter((item) => item.file !== file.file);
+  ElMessage.success('File removed successfully!');
+};
 
 const open = async (option) => {
   isVisible.value = true;
@@ -107,7 +114,6 @@ const open = async (option) => {
     form.fileList = [];
   }
 };
-
 
 
 const close = () => {
@@ -300,47 +306,51 @@ defineExpose({ open });
   width: 100%;
   //margin-top: 16px;
 }
- .upload-custom{
+
+.upload-custom {
   flex-direction: column;
   align-items: center;
   color: #999;
   cursor: pointer;
-   width: 100%;
+  width: 100%;
   transition: border-color 0.3s;
-   display: inline-flex;
-   height: 215px;
-   padding: 46px 16px 0;
-   flex-shrink: 0;
-   border-radius: 12px;
-   border: 1px dashed #C5C5C5;
-   background: rgba(0, 0, 0, 0.50);
-   backdrop-filter: blur(50px);
-   .upload-custom-text{
-      margin-top: 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .upload-custom-text-top{
-        color: #FFF;
-        text-align: center;
-        font-feature-settings: 'dlig' on;
-        font-family: "TT Norms Pro";
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 23px; /* 143.75% */
-      }
-      .upload-custom-text-bottom{
-        color: rgba(255, 255, 255, 0.70);
-        text-align: center;
-        font-feature-settings: 'dlig' on;
-        font-family: "TT Norms Pro";
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 23px; /* 191.667% */
-      }
-   }
- }
+  display: inline-flex;
+  height: 215px;
+  padding: 46px 16px 0;
+  flex-shrink: 0;
+  border-radius: 12px;
+  border: 1px dashed #C5C5C5;
+  background: rgba(0, 0, 0, 0.50);
+  backdrop-filter: blur(50px);
+
+  .upload-custom-text {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .upload-custom-text-top {
+      color: #FFF;
+      text-align: center;
+      font-feature-settings: 'dlig' on;
+      font-family: "TT Norms Pro";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 23px; /* 143.75% */
+    }
+
+    .upload-custom-text-bottom {
+      color: rgba(255, 255, 255, 0.70);
+      text-align: center;
+      font-feature-settings: 'dlig' on;
+      font-family: "TT Norms Pro";
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 23px; /* 191.667% */
+    }
+  }
+}
 
 </style>
