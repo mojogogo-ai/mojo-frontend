@@ -58,7 +58,10 @@ import { updateUserInfo } from '@gptx/base/api/user.js';
 import { ElMessage } from 'element-plus';
 import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
 import { showFailToast, showSuccessToast } from 'vant';
-
+const onImageChange = (url, is_personalize_image_icon) => {
+  form.icon = url
+  form.is_personalize_image_icon = is_personalize_image_icon
+}
 const userStore = useUserStore();
 const isVisible = ref(false);
 const formRef = ref(null);
