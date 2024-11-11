@@ -23,6 +23,7 @@
       >
         <profile-avatar-generator
           :default-avatar="form.avatar"
+          :gender="userStore.gender"
           :title="t('profile.uploadProfilePhoto')"
           :disabled-tooltip-text="t('profile.generateTooltip')"
           :name="'avatar'"

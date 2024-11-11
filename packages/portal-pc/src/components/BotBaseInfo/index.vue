@@ -80,6 +80,7 @@
         <profile-avatar-generator
           :default-avatar="form.icon || defaultRobotAvatar"
           :name="form.name"
+          :gender="form.gender"
           :introduction="form.introduction"
           :title="t('bots.icon')"
           :disabled-tooltip-text="t('bots.generateIconTooltip')"

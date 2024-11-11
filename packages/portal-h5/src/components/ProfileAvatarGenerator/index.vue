@@ -87,6 +87,10 @@ const props = defineProps({
     require: true,
     default: ''
   },
+  gender: {
+    type: Number,
+    default: 0
+  },
   description: {
     type: String,
     default: ''
@@ -121,6 +125,7 @@ const _generateKnowledgeIcon = async () => {
       code,
       data: { url, remaining }
     } = await generateAvatarIcon({
+      gender: props.gender
       // bot_name: props.name,
       // description: props.description
     });

@@ -28,6 +28,7 @@
             <profile-avatar-generator
               :default-avatar="form.icon || defaultRobotAvatar"
               :name="form.name"
+              :gender="userStore.gender"
               :introduction="form.introduction"
               :title="t('bots.icon')"
               :disabled-tooltip-text="t('bots.generateIconTooltip')"
