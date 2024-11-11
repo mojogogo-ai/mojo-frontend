@@ -78,7 +78,7 @@
         prop="icon"
       >
         <profile-avatar-generator
-          :default-avatar="form.icon || defaultRobotAvatar"
+          :default-avatar="form.icon"
           :name="form.name"
           :gender="form.gender"
           :introduction="form.introduction"
@@ -105,7 +105,7 @@
         linear
         @click="submitBaseInfo(formRef)"
       >
-        {{ t('common.confirm') }}
+        {{ 'Next Step' }}
       </el-button>
     </template>
   </mojoDialogTranslucent>

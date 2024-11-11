@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ref, reactive, defineExpose } from 'vue'
+import { ref, reactive } from 'vue'
 import { Dialog, showFailToast, showToast } from 'vant'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { t } from '@gptx/base/i18n'

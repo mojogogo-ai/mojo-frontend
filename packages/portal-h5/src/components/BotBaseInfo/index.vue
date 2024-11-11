@@ -86,7 +86,7 @@
         >
           <template #input>
             <profile-avatar-generator
-              :default-avatar="form.icon || defaultRobotAvatar"
+              :default-avatar="form.icon"
               :name="form.name"
               :gender="form.gender"
               :introduction="form.introduction"
@@ -115,7 +115,7 @@
           :disabled="loading"
           @click="submitBaseInfo"
         >
-          {{ t('common.confirm') }}
+          {{ 'Next Step' }}
         </van-button>
       </div>
 

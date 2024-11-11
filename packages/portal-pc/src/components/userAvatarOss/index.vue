@@ -18,17 +18,21 @@
       v-else
       class="avatar-alt"
     >
-      <el-icon size="16px">
-        <Plus />
+      <el-icon size="36px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37" fill="none">
+          <path d="M16.9487 24.5V12.275L13.0487 16.175L10.9487 14L18.4487 6.5L25.9487 14L23.8487 16.175L19.9487 12.275V24.5H16.9487ZM9.44873 30.5C8.62373 30.5 7.91773 30.2065 7.33073 29.6195C6.74373 29.0325 6.44973 28.326 6.44873 27.5V23H9.44873V27.5H27.4487V23H30.4487V27.5C30.4487 28.325 30.1552 29.0315 29.5682 29.6195C28.9812 30.2075 28.2747 30.501 27.4487 30.5H9.44873Z" fill="#C5C5C5"/>
+        </svg>
       </el-icon>
-      <div class="mt-1">{{ $t('common.upload') }}</div>
+<!--      <div class="mt-1">{{ $t('common.upload') }}</div>-->
     </div>
     <div
       v-if="options.img"
       class="avatar-add"
     >
-      <el-icon size="24px">
-        <Upload />
+      <el-icon size="36px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37" fill="none">
+          <path d="M16.9487 24.5V12.275L13.0487 16.175L10.9487 14L18.4487 6.5L25.9487 14L23.8487 16.175L19.9487 12.275V24.5H16.9487ZM9.44873 30.5C8.62373 30.5 7.91773 30.2065 7.33073 29.6195C6.74373 29.0325 6.44973 28.326 6.44873 27.5V23H9.44873V27.5H27.4487V23H30.4487V27.5C30.4487 28.325 30.1552 29.0315 29.5682 29.6195C28.9812 30.2075 28.2747 30.501 27.4487 30.5H9.44873Z" fill="#C5C5C5"/>
+        </svg>
       </el-icon>
     </div>
   </div>
@@ -162,7 +166,7 @@
           :loading="subLoading"
           @click="uploadImg"
         >
-          提 交
+          Confirm
         </el-button>
       </div>
     </div>
@@ -178,9 +182,10 @@ import { useDebounceFn } from '@vueuse/core';
 import { t } from '@gptx/base/i18n';
 import { ElMessage } from 'element-plus';
 import CryptoJS from 'crypto-js';
+import { Upload } from '@element-plus/icons-vue';
 
 export default {
-  components: { VueCropper },
+  components: { Upload, VueCropper },
   props: {
     user: {
       type: Boolean,
@@ -423,7 +428,7 @@ export default {
   height: 100%;
   line-height: 1;
   color: #a4a4a4;
-  border: 1px solid #e6e6e6;
+  //border: 1px solid #e6e6e6;
   border-radius: inherit;
   &:hover {
     border-color: #066be9;

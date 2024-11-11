@@ -6,7 +6,7 @@
     round
     teleport="body"
     @close="close"
-  >    
+  >
     <template #title>
       Knowledge sources
     </template>
@@ -45,7 +45,7 @@
       <div class="dialog-footer">
         <van-button :disabled="loading" @click="close">{{ t('common.cancel') }}</van-button>
         <van-button type="primary" :loading="loading" :disabled="loading" @click="submitForm">
-          {{ t('common.confirm') }}
+          {{ 'Next Step' }}
         </van-button>
       </div>
     </div>

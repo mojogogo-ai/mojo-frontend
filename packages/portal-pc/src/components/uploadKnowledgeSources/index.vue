@@ -49,7 +49,7 @@
     <template #footer>
       <el-button :disabled="loading" @click="close">{{ t('common.cancel') }}</el-button>
       <el-button type="primary" :loading="loading" :disabled="loading" @click="submitForm">
-        {{ t('common.confirm') }}
+        {{ 'Next Step' }}
       </el-button>
     </template>
   </mojoDialogTranslucent>

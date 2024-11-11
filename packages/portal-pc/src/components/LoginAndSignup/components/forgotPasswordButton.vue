@@ -1,7 +1,7 @@
 <script setup lang="tsx">
-import { ref, reactive, defineExpose } from 'vue'
+import { ref, reactive } from 'vue'
 import { t } from '@gptx/base/i18n'
-import { ElInput, ElForm, ElFormItem, ElButton, ElMessage, ElDialog } from 'element-plus'
+import { ElInput, ElForm, ElFormItem, ElButton, ElMessage } from 'element-plus'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { auth } from "@/utils/firebase.js" // Assuming Firebase is initialized in this file
 import mojoDialog from '@/components/mojoDialog/index.vue'

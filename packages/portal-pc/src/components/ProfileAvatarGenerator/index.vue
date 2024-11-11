@@ -68,7 +68,6 @@
 <script setup>
 import { t } from '@gptx/base/i18n';
 import { ElMessageBox } from 'element-plus';
-import { generateKnowledgeIcon } from '@gptx/base/api/knowledge';
 import { generateAvatarIcon } from '@gptx/base/api/user.js';
 
 const props = defineProps({
@@ -172,13 +171,6 @@ const onChangeGeneratedIcon = (url) => {
   justify-content: center;
   width: 90px;
   height: 90px;
-  &button{
-    padding-top: 14px;
-  }
-  //font-size: 12px;
-  //line-height: 1.4;
-  //color: var(--el-text-color-placeholder);
-  //background-color: var(--el-input-bg-color);
   border-radius: 12px;
   border: 1px solid var(--el-border-color-light);
   cursor: pointer;
@@ -192,7 +184,9 @@ const onChangeGeneratedIcon = (url) => {
   font-weight: 500;
   line-height: 29.571px;
   background: rgba(0, 0, 0, 0.50);
-
+  &button{
+    padding-top: 14px;
+  }
   span {
     svg{
       width: 43px;
