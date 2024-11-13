@@ -55,7 +55,6 @@ import SocialMedia from '@/assets/images/refer/social-media.svg';
 import useUserStore from '@/store/modules/user.js';
 import { useClipboard } from '@vueuse/core';
 import { t } from '@gptx/base/i18n/index.js';
-import { invitedInfo } from '@gptx/base/api/user.js';
 import { ElMessage } from 'element-plus';
 
 const user = useUserStore();
@@ -76,24 +75,6 @@ const copyReferralCode = (isWithLink) => {
   }
 };
 
-// 监听user.referalCode变化
-watch(
-  () => user.referalCode,
-  (newVal, oldVal) => {
-    console.log('user.referalCode', newVal, oldVal);
-    if (newVal) {
-      try {
-        invitedInfo({
-          referral_code: user.referalCode
-        }).then((res) => {
-          console.log(res);
-        });
-      } catch (e) {
-        ElMessage.error(t('getInfo error'));
-      }
-    }
-  }
-);
 
 onMounted(() => {});
 </script>
