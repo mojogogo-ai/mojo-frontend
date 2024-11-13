@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ref, reactive, onMounted, watch, defineEmits } from 'vue'
+import { ref, reactive, onMounted, watch, defineEmits, onBeforeMount } from 'vue';
 import { Dialog, showFailToast, showToast } from 'vant'
 import { useUserStore } from '@/store/modules/user'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
@@ -9,6 +9,7 @@ import { bindEmailRefer } from '@gptx/base/api/user'
 import { validatorEmailVant, validatorPasswordVant } from '@gptx/base/utils/validator'
 import ForgotPasswordButton from './forgotPasswordButton.vue'
 import { handleFirebaseError } from '@/utils/firebase.js'
+import { useRoute } from 'vue-router';
 
 const emit = defineEmits(['to-login'])
 
@@ -62,7 +63,7 @@ const register = async () => {
       referralCode: formData.referral_code || null // 推荐码可为空
     }
     console.log('用户已注册:', userInfo)
-
+    window.sessionStorage.setItem('referral_code', formData.referral_code)
     // 跳转到登录或处理注册后逻辑
     toLogin()
   } catch (error) {
@@ -76,6 +77,15 @@ const forgotPasswordButtonRef = ref()
 const toForgetPassword = () => {
   forgotPasswordButtonRef.value.openForgotPasswordDialog()
 }
+onBeforeMount(async () => {
+  // await useUser.updateSysInfo();
+  // isLogin.value = await getIsLogin();
+  const route = useRoute();
+  const { query } = route;
+  if (query && query.referral_code) {
+    formData.referral_code = query.referral_code;
+  }
+});
 </script>
 
 <template>

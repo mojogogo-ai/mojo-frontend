@@ -8,7 +8,7 @@
         {{appInfo.reason}}
       </div>
       <div>
-        {{appInfo.points}}pt
+        + {{appInfo.points}}pt
       </div>
     </div>
     <div class="p-h-c-bottom">
@@ -53,7 +53,7 @@ const emits = defineEmits(['open-new-chat', 'open-with',  'open-dig', 'duplicate
       letter-spacing: 1px;
     }
     div:nth-child(2){
-      width: 500px;
+      width: 300px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -66,6 +66,7 @@ const emits = defineEmits(['open-new-chat', 'open-with',  'open-dig', 'duplicate
       line-height: 24px; /* 109.091% */
     }
     div:last-child{
+      margin-left: auto;
       display: inline-flex;
       padding: 6px 20px;
       align-items: center;

@@ -14,7 +14,7 @@
     <div class="p-4">
       <div class="pd-title">
         Connect to Telegram bots and chat with this bot in Telegram App.<br>
-        <span>How to get Telegram Bot token?</span>
+        <span class="cursor-pointer" @click="goPage">How to get Telegram Bot token ?</span>
       </div>
       <div class="pd-content">
         <div class="pdc-title">
@@ -54,7 +54,9 @@ const option = ref({
   token_type: 'telegram',
   address: ''
 });
-
+const goPage = () => {
+  window.open('https://core.telegram.org/bots/tutorial#obtain-your-bot-token');
+};
 const open = async (data) => {
   isVisible.value = true;
   console.log(data);

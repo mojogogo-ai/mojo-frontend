@@ -18,7 +18,7 @@
         <div v-for="item in publishOptions" class="pdc-list-item">
           <div class="configure-left">
             <el-checkbox
-              v-model="item.checked" :disabled="item.id === 'telegram' && !item.telegram_token || item.id === 'discard' && !item.discord_token"
+              v-model="item.checked" :disabled="item.id === 'telegram' && !item.telegram_token || item.id === 'discord' && !item.discord_token"
               @change="(checked) => {
                 checkboxChange(item, checked)
               }"
@@ -38,7 +38,7 @@
                 </clipPath>
               </defs>
             </svg>
-            <svg v-if="item.id === 'discard'" class="ml-4 mr-2.5" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <svg v-if="item.id === 'discord'" class="ml-4 mr-2.5" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
               <rect x="0.94873" y="0.5" width="24" height="24" rx="12" fill="white" />
               <path d="M19.1964 6.70799C18.016 6.15567 16.7671 5.76322 15.4829 5.54102C15.323 5.83021 15.1361 6.21918 15.0072 6.52862C13.6226 6.32041 12.2507 6.32041 10.8916 6.52862C10.7628 6.21925 10.5717 5.83021 10.4102 5.54102C9.12477 5.76331 7.87487 6.15676 6.69387 6.71087C4.34374 10.2623 3.70664 13.7254 4.02516 17.1395C5.58391 18.3035 7.09451 19.0106 8.57965 19.4734C8.94877 18.9658 9.27504 18.4284 9.55509 17.8668C9.02186 17.6638 8.5078 17.4136 8.01904 17.1192C8.14766 17.0239 8.27325 16.9245 8.39564 16.8213C11.3573 18.2066 14.5754 18.2066 17.5018 16.8213C17.6247 16.9239 17.7503 17.0232 17.8783 17.1192C17.3888 17.4144 16.8738 17.6651 16.3395 17.8683C16.6211 18.4322 16.9468 18.9701 17.3149 19.4748C18.8015 19.0121 20.3135 18.305 21.8722 17.1395C22.246 13.1817 21.2338 9.75041 19.1964 6.70799ZM9.95861 15.0399C9.06951 15.0399 8.34037 14.2098 8.34037 13.1991C8.34037 12.1884 9.05397 11.3569 9.95861 11.3569C10.8633 11.3569 11.5924 12.1869 11.5769 13.1991C11.5783 14.2098 10.8633 15.0399 9.95861 15.0399ZM15.9388 15.0399C15.0497 15.0399 14.3206 14.2098 14.3206 13.1991C14.3206 12.1884 15.0341 11.3569 15.9388 11.3569C16.8435 11.3569 17.5725 12.1869 17.557 13.1991C17.557 14.2098 16.8435 15.0399 15.9388 15.0399Z" fill="#5865F2" />
             </svg>
@@ -57,7 +57,7 @@
 
             <div class="ml-8">
               <div
-                v-if="item.id === 'telegram' && !item.telegram_token || item.id === 'discard' && !item.discord_token"
+                v-if="item.id === 'telegram' && !item.telegram_token || item.id === 'discord' && !item.discord_token"
                 class="not-configured"
               >
                 Not configured
@@ -113,7 +113,7 @@ const afterUpdate = (option) => {
    publishOptions[0].telegram_token = option.token;
    publishOptions[0].address = option.address;
 
- } else if(option.token_type === 'discard') {
+ } else if(option.token_type === 'discord') {
    publishOptions[1].discord_token = option.token;
     publishOptions[1].address = option.address;
  }
@@ -129,7 +129,7 @@ const publishOptions = reactive([
     checked: false
   },
   {
-    id: 'discard',
+    id: 'discord',
     name: 'Discord',
     discord_token: '',
     address: '',
@@ -147,12 +147,12 @@ const goConfigure = (item) => {
       address: item.address || '',
       token_type: 'telegram'
     });
-  } else if (item.id === 'discard') {
+  } else if (item.id === 'discord') {
     configureDiscordDialogRef.value.open({
       bot_id: botId.value,
       token: item.discord_token || '',
       address: item.address || '',
-      token_type: 'discard'
+      token_type: 'discord'
     });
   }
 };

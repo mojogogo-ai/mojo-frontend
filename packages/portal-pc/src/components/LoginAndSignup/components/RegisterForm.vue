@@ -7,6 +7,8 @@ import { auth } from "@/utils/firebase.js" // Assuming Firebase is initialized i
 import { handleFirebaseError } from '@/utils/firebase.js'
 import { validatorEmail, validatorPassword } from '@gptx/base/utils/validator'
 import {bindEmailRefer} from '@gptx/base/api/user'
+import { useRoute } from 'vue-router'
+import {onBeforeMount} from 'vue';
 
 const emit = defineEmits(['to-login'])
 
@@ -62,7 +64,7 @@ const loginRegister = async () => {
           referralCode: formData.referral_code || null // Referral code can be empty
         }
         console.log('User registered:', userInfo)
-
+        window.sessionStorage.setItem('referral_code', formData.referral_code)
         // Redirect to login or handle post-registration
         toLogin()
       } catch (error) {
@@ -73,6 +75,16 @@ const loginRegister = async () => {
     }
   })
 }
+
+onBeforeMount(async () => {
+  // await useUser.updateSysInfo();
+  // isLogin.value = await getIsLogin();
+  const route = useRoute();
+  const { query } = route;
+  if (query && query.referral_code) {
+    formData.referral_code = query.referral_code;
+  }
+});
 </script>
 
 <template>

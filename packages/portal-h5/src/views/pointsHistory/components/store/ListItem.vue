@@ -8,7 +8,7 @@
         {{ appInfo.reason }}
       </div>
       <div>
-        {{ appInfo.points }}pt
+        + {{ appInfo.points }}pt
       </div>
     </div>
     <div class="p-h-c-bottom"></div>
@@ -61,6 +61,7 @@ const emit = defineEmits(['open-new-chat', 'open-with', 'open-dig', 'click']);
     padding: 4px 20px;
     align-items: center;
     gap: 10px;
+    margin-left: auto;
   }
 
   margin-bottom: 32px;

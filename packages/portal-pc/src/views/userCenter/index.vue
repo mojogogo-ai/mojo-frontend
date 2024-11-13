@@ -91,7 +91,7 @@
         <div class="profile-divider" />
         <div class="profile-actions">
           <div class="actions">
-            <button class="delete-button" @click="deleteAccount">Delete Account</button>
+            <button class="delete-button" @click="deleteAccount">Delete account</button>
             <button class="logout-button" @click="logout">{{ t('user.b') }}</button>
           </div>
         </div>
@@ -165,8 +165,34 @@ const personalInfo = computed(() => [
 
 
 const openSocialLink = (link) => {
-  window.open(link, '_blank');
-};
+  // if link not hava, remainer user add first
+
+  if (link && link.length) {
+    window.open(link, '_blank');
+  } else {
+    //   ElMessageBox.alert('Please edit your social link first', 'Info', {
+    //     confirmButtonText: 'OK',
+    //     type: 'info',
+    //     // 点击确定的方法
+    //   });
+    // }
+    // Please edit your social link first' 点击确定的方法
+    ElMessageBox.confirm('Please edit your social link first', 'Info', {
+      confirmButtonText: 'Edit',
+      cancelButtonText: 'Cancel',
+      type: 'info'
+    }).then(() => {
+      // Add logic to edit social link
+      editProfileRef.value.open();
+    }).catch(() => {
+      // 提示
+      // ElMessageBox.alert('Canceled', 'Info', {
+      //   confirmButtonText: 'OK',
+      //   type: 'info'
+      // });
+    });
+  }
+}
 
 const editProfile = () => {
   // Add logic to edit profile
@@ -191,12 +217,17 @@ const deleteAccount = () => {
     type: 'warning'
   }).then(() => {
     // Add logic to delete account
-    cancelUser().then(() => {
+    cancelUser().then(async () => {
       // 提示
       ElMessageBox.alert('Account deleted', 'Success', {
         confirmButtonText: 'OK',
         type: 'success'
       });
+      const auth = getAuth();
+      await signOut(auth);
+      await user.logOut();
+      useLogin.toLoginOut()
+      router.push({ path: '/home' });
     }).catch(() => {
       // 提示
       ElMessageBox.alert('Failed to delete account', 'Error', {

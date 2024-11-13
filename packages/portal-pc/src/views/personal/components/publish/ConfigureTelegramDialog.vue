@@ -10,8 +10,8 @@
     append-to-body
   >
     <div class="pd-title">
-      Connect to Discord bots and chat with this bot in Telegram App.<br>
-      <span>How to get Telegram Bot token ?</span>
+      Connect to Telegram bots and chat with this bot in Telegram App.<br>
+      <span class="cursor-pointer" @click="goPage">How to get Telegram Bot token ?</span>
     </div>
     <div class="pd-content">
       <div class="pdc-title">
@@ -54,7 +54,9 @@ const goConfigure = (item) => {
   //   window.open('https://discord.com/developers/docs/intro');
   // }
 };
-
+const goPage = () => {
+  window.open('https://core.telegram.org/bots/tutorial#obtain-your-bot-token');
+};
 const loading = ref(false);
 const option = ref({
   bot_id: null,

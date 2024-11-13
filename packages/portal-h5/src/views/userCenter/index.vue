@@ -84,7 +84,7 @@
         </div>
 <!--        <div class="profile-divider" />-->
         <div class="profile-actions">
-          <van-button type="danger" @click="deleteAccount">Delete Account</van-button>
+          <van-button type="danger" @click="deleteAccount">Delete account</van-button>
           <van-button type="warning" @click="logout">{{ t('user.b') }}</van-button>
         </div>
       </div>
@@ -98,16 +98,16 @@
 import { t } from '@gptx/base/i18n';
 import useUserStore from '@/store/modules/user.js';
 import { getAuth, signOut } from 'firebase/auth';
-import { ElMessageBox } from 'element-plus';
 import { useRouter } from 'vue-router';
 import EditPersonalInfo from './components/EditPersonalInfo';
 import EditProfile from './components/EditProfile';
 import { cancelUser } from '@gptx/base/api/user.js';
-import { Dialog, showConfirmDialog } from 'vant';
+import { showConfirmDialog, showFailToast } from 'vant';
 import useLoginStore from '@/store/modules/login.js';
 
 const router = useRouter();
 const user = useUserStore();
+const useLogin = useLoginStore();
 
 const personalInfo = computed(() => [
   { label: 'Username', value: user.username || '-' },
@@ -116,7 +116,19 @@ const personalInfo = computed(() => [
 ]);
 
 const openSocialLink = (link) => {
-  window.open(link, '_blank');
+  if(link && link !== '') {
+    window.open(link, '_blank');
+  } else {
+    // 提示点击去编辑
+    showConfirmDialog({
+      title: 'Warning',
+      message: 'Please edit your social link first',
+      confirmButtonText: 'Edit',
+      cancelButtonText: 'Cancel',
+    }).then(() => {
+      editProfile();
+    });
+  }
 };
 
 const editPersonalInfoRef = ref(null);
@@ -131,7 +143,7 @@ const editPersonalInfo = () => {
 };
 
 const logout = async () => {
-  const useLogin = useLoginStore();
+  // const useLogin = useLoginStore();
   try {
     const action = await showConfirmDialog({
       title: t('user.c'),
@@ -151,6 +163,7 @@ const logout = async () => {
   }
 };
 
+
 const deleteAccount = () => {
   showConfirmDialog({
     title: 'Warning',
@@ -159,18 +172,31 @@ const deleteAccount = () => {
     cancelButtonText: 'Cancel',
   })
     .then(() => {
-      cancelUser().then(() => {
-        Dialog.alert({
-          title: 'Success',
-          message: 'Account deleted',
+      cancelUser().then(async () => {
+        // Dialog.alert({
+        //   title: 'Success',
+        //   message: 'Account deleted',
+        //   confirmButtonText: 'OK',
+        // });
+        showConfirmDialog({
+          title: 'Warning',
+          message: 'Please login again',
           confirmButtonText: 'OK',
+        }).then(async () => {
+          const auth = getAuth();
+          await signOut(auth);
+          await user.logOut();
+          useLogin.toLoginOut();
+          router.push({ path: '/home' });
         });
+
       }).catch(() => {
-        Dialog.alert({
-          title: 'Error',
-          message: 'Failed to delete account',
-          confirmButtonText: 'OK',
-        });
+        // Dialog.alert({
+        //   title: 'Error',
+        //   message: 'Failed to delete account',
+        //   confirmButtonText: 'OK',
+        // });
+        showFailToast('Failed to delete account');
       });
     })
     .catch(() => {});

@@ -109,8 +109,7 @@ const submitForm = async () => {
       emits('after-update', {
         bot_id: option.value.bot_id,
         token: option.value.token,
-        // token_type: option.value.token_type === 'telegram' ? 1 : 2,
-        token_type: option.value.token_type === 'discord' ? 2 : 1,
+        token_type: option.value.token_type,
         address: ''
         // discord暂无adress
       });
