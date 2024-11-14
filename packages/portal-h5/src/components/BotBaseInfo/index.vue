@@ -34,7 +34,7 @@
           name="classification"
           background
           required
-          :label="t('bots.label.classification')"
+          :label="t('bots.label.catalog')"
           :rules="rules.classification"
           clearable
         >
@@ -307,6 +307,10 @@ defineExpose({ open });
 </script>
 
 <style lang="scss" scoped>
+.bbi-dialog-body{
+  max-height: 90vh;
+  overflow: auto;
+}
 .bbi-dialog {
   &-head {
     font-size: 18px;

@@ -131,13 +131,13 @@ onBeforeMount(async () => {
           >
             {{ t('login.hasUser') }}
           </van-button>
-          <van-button
-            plain
-            class="font-Inter text-[15px] text-right"
-            @click="toForgetPassword"
-          >
-            {{ t('login.forgetPassword') }}
-          </van-button>
+<!--          <van-button-->
+<!--            plain-->
+<!--            class="font-Inter text-[15px] text-right"-->
+<!--            @click="toForgetPassword"-->
+<!--          >-->
+<!--            {{ t('login.forgetPassword') }}-->
+<!--          </van-button>-->
         </div>
       </div>
     </van-form>
@@ -166,7 +166,6 @@ onBeforeMount(async () => {
 
 .register-form-section {
   width: 100%;
-
   .van-button.van-button--primary {
     display: flex;
     height: 52px;
@@ -184,7 +183,7 @@ onBeforeMount(async () => {
     line-height: normal;
   }
   .button-group {
-    margin-top: 20px;
+    //margin-top: 20px;
     .link-button {
       margin-top: 24px;
       flex-direction: column;
