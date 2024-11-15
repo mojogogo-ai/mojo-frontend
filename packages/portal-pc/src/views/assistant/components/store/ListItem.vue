@@ -108,7 +108,7 @@
             >
               <el-image
                 class="plat-icon"
-                :src="platIcons['discord_address']"
+                :src="platIcons['discord']"
               />
             </el-button>
           </div>
