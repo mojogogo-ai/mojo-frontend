@@ -46,6 +46,13 @@ export const generateAvatarIcon = (data) =>
     data
   });
 
+export const generateBotIcon = (data) =>
+  request({
+    url: '/v1/bot/generate-icon',
+    method: 'post',
+    data
+  });
+
 // user avatar upload
 export function userAvatarUpload(data, config) {
   return request({
