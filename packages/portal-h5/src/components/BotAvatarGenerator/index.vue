@@ -91,7 +91,7 @@ const props = defineProps({
     type: Number,
     default: 0
   },
-  description: {
+  introduction: {
     type: String,
     default: ''
   },
@@ -127,7 +127,7 @@ const _generateKnowledgeIcon = async () => {
     } = await generateBotIcon({
       gender: props.gender,
       name: props.name,
-      description: props.description
+      introduction: props.introduction
     });
     if (code === 200) {
       if (remaining <= 0) return ElMessageBox({ title: t('common.c'), message: t('common.aiGenerateMaxLength') });
