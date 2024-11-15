@@ -45,5 +45,13 @@ const handleFirebaseError = (error) => {
       console.error(error)
   }
 }
+function getIsLogin() {
+  const user = auth.currentUser; // 获取当前用户
+  console.log('getIsLogin', user)
+  if (user) {
+    return !user.isAnonymous; // 检查是否为匿名用户
+  }
+  return false; // 如果没有用户，则未登录
+}
 
-export { auth, app, handleFirebaseError }
+export { auth, app, handleFirebaseError, getIsLogin }

@@ -46,7 +46,6 @@
         </div>
         <template #reference>
           <button
-            v-if="aiImageList.length < 3"
             type="button"
             class="ai-generate"
             :class="{ 'is-disabled': isAIloading }"
@@ -134,7 +133,7 @@ const _generateKnowledgeIcon = async () => {
       iconUrl.value = url;
       // // TODO:
       // iconUrl.value  = 'http://localhost:9004/src/assets/images/homepage/pic1.png'
-      if(aiImageList.length > 3) aiImageList.shift();
+      if(aiImageList.length >= 2) aiImageList.shift();
       aiImageList.push(url);
       emits('change', url);
     }

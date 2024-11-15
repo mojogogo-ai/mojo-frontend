@@ -78,7 +78,7 @@ import router from '@/router'
 import NoLogin from './NoLogin';
 import User from './User';
 import { constantRoutes } from '@/router';
-import { getIsLogin } from '@gptx/base/utils/auth';
+import { getIsLogin } from '@/utils/firebase.js';
 
 import useLoginStore from '@/store/modules/login';
 

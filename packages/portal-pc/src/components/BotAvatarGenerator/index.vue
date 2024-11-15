@@ -41,7 +41,6 @@
       >
         <template #default>
           <button
-            v-if="aiImageList.length < 3"
             v-loading="isAIloading"
             element-loading-background="var(--el-file-color-blank)"
             type="button"
@@ -125,7 +124,7 @@ const _generateKnowledgeIcon = async () => {
       iconUrl.value = url;
       // // TODO:
       // iconUrl.value  = 'http://localhost:9004/src/assets/images/homepage/pic1.png'
-      if(aiImageList.length > 3) aiImageList.shift();
+      if(aiImageList.length >= 3) aiImageList.shift();
       aiImageList.push(url);
       emits('change', url);
     }

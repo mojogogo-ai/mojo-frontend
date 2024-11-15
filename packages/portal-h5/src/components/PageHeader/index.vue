@@ -81,7 +81,7 @@ import { useLayoutStore } from '@/store/modules/layout';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 import useLoginStore from '@/store/modules/login';
 import useUserStore from '@/store/modules/user.js';
-import { getIsLogin } from '@gptx/base/utils/auth.js';
+import { getIsLogin } from '@/utils/firebase.js';
 import PublishDialog from '@/components/publish/PublishDialog.vue';
 import uploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vue';
 import BotBaseInfo from '@/components/BotBaseInfo/index.vue';
@@ -133,6 +133,7 @@ eventBus.on('publishBot', ({id}) => {
   publishDialogRef.value.open({ id });
 });
 eventBus.on('createBot', () => {
+  isLogin.value = getIsLogin();
   if(isLogin.value) {
     if (baseInfoRef.value) baseInfoRef.value.open({});
   } else {
@@ -140,6 +141,7 @@ eventBus.on('createBot', () => {
   }
 });
 eventBus.on('editBot', (option) => {
+  isLogin.value = getIsLogin();
   if(isLogin.value) {
     if (baseInfoRef.value) baseInfoRef.value.open(option);
   } else {
@@ -163,12 +165,13 @@ const afterCreateBot = async (data) => {
   });
 };
 onBeforeMount(async () => {
-  isLogin.value = await getIsLogin();
+  isLogin.value = getIsLogin();
   const user = useUserStore();
   user.updateSysInfo();
 });
 
 const onCreateClick = () => {
+  isLogin.value = getIsLogin();
   if (isLogin.value && baseInfoRef.value) {
     baseInfoRef.value.open();
   } else {

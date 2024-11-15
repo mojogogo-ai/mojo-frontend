@@ -85,7 +85,7 @@
 import { t } from '@gptx/base/i18n';
 import Pic1 from '@/assets/images/homepage/pic1.png';
 import Pic2 from '@/assets/images/homepage/pic2.png';
-import { getIsLogin } from '@gptx/base/utils/auth';
+import { getIsLogin } from '@/utils/firebase.js';
 import useLoginStore from '@/store/modules/login.js';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
@@ -100,7 +100,7 @@ const onOpenLoginDialog = () => {
 };
 
 const createBot = async() => {
-  let isLogin = await getIsLogin();
+  let isLogin = getIsLogin();
    if(isLogin) {
      eventBus.emit('createBot');
    } else {
