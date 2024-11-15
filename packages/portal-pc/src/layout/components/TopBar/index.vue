@@ -161,14 +161,16 @@ const publishDialogRef = ref(null);
 eventBus.on('publishBot', ({id}) => {
   publishDialogRef.value.open({ id });
 });
-eventBus.on('createBot', () => {
+eventBus.on('createBot', async () => {
+  isLogin.value = await getIsLogin();
   if(isLogin.value) {
     if (baseInfoRef.value) baseInfoRef.value.open({});
   } else {
     useLogin.setLoginDialogVisible(true, 'login');
   }
 });
-eventBus.on('editBot', (option) => {
+eventBus.on('editBot', async (option) => {
+  isLogin.value = await getIsLogin();
   if(isLogin.value) {
     if (baseInfoRef.value) baseInfoRef.value.open(option);
   } else {
@@ -230,7 +232,8 @@ const afterCreateBot = async (data) => {
 };
 
 
-const onCreateClick = () => {
+const onCreateClick = async() => {
+  isLogin.value = await getIsLogin();
   if (isLogin.value && baseInfoRef.value) {
     baseInfoRef.value.open();
   } else {

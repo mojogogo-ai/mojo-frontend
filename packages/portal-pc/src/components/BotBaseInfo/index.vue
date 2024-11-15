@@ -77,7 +77,7 @@
         :label="t('bots.icon')"
         prop="icon"
       >
-        <bot-avatar-generator
+        <BotAvatarGenerator
           :default-avatar="form.icon"
           :name="form.name"
           :gender="form.gender"
