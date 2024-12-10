@@ -133,8 +133,7 @@ export const constantRoutes = [
         meta: { title: 'My task list'}
       }
     ]
-  }
-  ,
+  },
   {
     path: '',
     component: Layout,
@@ -146,7 +145,32 @@ export const constantRoutes = [
         meta: { title: 'Refer friends'}
       }
     ]
-  }
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/memebot',
+        component: () => import('@/views/memebot/index.vue'),
+        name: 'memebot',
+        meta: { title: 'Meme Bot'}
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/myCoins',
+        component: () => import('@/views/myCoins/index.vue'),
+        name: 'myCoins',
+        meta: { title: 'My coins'}
+      }
+    ]
+  },
+  
 ];
 export const asyncRouterMap = []
 

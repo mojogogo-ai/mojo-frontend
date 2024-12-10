@@ -2,7 +2,7 @@
   <el-header class="flex h-[80px] justify-center">
     <div class="flex w-full min-w-[800px] max-w-[1280px] items-center ">
       <div class="flex items-center">
-        <Logo class="mr-10 flex-none" />
+        <Logo class="flex-none mr-10" />
         <el-menu
           :default-active="activeIndex"
           mode="horizontal"
@@ -58,12 +58,55 @@
       </div>
       <div class="create-bot-button">
         <!--        create bot button-->
-        <el-button round class="font-[TTNormsPro]" @click="onCreateClick">
+        <!-- <el-button round class="font-[TTNormsPro]" @click="onCreateClick">
           + Create Bot
-        </el-button>
+        </el-button> -->
+
+        <el-menu
+          mode="horizontal"
+          :ellipsis="false"
+          class="font-[TTNormsPro]"
+        >
+          <el-sub-menu
+            :popper-offset="15"
+            popper-class="customs-sub-menu"
+          >
+            <template #title>
+              + Create
+            </template>
+            <el-menu-item
+              style="min-width: 240px;"
+              @click="createHandleSelect('1')"
+            >
+              <div class="flex px-[5px] justify-center items-center ">
+                <div class="mr-[16px] flex h-9 w-9 items-center justify-center rounded-full bg-black">
+                  <svg-icon
+                    style="color: rgba(225, 255, 1, 1); font-size: 24px"
+                    name="bot-store"
+                  />
+                </div>
+                <div class="font-['Inter'] text-xl font-bold text-black">Bot</div>
+              </div>
+            </el-menu-item>
+            <el-menu-item
+              style="min-width: 240px;"
+              @click="createHandleSelect('2')"
+            >
+              <div class="flex px-[5px] justify-center items-center ">
+                <div class="mr-[16px] flex h-9 w-9 items-center justify-center rounded-full bg-black">
+                  <svg-icon
+                    style="color: rgba(225, 255, 1, 1); font-size: 24px"
+                    name="lucide-bot"
+                  />
+                </div>
+                <div class="font-['Inter'] text-xl font-bold text-black">Meme Bot</div>
+              </div>
+            </el-menu-item>
+          </el-sub-menu>
+        </el-menu>
       </div>
       <div class="lang-select mr-[34px]">
-        <el-dropdown v-if="langList.length" style="--el-dropdown-menuItem-hover-color: red" placement="bottom-start">
+        <!-- <el-dropdown v-if="langList.length" style="--el-dropdown-menuItem-hover-color: red" placement="bottom-start">
           <el-button circle style="border: none!important;outline: none;width: 40px;height: 40px;">
             <template #icon>
               <el-icon style="width: 40px;height: 40px;">
@@ -90,7 +133,7 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
-        </el-dropdown>
+        </el-dropdown> -->
       </div>
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
@@ -109,7 +152,7 @@
 
   <!-- create bot -->
   <bot-base-info
-    ref="baseInfoRef"
+    ref="createBotRef"
     @after-create="afterCreateBot"
   />
   <UploadKnowledgeSources
@@ -134,22 +177,23 @@ import useLoginStore from '@/store/modules/login';
 import useBotStore from '@/store/modules/bot';
 import useUserStore from '@/store/modules/user.js';
 import { confirmUserInvite } from '@gptx/base/api/user.js';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import LoginAndSignup from '@/components/LoginAndSignup';
-import CreateBot from '@/components/CreateBot';
-import { getCurLang, supportLang } from '@gptx/base';
+// import CreateBot from '@/components/CreateBot';
+import { supportLang } from '@gptx/base';
 import BotBaseInfo from '@/components/BotBaseInfo'
 import UploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vue';
 import PublishDialog from '@/views/personal/components/publish/PublishDialog.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 const route = useRoute();
+const router = useRouter();
 const useLogin = useLoginStore();
 const useBot = useBotStore();
 const useUser = useUserStore();
 
 const loginRef = ref(null);
-const baseInfoRef = ref(null);
+const createBotRef = ref(null);
 const isLogin = ref(false);
 const referralCodeRef = ref(null);
 
@@ -164,7 +208,7 @@ eventBus.on('publishBot', ({id}) => {
 eventBus.on('createBot', async () => {
   isLogin.value = await getIsLogin();
   if(isLogin.value) {
-    if (baseInfoRef.value) baseInfoRef.value.open({});
+    if (createBotRef.value) createBotRef.value.open({});
   } else {
     useLogin.setLoginDialogVisible(true, 'login');
   }
@@ -172,7 +216,7 @@ eventBus.on('createBot', async () => {
 eventBus.on('editBot', async (option) => {
   isLogin.value = await getIsLogin();
   if(isLogin.value) {
-    if (baseInfoRef.value) baseInfoRef.value.open(option);
+    if (createBotRef.value) createBotRef.value.open(option);
   } else {
     useLogin.setLoginDialogVisible(true, 'login');
   }
@@ -234,10 +278,20 @@ const afterCreateBot = async (data) => {
 
 const onCreateClick = async() => {
   isLogin.value = await getIsLogin();
-  if (isLogin.value && baseInfoRef.value) {
-    baseInfoRef.value.open();
+  if (isLogin.value && createBotRef.value) {
+    createBotRef.value.open();
   } else {
     useLogin.setLoginDialogVisible(true);
+  }
+};
+
+// create bot
+const createHandleSelect = (type) => {
+  if (type === '1') { // bot
+    onCreateClick()
+  } else { // meme bot
+    // useBot.setCreateBotDialog(false);
+    router.push({ path: '/memebot' });
   }
 };
 
@@ -285,12 +339,12 @@ watch(
 watch(
   () => useBot.createBotDialog,
   () => {
-    if (baseInfoRef.value) baseInfoRef.value.open({});
+    if (createBotRef.value) createBotRef.value.open({});
   },
   { immediate: false }
 );
 
-const curLang = getCurLang();
+// const curLang = getCurLang();
 const langList = supportLang(); // 支持切换的语言
 // const language = computed(() => {
 //   return langList.find((i) => {

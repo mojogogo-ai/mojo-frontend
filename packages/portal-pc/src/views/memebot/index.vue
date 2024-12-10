@@ -1,13 +1,10 @@
 <template>
-  <mojoDialogTranslucent
-    v-model="isVisible"
-    v-bind="$attrs"
-    width="622px"
-    :title="isEdit ? t('base.edit') : t('bots.new')"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    destroy-on-close
-  >
+  <div class="w-[552px] mx-auto">
+    <div class="text-center  mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">Create Meme Bot</div>
+    <div class="w-full h-[38px] mb-2 px-3.5 py-3 bg-[#e1ff01]/5 rounded-xl justify-start items-start gap-3 inline-flex">
+      <div class="w-3.5 h-3.5 relative"><el-icon color="#e1ff01"><WarningFilled /></el-icon></div>
+      <div class="grow shrink basis-0 opacity-80 text-[#e1ff01] text-[12px] font-medium font-['Inter']">Cost to launch an AI agent is 0.02 SOL.</div>
+    </div>
     <el-form
       ref="formRef"
       label-position="top"
@@ -16,59 +13,125 @@
       :disabled="loading || isAIloading"
       @submit.prevent
     >
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item
+            label="Your name"
+            prop="name"
+          >
+            <el-input
+              v-model="form.name"
+              placeholder="Your name"
+              maxlength="50"
+              show-word-limit
+              clearable
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item
+            :label="t('bots.label.gender')"
+            prop="gender"
+          >
+            <el-select
+              v-model="form.gender"
+              placeholder="Your gender"
+            >
+              <el-option
+                v-for="item in genderList"
+                :key="item.id"
+                :label="t(item.name)"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item
+            :label="t('bots.label.conversationStyle')"
+            prop="classification"
+          >
+            <el-select
+              v-model="form.classification"
+              placeholder="Your conversation Style"
+            >
+              <el-option
+                v-for="{ name, id } in catalogList"
+                :label="t(name)"
+                :value="id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item
+            label="Audio Selection"
+            prop="gender"
+          >
+            <el-select
+              v-model="form.gender"
+              placeholder="Select audio"
+            >
+              <el-option
+                v-for="item in genderList"
+                :key="item.id"
+                :label="t(item.name)"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item
-        :label="t('bots.label.name')"
+        label="Twitter"
         prop="name"
       >
         <el-input
           v-model="form.name"
-          :placeholder="t('bots.place.name')"
-          maxlength="50"
-          show-word-limit
+          placeholder="twitter"
+          maxlength="255"
           clearable
         />
       </el-form-item>
       <el-form-item
-        :label="t('bots.label.gender')"
-        prop="gender"
+        label="Telegram"
+        prop="name"
       >
-        <el-select
-          v-model="form.gender"
-          :placeholder="t('bots.place.catalog')"
-        >
-          <el-option
-            v-for="item in genderList"
-            :key="item.id"
-            :label="t(item.name)"
-            :value="item.id"
-          />
-        </el-select>
+        <el-input
+          v-model="form.name"
+          placeholder="telegram"
+          maxlength="255"
+          clearable
+        />
       </el-form-item>
       <el-form-item
-        :label="t('bots.label.conversationStyle')"
-        prop="classification"
+        label="Configure Telegram bot"
+        prop="name"
       >
-        <el-select
-          v-model="form.classification"
-          :placeholder="t('bots.place.conversationStyle')"
-        >
-          <el-option
-            v-for="{ name, id } in catalogList"
-            :label="t(name)"
-            :value="id"
-          />
-        </el-select>
+        <div class="w-[552px] h-9 flex flex-col">
+          <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
+          <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot token ?</span>
+        </div>
+        <el-input
+          v-model="form.name"
+          placeholder="Please enter Telegram Bot token"
+          maxlength="10000"
+          clearable
+        />
       </el-form-item>
       <el-form-item
-        :label="t('bots.label.description')"
+        label="Description"
         prop="introduction"
       >
         <el-input
           v-model="form.introduction"
           type="textarea"
-          :rows="6"
-          :placeholder="t('bots.place.description')"
-          maxlength="2000"
+          :rows="4"
+          placeholder="Describe your bot’s functions and usage."
+          maxlength="800"
           show-word-limit
           clearable
         />
@@ -90,7 +153,7 @@
         />
       </el-form-item>
     </el-form>
-    <template #footer>
+    <div class="flex justify-end w-full my-10">
       <el-button
         :disabled="loading"
         @click="close"
@@ -98,25 +161,23 @@
         {{ t('common.cancel') }}
       </el-button>
       <el-button
-        style="margin-left: 16px;width: 140px;"
+        style="margin-left: 16px;"
         type="primary"
         :loading="loading"
         :disabled="loading"
         linear
         @click="submitBaseInfo(formRef)"
       >
-        {{ 'Next Step' }}
+        {{ 'Launch' }}
       </el-button>
-    </template>
-  </mojoDialogTranslucent>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getBotInfo, createBot, botEdit } from '@gptx/base/api/application';
-// import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
+import { createBot, botEdit } from '@gptx/base/api/application';
 import { storeAppCopy } from '@gptx/base/api/chat.js';
-import { ElMessage } from 'element-plus';
 
 const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
@@ -157,46 +218,6 @@ const loading = ref(false);
 const isAIloading = ref(false);
 const isCopy = ref(false);
 
-const open = async (option) => {
-  if (option?.id) form.id = option?.id;
-  isEdit.value = !!option?.id;
-  isVisible.value = true;
-  if(isEdit.value) {
-    loading.value = true;
-    try {
-      const { code, data } = await getBotInfo({
-        id: option.id
-      });
-      // console.log(data, 'data')
-      if (code === 200) {
-        form.icon = data.icon;
-        form.name = data.name;
-        form.introduction = data.introduction;
-        form.classification = data.classification;
-        form.gender = data.gender
-        form.files = data.files;
-      }
-    } catch (error) {
-      console.log(error);
-      // 获取详情失败
-      ElMessage.error(t('bots.error.getDetail'));
-    } finally {
-      loading.value = false;
-    }
-  } else {
-    // await nextTick();
-    // alert(1)
-    form.id = '';
-    form.icon = '';
-    form.name = '';
-    form.introduction = '';
-    form.classification = [];
-    form.gender = null;
-    form.third_company = '';
-    form.is_personalize_image_icon = false;
-    // formRef.value.resetFields();
-  }
-}
 const close = () => {
   isVisible.value = false;
   form.id = '';
@@ -282,7 +303,10 @@ const copyApp = async () => {
   }
 };
 
-defineExpose({ open });
+const getTgToken = () => {
+  window.open('https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token')
+};
+
 </script>
 
 <style lang="scss" scoped>

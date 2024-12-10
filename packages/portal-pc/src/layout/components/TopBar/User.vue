@@ -121,6 +121,12 @@ const infoList = ref([
     path: '/tasks'
   },
   {
+    id: 5,
+    icon: 'coin',
+    text: 'My coins',
+    path: '/myCoins'
+  },
+  {
     id: 3,
     icon: 'refer',
     text: 'Refer friends',
