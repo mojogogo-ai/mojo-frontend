@@ -2,21 +2,39 @@ import { getUserInfo } from '@gptx/base/api/user';
 import { getIsLogin, removeToken, setToken, setTokenExpire } from '@gptx/base/utils/auth';
 import defAva from '@/assets/logo/avatar-default.svg';
 
-const useUserStore = defineStore('user', {
+export const useUserStore = defineStore('user', {
   state: () => ({
     nickName: '',
     avatar: '',
     email: '',
     uid: '',
     points: 0,
-    referalCode: ''
+    referalCode: '',
+    isLoggedIn: false, // 新增用于统一管理登录状态
+    id: 0,
+    nickname: '',
+    referral_code: '',
+    username: '',
+    twitter_link: '',
+    facebook_link: '',
+    instagram_link: '',
+    gender: 0,
+    invite_nums: 0,
+    displayName: ''
   }),
   actions: {
     loginOthers(authUserInfo) {
-      setToken(authUserInfo.accessToken);
-      setTokenExpire(authUserInfo.stsTokenManager.expirationTime);
-      console.log(authUserInfo, 'loginOthers');
-      return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        try {
+          setToken(authUserInfo.accessToken);
+          setTokenExpire(authUserInfo.stsTokenManager.expirationTime);
+          this.isLoggedIn = true; // 更新登录状态
+          console.log(authUserInfo, 'loginOthers');
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      });
     },
     updateUserInfo(key, value) {
       this[key] = value;
@@ -26,18 +44,26 @@ const useUserStore = defineStore('user', {
         removeToken();
         localStorage.removeItem('user');
         localStorage.removeItem('humanVerified');
+        this.$reset(); // 重置用户信息，清空状态
         resolve();
       });
     },
     async updateSysInfo() {
       try {
         const isLogin = await getIsLogin();
+        this.isLoggedIn = isLogin; // 更新登录状态
         if (isLogin) {
           const { code, data } = await getUserInfo();
           if (code === 200 && data) {
+            // 遍历data, 全部赋值给store
+            for (const key in data) {
+              if (Object.hasOwnProperty.call(data, key)) {
+                this[key] = data[key];
+              }
+            }
             const avatar = data.avatar === '' || data.avatar == null ? defAva : data.avatar;
-            this.nickName = data.nickname; // 昵称
-            this.avatar = avatar; // 头像
+            this.nickName = data.nickname;
+            this.avatar = avatar;
             this.uid = data.uid || '';
             this.email = data.email || '';
             this.points = data.points || 0;

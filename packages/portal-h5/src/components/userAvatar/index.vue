@@ -101,6 +101,7 @@ import { VueCropper } from 'vue-cropper';
 import { uploadAvatar, userAvatarUpload } from '@gptx/base/api/user';
 import { useDebounceFn } from '@vueuse/core';
 import { t } from '@gptx/base/i18n';
+import { showFailToast } from 'vant';
 
 export default {
   components: { VueCropper },

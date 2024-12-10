@@ -62,12 +62,29 @@
             @click="emits('right-icon-click')"
           />
         </div>-->
+    <BotBaseInfo
+      ref="baseInfoRef"
+      @after-create="afterCreateBot"
+    />
+    <uploadKnowledgeSources
+      ref="uploadKnowledgeSourcesRef"
+      width="600px"
+      @after-upload-knowledge-sources="afterUploadKnowledgeSources"
+    />
+    <PublishDialog ref="publishDialogRef" />
   </div>
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n/index.js';
 import { useLayoutStore } from '@/store/modules/layout';
+import { eventBus } from '@gptx/base/utils/eventBus.js';
+import useLoginStore from '@/store/modules/login';
+import useUserStore from '@/store/modules/user.js';
+import { getIsLogin } from '@/utils/firebase.js';
+import PublishDialog from '@/components/publish/PublishDialog.vue';
+import uploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vue';
+import BotBaseInfo from '@/components/BotBaseInfo/index.vue';
 
 const storeLayout = useLayoutStore();
 defineProps({
@@ -103,10 +120,65 @@ const isCn = computed(() => {
 const onLeftIconClick = () => {
   storeLayout.setSidebarVisible(true);
 };
+
 const onSearch = () => {
   // isShowSearch.value = false;
   emits('search', searchValue.value);
 };
+const useLogin = useLoginStore();
+const baseInfoRef = ref(null);
+const isLogin = ref(false);
+const publishDialogRef = ref(null);
+eventBus.on('publishBot', ({id}) => {
+  publishDialogRef.value.open({ id });
+});
+eventBus.on('createBot', () => {
+  isLogin.value = getIsLogin();
+  if(isLogin.value) {
+    if (baseInfoRef.value) baseInfoRef.value.open({});
+  } else {
+    useLogin.setLoginDialogVisible(true, 'login');
+  }
+});
+eventBus.on('editBot', (option) => {
+  isLogin.value = getIsLogin();
+  if(isLogin.value) {
+    if (baseInfoRef.value) baseInfoRef.value.open(option);
+  } else {
+    useLogin.setLoginDialogVisible(true, 'login');
+  }
+});
+
+const uploadKnowledgeSourcesRef = ref(null);
+const afterUploadKnowledgeSources = ({id}) => {
+  publishDialogRef.value.open({ id });
+};
+const afterCreateBot = async (data) => {
+  // router.push(`/design/${app_id}`);
+  console.log('afterCreateBot', data);
+  // 广播创建成功
+  eventBus.emit('createBotSuccess', data);
+  // TODO
+  uploadKnowledgeSourcesRef.value.open({
+    id: data?.id,
+    files: data?.files || null
+  });
+};
+onBeforeMount(async () => {
+  isLogin.value = getIsLogin();
+  const user = useUserStore();
+  user.updateSysInfo();
+});
+
+const onCreateClick = () => {
+  isLogin.value = getIsLogin();
+  if (isLogin.value && baseInfoRef.value) {
+    baseInfoRef.value.open();
+  } else {
+    useLogin.setLoginDialogVisible(true);
+  }
+};
+
 </script>
 
 <style lang="scss">
@@ -139,7 +211,7 @@ const onSearch = () => {
 .page-header-icon {
   position: absolute;
   top: 50%;
-  left: 8px;
+  right: 8px;
   display: flex;
   align-items: center;
   justify-content: center;

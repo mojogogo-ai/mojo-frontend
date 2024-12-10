@@ -137,10 +137,10 @@ onMounted(() => {
 <style lang="scss">
 .app-page {
   padding-top: 0;
-  background:
-    url('@/assets/images/background/bg-l.png') no-repeat left top,
-    url('@/assets/images/background/bg-r.png') no-repeat right top;
-  background-color: #000;
+  //background:
+  //  url('@/assets/images/background/bg-l.png') no-repeat left top,
+  //  url('@/assets/images/background/bg-r.png') no-repeat right top;
+  //background-color: #000;
 
   &.app-design,
   &.app-publish {

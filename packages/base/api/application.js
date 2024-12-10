@@ -9,10 +9,64 @@ export function appDelete(data) {
   });
 }
 
+// /portal/v1/bot/del
+export function botDelete(data) {
+  return request({
+    url: '/v1/bot/del',
+    method: 'delete',
+    data
+  });
+}
+
+// /portal/v1/bot/info
+export function botInfo(params) {
+  return request({
+    url: '/v1/bot/info',
+    method: 'get',
+    params
+  });
+}
+
+// /portal/v1/bot/authorize
+export function botAuthorize(data) {
+  return request({
+    url: '/v1/bot/authorize',
+    method: 'post',
+    data
+  });
+}
+
 // app list
 export function getAppList(params) {
   return request({
     url: '/portal/app/list',
+    method: 'get',
+    params
+  });
+}
+
+// /portal/v1/bot/publish
+export function botPublish(data) {
+  return request({
+    url: '/v1/bot/publish',
+    method: 'post',
+    data
+  });
+}
+
+// /portal/v1/bot/my-list
+export function getMyBotList(params) {
+  return request({
+    url: '/v1/bot/my-list',
+    method: 'get',
+    params
+  });
+}
+
+// /portal/v1/bot/info
+export function getBotInfo(params) {
+  return request({
+    url: '/v1/bot/info',
     method: 'get',
     params
   });
@@ -44,6 +98,32 @@ export function quickCreateApp(data) {
     data
   });
 }
+// /portal/v1/bot/create
+export function createBot(data) {
+  return request({
+    url: '/v1/bot/create',
+    method: 'post',
+    data
+  });
+}
+
+// /portal/v1/bot/file-save
+export function botFileSave(data) {
+  return request({
+    url: '/v1/bot/file-save',
+    method: 'post',
+    data
+  });
+}
+
+// updateBotFile
+export function updateBotFile(data) {
+  return request({
+    url: '/v1/bot/file-edit',
+    method: 'post',
+    data
+  });
+}
 
 // get app base info
 export function getAppInfo(params) {
@@ -62,7 +142,14 @@ export function updateAppInfo(data) {
     data
   });
 }
-
+// /portal/v1/bot/edit
+export function botEdit(data) {
+  return request({
+    url: '/v1/bot/edit',
+    method: 'post',
+    data
+  });
+}
 // get bot analyze static data
 export function getAnalyzeData(params) {
   return request({

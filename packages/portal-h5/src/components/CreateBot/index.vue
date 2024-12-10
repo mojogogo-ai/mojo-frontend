@@ -134,12 +134,12 @@ const open = async (option) => {
   form.category_id = option?.category_id || [];
   if (option?.id) form.id = option?.id;
   isVisible.value = true;
-  await nextTick();
-  formRef.value.resetFields();
+  // await nextTick();
+  // formRef.value.resetFields();
 };
 const close = () => {
   isVisible.value = false;
-  formRef.value.resetFields();
+  // formRef.value.resetFields();
 };
 const onImageChange = (url) => (form.icon = url);
 // commit action

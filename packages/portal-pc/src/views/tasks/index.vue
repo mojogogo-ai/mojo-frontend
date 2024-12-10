@@ -18,6 +18,7 @@
             <list-item
               v-for="appInfo in __data.storeList"
               :app-info="appInfo"
+              @click="onTaskClick(appInfo)"
             />
           </div>
         </el-scrollbar>
@@ -31,6 +32,10 @@
       </div>
     </div>
   </div>
+  <CheckIn
+    ref="checkInRef"
+    width="800px"
+  />
 </template>
 
 <script setup>
@@ -38,12 +43,13 @@ import { t } from '@gptx/base/i18n';
 import ListItem from './components/ListItem';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
 import TaskImg01 from '@/assets/images/tasks/01.svg';
-// import TaskImg02 from '@/assets/images/tasks/02.svg';
-// import TaskImg03 from '@/assets/images/tasks/03.svg';
-// import TaskImg04 from '@/assets/images/tasks/04.svg';
-// import TaskImg05 from '@/assets/images/tasks/05.svg';
+import TaskImg02 from '@/assets/images/tasks/02.svg';
+import TaskImg03 from '@/assets/images/tasks/03.svg';
+import TaskImg04 from '@/assets/images/tasks/04.svg';
+import TaskImg05 from '@/assets/images/tasks/05.svg';
 import TaskImg06 from '@/assets/images/tasks/06.svg';
 import TaskImg07 from '@/assets/images/tasks/07.svg';
+import CheckIn from '@/views/tasks/components/Check-In.vue';
 
 const __data = reactive({
   storeList: []
@@ -53,7 +59,7 @@ let timer = null;
 const isLoading = ref(true);
 /* ref dom */
 const scrollbar = ref(null);
-
+const checkInRef = ref(null);
 const onSearch = () => {
   if (timer) {
     clearTimeout(timer);
@@ -77,7 +83,7 @@ const getStoreList = async () => {
         app_icon: TaskImg01,
         points: '+ 200 pts'
       },
-      /*{
+      {
         app_name: 'Create AI Me',
         app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
         app_icon: TaskImg02,
@@ -90,39 +96,49 @@ const getStoreList = async () => {
         points: '+ 20 pts'
       },
       {
-        app_name: 'Agent Training',
-        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
-        app_icon: TaskImg04,
-        points: '+ 5 pts'
+        app_name: 'Daily Check-In',
+        app_description: 'Daily login,check-in and interact.',
+        app_icon: TaskImg07,
+        points: '+ 5 pts',
+        id: 7
       },
+      // {
+      //   app_name: 'Agent Training',
+      //   app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+      //   app_icon: TaskImg04,
+      //   points: '+ 5 pts'
+      // },
       {
         app_name: 'Interact with ChatBot',
         app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
         app_icon: TaskImg05,
         points: '+ 5 pts'
-      },*/
+      },
       {
         app_name: 'Refer Friends',
         app_description: 'Refer friends to use and successfully complete the registration.',
         app_icon: TaskImg06,
         points: '+ 50 pts'
-      },
-      {
-        app_name: 'Daily Login and Check-In',
-        app_description: 'Daily login,check-in and interact.',
-        app_icon: TaskImg07,
-        points: '+ 5 pts'
       }
     ]
   );
   isLoadMore = false;
   setTimeout(() => {
     isLoading.value = false;
-  }, 300);
+  }, 30);
 };
 const onScroll = ({ scrollTop }) => {
   const wrap = scrollbar.value.wrapRef;
   if (wrap.scrollHeight - scrollTop <= wrap.offsetHeight) getStoreList();
+};
+
+const onTaskClick = (appInfo) => {
+  console.log('appInfo', appInfo);
+  if(appInfo.id === 7) {
+    // router.push({ name: 'daily-check-in' });
+    checkInRef.value.open();
+
+  }
 };
 
 onMounted(async () => {
@@ -138,7 +154,7 @@ onMounted(async () => {
 :deep(.page-list) {
   width: 50%;
   max-width: unset;
-
+  cursor: pointer;
   .page-list__inner {
     .el-card__body {
       min-height: 152px;

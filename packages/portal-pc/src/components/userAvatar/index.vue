@@ -162,7 +162,7 @@
           :loading="subLoading"
           @click="uploadImg()"
         >
-          提 交
+          Confirm
         </el-button>
       </div>
     </div>

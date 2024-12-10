@@ -10,18 +10,28 @@
       <template #reference>
         <div class="avatar-wrapper">
           <el-avatar
-            :size="38"
+            :size="42"
             :src="user.avatar"
           />
 
           <div class="flex flex-col">
             <div>
-              <div class="user-code">@{{ user.nickName }}</div>
+              <div class="user-code">{{ user.nickName }}</div>
             </div>
             <div class="flex items-center">
+              <div>
+                <div class="nick-name-out">@{{ user.nickName }}</div>
+              </div>
               <div
-                style="border: 1px solid rgba(224, 255, 49, 0.5)"
-                class="rounded-full px-3 py-1 mx-2 text-xs text-[#e1ff01]"
+                style="border: 2px solid rgba(224, 255, 49, 0.5)"
+                class="rounded-full
+                flex items-center
+                 px-[12px]
+                 py-[1px]
+                 font-[500]
+                  mx-[6px]
+                   text-[11px]
+                   text-[#e1ff01]"
               >
                 <span>{{ user.points }} pts</span>
                 <!-- <CountTo
@@ -35,20 +45,20 @@
         </div>
       </template>
       <template #default>
-        <div>
-          <div class="flex items-center px-5 avatar-wrapper2">
+        <div class="p-[12px]">
+          <div class="flex items-center flex-wrap p-[4px] avatar-wrapper2">
             <el-avatar
-              :size="70"
+              :size="80"
               :src="user.avatar"
             />
 
-            <div class="flex flex-col">
-              <!-- <div>
-                <div class="user-code">{{ user.uid }}</div>
-              </div> -->
+            <div class="flex flex-col ml-[20px] ">
+              <div class="w-[194px] mb-[6px]">
+                <div class="user-code">{{ user.nickName }}</div>
+              </div>
               <div class="flex items-center">
                 <div
-                  class="nick-name"
+                  class="nick-name-inside"
                   :title="`@${user.nickName}`"
                 >
                   @{{ user.nickName }}
@@ -56,24 +66,25 @@
               </div>
             </div>
           </div>
-          <el-divider style="border-color: rgba(0, 0, 0, 0.3)" />
+          <el-divider style="border-color: rgba(0, 0, 0, 0.3);" class="my-[18px]" />
           <div>
             <div
               v-for="(item, index) in infoList"
               :key="index"
-              class="mt-2 flex cursor-pointer items-center pl-5 text-[16px] font-semibold text-[var(--el-text-color-primary)] hover:opacity-75"
+              class="mb-[12px] flex cursor-pointer items-center pl-[4px] text-[16px] font-semibold text-[var(--el-text-color-primary)] hover:opacity-75"
               @click="toPage(item)"
             >
               <svg-icon
                 :name="item.icon"
-                class="mr-2 text-[24px]"
+                class="mr-[8px] text-[24px]"
               />
-              <span>
+              <span class="leading-[23px] text-[16px]">
                 {{ item.text }}
               </span>
               <div
                 v-if="item.id === 2"
-                class="ml-4 h-7 rounded-full bg-black px-3 text-xs leading-7 text-[var(--el-text-color-regular)]"
+                class="ml-[40px] h-[29px] rounded-full bg-black px-[12px] text-[15px] leading-[29px] text-[var(--el-text-color-regular)] font-[600] "
+                @click.stop="goPointsHistory"
               >
                 {{ user.points }} pts
               </div>
@@ -93,6 +104,7 @@ const router = useRouter();
 const user = useUserStore();
 
 import useLoginStore from '@/store/modules/login';
+import { useRouter } from 'vue-router';
 const useLogin = useLoginStore();
 
 const infoList = ref([
@@ -132,6 +144,10 @@ const toPage = (item) => {
   }
 };
 
+const goPointsHistory = () => {
+  router.push({ path: '/pointsHistory' });
+};
+
 const logoutHandle = async () => {
   try {
     const action = await ElMessageBox.confirm(t('user.c'), '', {
@@ -161,25 +177,29 @@ const logoutHandle = async () => {
   padding: 0 10px;
   border-radius: 8px;
   cursor: pointer;
+ .nick-name-out{
+   margin-left: 12px;
+   color: rgba(255, 255, 255, 0.70);
+   font-feature-settings: 'dlig' on;
+   font-family: Inter;
+   font-size: 13px;
+   font-style: normal;
+   font-weight: 500;
+   //line-height: 19px; /* 146.154% */
+ }
 
-  .nick-name {
-    margin: 0 10px;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 500;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: rgba(255, 255, 255, 0.7);
-  }
   .user-code {
     max-width: 200px;
-    margin: 0 10px 6px 10px;
+    //margin: 0 10px 6px 10px;
+    margin-left: 12px;
     font-size: 15px;
     font-style: normal;
+    line-height: 23px;
     font-weight: 600;
     overflow: hidden;
-    color: var(--el-color-primary);
+    color: var(--Style, #E1FF01);
+    font-feature-settings: 'dlig' on;
+    font-family: Inter;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -195,16 +215,33 @@ const logoutHandle = async () => {
 
 
   .nick-name {
-    margin: 0 0 6px 10px;
+    margin: 0 0 6px 0;
     color: var(--el-text-color-secondary);
     font-size: 15px;
   }
+  .nick-name-inside {
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(0, 0, 0, 0.70);
+    font-feature-settings: 'dlig' on;
+    font-family: Inter;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+  }
   .user-code {
-    max-width: 216px;
-    margin: 0 0 0 10px;
+    max-width: 194px;
+    //margin: 0 0 0 10px;
     font-size: 19px;
     font-weight: 600;
     color: var(--el-text-color-primary);
+    overflow: hidden;
+    font-feature-settings: 'dlig' on;
+    font-family: Inter;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   i {

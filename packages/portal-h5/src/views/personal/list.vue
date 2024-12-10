@@ -1,172 +1,204 @@
 <template>
-  <div class="app-page">
-    <page-header
-      :title="t('menu.c')"
-      :placeholder="t('bots.a9')"
-      input-area
-      @search="onSearch"
-    />
-    <van-search
-      v-model="form.search"
-      class="store-search"
-      placeholder="Search"
-      shape="round"
-      background="transparent"
-      @search="onSearch"
-    />
-    <div
-      v-if="isLoading"
-      class="app-page-content flex items-center justify-center"
-    >
-      <van-loading
-        class="cover-loading"
-        size="36px"
-        color="var(--van-loading-color)"
-        vertical
-      >
-        {{ t('common.loading') }}
-      </van-loading>
+  <page-header
+    :title="t('menu.c')"
+    :placeholder="t('bots.a9')"
+  />
+  <div class="bot-management">
+    <div class="bot-management-title">
+      {{ t('Bot Management') }}
     </div>
-    <div
-      v-else
-      class="app-page-content"
-    >
-      <div class="flex h-full flex-col">
-        <van-floating-bubble
-          v-if="showFilter"
-          axis="xy"
-          magnetic="x"
-          icon="plus"
-          @click="createNewBot"
+    <div class="bot-management-content">
+      <van-list
+        v-model:loading="isLoading"
+        :finished="!isLoadMore"
+        finished-text="no more"
+        style="height: calc(100vh - 140px);overflow-y: auto"
+        @load="onLoad"
+      >
+        <list-item
+          v-for="bot in botList"
+          :key="bot.id"
+          class="bot-management-item"
+          :bot="bot"
+          @chat="onChat($event, bot)"
+          @delete="_getMyBotList"
+          @refresh-list="_getMyBotList"
+          @click="editBot(bot)"
         />
-        <div
-          v-if="botList.length"
-          class="flex-1 overflow-hidden"
-        >
-          <div class="app-list-scroll">
-            <div class="pt-3">
-              <list-item
-                v-for="bot in botList"
-                class="app-page-item"
-                :bot="bot"
-                @chat="onChat($event, bot)"
-                @delete="_getAppList"
-                @refresh-list="_getAppList"
-              />
-              <div class="h-[48px]" />
-            </div>
-          </div>
-        </div>
-        <template v-if="!botList.length">
-          <van-empty
-            v-if="form.search"
-            :image="emptyRobotImageUrl"
-          >
+
+        <!-- 空内容展示 -->
+        <template v-if="!isLoading && botList.length === 0">
+          <van-empty :image="emptyRobotImageUrl">
             <template #description>
-              <div class="text-[16px] font-black">{{ t('bots.not_found') }}</div>
+              <div class="no-content-psl font-black">{{ t('common.noContent') }}</div>
             </template>
-          </van-empty>
-          <van-empty
-            v-else
-            :image="emptyRobotImageUrl"
-          >
-            <template #description>
-              <div class="text-[16px] font-black">{{ t('base.create_new') }}</div>
-            </template>
+            <!-- 显示创建新 Bot 按钮的条件 -->
             <van-button
+              v-if="!form.search && form.published === ''"
               type="primary"
-              size="small"
-              linear
+              class="new-bot-btn"
               @click="createNewBot"
             >
-              {{ t('bots.new') }}
+              + {{ t('bots.new') }}
             </van-button>
           </van-empty>
         </template>
-      </div>
+        <!-- 加载中时显示加载指示器 -->
+        <!--        <van-loading v-if="isLoading && botList.length === 0" text="{{ t('common.loading') }}" />-->
+      </van-list>
     </div>
   </div>
-  <bot-base-info
-    ref="baseInfoRef"
-    @after-create="afterCreateBot"
-  />
 </template>
 
 <script setup>
+import { ref, reactive, onMounted } from 'vue';
 import { t } from '@gptx/base/i18n';
-import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
-import { getAppList } from '@gptx/base/api/application';
+import emptyRobotImageUrl from '@/assets/images/smart-people.svg';
+import { getMyBotList } from '@gptx/base/api/application';
 import ListItem from './components/list/ListItem.vue';
+import { eventBus } from '@gptx/base/utils/eventBus.js';
 
-const router = useRouter();
-/* ref dom */
-const baseInfoRef = ref(null);
 
 const form = reactive({
-  search: '' /* ,
+  published: '',
+  search: '',
   page_num: 1,
-  page_size: 10 */
+  page_size: 10
 });
 const isLoading = ref(false);
 const botList = ref([]);
-const showFilter = computed(() => {
-  return botList.value.length || form.search;
+const total = ref(0);
+const isLoadMore = ref(true);
+const refreshing = ref(false);
+
+// 监听 createBotSuccess 和 botPublishSuccess 事件，刷新列表
+eventBus.on('createBotSuccess', () => {
+  resetList();
+});
+eventBus.on('botPublishSuccess', () => {
+  resetList();
 });
 
-const createNewBot = () => baseInfoRef.value.open();
-const afterCreateBot = async () => {
-  await _getAppList();
-  const { id } = botList.value[0];
-  router.push({ path: `/design/${id}` });
+const createNewBot = () => {
+  eventBus.emit('createBot');
 };
-const onSearch = (value) => {
-  _getAppList();
+const editBot = (bot) => {
+  eventBus.emit('editBot', bot);
 };
-const _getAppList = async () => {
+const _getMyBotList = async () => {
+  if (!isLoadMore.value || isLoading.value) return; // 如果已加载完或正在加载中则退出
   isLoading.value = true;
   try {
-    const result = await getAppList(form);
+    const result = await getMyBotList(form);
     const {
       code,
-      data: { list }
+      data: { list, page }
     } = result;
-    if (code === 200) botList.value = list;
-    setTimeout(() => {
-      isLoading.value = false;
-    }, 300);
+    if (code === 200) {
+      botList.value = [...botList.value, ...(list || [])];
+      total.value = page.total;
+      // 检查是否加载完所有数据
+      if (botList.value.length >= total.value) {
+        isLoadMore.value = false;
+      } else {
+        form.page_num += 1;
+      }
+    }
+    isLoading.value = false;
   } catch (e) {
     console.log(e);
     isLoading.value = false;
   }
 };
-const onChat = (plat, { shared_social }) => {
-  const { link } = shared_social[plat];
-  window.open(link, '_blank');
+const resetList = () => {
+  botList.value = [];
+  form.page_num = 1;
+  isLoadMore.value = true;
+  _getMyBotList();
 };
+const onChat = ({ url }) => {
+  const cleanUrl = url.replace(/^"|"$/g, '');
+  window.open(cleanUrl, '_blank');
+};
+
+const onLoad = () => {
+  _getMyBotList();
+};
+
+const onRefresh = () => {
+  resetList();
+  refreshing.value = false; // 完成刷新
+};
+
 onMounted(() => {
-  _getAppList();
+  _getMyBotList();
 });
 </script>
 
+<style scoped>
+.bot-management {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 让容器占满整个视口高度 */
+  padding: 20px;
+  box-sizing: border-box;
+  //background-color: #1a1a1a; /* 根据需要设置背景颜色 */
+}
+
+.bot-management-title {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: var(--Style, #E1FF01);
+  text-align: center;
+  font-feature-settings: 'dlig' on;
+  font-family: Inter, sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2; /* 使用倍数而不是固定像素 */
+}
+
+.bot-management-content {
+
+}
+
+
+
+.no-content-psl {
+  color: rgba(255, 255, 255, 0.70);
+  text-align: center;
+  font-feature-settings: 'dlig' on;
+  font-family: Inter, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.new-bot-btn {
+  display: inline-flex;
+  padding: 16px 79.5px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  background: var(--Style, #E1FF01);
+  margin-top: 20px;
+}
+
+.bot-management-item {
+  /* 保持原有样式，必要时进行调整 */
+}
+
+/* 响应 Vant Empty 组件的样式 */
+.van-empty {
+  margin-top: 40px;
+}
+
+.van-empty__image {
+  width: 240px;
+}
+</style>
+
 <style lang="scss" scoped>
-.page-list {
-  &:last-child {
-    margin-bottom: 64px;
-  }
-}
-
-.app-list-scroll {
-  height: 100%;
-  overflow: hidden auto;
-}
-
-.h-\[48px\] {
-  height: 64px;
-}
-
-.store-search {
-  position: sticky;
-  top: var(--van-action-bar-height);
-  z-index: 1;
-}
+/* 如果需要，可以在这里添加额外的 SCSS 样式 */
 </style>

@@ -1,11 +1,14 @@
-const useUserStore = defineStore('login', {
+const useLoginStore = defineStore('login', {
   state: () => ({
     loginDialogVisible: false,
-    isLogOut: false
+    isLogOut: false,
+    // login or sign up
+    isLoginOrSignUp: 'login',
   }),
   actions: {
-    setLoginDialogVisible(visible) {
+    setLoginDialogVisible(visible, isLoginOrSignUp) {
       this.loginDialogVisible = visible;
+      this.isLoginOrSignUp = isLoginOrSignUp;
     },
     toLoginOut() {
       this.isLogOut = !this.isLogOut;
@@ -13,4 +16,4 @@ const useUserStore = defineStore('login', {
   }
 });
 
-export default useUserStore;
+export default useLoginStore;

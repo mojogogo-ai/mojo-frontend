@@ -14,7 +14,20 @@
         Earn 50 points for each successful referral! You will both get 50 points when your friend successfully create an
         account with us.
       </div>
-      <div class="mb-24 mt-8 flex w-full flex-col items-center justify-center px-8">
+      <div class="invites-info-wrap mx-auto mt-[36px] p-6">
+        <div class="invites-info">
+          <div class="invites-info-part">
+            <div>Total invites</div>
+            <div>{{ user.invite_nums }}</div>
+          </div>
+          <div class="invites-info-dl" />
+          <div class="invites-info-part">
+            <div>Total registered</div>
+            <div>{{ user.invite_nums }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-6 mt-7 flex flex-col items-center justify-center">
         <div class="homepage-code pb-4">Referral code:</div>
         <div class="refer-code">
           {{ user.referalCode }}
@@ -62,6 +75,58 @@ const copyReferralCode = (isWithLink) => {
 };
 </script>
 <style scoped lang="scss">
+.invites-info-wrap {
+  display: flex;
+  //width: 280px;
+  padding: 17px;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  border-radius: 11.374px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(35.543304443359375px);
+}
+.invites-info {
+  gap: 22px;
+  //width: 246px;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  .invites-info-part {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    width: 106px;
+    div:first-child {
+      color: var(--Style, #E1FF01);
+      text-align: center;
+      font-feature-settings: 'dlig' on;
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 18.483px; /* 132.018% */
+    }
+    div:last-child {
+      color: #FFF;
+      text-align: center;
+      font-feature-settings: 'dlig' on;
+      font-family: Inter;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px; /* 100% */
+    }
+  }
+  .invites-info-dl {
+    width: 2px;
+    height: 73px;
+    background: rgba(225, 255, 1, 0.5);
+  }
+}
 .homepage-title {
   color: var(--van-blue);
   font-size: 24px;
@@ -85,7 +150,7 @@ const copyReferralCode = (isWithLink) => {
   align-items: center;
   justify-content: space-between;
   width: 80%;
-  margin: 0 20px 50px;
+  margin: 0 20px 24px;
   padding: 8px 10px 8px 24px;
   font-size: 18px;
   color: var(--h5-text-color-secondary);

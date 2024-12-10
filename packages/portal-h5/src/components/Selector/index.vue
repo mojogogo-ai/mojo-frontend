@@ -12,7 +12,7 @@
     <template v-else>
       <div
         class="selector-row-value"
-        :class="{ 'is-placeholder': !modelValue && placeholder }"
+        :class="{ 'is-placeholder': (modelValue === '' || modelValue === null || modelValue === undefined) && placeholder }"
       >
         {{ modelValuePlaceholder || placeholder }}
       </div>
@@ -155,8 +155,8 @@ watch(
 
 <style lang="scss" scoped>
 .selector-row {
-  --selector-value-color: #3a353c;
-  --selector-padding: 4px 12px;
+  --selector-value-color: rgba(255, 255, 255,1);
+  --selector-padding: 4px 4px;
   display: flex;
   align-items: center;
   width: 100%;
@@ -174,7 +174,7 @@ watch(
     -webkit-box-orient: vertical;
 
     &.is-placeholder {
-      --selector-value-color: #c0c4cc;
+      --selector-value-color: rgba(255, 255, 255,0.7);
     }
   }
 

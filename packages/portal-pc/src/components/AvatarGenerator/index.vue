@@ -1,16 +1,18 @@
 <template>
-  <div class="flex">
-    <user-avatar
-      :avatar="iconUrl || defaultAvatar"
-      :custom-style="{
-        height: '80px',
-        width: '80px',
-        borderRadius: '8px',
-        ...customStyle
-      }"
-      :title="title"
-      @update-avatar="onAvatarUpload"
-    />
+  <div class="flex items-end">
+    <div class="px-[16px] py-[10px]" style="border: 1px dashed #C5C5C5;border-radius: 12px;">
+      <user-avatar-oss
+        :avatar="iconUrl || defaultAvatar"
+        :custom-style="{
+          height: '123px',
+          width: '123px',
+          ...customStyle
+        }"
+        :title="title"
+        @update-avatar="onAvatarUpload"
+      />
+    </div>
+
     <div class="ai-icon-list">
       <div
         v-for="url in aiImageList"

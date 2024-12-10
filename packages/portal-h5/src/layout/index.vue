@@ -2,7 +2,7 @@
   <div class="app-wrapper">
     <van-popup
       v-model:show="storeLayout.isSHowSidebar"
-      position="left"
+      position="top"
       class="sidebar-popup"
     >
       <Sidebar
@@ -12,16 +12,13 @@
     </van-popup>
     <div class="main-container">
       <app-main />
-      <!-- login or sign up -->
       <LoginAndSignup
         ref="loginRef"
-        @dialog-close="onLoginDialogClose"
+        @dialog-close="onCloseLoginDialog"
         @close="onLoginClose"
         @referral="onOpenReferralCodeDialog"
       />
-      <!-- create bot -->
       <CreateBot ref="botRef" />
-      <!--  referral code  -->
       <referral-code
         ref="referralCodeRef"
         @confirm="onConfirmUserInvite"
@@ -51,13 +48,14 @@ const botRef = ref(null);
 const referralCodeRef = ref(null);
 const sidebarRef = ref(null);
 
-const onLoginDialogClose = () => {
+const onCloseLoginDialog = () => {
   useLogin.setLoginDialogVisible(false);
 };
 const onLoginClose = async () => {
   await useUser.updateSysInfo();
-  if (sidebarRef.value) sidebarRef.value.setIsLogin();
-  onLoginDialogClose()
+  if (sidebarRef.value) await sidebarRef.value.setIsLogin();
+  await useUser.updateSysInfo();
+  onCloseLoginDialog()
 };
 const onOpenReferralCodeDialog = async () => {
   await nextTick();
@@ -109,7 +107,7 @@ watch(
 </style>
 <style lang="scss">
 .sidebar-popup {
-  width: 300px;
-  height: 100%;
+  width: 100%;
+  height: auto;
 }
 </style>

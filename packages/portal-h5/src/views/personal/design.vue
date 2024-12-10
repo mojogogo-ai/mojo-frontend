@@ -133,7 +133,7 @@ import {
   DesignPrologue,
   DesignTipWords
 } from './components/design/index';
-import { showDialog } from 'vant';
+import { showDialog, showToast } from 'vant';
 
 const {
   params: { id: botId }
