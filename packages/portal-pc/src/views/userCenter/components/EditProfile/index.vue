@@ -31,19 +31,19 @@
           @after-generate="isAIloading = false"
           @change="onImageChange"
         />
-</el-form-item>
+      </el-form-item>
 
       <!-- Nickname -->
-<!--      <el-form-item-->
-<!--        :label="t('profile.nickname')"-->
-<!--        prop="nickname"-->
-<!--      >-->
-<!--        <el-input-->
-<!--          v-model="form.nickname"-->
-<!--          :placeholder="t('profile.enterNickname')"-->
-<!--          clearable-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item-->
+      <!--        :label="t('profile.nickname')"-->
+      <!--        prop="nickname"-->
+      <!--      >-->
+      <!--        <el-input-->
+      <!--          v-model="form.nickname"-->
+      <!--          :placeholder="t('profile.enterNickname')"-->
+      <!--          clearable-->
+      <!--        />-->
+      <!--      </el-form-item>-->
 
       <!-- Social Media Links -->
       <el-form-item

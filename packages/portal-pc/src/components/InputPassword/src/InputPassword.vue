@@ -53,7 +53,6 @@ watch(
 <template>
   <div :class="[]">
     <ElInput v-bind="$attrs" v-model="valueRef" show-password :type="textType" />
-
   </div>
 </template>
 

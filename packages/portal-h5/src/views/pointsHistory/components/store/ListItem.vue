@@ -11,7 +11,7 @@
         + {{ appInfo.points }}pt
       </div>
     </div>
-    <div class="p-h-c-bottom"></div>
+    <div class="p-h-c-bottom" />
   </div>
 </template>
 

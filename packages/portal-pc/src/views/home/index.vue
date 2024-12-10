@@ -30,7 +30,6 @@
               <el-button type="primary" @click="toCreate"> Create Bot </el-button>
             </div>
           </div>
-
         </div>
         <div class="home-part">
           <div class="home-part-2">
@@ -70,7 +69,6 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

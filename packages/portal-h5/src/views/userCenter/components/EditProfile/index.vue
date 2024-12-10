@@ -41,7 +41,6 @@
         <van-field v-model="form.twitter_link" label="Twitter" placeholder="Enter Twitter Link" />
         <van-field v-model="form.instagram_link" label="Instagram" placeholder="Enter Instagram Link" />
         <van-field v-model="form.facebook_link" label="Facebook" placeholder="Enter Facebook Link" />
-
       </van-form>
       <div class="bbi-dialog-foot">
         <van-button size="large" @click="close">Cancel</van-button>

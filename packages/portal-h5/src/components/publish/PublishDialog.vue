@@ -20,8 +20,8 @@
           <div v-for="item in publishOptions" :key="item.id" class="pdc-list-item">
             <div class="configure-left">
               <van-checkbox
-                shape="square"
                 v-model="item.checked"
+                shape="square"
                 :disabled="(item.id === 'telegram' && !item.telegram_token) || (item.id === 'discord' && !item.discord_token)"
                 @change="(checked) => checkboxChange(item, checked)"
               />

@@ -17,12 +17,12 @@
         discord Bot token <span>*</span>
       </div>
       <div class="pdc-list">
-        <el-input v-model="option.token"/>
+        <el-input v-model="option.token" />
       </div>
       <!--      option.address-->
-<!--      <div class="pdc-list">-->
-<!--        <el-input v-model="option.address" />-->
-<!--      </div>-->
+      <!--      <div class="pdc-list">-->
+      <!--        <el-input v-model="option.address" />-->
+      <!--      </div>-->
     </div>
     <template #footer>
       <el-button type="primary" :loading="loading" :disabled="loading || !option.token" @click="submitForm">

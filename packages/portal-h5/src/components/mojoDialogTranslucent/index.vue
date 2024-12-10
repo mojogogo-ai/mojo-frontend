@@ -19,8 +19,7 @@
     <!-- Dialog 操作栏插槽 -->
     <template #footer>
       <div class="flex justify-end pb-4 pr-4">
-        <slot name="footer">
-        </slot>
+        <slot name="footer" />
       </div>
     </template>
   </van-dialog>

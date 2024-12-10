@@ -3,19 +3,19 @@
     <page-header class="shrink-0" />
     <div class="tasks-title">Your Task List</div>
     <div class="app-page-content flex flex-col">
-<!--      <div class="shrink-0">-->
-<!--        <van-tabs-->
-<!--          v-model:active="activeTab"-->
-<!--          background="transparent"-->
-<!--          @click-tab="onTabChange"-->
-<!--        >-->
-<!--          <van-tab-->
-<!--            v-for="{ id, name } in tabList"-->
-<!--            :name="id"-->
-<!--            :title="t(name)"-->
-<!--          />-->
-<!--        </van-tabs>-->
-<!--      </div>-->
+      <!--      <div class="shrink-0">-->
+      <!--        <van-tabs-->
+      <!--          v-model:active="activeTab"-->
+      <!--          background="transparent"-->
+      <!--          @click-tab="onTabChange"-->
+      <!--        >-->
+      <!--          <van-tab-->
+      <!--            v-for="{ id, name } in tabList"-->
+      <!--            :name="id"-->
+      <!--            :title="t(name)"-->
+      <!--          />-->
+      <!--        </van-tabs>-->
+      <!--      </div>-->
 
       <div
         v-if="isLoading"
@@ -41,9 +41,9 @@
         >
           <div class="pt-3">
             <list-item
-              @click="onItemClick(appInfo)"
               v-for="appInfo in __data.storeList"
               :app-info="appInfo"
+              @click="onItemClick(appInfo)"
             />
           </div>
         </div>
@@ -57,8 +57,8 @@
       </div>
     </div>
     <CheckIn
-      width="800px"
       ref="checkInRef"
+      width="800px"
     />
   </div>
 </template>

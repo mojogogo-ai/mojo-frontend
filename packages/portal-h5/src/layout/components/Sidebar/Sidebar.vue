@@ -8,7 +8,7 @@
     </div>
     <div class="menu-cs-lists">
       <div class="menu-cs-item">
-        <div class="login-item" v-if="isLogin">
+        <div v-if="isLogin" class="login-item">
           <user
             class="flex-none"
           />
@@ -31,42 +31,42 @@
     </div>
 
 
-<!--    <div class="flex-1 overflow-y-auto overflow-x-hidden">-->
-<!--      <div class="sidebar-menu">-->
-<!--        <sidebar-item :item="indexPage" />-->
-<!--      </div>-->
-<!--      &lt;!&ndash; <div class="sidebar-menu">-->
-<!--        <sidebar-item :item="personalPage" />-->
-<!--      </div> &ndash;&gt;-->
-<!--      <template-->
-<!--        v-for="({ name, list }, i) in sidebarRouters"-->
-<!--        :key="i"-->
-<!--      >-->
-<!--        <div-->
-<!--          v-if="list && list.length > 0"-->
-<!--          class="sidebar-menu"-->
-<!--        >-->
-<!--          <div class="sidebar-menu__group">-->
-<!--            {{ $t(name) }}-->
-<!--          </div>-->
-<!--          <sidebar-item-->
-<!--            v-for="(item, index) in list"-->
-<!--            :key="item.path + index"-->
-<!--            :item="item"-->
-<!--          />-->
-<!--        </div>-->
-<!--      </template>-->
-<!--    </div>-->
-<!--    <div class="sidebar-menu">-->
-<!--      <user-->
-<!--        v-if="isLogin"-->
-<!--        class="flex-none"-->
-<!--      />-->
-<!--      <NoLogin-->
-<!--        v-else-->
-<!--        @login-signup="onCreateClick"-->
-<!--      />-->
-<!--    </div>-->
+    <!--    <div class="flex-1 overflow-y-auto overflow-x-hidden">-->
+    <!--      <div class="sidebar-menu">-->
+    <!--        <sidebar-item :item="indexPage" />-->
+    <!--      </div>-->
+    <!--      &lt;!&ndash; <div class="sidebar-menu">-->
+    <!--        <sidebar-item :item="personalPage" />-->
+    <!--      </div> &ndash;&gt;-->
+    <!--      <template-->
+    <!--        v-for="({ name, list }, i) in sidebarRouters"-->
+    <!--        :key="i"-->
+    <!--      >-->
+    <!--        <div-->
+    <!--          v-if="list && list.length > 0"-->
+    <!--          class="sidebar-menu"-->
+    <!--        >-->
+    <!--          <div class="sidebar-menu__group">-->
+    <!--            {{ $t(name) }}-->
+    <!--          </div>-->
+    <!--          <sidebar-item-->
+    <!--            v-for="(item, index) in list"-->
+    <!--            :key="item.path + index"-->
+    <!--            :item="item"-->
+    <!--          />-->
+    <!--        </div>-->
+    <!--      </template>-->
+    <!--    </div>-->
+    <!--    <div class="sidebar-menu">-->
+    <!--      <user-->
+    <!--        v-if="isLogin"-->
+    <!--        class="flex-none"-->
+    <!--      />-->
+    <!--      <NoLogin-->
+    <!--        v-else-->
+    <!--        @login-signup="onCreateClick"-->
+    <!--      />-->
+    <!--    </div>-->
   </div>
 </template>
 

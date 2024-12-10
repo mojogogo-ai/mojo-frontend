@@ -18,9 +18,9 @@
         Telegram Bot token <span>*</span>
       </div>
       <div class="pdc-list">
-        <el-input v-model="option.token"/>
+        <el-input v-model="option.token" />
       </div>
-<!--      option.address-->
+      <!--      option.address-->
       <div class="pdc-title mt-[20px]">
         Telegram Address <span>*</span>
       </div>

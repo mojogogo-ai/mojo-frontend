@@ -225,7 +225,6 @@ const toForgetPassword = () => {
       </el-form-item>
     </el-form>
     <ForgotPasswordButton ref="forgotPasswordButtonRef" />
-
   </div>
 </template>
 

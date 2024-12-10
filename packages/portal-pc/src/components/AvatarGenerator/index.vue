@@ -4,10 +4,10 @@
       <user-avatar-oss
         :avatar="iconUrl || defaultAvatar"
         :custom-style="{
-        height: '123px',
-        width: '123px',
-        ...customStyle
-      }"
+          height: '123px',
+          width: '123px',
+          ...customStyle
+        }"
         :title="title"
         @update-avatar="onAvatarUpload"
       />

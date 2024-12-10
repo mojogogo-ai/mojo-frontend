@@ -83,8 +83,8 @@
               </span>
               <div
                 v-if="item.id === 2"
-                @click.stop="goPointsHistory"
                 class="ml-[40px] h-[29px] rounded-full bg-black px-[12px] text-[15px] leading-[29px] text-[var(--el-text-color-regular)] font-[600] "
+                @click.stop="goPointsHistory"
               >
                 {{ user.points }} pts
               </div>

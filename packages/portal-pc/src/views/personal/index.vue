@@ -4,52 +4,52 @@
       Bot Management
     </div>
     <div
-        class="bot-management-content"
-        element-loading-background="transparent"
-        :element-loading-text="t('common.loading')"
+      class="bot-management-content"
+      element-loading-background="transparent"
+      :element-loading-text="t('common.loading')"
     >
       <div
-          v-if="botList.length && !isLoading"
-          class="h-full"
-          v-infinite-scroll="_getMyBotList"
-          :infinite-scroll-disabled="!isLoadMore || isLoading"
-          :infinite-scroll-distance="10"
+        v-if="botList.length && !isLoading"
+        v-infinite-scroll="_getMyBotList"
+        class="h-full"
+        :infinite-scroll-disabled="!isLoadMore || isLoading"
+        :infinite-scroll-distance="10"
       >
-        <div class="pt-3 flex gap-5 flex-wrap">
+        <div class="flex flex-wrap gap-5 pt-3">
           <list-item
-              v-for="bot in botList"
-              :key="bot.id"
-              class="bot-management-item"
-              :bot="bot"
-              @chat="onChat($event, bot)"
-              @delete="_getMyBotList"
-              @refresh-list="_getMyBotList"
-              @click="editBot(bot)"
+            v-for="bot in botList"
+            :key="bot.id"
+            class="bot-management-item"
+            :bot="bot"
+            @chat="onChat($event, bot)"
+            @delete="_getMyBotList"
+            @refresh-list="_getMyBotList"
+            @click="editBot(bot)"
           />
         </div>
       </div>
       <!-- 空内容展示 -->
       <template v-if="!botList.length && !isLoading">
         <el-empty
-            v-if="form.search || form.published !== ''"
-            :image="emptyRobotImageUrl"
+          v-if="form.search || form.published !== ''"
+          :image="emptyRobotImageUrl"
         >
           <template #description>
-            <div class="no-content-psl font-black">{{ t('common.noContent') }}</div>
+            <div class="font-black no-content-psl">{{ t('common.noContent') }}</div>
           </template>
         </el-empty>
         <el-empty
-            v-else
-            :image="emptyRobotImageUrl"
+          v-else
+          :image="emptyRobotImageUrl"
         >
           <template #description>
-            <div class="no-content-psl font-black">{{ t('common.noContent') }}</div>
+            <div class="font-black no-content-psl">{{ t('common.noContent') }}</div>
           </template>
           <el-button
-              type="primary"
-              linear
-              class="new-bot-btn"
-              @click="createNewBot"
+            type="primary"
+            linear
+            class="new-bot-btn"
+            @click="createNewBot"
           >
             + {{ t('bots.new') }}
           </el-button>

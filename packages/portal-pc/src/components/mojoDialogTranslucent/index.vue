@@ -9,9 +9,9 @@
     @close="handleClose"
   >
     <!-- Dialog 标题插槽 -->
-<!--    <template #title>-->
-<!--      <slot name="title">默认标题</slot>-->
-<!--    </template>-->
+    <!--    <template #title>-->
+    <!--      <slot name="title">默认标题</slot>-->
+    <!--    </template>-->
 
     <!-- Dialog 内容插槽 -->
     <slot>默认内容</slot>
@@ -19,8 +19,8 @@
     <!-- Dialog 操作栏插槽 -->
     <template #footer>
       <slot name="footer">
-<!--        <el-button @click="handleClose">取消</el-button>-->
-<!--        <el-button type="primary" @click="confirm">确认</el-button>-->
+        <!--        <el-button @click="handleClose">取消</el-button>-->
+        <!--        <el-button type="primary" @click="confirm">确认</el-button>-->
       </slot>
     </template>
   </el-dialog>

@@ -118,7 +118,6 @@
           {{ 'Next Step' }}
         </van-button>
       </div>
-
     </div>
   </mojoDialogTranslucent>
 </template>

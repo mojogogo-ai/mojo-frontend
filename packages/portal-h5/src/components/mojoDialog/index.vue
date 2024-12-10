@@ -12,9 +12,7 @@
 
     <!-- Dialog 操作栏插槽 -->
     <template #footer>
-      <slot name="footer">
-
-      </slot>
+      <slot name="footer" />
     </template>
   </van-dialog>
 </template>

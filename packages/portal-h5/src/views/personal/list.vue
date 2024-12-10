@@ -44,9 +44,8 @@
           </van-empty>
         </template>
         <!-- 加载中时显示加载指示器 -->
-<!--        <van-loading v-if="isLoading && botList.length === 0" text="{{ t('common.loading') }}" />-->
+        <!--        <van-loading v-if="isLoading && botList.length === 0" text="{{ t('common.loading') }}" />-->
       </van-list>
-
     </div>
   </div>
 </template>

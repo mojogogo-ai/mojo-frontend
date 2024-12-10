@@ -2,7 +2,7 @@
   <div class="login-item-menu">
     <el-link type="primary" @click="loginORsignup(true)"> Log in</el-link>
     <svg xmlns="http://www.w3.org/2000/svg" width="1" height="30" viewBox="0 0 1 30" fill="none">
-      <path d="M0.5 29.5V0.5" stroke="#E0FF31" stroke-opacity="0.2"/>
+      <path d="M0.5 29.5V0.5" stroke="#E0FF31" stroke-opacity="0.2" />
     </svg>
     <el-link type="primary" @click="loginORsignup(false)">Sign up </el-link>
   </div>

@@ -131,13 +131,13 @@ onBeforeMount(async () => {
           >
             {{ t('login.hasUser') }}
           </van-button>
-<!--          <van-button-->
-<!--            plain-->
-<!--            class="font-Inter text-[15px] text-right"-->
-<!--            @click="toForgetPassword"-->
-<!--          >-->
-<!--            {{ t('login.forgetPassword') }}-->
-<!--          </van-button>-->
+          <!--          <van-button-->
+          <!--            plain-->
+          <!--            class="font-Inter text-[15px] text-right"-->
+          <!--            @click="toForgetPassword"-->
+          <!--          >-->
+          <!--            {{ t('login.forgetPassword') }}-->
+          <!--          </van-button>-->
         </div>
       </div>
     </van-form>

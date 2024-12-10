@@ -1,17 +1,17 @@
 <template>
   <div class="relative w-full h-full app-wrapper">
-    <div class="video-bg-index" v-if="isHome">
+    <div v-if="isHome" class="video-bg-index">
       <video
         :src="videobg"
         autoplay
         loop
         muted
         playsinline
-        class="w-full  h-full object-cover"/>
+        class="w-full  h-full object-cover"
+      />
     </div>
     <TopBar />
     <div class="main-container">
-
       <app-main />
     </div>
   </div>

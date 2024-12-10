@@ -19,7 +19,7 @@
             <div>Total invites</div>
             <div>{{ user.invite_nums }}</div>
           </div>
-          <div class="invites-info-dl"></div>
+          <div class="invites-info-dl" />
           <div class="invites-info-part">
             <div>Total registered</div>
             <div>{{ user.invite_nums }}</div>

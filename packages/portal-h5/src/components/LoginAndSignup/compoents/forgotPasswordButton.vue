@@ -55,7 +55,6 @@ defineExpose({ openForgotPasswordDialog })
     teleport="body"
     width="90%"
     :before-close="closeForgotPasswordDialog"
-
   >
     <div class="forget-logo mt-20">
       <a class="forget-logo__link">

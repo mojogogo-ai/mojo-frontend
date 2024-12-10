@@ -120,7 +120,6 @@ defineExpose({ openForgotPasswordDialog })
           </el-button>
         </el-form-item>
       </el-form>
-
     </div>
   </mojo-dialog>
 </template>

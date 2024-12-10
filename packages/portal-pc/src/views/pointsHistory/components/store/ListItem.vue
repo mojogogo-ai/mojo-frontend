@@ -2,19 +2,17 @@
   <div class="p-h-c-list-wrap">
     <div class="p-h-c-list">
       <div>
-        {{appInfo.created_at_format}}
+        {{ appInfo.created_at_format }}
       </div>
       <div>
-        {{appInfo.reason}}
+        {{ appInfo.reason }}
       </div>
       <div>
-        + {{appInfo.points}}pt
+        + {{ appInfo.points }}pt
       </div>
     </div>
-    <div class="p-h-c-bottom">
-    </div>
+    <div class="p-h-c-bottom" />
   </div>
-
 </template>
 
 <script setup>

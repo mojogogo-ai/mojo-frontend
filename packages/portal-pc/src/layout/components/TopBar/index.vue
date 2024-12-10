@@ -70,12 +70,12 @@
                 <template #default>
                   <svg style="width: 40px;height: 40px;display: block;font-size: 40px;" width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="bitcoin-icons:globe-outline">
-                      <rect y="0.5" width="40" height="40" rx="20" fill="white" fill-opacity="0.1"/>
-                      <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="white" stroke-opacity="0.1"/>
+                      <rect y="0.5" width="40" height="40" rx="20" fill="white" fill-opacity="0.1" />
+                      <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="white" stroke-opacity="0.1" />
                       <g id="Group">
-                        <path id="Vector" d="M20.0003 30.5057C22.137 30.5057 23.8691 26.0297 23.8691 20.5082C23.8691 14.9868 22.137 10.5107 20.0003 10.5107C17.8637 10.5107 16.1316 14.9868 16.1316 20.5082C16.1316 26.0297 17.8637 30.5057 20.0003 30.5057Z" stroke="#E1FF01" stroke-width="1.25"/>
-                        <path id="Vector_2" d="M20.0002 30.501C25.5231 30.501 30.0002 26.0238 30.0002 20.501C30.0002 14.9781 25.5231 10.501 20.0002 10.501C14.4774 10.501 10.0002 14.9781 10.0002 20.501C10.0002 26.0238 14.4774 30.501 20.0002 30.501Z" stroke="#E1FF01" stroke-width="1.25"/>
-                        <path id="Vector_3" d="M10.0005 20.4951L30.0005 20.5076" stroke="#E1FF01" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path id="Vector" d="M20.0003 30.5057C22.137 30.5057 23.8691 26.0297 23.8691 20.5082C23.8691 14.9868 22.137 10.5107 20.0003 10.5107C17.8637 10.5107 16.1316 14.9868 16.1316 20.5082C16.1316 26.0297 17.8637 30.5057 20.0003 30.5057Z" stroke="#E1FF01" stroke-width="1.25" />
+                        <path id="Vector_2" d="M20.0002 30.501C25.5231 30.501 30.0002 26.0238 30.0002 20.501C30.0002 14.9781 25.5231 10.501 20.0002 10.501C14.4774 10.501 10.0002 14.9781 10.0002 20.501C10.0002 26.0238 14.4774 30.501 20.0002 30.501Z" stroke="#E1FF01" stroke-width="1.25" />
+                        <path id="Vector_3" d="M10.0005 20.4951L30.0005 20.5076" stroke="#E1FF01" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
                       </g>
                     </g>
                   </svg>
@@ -117,7 +117,7 @@
     width="600px"
     @after-upload-knowledge-sources="afterUploadKnowledgeSources"
   />
-  <PublishDialog ref="publishDialogRef"/>
+  <PublishDialog ref="publishDialogRef" />
   <!--  referral code  -->
   <referral-code
     ref="referralCodeRef"

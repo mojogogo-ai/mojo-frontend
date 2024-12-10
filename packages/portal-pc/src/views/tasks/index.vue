@@ -33,9 +33,9 @@
     </div>
   </div>
   <CheckIn
-    width="800px"
     ref="checkInRef"
-/>
+    width="800px"
+  />
 </template>
 
 <script setup>
