@@ -1,5 +1,5 @@
 <template>
-  <div class="bot-manage-item cursor-pointer">
+  <div class="cursor-pointer bot-manage-item">
     <div class="bmi-content">
       <div class="bmic-left">
         <div class="bmicl-avatar">
@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="bmi-bottom">
-      <div class="bmi-share-bar cursor-pointer">
+      <div class="cursor-pointer bmi-share-bar">
         <div class="bmi-s-b-item" @click.stop="goLink(bot, 'discord')">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
             <rect x="0.94873" width="24" height="24" rx="12" fill="white" />
@@ -77,12 +77,10 @@
         </div>
       </div>
       <div class="more-option-trigger" @click.stop="()=>{}">
-        <el-dropdown popper-class="bot-manage-dropdown" trigger="click">
-          <el-button link style="transform: rotate(90deg)">
-            <el-icon>
-              <MoreFilled />
-            </el-icon>
-          </el-button>
+        <el-dropdown popper-class="bot-manage-dropdown">
+          <el-icon color="#FFFFFF" size="16">
+            <MoreFilled />
+          </el-icon>
           <template #dropdown>
             <el-dropdown-item
               v-if="bot.public != '1'"
@@ -274,7 +272,6 @@ const toPublish = async ({ id }) => {
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
-          -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
 
         }
@@ -326,7 +323,12 @@ const toPublish = async ({ id }) => {
     position: relative;
     .more-option-trigger{
       position: absolute;
-      opacity: 0;
+      opacity: 0.8;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       :deep(.el-dropdown) {
         width: 100%;
         height: 100%;
@@ -340,17 +342,12 @@ const toPublish = async ({ id }) => {
       }
       &:hover{
         opacity: 1;
+      //   width: 40px;
+      // height: 40px;
+      // flex-shrink: 0;
+      // border-radius: 8px;
+      // background: rgba(255, 255, 255, 0.10);
       }
-      bottom: 0;
-      right: 0;
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.10);
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
   }
 }

@@ -58,7 +58,7 @@
         </div>
       </div>
       <template #footer>
-        <div class=" page-list-option flex justify-between">
+        <div class="flex justify-between page-list-option">
           <div class="flex gap-5 custom-toolbar">
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
@@ -78,7 +78,7 @@
           </div>
           <div>
             <!-- 大漂亮独有 -->
-            <el-button
+            <!-- <el-button
               v-if="appInfo.id===1"
               size="small"
               link
@@ -88,7 +88,7 @@
                 name="chat"
                 class="text-[#409eff]  text-[24px] mr-1"
               />
-            </el-button>
+            </el-button> -->
             <el-button
               v-if="appInfo.telegram_address"
               size="small"
