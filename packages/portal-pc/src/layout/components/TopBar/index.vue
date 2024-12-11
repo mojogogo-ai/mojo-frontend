@@ -2,7 +2,7 @@
   <el-header class="flex h-[80px] justify-center">
     <div class="flex w-full min-w-[800px] max-w-[1280px] items-center ">
       <div class="flex items-center">
-        <Logo class="mr-10 flex-none" />
+        <Logo class="flex-none mr-10" />
         <el-menu
           :default-active="activeIndex"
           mode="horizontal"
@@ -63,7 +63,7 @@
         </el-button>
       </div>
       <div class="lang-select mr-[34px]">
-        <el-dropdown v-if="langList.length" style="--el-dropdown-menuItem-hover-color: red" placement="bottom-start">
+        <!-- <el-dropdown v-if="langList.length" style="--el-dropdown-menuItem-hover-color: red" placement="bottom-start">
           <el-button circle style="border: none!important;outline: none;width: 40px;height: 40px;">
             <template #icon>
               <el-icon style="width: 40px;height: 40px;">
@@ -90,7 +90,7 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
-        </el-dropdown>
+        </el-dropdown> -->
       </div>
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
