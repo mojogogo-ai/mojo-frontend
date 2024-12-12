@@ -8,7 +8,7 @@
           mode="horizontal"
           :ellipsis="false"
           :router="true"
-          class="font-[TTNormsPro]"
+          class="font-[TTNormsPro] left-menu"
           @select="handleSelect"
         >
           <el-menu-item
@@ -65,11 +65,11 @@
         <el-menu
           mode="horizontal"
           :ellipsis="false"
-          class="font-[TTNormsPro]"
+          class="font-[TTNormsPro] create-menu"
         >
           <el-sub-menu
             :popper-offset="15"
-            popper-class="customs-sub-menu"
+            popper-class="customs-sub-menu2"
           >
             <template #title>
               + Create
@@ -138,6 +138,13 @@
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
+
+        <div v-if="isLogin && true">
+          <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">连接Phantom钱包</el-button>
+          <el-button v-else type="primary" @click="installWallet">安装Primary钱包</el-button>
+
+          <el-button size="small" type="primary" @click="__createAtomicMintWithFee2">test </el-button>
+        </div>
       </div>
     </div>
   </el-header>
@@ -180,11 +187,18 @@ import { confirmUserInvite } from '@gptx/base/api/user.js';
 import { useRoute, useRouter } from 'vue-router';
 import LoginAndSignup from '@/components/LoginAndSignup';
 // import CreateBot from '@/components/CreateBot';
-import { supportLang } from '@gptx/base';
+// import { supportLang } from '@gptx/base';
 import BotBaseInfo from '@/components/BotBaseInfo'
 import UploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vue';
 import PublishDialog from '@/views/personal/components/publish/PublishDialog.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
+
+import { createAtomicMintWithFee } from '@gptx/base/utils/mint-token-with-fee-umi.js';
+// import { createAtomicMintWithFee } from '@gptx/base/utils/mint-spl-token.js';
+import * as anchor from "@coral-xyz/anchor";
+import {Connection, Keypair} from "@solana/web3.js";
+
+console.log(anchor,'anchor')
 
 const route = useRoute();
 const router = useRouter();
@@ -305,6 +319,128 @@ const onLoginClick = (val) => {
   }
 };
 
+const isPhantomInstalled = window.phantom?.solana?.isPhantom
+
+const connectWallet = async () => {
+  if (window.phantom?.solana?.isPhantom) {
+    const provider = window.phantom?.solana;
+    if (provider?.isPhantom) {
+      try {
+        const publicKey = await provider.connect();
+        console.log('Public Key:', publicKey);
+      } catch (error) {
+        console.error('Error connecting to Phantom:', error);
+      }
+    }
+  } else {
+    console.error('Phantom not installed');
+  }
+}
+
+const installWallet= async () => {
+  window.open('https://phantom.app/', '_blank');
+}
+
+
+const getProvider = async () => {
+  if ('phantom' in window) {
+    const provider = window.phantom?.solana;
+
+    if (provider?.isPhantom) {
+      const resp = await provider.connect();
+      console.log(resp,'resp');
+      // return provider;
+      return resp;
+    }
+  } else {
+    console.error('Phantom not installed');
+  }
+};
+
+// test
+const __createAtomicMintWithFee = async () => {
+// Example usage
+  const metadata = {
+      name: "Your Token Name",
+      symbol: "SYMBOL",
+      uri: "your-token-metadata-uri",
+  };
+
+  const TOTAL_SUPPLY = 1000000; // 1 million tokens
+
+  async function main() {
+      // const provider = anchor.AnchorProvider.env();
+      const provider = window.phantom?.solana;
+      // const provider = getProvider();
+      
+      // anchor.setProvider(provider);
+      
+      const result = await createAtomicMintWithFee(
+          provider,
+          metadata,
+          TOTAL_SUPPLY
+      );
+
+      console.log(result,"\nToken Mint Information:");
+      // console.log("Mint Address:", result.mintAddress);
+      // console.log("Mint Secret Key:", result.mintSecretKey);
+      // console.log("\nFee Collector Information:");
+      // console.log("Fee Collector Address:", result.feeCollectorAddress);
+      // console.log("Fee Collector Secret Key:", result.feeCollectorSecretKey);
+      // console.log("\nTotal Cost Paid:", result.totalCostInSol, "SOL");
+  }
+
+  main().catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+  });
+};
+
+
+// test
+const __createAtomicMintWithFee2 = async () => {
+// Example usage
+const metadata = {
+    name: "Your Token Name",
+    symbol: "SYMBOL",
+    uri: "your-token-metadata-uri",
+};
+
+const TOTAL_SUPPLY = 1000000; // 1 million tokens
+
+async function main() {
+  const connection = new Connection("https://api.devnet.solana.com");
+
+    // 创建一个钱包
+    const wallet = new anchor.Wallet(Keypair.generate());
+
+    // 创建一个自定义 provider
+    const provider = new anchor.AnchorProvider(connection, wallet, {
+        preflightCommitment: "processed",
+    });
+
+    // 设置全局 provider
+    anchor.setProvider(provider);
+
+    const result = await createAtomicMintWithFee(
+        provider.connection,
+        provider.wallet,
+        metadata,
+        TOTAL_SUPPLY
+    );
+
+    console.log("Token Mint Information:");
+    console.log("Mint Address:", result.mintAddress);
+    console.log("Mint Secret Key:", result.mintSecretKey);
+    console.log("Total Cost Paid:", result.totalCostInSol, "SOL");
+}
+
+main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+});
+};
+
 watch(
   () => route.path,
   (newPath, oldPath) => {
@@ -345,17 +481,17 @@ watch(
 );
 
 // const curLang = getCurLang();
-const langList = supportLang(); // 支持切换的语言
+// const langList = supportLang(); // 支持切换的语言
 // const language = computed(() => {
 //   return langList.find((i) => {
 //     return i.value === curLang;
 //   }).value;
 // });
-const changeLangCommand = (item) => {
-  console.log(item);
-  localStorage.setItem('lang', item.value);
-  window.location.reload();
-};
+// const changeLangCommand = (item) => {
+//   console.log(item);
+//   localStorage.setItem('lang', item.value);
+//   window.location.reload();
+// };
 
 </script>
 

@@ -1,10 +1,11 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import createVitePlugins from './vite/plugins'
-import optimize from './vite/optimize'
+// import optimize from './vite/optimize'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
-
+// import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 // vite 相关配置
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
@@ -17,6 +18,10 @@ export default defineConfig(({ mode, command }) => {
     base: command === 'build' || process.env.npm_lifecycle_event==='preview' ? '/' : '/',
     plugins: [
       ...createVitePlugins(env, command === 'build'),
+      nodePolyfills({
+        // Whether to polyfill specific Node.js modules in the browser
+        protocolImports: true,
+      }),
     ],
     resolve: {
       // https://cn.vitejs.dev/config/#resolve-alias
@@ -25,9 +30,13 @@ export default defineConfig(({ mode, command }) => {
         '~': path.resolve(__dirname, './'),
         // 设置别名
         '@': path.resolve(__dirname, './src'),
+        stream: 'stream-browserify', // This fixes the prototype thing
       },
       // https://cn.vitejs.dev/config/#resolve-extensions
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
+    },
+    define: {
+      global: 'globalThis', // This fixes an issue with globals and stuff
     },
     server: {
       port: 9004,
@@ -40,7 +49,19 @@ export default defineConfig(({ mode, command }) => {
         }
       }
     },
-    optimizeDeps: optimize, // 目前没用到
+    // optimizeDeps: optimize, // 目前没用到
+
+    // optimizeDeps: {
+    //   include: ["@project-serum/anchor", "@solana/web3.js", "buffer"],
+    //   esbuildOptions: {
+    //     target: "esnext",
+    //     define: {
+    //       global: "globalThis",
+    //     },
+    //     plugins: [],
+    //   },
+    // },
+
     build: {
       outDir: 'dist', // 指定输出路径
       reportCompressedSize: false, // 启用/禁用 gzip 压缩大小报告。禁用该功能可能会提高大型项目的构建性能。
