@@ -63,7 +63,8 @@
 import { ref, reactive, onMounted } from 'vue';
 import { t } from '@gptx/base/i18n';
 import emptyRobotImageUrl from '@/assets/images/smart-people.svg';
-import { getMyBotList } from '@gptx/base/api/application';
+// import { getMyBotList } from '@gptx/base/api/application';
+import { memeList } from '@gptx/base/api/meme-bot';
 import ListItem from './components/list/ListItem.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 import { useRouter } from 'vue-router';
@@ -98,7 +99,22 @@ const _getMyBotList = async () => {
   if (!isLoadMore.value || isLoading.value) return; // 如果已加载完或正在加载中则退出
   isLoading.value = true;
   try {
-    const result = await getMyBotList(form);
+    // const result = await getMyBotList(form);
+    // const {
+    //   code,
+    //   data: { list, page }
+    // } = result;
+    // if (code === 200) {
+    //   botList.value = [...botList.value, ...(list || [])];
+    //   total.value = page.total;
+    //   // 检查是否加载完所有数据
+    //   if (botList.value.length >= total.value) {
+    //     isLoadMore.value = false;
+    //   } else {
+    //     form.page_num += 1;
+    //   }
+    // }
+    const result = await memeList(form);
     const {
       code,
       data: { list, page }

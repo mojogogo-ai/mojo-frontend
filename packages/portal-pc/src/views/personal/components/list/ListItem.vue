@@ -77,6 +77,15 @@
         </div>
       </div>
       <div class="more-option-trigger" @click.stop="()=>{}">
+        <div v-if="bot.bot_type===1" class="mr-5">
+          <el-button
+            type="primary"
+            size="small"
+            @click="lanchedMemeCoin(bot)"
+          >
+            {{ MemeStatus[bot.meme_state] }}
+          </el-button>
+        </div>
         <el-dropdown popper-class="bot-manage-dropdown">
           <el-icon color="#FFFFFF" size="16">
             <MoreFilled />
@@ -98,6 +107,10 @@
         </el-dropdown>
       </div>
     </div>
+    <StartLaunch
+      ref="startLaunchRef"
+      width="600px"
+    />
   </div>
 </template>
 
@@ -106,13 +119,16 @@ import { t } from '@gptx/base/i18n';
 import { botDelete, removePublishApp } from '@gptx/base/api/application';
 import router from '@/router';
 import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
-import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
-import IconDiscord from '@/assets/images/bots/publish/discord.svg';
-import IconLine from '@/assets/images/bots/publish/line.svg';
-import IconMessenger from '@/assets/images/bots/publish/messenger.svg';
-import IconSlack from '@/assets/images/bots/publish/slack.svg';
-import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
-import IconReddit from '@/assets/images/bots/publish/reddit.svg';
+// import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
+// import IconDiscord from '@/assets/images/bots/publish/discord.svg';
+// import IconLine from '@/assets/images/bots/publish/line.svg';
+// import IconMessenger from '@/assets/images/bots/publish/messenger.svg';
+// import IconSlack from '@/assets/images/bots/publish/slack.svg';
+// import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
+// import IconReddit from '@/assets/images/bots/publish/reddit.svg';
+
+import StartLaunch from '@/components/StartLaunch/index.vue';
+
 import { ElMessageBox } from 'element-plus';
 import useUserStore from '@/store/modules/user.js';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
@@ -123,7 +139,7 @@ const props = defineProps({
     required: true
   }
 });
-const publishDialogRef = ref(null);
+// const publishDialogRef = ref(null);
 const emit = defineEmits(['chat', 'delete', 'refresh-list']);
 
 const goLink = (bot, platform) => {
@@ -131,9 +147,13 @@ const goLink = (bot, platform) => {
   let url
   console.log(bot)
   if(platform === 'telegram') {
-     url = bot.telegram_address
+    let telegram_address = bot.telegram_address;
+    if (telegram_address.startsWith('t.me')) {
+      telegram_address =  'https://' + telegram_address
+    }
+    url = telegram_address
   } else if(platform === 'discord') {
-     url = bot.discord_address
+    url = bot.discord_address
   }
   if(!url) {
     ElMessageBox.alert('Please configure the platform address first', 'Tips', {
@@ -195,6 +215,27 @@ const onUnpublish = async (id) => {
 const user = useUserStore();
 const toPublish = async ({ id }) => {
   eventBus.emit('publishBot', { id });
+};
+
+const startLaunchRef = ref(null);
+const MemeStatus = {
+  1: 'Pending',
+  2: 'Launching',
+  3: 'Lauched'
+};
+const lanchedMemeCoin = (bot) => {
+  if (bot.meme_state === 1) { // TO create meme coin
+    goLink(bot, 'telegram')
+  } else if (bot.meme_state === 2) { // lanching
+    startLaunchRef.value.open({
+      "name": "Dem0 Token" + new Date().getTime(),
+      "symbol": "Dem0" + new Date().getTime(),
+      "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
+      bot_id: bot.id
+    });
+  } else{
+    //
+  }
 };
 </script>
 

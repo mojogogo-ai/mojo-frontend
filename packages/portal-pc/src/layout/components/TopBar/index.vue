@@ -75,7 +75,7 @@
               + Create
             </template>
             <el-menu-item
-              style="min-width: 240px;"
+              style="min-width: 220px;"
               @click="createHandleSelect('1')"
             >
               <div class="flex px-[5px] justify-center items-center ">
@@ -105,45 +105,25 @@
           </el-sub-menu>
         </el-menu>
       </div>
-      <div class="lang-select mr-[34px]">
-        <!-- <el-dropdown v-if="langList.length" style="--el-dropdown-menuItem-hover-color: red" placement="bottom-start">
-          <el-button circle style="border: none!important;outline: none;width: 40px;height: 40px;">
-            <template #icon>
-              <el-icon style="width: 40px;height: 40px;">
-                <template #default>
-                  <svg style="width: 40px;height: 40px;display: block;font-size: 40px;" width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="bitcoin-icons:globe-outline">
-                      <rect y="0.5" width="40" height="40" rx="20" fill="white" fill-opacity="0.1" />
-                      <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="white" stroke-opacity="0.1" />
-                      <g id="Group">
-                        <path id="Vector" d="M20.0003 30.5057C22.137 30.5057 23.8691 26.0297 23.8691 20.5082C23.8691 14.9868 22.137 10.5107 20.0003 10.5107C17.8637 10.5107 16.1316 14.9868 16.1316 20.5082C16.1316 26.0297 17.8637 30.5057 20.0003 30.5057Z" stroke="#E1FF01" stroke-width="1.25" />
-                        <path id="Vector_2" d="M20.0002 30.501C25.5231 30.501 30.0002 26.0238 30.0002 20.501C30.0002 14.9781 25.5231 10.501 20.0002 10.501C14.4774 10.501 10.0002 14.9781 10.0002 20.501C10.0002 26.0238 14.4774 30.501 20.0002 30.501Z" stroke="#E1FF01" stroke-width="1.25" />
-                        <path id="Vector_3" d="M10.0005 20.4951L30.0005 20.5076" stroke="#E1FF01" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                      </g>
-                    </g>
-                  </svg>
-                </template>
-              </el-icon>
-            </template>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item v-for="item in langList" @click="changeLangCommand(item)">
-                {{ item.lable }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown> -->
-      </div>
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
 
-        <div v-if="isLogin && true">
-          <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">连接Phantom钱包</el-button>
-          <el-button v-else type="primary" @click="installWallet">安装Primary钱包</el-button>
-
-          <el-button size="small" type="primary" @click="__createAtomicMintWithFee2">test </el-button>
+        <div v-if="isLogin">
+          <!-- <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">PHANTOM WALLET</el-button> -->
+          <div v-if="isPhantomInstalled" class="flex flex-col items-center justify-center" @click="test()">
+            <div class="flex items-center ">
+              <img style="border-radius: 8px" width="30px" height="30px" :src="PhantomIcon" alt="" srcset="">
+              <div
+                style="border: 2px solid rgba(224, 255, 49, 0.5);"
+                class="rounded-full flex items-center px-[6px] py-[1px] font-[500] ml-[4px] text-[11px] text-[#e1ff01]"
+              >
+                {{ curBalance }} SOL
+              </div>
+            </div>
+            <span v-if="publicKey" style="color: rgba(255, 255, 255, 0.70);font-size: 14px;"> {{ publicKey.substring(0, 4) + "..." + publicKey.substring(publicKey.length - 4, publicKey.length) }}</span>
+          </div>
+          <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button>
         </div>
       </div>
     </div>
@@ -173,6 +153,11 @@
     ref="referralCodeRef"
     @confirm="onConfirmUserInvite"
   />
+
+  <StartLaunch
+    ref="startLaunchRef"
+    @after-upload-knowledge="afterUploadKnowledge"
+  />
 </template>
 
 <script setup>
@@ -186,6 +171,9 @@ import useUserStore from '@/store/modules/user.js';
 import { confirmUserInvite } from '@gptx/base/api/user.js';
 import { useRoute, useRouter } from 'vue-router';
 import LoginAndSignup from '@/components/LoginAndSignup';
+import StartLaunch from '@/components/StartLaunch/index.vue';
+
+import PhantomIcon from '@/assets/images/phantom.svg';
 // import CreateBot from '@/components/CreateBot';
 // import { supportLang } from '@gptx/base';
 import BotBaseInfo from '@/components/BotBaseInfo'
@@ -193,12 +181,7 @@ import UploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vu
 import PublishDialog from '@/views/personal/components/publish/PublishDialog.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
-import { createAtomicMintWithFee } from '@gptx/base/utils/mint-token-with-fee-umi.js';
-// import { createAtomicMintWithFee } from '@gptx/base/utils/mint-spl-token.js';
-import * as anchor from "@coral-xyz/anchor";
-import {Connection, Keypair} from "@solana/web3.js";
-
-console.log(anchor,'anchor')
+import { Connection, clusterApiUrl } from '@solana/web3.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -305,7 +288,12 @@ const createHandleSelect = (type) => {
     onCreateClick()
   } else { // meme bot
     // useBot.setCreateBotDialog(false);
-    router.push({ path: '/memebot' });
+    if (isPhantomInstalled) {
+       router.push({ path: '/memebot' });
+      
+    } else {
+      installWallet();
+    }
   }
 };
 
@@ -319,15 +307,15 @@ const onLoginClick = (val) => {
   }
 };
 
-const isPhantomInstalled = window.phantom?.solana?.isPhantom
 
 const connectWallet = async () => {
   if (window.phantom?.solana?.isPhantom) {
     const provider = window.phantom?.solana;
     if (provider?.isPhantom) {
       try {
-        const publicKey = await provider.connect();
-        console.log('Public Key:', publicKey);
+        const resp = await provider.connect();
+        publicKey.value = resp.publicKey.toString()
+        console.log('Public Key:', publicKey.value);
       } catch (error) {
         console.error('Error connecting to Phantom:', error);
       }
@@ -342,105 +330,55 @@ const installWallet= async () => {
 }
 
 
-const getProvider = async () => {
+const getProvider =  () => {
   if ('phantom' in window) {
     const provider = window.phantom?.solana;
-
     if (provider?.isPhantom) {
-      const resp = await provider.connect();
-      console.log(resp,'resp');
-      // return provider;
-      return resp;
+      return provider;
     }
-  } else {
-    console.error('Phantom not installed');
   }
+  // window.open('https://phantom.app/', '_blank');
 };
 
-// test
-const __createAtomicMintWithFee = async () => {
-// Example usage
-  const metadata = {
-      name: "Your Token Name",
-      symbol: "SYMBOL",
-      uri: "your-token-metadata-uri",
-  };
 
-  const TOTAL_SUPPLY = 1000000; // 1 million tokens
+// 发送交易(创建token)
+const publicKey = ref('') // publicKey就是address
 
-  async function main() {
-      // const provider = anchor.AnchorProvider.env();
-      const provider = window.phantom?.solana;
-      // const provider = getProvider();
-      
-      // anchor.setProvider(provider);
-      
-      const result = await createAtomicMintWithFee(
-          provider,
-          metadata,
-          TOTAL_SUPPLY
-      );
+// 获取Balance
+const curBalance = ref('')
+const getBalance = async () => {
+  try {
+    const provider = getProvider(); // see "Detecting the Provider"
+    const resp = await provider.connect();
+    // const connection = new Connection(clusterApiUrl('mainnet'));
+    const connection = new Connection(clusterApiUrl('devnet'));
+    
+    const balance = await connection.getBalance(resp.publicKey);
+    const accountInfo = await connection.getAccountInfo(resp.publicKey);
+    curBalance.value = (balance/1000000000).toFixed(2)
 
-      console.log(result,"\nToken Mint Information:");
-      // console.log("Mint Address:", result.mintAddress);
-      // console.log("Mint Secret Key:", result.mintSecretKey);
-      // console.log("\nFee Collector Information:");
-      // console.log("Fee Collector Address:", result.feeCollectorAddress);
-      // console.log("Fee Collector Secret Key:", result.feeCollectorSecretKey);
-      // console.log("\nTotal Cost Paid:", result.totalCostInSol, "SOL");
+    console.log(accountInfo,'accountInfo')
+  } catch {
+    curBalance.value = 0
   }
-
-  main().catch((error) => {
-      console.error(error);
-      process.exitCode = 1;
-  });
-};
-
-
-// test
-const __createAtomicMintWithFee2 = async () => {
-// Example usage
-const metadata = {
-    name: "Your Token Name",
-    symbol: "SYMBOL",
-    uri: "your-token-metadata-uri",
-};
-
-const TOTAL_SUPPLY = 1000000; // 1 million tokens
-
-async function main() {
-  const connection = new Connection("https://api.devnet.solana.com");
-
-    // 创建一个钱包
-    const wallet = new anchor.Wallet(Keypair.generate());
-
-    // 创建一个自定义 provider
-    const provider = new anchor.AnchorProvider(connection, wallet, {
-        preflightCommitment: "processed",
-    });
-
-    // 设置全局 provider
-    anchor.setProvider(provider);
-
-    const result = await createAtomicMintWithFee(
-        provider.connection,
-        provider.wallet,
-        metadata,
-        TOTAL_SUPPLY
-    );
-
-    console.log("Token Mint Information:");
-    console.log("Mint Address:", result.mintAddress);
-    console.log("Mint Secret Key:", result.mintSecretKey);
-    console.log("Total Cost Paid:", result.totalCostInSol, "SOL");
 }
 
-main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-});
-};
+const isPhantomInstalled = window.phantom?.solana?.isPhantom
 
+// test
+const startLaunchRef = ref(null);
+const test = () => {
+  // startLaunchRef.value.open({
+  //   "name": "Dem Token6",
+  //   "symbol": "Dem6",
+  //   "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
+  // });
+  // console.log('test')
+}
+onMounted(() => {
+  connectWallet()
+  getBalance()
+})
 watch(
   () => route.path,
   (newPath, oldPath) => {
@@ -608,4 +546,15 @@ watch(
 .el-popper .el-menu--horizontal .el-menu .el-menu-item:not(.is-disabled):hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
+
+.customs-sub-menu2 {
+  .el-menu-item {
+    min-height: 50px;
+    height: auto !important;
+    padding: 10px 15px;
+    margin: 10px 0;
+    line-height: unset !important;
+  }
+}
+
 </style>

@@ -4,8 +4,6 @@ import createVitePlugins from './vite/plugins'
 // import optimize from './vite/optimize'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
-// import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 // vite 相关配置
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
@@ -17,11 +15,7 @@ export default defineConfig(({ mode, command }) => {
     // 例如 https://www.dappworks.com/。如果应用被部署在一个子路径上，你就需要用这个选项指定这个子路径。例如，如果你的应用被部署在 https://www.dappworks.vip/admin/，则设置 baseUrl 为 /admin/。
     base: command === 'build' || process.env.npm_lifecycle_event==='preview' ? '/' : '/',
     plugins: [
-      ...createVitePlugins(env, command === 'build'),
-      nodePolyfills({
-        // Whether to polyfill specific Node.js modules in the browser
-        protocolImports: true,
-      }),
+      ...createVitePlugins(env, command === 'build')
     ],
     resolve: {
       // https://cn.vitejs.dev/config/#resolve-alias
