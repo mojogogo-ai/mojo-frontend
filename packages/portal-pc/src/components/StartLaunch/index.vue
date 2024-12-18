@@ -2,7 +2,7 @@
   <el-dialog
     v-model="isVisible"
     width="600px"
-    title=""
+    title="Confirm and launch"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :show-close="false"
@@ -14,24 +14,28 @@
         title="Successfully created"
         sub-title="Please launch the meme bot."
       /> -->
-      <p class="text-lg font-bold">Successfully created. Please launch the meme bot.</p>
+      <p class="">Successfully created. Cost to launch an AI agent is 0.02 SOL.</p>
     </div>
     <template #footer>
-      <el-button
-        :disabled="launchLoading"
-        @click="close"
-      >
-        {{ t('common.cancel') }}
-      </el-button>
-      <el-button
-        type="primary"
-        :loading="launchLoading"
-        :disabled="launchLoading"
-        linear
-        @click="__sendTr()"
-      >
-        {{ 'Launch' }}
-      </el-button>
+      <div class="flex justify-center w-full">
+        <el-button
+          style="width: 220px;"
+          :disabled="launchLoading"
+          @click="close"
+        >
+          {{ t('common.cancel') }}
+        </el-button>
+        <el-button
+          style="width: 220px;"
+          type="primary"
+          :loading="launchLoading"
+          :disabled="launchLoading"
+          linear
+          @click="__sendTr()"
+        >
+          {{ 'Launch' }}
+        </el-button>
+      </div>
     </template>
   </el-dialog>
 </template>

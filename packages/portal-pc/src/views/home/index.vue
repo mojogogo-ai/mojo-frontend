@@ -7,7 +7,7 @@
         Discover the future of business with Mojo GoGo. Our platform allows businesses and individuals to harness the
         power of AI to streamline operations, enhance customer engagement, and protect data privacy - all in one place.
       </div>
-      <div class="mb-24 mt-8 flex justify-center home-page-btn">
+      <div class="flex justify-center mt-8 mb-24 home-page-btn">
         <el-button
           v-if="!isLogin"
           class="bg-[#ffffff] text-[#000000] border-[1px] border-[#000000] hover:bg-[#ffffff] hover:text-[#000000] hover:border-[#000000] "
@@ -19,7 +19,7 @@
         <el-button type="primary" @click="toCreate"> Create Bot </el-button>
       </div>
       <div class="flex w-full home-content">
-        <div class="home-part  flex-1">
+        <div class="flex-1 home-part">
           <div class="home-part-1">
             <div class="home-part1-text">Create Your Own AI Bot</div>
             <div class="home-part1-text-content">
@@ -40,12 +40,12 @@
             />
           </div>
         </div>
-        <div class="home-part flex">
+        <div class="flex home-part">
           <div class="home-part-3">
             <el-image
               class="h-[407px] w-[628px]"
               fit="cover"
-              :src="Pic2"
+              :src="Pic4"
             />
           </div>
         </div>
@@ -53,26 +53,51 @@
           <div class="home-part-4">
             <div class="w-[628px] h-[407px]">
               <div class="px-[48px] pt-10">
-                <div class="home-part4-text">Next Gen AI Product</div>
+                <div class="home-part4-text">Launch Your Meme Coin</div>
                 <div class="home-part-4-text-content">
-                  Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
-                  routine tasks, and leverage AI-driven insights for smarter decision-making.
+                  Our AI bot platform lets you create and launch your own meme coin quickly and easily. With automated tools and no technical skills required, anyone can turn their idea into a reality.
                 </div>
                 <div class="pt-8 home-part4-btn">
                   <el-button
                     type="primary"
                     class=""
-                    @click="toPage('/assistant')"
+                    @click="toLaunch"
                   >
-                    Explore
+                    Launch Meme
                   </el-button>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="flex-1 home-part">
+          <div class="home-part-1">
+            <div class="home-part1-text">Create Your Own AI Bot</div>
+            <div class="home-part1-text-content">
+              Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
+              routine tasks, and leverage AI-driven insights for smarter decision-making.
+            </div>
+            <div class="pt-8 home-part4-btn">
+              <el-button
+                type="primary"
+                class=""
+                @click="toPage('/assistant')"
+              >
+                Explore
+              </el-button>
+            </div>
+          </div>
+        </div>
+        <div class="home-part">
+          <div class="home-part-2">
+            <el-image
+              class="h-[407px] w-[628px]"
+              fit="cover"
+              :src="Pic2"
+            />
+          </div>
+        </div>
       </div>
-
 
       <div class="h-[266px]" />
     </div>
@@ -83,6 +108,7 @@
 import { t } from '@gptx/base/i18n';
 import Pic3 from '@/assets/images/homepage/pic3.png';
 import Pic2 from '@/assets/images/homepage/pic2.png';
+import Pic4 from '@/assets/images/homepage/pic4.png';
 import { getIsLogin } from '@gptx/base/utils/auth';
 import useLoginStore from '@/store/modules/login';
 import useBotStore from '@/store/modules/bot';
@@ -127,6 +153,19 @@ const toCreate = () => {
 const toPage = (path) => {
   if (path) {
     router.push({ path });
+  }
+};
+
+const isPhantomInstalled = window.phantom?.solana?.isPhantom
+const toLaunch = async () => {
+  if (isLogin.value) {
+    if (isPhantomInstalled) {
+      router.push({ path: '/memebot' });
+    } else {
+      installWallet();
+    }
+  } else {
+    useLogin.setLoginDialogVisible(true, 'login'); // open login dialog
   }
 };
 </script>

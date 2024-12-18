@@ -1,6 +1,6 @@
 <template>
   <el-header class="flex h-[80px] justify-center">
-    <div class="flex w-full min-w-[800px] max-w-[1280px] items-center ">
+    <div class="flex w-full min-w-[800px] max-w-[1280px] items-center justify-between ">
       <div class="flex items-center">
         <Logo class="flex-none mr-10" />
         <el-menu
@@ -57,11 +57,6 @@
         </el-menu>
       </div>
       <div class="create-bot-button">
-        <!--        create bot button-->
-        <!-- <el-button round class="font-[TTNormsPro]" @click="onCreateClick">
-          + Create Bot
-        </el-button> -->
-
         <el-menu
           mode="horizontal"
           :ellipsis="false"
@@ -156,7 +151,6 @@
 
   <StartLaunch
     ref="startLaunchRef"
-    @after-upload-knowledge="afterUploadKnowledge"
   />
 </template>
 
@@ -283,16 +277,20 @@ const onCreateClick = async() => {
 };
 
 // create bot
-const createHandleSelect = (type) => {
+const createHandleSelect = async (type) => {
   if (type === '1') { // bot
     onCreateClick()
   } else { // meme bot
     // useBot.setCreateBotDialog(false);
-    if (isPhantomInstalled) {
-       router.push({ path: '/memebot' });
-      
+    isLogin.value = await getIsLogin();
+    if (isLogin.value && createBotRef.value) {
+      if (isPhantomInstalled) {
+        router.push({ path: '/memebot' });
+      } else {
+        installWallet();
+      }
     } else {
-      installWallet();
+      useLogin.setLoginDialogVisible(true);
     }
   }
 };
@@ -464,26 +462,6 @@ watch(
    }
  }
 
-
-
-
-.create-bot-button{
-  padding: 0 20px;
-  .el-button{
-    display: flex;
-    padding: 12px 51px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 43px;
-    background: var(--Style, #E1FF01);
-    color: #000;
-    font-feature-settings: 'dlig' on;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 23px; /* 127.778% */
-  }
-}
 :deep(.el-menu-item) {
   padding: 0 35px;
   color: rgba(255, 255, 255, 0.70);
@@ -554,6 +532,14 @@ watch(
     padding: 10px 15px;
     margin: 10px 0;
     line-height: unset !important;
+  }
+  .create-bot-button{
+    .el-sub-menu__title {
+      color: #000000;
+    }
+    .el-sub-menu__icon-arrow{
+      display: none !important;
+    }
   }
 }
 

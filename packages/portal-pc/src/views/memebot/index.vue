@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[552px] mx-auto">
+  <div class="w-[562px] mx-auto">
     <div class="text-center  mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">Create Meme Bot</div>
     <div class="w-full h-[38px] mb-2 px-3.5 py-3 bg-[#e1ff01]/5 rounded-xl justify-start items-start gap-3 inline-flex">
       <div class="w-3.5 h-3.5 relative"><el-icon color="#e1ff01"><WarningFilled /></el-icon></div>
@@ -98,9 +98,13 @@
         />
       </el-form-item>
       <el-form-item
-        label="Telegram"
+        label="Configure Telegram address"
         prop="telegram_bot_address"
       >
+        <div class="w-[552px] h-9 flex flex-col">
+          <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
+          <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot address ?</span>
+        </div>
         <el-input
           v-model="form.telegram_bot_address"
           placeholder="telegram address"
@@ -137,11 +141,16 @@
           clearable
         />
       </el-form-item>
+
       <el-form-item
         :label="t('bots.icon')"
         prop="icon"
       >
         <BotAvatarGenerator
+          :custom-style="{
+            width: '90px',
+            height: '90px',
+          }"
           :default-avatar="form.icon"
           :name="form.name"
           :gender="form.gender"
@@ -169,14 +178,15 @@
         </div>
       </el-form-item>
     </el-form>
-    <div class="flex justify-end w-full my-10">
+    <div class="flex justify-center w-full my-20">
       <el-button
+        style="width: 250px;"
         @click="close"
       >
         {{ t('common.cancel') }}
       </el-button>
       <el-button
-        style="margin-left: 16px;"
+        style="width: 250px;"
         type="primary"
         :loading="loading"
         :disabled="loading"
@@ -334,11 +344,12 @@ const setMemeCheckTimer = (bot_id) =>{
         clearInterval(memeCheckTimer.value)
         // memeCoinInfo.value = result.data;
         loading.value = false;
-        submitText.value = 'Launching...'
+        submitText.value = 'Create'
+        formRef.value.resetFields();
         // startLaunchRef.value.open({ ...result.data, bot_id});
-        startLaunchRef.value.open({ 
-          "name": "Dem0 Token" + new Date().getTime(),
-          "symbol": "Dem0" + new Date().getTime(),
+        startLaunchRef.value.open({ // test
+          "name": "Demo Token8",
+          "symbol": "Demo8",
           "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
           bot_id
         });
@@ -346,7 +357,7 @@ const setMemeCheckTimer = (bot_id) =>{
     } catch (error) {
       throw error;
     }
-  }, 13000);
+  }, 30000);
 }
 
 const getTgToken = () => {
@@ -450,10 +461,10 @@ onUnmounted(() => {
     justify-content: center;
     color: #999;
     cursor: pointer;
-    width: 155px;
+    width: 125px;
     transition: border-color 0.3s;
     display: inline-flex;
-    height: 150px;
+    height: 125px;
     padding: 5px;
     flex-shrink: 0;
     border-radius: 12px;
@@ -472,7 +483,7 @@ onUnmounted(() => {
       text-align: center;
       font-feature-settings: 'dlig' on;
       font-family: "TT Norms Pro";
-      font-size: 14px;
+      font-size: 12px;
       font-style: normal;
       font-weight: 500;
     }

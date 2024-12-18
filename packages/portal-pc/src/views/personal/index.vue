@@ -9,22 +9,20 @@
       :element-loading-text="t('common.loading')"
     >
       <div
-        v-if="botList.length && !isLoading"
+        v-if="botList.length"
         v-infinite-scroll="_getMyBotList"
         class="h-full"
         :infinite-scroll-disabled="!isLoadMore || isLoading"
-        :infinite-scroll-distance="10"
+        :infinite-scroll-distance="20"
       >
-        <div class="flex flex-wrap gap-5 pt-3">
+        <div class="flex flex-wrap gap-5 pt-3" @click="editBot(bot)">
           <list-item
-            v-for="bot in botList"
-            :key="bot.id"
-            class="bot-management-item"
+            v-for="(bot, index) in botList"
+            :key="index"
             :bot="bot"
             @chat="onChat($event, bot)"
             @delete="_getMyBotList"
             @refresh-list="_getMyBotList"
-            @click="editBot(bot)"
           />
         </div>
       </div>
@@ -136,7 +134,7 @@ onMounted(() => {
 .bot-management-content {
   position: relative;
   height: 600px; /* 根据需要调整高度 */
-  overflow: hidden;
+  overflow: auto;
 }
 
 .el-scrollbar__wrap {

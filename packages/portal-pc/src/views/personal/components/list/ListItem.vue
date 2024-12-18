@@ -77,16 +77,24 @@
         </div>
       </div>
       <div class="more-option-trigger" @click.stop="()=>{}">
-        <div v-if="bot.bot_type===1" class="mr-5">
-          <el-button
-            type="primary"
-            size="small"
-            @click="lanchedMemeCoin(bot)"
-          >
-            {{ MemeStatus[bot.meme_state] }}
-          </el-button>
-        </div>
-        <el-dropdown popper-class="bot-manage-dropdown">
+        <el-button
+          v-if="bot.bot_type===1"
+          type="primary"
+          size="small"
+          @click.stop="lanchedMemeCoin(bot)"
+        >
+          {{ MemeStatus[bot.meme_state] }}
+        </el-button>
+        <el-button
+          v-if="bot.public != '1'"
+          type="primary"
+          size="small"
+          @click.stop="toPublish(bot)"
+        >
+          publish
+        </el-button>
+
+        <!-- <el-dropdown popper-class="bot-manage-dropdown">
           <el-icon color="#FFFFFF" size="16">
             <MoreFilled />
           </el-icon>
@@ -104,14 +112,14 @@
               {{ t('bots.delete') }}
             </el-dropdown-item>
           </template>
-        </el-dropdown>
+        </el-dropdown> -->
       </div>
     </div>
-    <StartLaunch
-      ref="startLaunchRef"
-      width="600px"
-    />
   </div>
+  <StartLaunch
+    ref="startLaunchRef"
+    width="600px"
+  />
 </template>
 
 <script setup>
@@ -219,9 +227,9 @@ const toPublish = async ({ id }) => {
 
 const startLaunchRef = ref(null);
 const MemeStatus = {
-  1: 'Pending',
-  2: 'Launching',
-  3: 'Lauched'
+  1: 'Launch pending',
+  2: 'Launch',
+  3: 'Coin Launched'
 };
 const lanchedMemeCoin = (bot) => {
   if (bot.meme_state === 1) { // TO create meme coin
@@ -364,31 +372,30 @@ const lanchedMemeCoin = (bot) => {
     position: relative;
     .more-option-trigger{
       position: absolute;
-      opacity: 0.8;
+      // opacity: 0.8;
       bottom: 0;
       right: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      :deep(.el-dropdown) {
-        width: 100%;
-        height: 100%;
-        button{
-          width: 100%;
-          height: 100%;
-        }
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      &:hover{
-        opacity: 1;
+      // :deep(.el-dropdown) {
+      //   width: 100%;
+      //   height: 100%;
+      //   button{
+      //     width: 100%;
+      //     height: 100%;
+      //   }
+      //   display: flex;
+      //   align-items: center;
+      //   justify-content: center;
+      // }
+      // &:hover{
       //   width: 40px;
       // height: 40px;
       // flex-shrink: 0;
       // border-radius: 8px;
       // background: rgba(255, 255, 255, 0.10);
-      }
+      // }
     }
   }
 }
