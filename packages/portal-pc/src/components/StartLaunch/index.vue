@@ -45,7 +45,7 @@ import { t } from '@gptx/base/i18n';
 // import { Connection, clusterApiUrl } from '@solana/web3.js';
 import bs58 from "bs58";
 import { getTokenCreate, memePaid } from '@gptx/base/api/meme-bot';
-
+const router = useRouter();
 // const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
 
@@ -97,19 +97,19 @@ const __sendTr = async () => {
                 message: bs58.encode(binaryData),
             },
         });
-        launchLoading.value = false;
-        console.log(res, 'res----->signature')
-        console.log(res.signature, 'signature')
-       
-        // let connectRes =  await connection.getSignatureStatus(signature);
-        // if(connectRes.context){
-        //   launchLoading.value = false;
-        //   console.log(connectRes,'connectRes')
-        // }
+        if(res.signature){
+          launchLoading.value = false;
+          console.log(res, 'res----->signature')
+          // let connectRes =  await connection.getSignatureStatus(signature);
+          // if(connectRes.context){
+          //   launchLoading.value = false;
+          //   console.log(connectRes,'connectRes')
+          // }
 
-        __memePaid(memeCoinInfo.value.bot_id, res.signature )
-
-        router.push({ path: '/myCoins' });
+          __memePaid(memeCoinInfo.value.bot_id, res.signature )
+          router.push({ path: '/myCoins' });
+          close()
+        }
        
       } catch (error) {
         launchLoading.value = false;
@@ -142,15 +142,16 @@ function base64ToBinary(base64) {
     return binaryArray;
 }
 
+// 更新状态
 const __memePaid = async (bot_id, tx_signature )=>{
   const params = {
         "bot_id": bot_id,
         "tx_signature": tx_signature,
     };
-    console.log(params,'params')
+    console.log(params,'params__memePaid')
     const res = await memePaid(params);
     if (res.code === 200) {
-    
+      console.log(res,'__memePaid')
     }
 }
 

@@ -346,18 +346,18 @@ const setMemeCheckTimer = (bot_id) =>{
         loading.value = false;
         submitText.value = 'Create'
         formRef.value.resetFields();
-        // startLaunchRef.value.open({ ...result.data, bot_id});
-        startLaunchRef.value.open({ // test
-          "name": "Demo Token8",
-          "symbol": "Demo8",
-          "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
-          bot_id
-        });
+        startLaunchRef.value.open({ ...result.data, bot_id});
+        // startLaunchRef.value.open({ // test
+        //   "name": "Demo Token8",
+        //   "symbol": "Demo8",
+        //   "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
+        //   bot_id
+        // });
       }
     } catch (error) {
       throw error;
     }
-  }, 30000);
+  }, 3000);
 }
 
 const getTgToken = () => {

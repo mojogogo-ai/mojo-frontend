@@ -15,11 +15,12 @@
         :infinite-scroll-disabled="!isLoadMore || isLoading"
         :infinite-scroll-distance="20"
       >
-        <div class="flex flex-wrap gap-5 pt-3" @click="editBot(bot)">
+        <div class="flex flex-wrap gap-5 pt-3">
           <list-item
             v-for="(bot, index) in botList"
             :key="index"
             :bot="bot"
+            @edit="editBot(bot)"
             @chat="onChat($event, bot)"
             @delete="_getMyBotList"
             @refresh-list="_getMyBotList"

@@ -533,14 +533,16 @@ watch(
     margin: 10px 0;
     line-height: unset !important;
   }
-  .create-bot-button{
+}
+.create-bot-button{
     .el-sub-menu__title {
       color: #000000;
+    }
+    .el-menu--horizontal>.el-sub-menu:hover .el-sub-menu__title {
+        color: #000000 !important;
     }
     .el-sub-menu__icon-arrow{
       display: none !important;
     }
   }
-}
-
 </style>

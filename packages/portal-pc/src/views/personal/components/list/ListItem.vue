@@ -1,5 +1,5 @@
 <template>
-  <div class="cursor-pointer bot-manage-item">
+  <div class="cursor-pointer bot-manage-item" @click="emit('edit')">
     <div class="bmi-content">
       <div class="bmic-left">
         <div class="bmicl-avatar">
@@ -38,8 +38,11 @@
             {{ bot.introduction }}
           </div>
           <div class="bmicl-toolbar">
-            <div v-show="bot.public == '1'" class="bmiclt-btn bb-publish">
+            <div v-show="bot.public == '1'" class="bmiclt-btn">
               Published
+            </div>
+            <div v-if="bot.bot_type===1" class="bmiclt-btn" :style="{backgroundColor: bot.meme_state === 3 ? 'rgba(17, 198, 65, 0.80)': '#db5f00'}">
+              {{ MemeStatusText[bot.meme_state] }}
             </div>
           </div>
         </div>
@@ -78,26 +81,19 @@
       </div>
       <div class="more-option-trigger" @click.stop="()=>{}">
         <el-button
-          v-if="bot.bot_type===1"
+          v-if="bot.bot_type===1 && bot.meme_state !== 3"
+          class="mr-5"
           type="primary"
-          size="small"
           @click.stop="lanchedMemeCoin(bot)"
         >
           {{ MemeStatus[bot.meme_state] }}
         </el-button>
-        <el-button
-          v-if="bot.public != '1'"
-          type="primary"
-          size="small"
-          @click.stop="toPublish(bot)"
-        >
-          publish
-        </el-button>
-
-        <!-- <el-dropdown popper-class="bot-manage-dropdown">
-          <el-icon color="#FFFFFF" size="16">
-            <MoreFilled />
-          </el-icon>
+        <el-dropdown popper-class="bot-manage-dropdown">
+          <div class="flex items-center justify-center rounded-[10px] w-11 h-11 bg-white/10 hover:opacity-75">
+            <el-icon color="#FFFFFF" class="rotate-90" size="14">
+              <MoreFilled />
+            </el-icon>
+          </div>
           <template #dropdown>
             <el-dropdown-item
               v-if="bot.public != '1'"
@@ -112,7 +108,7 @@
               {{ t('bots.delete') }}
             </el-dropdown-item>
           </template>
-        </el-dropdown> -->
+        </el-dropdown>
       </div>
     </div>
   </div>
@@ -124,8 +120,10 @@
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { botDelete, removePublishApp } from '@gptx/base/api/application';
-import router from '@/router';
+import { botDelete } from '@gptx/base/api/application';
+// import router from '@/router';
+import { memeCheck } from '@gptx/base/api/meme-bot';
+
 import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
 // import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
 // import IconDiscord from '@/assets/images/bots/publish/discord.svg';
@@ -148,7 +146,7 @@ const props = defineProps({
   }
 });
 // const publishDialogRef = ref(null);
-const emit = defineEmits(['chat', 'delete', 'refresh-list']);
+const emit = defineEmits(['chat', 'delete', 'refresh-list', 'edit']);
 
 const goLink = (bot, platform) => {
   // emit('chat', { bot, platform });
@@ -196,30 +194,30 @@ const onDelete = async (id) => {
   }
 };
 // dropdown command unpublish
-const onUnpublish = async (id) => {
-  try {
-    const { href } = router.resolve({ path: `/publish/${id}` });
-    await ElMessageBox.confirm(
-      `${t(
-        'bots.unpublishDesc'
-      )}<a class="text-[var(--el-color-primary)] hover:text-[var(--el-color-primary-light-3)]" href="${href}" >${t(
-        'bots.toPublish'
-      )}</a>`,
-      t('bots.unpublish'),
-      {
-        confirmButtonText: t('common.confirm'),
-        cancelButtonText: t('common.cancel'),
-        type: 'warning',
-        dangerouslyUseHTMLString: true,
-        customClass: 'customize-message-box'
-      }
-    );
-    const { code } = await removePublishApp({ app_id: id });
-    if (code === 200) emit('refresh-list');
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const onUnpublish = async (id) => {
+//   try {
+//     const { href } = router.resolve({ path: `/publish/${id}` });
+//     await ElMessageBox.confirm(
+//       `${t(
+//         'bots.unpublishDesc'
+//       )}<a class="text-[var(--el-color-primary)] hover:text-[var(--el-color-primary-light-3)]" href="${href}" >${t(
+//         'bots.toPublish'
+//       )}</a>`,
+//       t('bots.unpublish'),
+//       {
+//         confirmButtonText: t('common.confirm'),
+//         cancelButtonText: t('common.cancel'),
+//         type: 'warning',
+//         dangerouslyUseHTMLString: true,
+//         customClass: 'customize-message-box'
+//       }
+//     );
+//     const { code } = await removePublishApp({ app_id: id });
+//     if (code === 200) emit('refresh-list');
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 const user = useUserStore();
 const toPublish = async ({ id }) => {
   eventBus.emit('publishBot', { id });
@@ -227,30 +225,48 @@ const toPublish = async ({ id }) => {
 
 const startLaunchRef = ref(null);
 const MemeStatus = {
-  1: 'Launch pending',
+  // 1: 'Pending',
+  // 2: 'Launch',
+  // 3: 'Coin Launched'
+  1: 'Launch',
   2: 'Launch',
   3: 'Coin Launched'
 };
-const lanchedMemeCoin = (bot) => {
-  if (bot.meme_state === 1) { // TO create meme coin
-    goLink(bot, 'telegram')
-  } else if (bot.meme_state === 2) { // lanching
-    startLaunchRef.value.open({
-      "name": "Dem0 Token" + new Date().getTime(),
-      "symbol": "Dem0" + new Date().getTime(),
-      "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
-      bot_id: bot.id
-    });
-  } else{
-    //
+const MemeStatusText = {
+  1: 'Launch pending',
+  2: 'Launch pending',
+  3: 'Coin Launched'
+};
+
+const lanchedMemeCoin = async (bot) => {
+  const result = await memeCheck({ bot_id: bot.id });
+  if (result.code === 200) { // 对话创建完成meme coin
+
+   const meme_state = result.data.state
+
+    if (meme_state === 1) { // TO create meme coin
+        goLink(bot, 'telegram')
+      } else if (meme_state === 2) { // lanching
+        startLaunchRef.value.open({ ...result.data, bot_id: bot.id });
+        // startLaunchRef.value.open({ // test
+        //   "name": "Dem0 Token" + new Date().getTime(),
+        //   "symbol": "Dem0" + new Date().getTime(),
+        //   "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
+        //   bot_id: bot.id
+        // });
+      } else {
+        //
+      }
   }
+
+
 };
 </script>
 
 <style lang="scss" scoped>
 .bot-manage-item{
-  width: 413px;
-  height: 222px;
+  width: 412px;
+  // height: 222px;
   flex-shrink: 0;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.10);
@@ -325,12 +341,14 @@ const lanchedMemeCoin = (bot) => {
 
         }
         .bmicl-toolbar{
+          display: flex;
           height: 27px;
           .bmiclt-btn{
-            width: 73px;
-            height: 27px;
+            // width: 73px;
+            // height: 27px;
             display: flex;
             padding: 4px 8px;
+            margin-right: 5px;
             justify-content: center;
             align-items: center;
             border-radius: 8px;
@@ -349,7 +367,7 @@ const lanchedMemeCoin = (bot) => {
   }
   .bmi-bottom{
     display: flex;
-    margin-top: 24px;
+    margin-top: 50px;
     justify-content: space-between;
     .bmi-share-bar{
       display: flex;
@@ -378,24 +396,6 @@ const lanchedMemeCoin = (bot) => {
       display: flex;
       justify-content: center;
       align-items: center;
-      // :deep(.el-dropdown) {
-      //   width: 100%;
-      //   height: 100%;
-      //   button{
-      //     width: 100%;
-      //     height: 100%;
-      //   }
-      //   display: flex;
-      //   align-items: center;
-      //   justify-content: center;
-      // }
-      // &:hover{
-      //   width: 40px;
-      // height: 40px;
-      // flex-shrink: 0;
-      // border-radius: 8px;
-      // background: rgba(255, 255, 255, 0.10);
-      // }
     }
   }
 }
