@@ -69,53 +69,65 @@ const publicKey = ref('') // publicKey就是address
 
 const __sendTr = async () => {
     const provider = getProvider(); // see "Detecting the Provider"
-    const resp = await provider.connect();
-    publicKey.value = resp.publicKey.toString()
-    const params = {
-        "chain_name": "solana",
-        "name": memeCoinInfo.value.name || "Demo Token1",
-        "symbol": memeCoinInfo.value.symbol || "Demo1",
-        "image":  memeCoinInfo.value.icon || "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
-        "address": publicKey.value,
-        "description":''
-    };
-    console.log(params,'params')
+    
+    try {
+      const resp = await provider.connect();
+      console.log(resp,'resp')
+      publicKey.value = resp.publicKey.toString()
+      const params = {
+          "chain_name": "solana",
+          "name": memeCoinInfo.value.name || "Demo Token1",
+          "symbol": memeCoinInfo.value.symbol || "Demo1",
+          "image":  memeCoinInfo.value.icon || "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
+          "address": publicKey.value,
+          "description":''
+      };
+      console.log(params,'params')
 
-    launchLoading.value = true;
-    const res = await getTokenCreate(params);
-    if (res.code === 200) {
-      const binaryData = base64ToBinary(res.data.tx_base64);
-      
-      // const connection = new Connection(clusterApiUrl('mainnet'));
-      // const connection = new Connection(clusterApiUrl('devnet'));
+      launchLoading.value = true;
+      const res = await getTokenCreate(params);
+      if (res.code === 200) {
+        const binaryData = base64ToBinary(res.data.tx_base64);
+        
+        // const connection = new Connection(clusterApiUrl('mainnet'));
+        // const connection = new Connection(clusterApiUrl('devnet'));
 
-      try {
+        try {
 
-        let res = await provider.request({
-            method: "signAndSendTransaction",
-            params: {
-                message: bs58.encode(binaryData),
-            },
-        });
-        if(res.signature){
+          let res = await provider.request({
+              method: "signAndSendTransaction",
+              params: {
+                  message: bs58.encode(binaryData),
+              },
+          });
+          if(res.signature){
+            launchLoading.value = false;
+            console.log(res, 'res----->signature')
+            // let connectRes =  await connection.getSignatureStatus(signature);
+            // if(connectRes.context){
+            //   launchLoading.value = false;
+            //   console.log(connectRes,'connectRes')
+            // }
+            
+            // 发送交易成功后
+            __memePaid(memeCoinInfo.value.bot_id, res.signature )
+            router.push({ path: '/myCoins' });
+            close()
+          }
+        
+        } catch (error) {
           launchLoading.value = false;
-          console.log(res, 'res----->signature')
-          // let connectRes =  await connection.getSignatureStatus(signature);
-          // if(connectRes.context){
-          //   launchLoading.value = false;
-          //   console.log(connectRes,'connectRes')
-          // }
-
-          __memePaid(memeCoinInfo.value.bot_id, res.signature )
-          router.push({ path: '/myCoins' });
-          close()
+            console.error("Transaction confirmation failed:", error);
         }
-       
-      } catch (error) {
-        launchLoading.value = false;
-          console.error("Transaction confirmation failed:", error);
       }
+    } catch  {
+      ElMessage({
+          message: 'Please connect to Phantom wallet.',
+          type: 'error',
+          duration: 4000
+        });
     }
+
 };
 
 const getProvider = () => {

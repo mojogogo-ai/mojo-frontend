@@ -129,7 +129,7 @@ watch(
 );
 watch(
   () => useLogin.loginDialogVisible,
-  async (val) => {
+  async () => {
     // console.log('isOpened', val);
     isLogin.value = await getIsLogin();
   },
