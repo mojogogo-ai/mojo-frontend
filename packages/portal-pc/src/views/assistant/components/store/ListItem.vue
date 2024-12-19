@@ -78,7 +78,7 @@
           </div>
           <div>
             <!-- 大漂亮独有 -->
-            <!-- <el-button
+            <el-button
               v-if="appInfo.id===1"
               size="small"
               link
@@ -88,7 +88,7 @@
                 name="chat"
                 class="text-[#409eff]  text-[24px] mr-1"
               />
-            </el-button> -->
+            </el-button>
             <el-button
               v-if="appInfo.telegram_address"
               size="small"

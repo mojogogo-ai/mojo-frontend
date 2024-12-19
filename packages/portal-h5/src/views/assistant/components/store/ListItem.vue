@@ -88,13 +88,13 @@
         </div>
         <div class="flex items-center">
           <!-- 大漂亮独有 -->
-          <!-- <svg-icon
+          <svg-icon
             v-if="appInfo.id===1"
             name="chat"
             class="text-[#409eff] mr-3"
             size="20"
             @click="openDig()"
-          /> -->
+          />
           <svg-icon
             name="discord"
             class="text-[#409eff] mr-3"
@@ -149,9 +149,9 @@ const openDs = ()=>{
   const cleanUrl = props?.appInfo?.discord_address.replace(/^"|"$/g, '');
   window.open(cleanUrl, '_blank');
 }
-// const openDig = () => {
-//   window.open('https://virtual-human.mojogogo.ai/', '_blank');
-// };
+const openDig = () => {
+  window.open('https://virtual-human.mojogogo.ai/', '_blank');
+};
 </script>
 
 <style lang="scss" scoped>
