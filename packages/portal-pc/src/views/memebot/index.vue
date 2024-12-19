@@ -340,7 +340,7 @@ const setMemeCheckTimer = (bot_id) =>{
    memeCheckTimer.value = setInterval(async () => {
     try {
       const result = await memeCheck({ bot_id });
-      if (result.code === 200 && result.data.state === 1) { // 对话创建完成meme coin
+      if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
         clearInterval(memeCheckTimer.value)
         // memeCoinInfo.value = result.data;
         loading.value = false;
