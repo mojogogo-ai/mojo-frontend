@@ -24,7 +24,6 @@
             @chat="onChat($event, bot)"
             @delete="_getMyBotList"
             @refresh-list="_getMyBotList"
-            @click="editBot(bot)"
           />
         </div>
       </div>

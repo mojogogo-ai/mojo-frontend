@@ -231,23 +231,18 @@ const submitForm = async () => {
 
     // 根据 isEdit 状态选择调用不同的 API
     if (isEdit.value) {
-      // await updateBotFile({
-      //   bot_id: botId.value,
-      //   file_id_list: fileDataList,
-      // });
       ElMessage.success('Files updated successfully!');
       emits('after-upload-knowledge', {
         // id: botId.value,
+        formFileList:form.fileList,
         file_id_list: fileDataList,
       });
     } else {
-      // await botFileSave({
-      //   bot_id: botId.value,
-      //   file_id_list: fileDataList,
-      // });
+
       ElMessage.success('Files uploaded successfully!');
       emits('after-upload-knowledge', {
         // id: botId.value,
+        formFileList:form.fileList,
         file_id_list: fileDataList,
       });
     }

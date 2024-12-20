@@ -13,7 +13,7 @@ export function appDelete(data) {
 export function botDelete(data) {
   return request({
     url: '/v1/bot/del',
-    method: 'delete',
+    method: 'post',
     data
   });
 }

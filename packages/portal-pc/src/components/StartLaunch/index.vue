@@ -7,6 +7,7 @@
     :close-on-press-escape="false"
     :show-close="false"
     destroy-on-close
+    align-center
   >
     <div class="success-result-content">
       <!-- <el-result
@@ -75,6 +76,7 @@ const __sendTr = async () => {
       console.log(resp,'resp')
       publicKey.value = resp.publicKey.toString()
       const params = {
+          "bot_id": memeCoinInfo.value.bot_id,
           "chain_name": "solana",
           "name": memeCoinInfo.value.name,
           "symbol": memeCoinInfo.value.symbol,
@@ -108,11 +110,10 @@ const __sendTr = async () => {
             //   launchLoading.value = false;
             //   console.log(connectRes,'connectRes')
             // }
-            
+            close()
             // 发送交易成功后
             __memePaid(memeCoinInfo.value.bot_id, res.signature )
-            router.push({ path: '/myCoins' });
-            close()
+            router.push({ path: '/personal' });
           }
         
         } catch (error) {

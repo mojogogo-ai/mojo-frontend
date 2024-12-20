@@ -81,7 +81,51 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
-              />
+              >
+                <div class="flex items-center justify-between hover-operation">
+                  <div class="flex items-center">
+                    <svg-icon
+                      class="text-xl"
+                      :name="item.icon"
+                    />
+                    <span class="ml-2">{{ item.name }}</span>
+                  </div>
+                  <div class="items-center justify-between play-item">
+                    <svg-icon
+                      class="text-[#000]"
+                      name="Play_voice"
+                    />
+                    <span>play</span>
+                  </div>
+                </div>
+              </el-option>
+
+              <template #footer>
+                <div class="flex items-center justify-between text-[#000] pl-[10px] pr-[22px] py-2 border">
+                  <div class="flex items-center">
+                    <svg-icon
+                      class="text-[#000] text-xl"
+                      name="Custom_voice"
+                    />
+                    <span class="mx-[4px]">Custom Voice</span>
+
+                    <div class="flex items-center justify-between px-2 py-[4px] ml-2 bg-black rounded-lg">
+                      <svg-icon
+                        class="text-[#e1ff01] text-[13px] mr-1"
+                        name="star"
+                      />
+                      <span class="text-[#e1ff01] text-[12px]">AI</span>
+                    </div>
+                    <div class="flex items-center justify-between px-2 py-[4px] ml-4 bg-black rounded-lg">
+                      <svg-icon
+                        class="text-[#e1ff01] text-[13px] mr-1"
+                        name="star2"
+                      />
+                      <span class="text-[#e1ff01] text-[12px]">premium</span>
+                    </div>
+                  </div>
+                </div>
+              </template>
             </el-select>
           </el-form-item>
         </el-col>
@@ -140,6 +184,27 @@
           show-word-limit
           clearable
         />
+      </el-form-item>
+      <el-form-item
+        required
+        label=""
+        prop=""
+        style="position: relative;"
+      >
+        <template #label>
+          <span>I would like to create a V-human with my bot</span>
+          <div
+            class="w-[100px] flex items-center justify-center px-2 py-[2px] bg-black " 
+            style="border-radius: 15px; border: 1px solid rgba(224, 255, 49, 0.5);position: absolute; top: -2px;right: 150px;"
+          >
+            <span class="text-[#e1ff01] text-[15px]">premium</span>
+            <svg-icon
+              class="text-[#e1ff01] text-[15px]"
+              name="star2"
+            />
+          </div>
+        </template>
+        <el-switch v-model="unlockValue" @change="changeValue1" />
       </el-form-item>
 
       <el-form-item
@@ -206,6 +271,10 @@
       ref="startLaunchRef"
       width="600px"
     />
+    <Unlocked
+      ref="unlockedRef"
+      width="520px"
+    />
   </div>
 </template>
 
@@ -214,6 +283,7 @@ import { t } from '@gptx/base/i18n';
 import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
 import UploadKnowledge from './uploadKnowledge/index.vue';
 import StartLaunch from '@/components/StartLaunch/index.vue';
+import { ref } from 'vue';
 const router = useRouter();
 // const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
@@ -256,11 +326,28 @@ const conversationList = reactive([
   { id: 'Customize', name: 'Customize' }
 ]);
 
+const unlockValue = ref(false)
 const audioList = reactive([
-  { id: 'Aiden', name: 'Aiden' },
-  { id: 'Eva', name: 'Eva' },
-  { id: 'Jason', name: 'Jason' },
-  { id: 'Sara', name: 'Sara' }
+  { 
+    id: 'Aiden', 
+    name: 'Aiden',
+    icon: 'Aiden_voice'
+   },
+  { 
+    id: 'Eva', 
+    name: 'Eva' ,
+    icon: 'Eva_voice'
+  },
+  { 
+    id: 'Jason',
+    name: 'Jason' ,
+    icon: 'Jason_voice'
+  },
+  { 
+    id: 'Sara', 
+    name: 'Sara' ,
+    icon: 'Sara_voice'
+  }
 ]);
 
 
@@ -293,11 +380,15 @@ const uploadKnowledgeRef = ref(null);
 const openUploadKnowledge = () => {
   uploadKnowledgeRef.value.open();
 };
-const afterUploadKnowledge = ({file_id_list}) => {
-  console.log(file_id_list,'id9999')
+
+let AllFileList = [];
+const afterUploadKnowledge = ({formFileList, file_id_list}) => {
+  AllFileList = [...formFileList]
+  console.log(AllFileList,'AllFileList')
+  
+  form.file_id_list = [...file_id_list]
   // publishDialogRef.value.open({ id });
 };
-
 
 // commit action
 const submitText = ref('Create')
@@ -331,7 +422,7 @@ const submitHandle = async (el) => {
   });
 };
 
-
+const unlockedRef = ref(null)
 // 轮询查询状态
 const startLaunchRef = ref(null);
 const memeCheckTimer = ref(null);
@@ -347,12 +438,6 @@ const setMemeCheckTimer = (bot_id) =>{
         submitText.value = 'Create'
         formRef.value.resetFields();
         startLaunchRef.value.open({ ...result.data, bot_id});
-        // startLaunchRef.value.open({ // test
-        //   "name": "Demo Token8",
-        //   "symbol": "Demo8",
-        //   "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
-        //   bot_id
-        // });
       }
     } catch (error) {
       throw error;
@@ -363,6 +448,11 @@ const setMemeCheckTimer = (bot_id) =>{
 const getTgToken = () => {
   window.open('https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token', '_blank')
 };
+
+const changeValue1 = () => {
+  unlockedRef.value.open();
+  unlockValue.value = false;
+}
 
 onUnmounted(() => {
   clearInterval(memeCheckTimer.value);
@@ -461,7 +551,7 @@ onUnmounted(() => {
     justify-content: center;
     color: #999;
     cursor: pointer;
-    width: 125px;
+    width: 100%;
     transition: border-color 0.3s;
     display: inline-flex;
     height: 125px;
@@ -487,6 +577,18 @@ onUnmounted(() => {
       font-style: normal;
       font-weight: 500;
     }
+  }
+}
+</style>
+
+<style lang="scss">
+.play-item {
+  display: none;
+}
+.hover-operation:hover {
+  .play-item {
+      transition: 0.1s;
+      display: flex;
   }
 }
 </style>
