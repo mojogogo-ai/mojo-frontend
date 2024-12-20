@@ -234,7 +234,7 @@ const MemeStatus = {
 };
 const MemeStatusText = {
   1: 'Launch pending',
-  2: 'Launch pending',
+  2: 'Launching',
   3: 'Coin Launched'
 };
 

@@ -76,9 +76,9 @@ const __sendTr = async () => {
       publicKey.value = resp.publicKey.toString()
       const params = {
           "chain_name": "solana",
-          "name": memeCoinInfo.value.name || "Demo Token1",
-          "symbol": memeCoinInfo.value.symbol || "Demo1",
-          "image":  memeCoinInfo.value.icon || "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
+          "name": memeCoinInfo.value.name,
+          "symbol": memeCoinInfo.value.symbol,
+          "image":  memeCoinInfo.value.icon,
           "address": publicKey.value,
           "description":''
       };
