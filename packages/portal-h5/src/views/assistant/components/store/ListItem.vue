@@ -88,13 +88,13 @@
         </div>
         <div class="flex items-center">
           <!-- 大漂亮独有 -->
-          <!-- <svg-icon
+          <svg-icon
             v-if="appInfo.id===1"
             name="chat"
             class="text-[#409eff] mr-3"
             size="20"
             @click="openDig()"
-          /> -->
+          />
           <svg-icon
             name="discord"
             class="text-[#409eff] mr-3"
