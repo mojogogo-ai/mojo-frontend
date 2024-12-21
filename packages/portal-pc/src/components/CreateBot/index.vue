@@ -98,7 +98,6 @@
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-// import { getAppCategory, quickCreateApp, updateAppInfo } from '@gptx/base/api/application';
 import { quickCreateApp, updateAppInfo } from '@gptx/base/api/application';
 import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
 import { storeAppCopy } from '@gptx/base/api/chat.js';
@@ -113,10 +112,7 @@ const form = reactive({
   category_id: []
 });
 const rules = reactive({
-  // icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
-  // description: [{ required: true, message: t('bots.ruleMessage.description') }],
-  // category_id: [{ required: true, message: t('bots.ruleMessage.catalog'), trigger: 'change' }]
 });
 const catalogList = reactive([]);
 const formRef = ref(null);

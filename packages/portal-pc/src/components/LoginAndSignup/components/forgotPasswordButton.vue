@@ -1,7 +1,6 @@
-<script setup lang="tsx">
-import { ref, reactive } from 'vue'
+<script setup>
 import { t } from '@gptx/base/i18n'
-import { ElInput, ElForm, ElFormItem, ElButton, ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { auth } from "@/utils/firebase.js" // Assuming Firebase is initialized in this file
 import mojoDialog from '@/components/mojoDialog/index.vue'
@@ -20,11 +19,6 @@ const loading = ref(false)
 
 // Email validation rules
 const rules = reactive({
-  // email: [
-  //   { required: true, message: t('forgotPassword.emailRequired'), trigger: 'blur' },
-  //   { type: 'email', message: t('forgotPassword.invalidEmail'), trigger: 'blur' }
-  // ]
-  // username: [{ validator: validatorEmail, trigger: 'blur' }],
   email: [{ validator: validatorEmail, trigger: 'blur', required: true }]
 
 })
@@ -63,10 +57,6 @@ defineExpose({ openForgotPasswordDialog })
 </script>
 
 <template>
-  <!--  <el-button type="text" @click="openForgotPasswordDialog">-->
-  <!--    {{ t('login.forgetPassword') }}-->
-  <!--  </el-button>-->
-
   <mojo-dialog
     v-model="forgotPasswordDialogVisible"
     append-to-body
@@ -113,7 +103,7 @@ defineExpose({ openForgotPasswordDialog })
           <el-button
             type="primary"
             :loading="loading"
-            class="ml-2 w-full"
+            class="w-full ml-2"
             @click="sendResetEmail"
           >
             {{ t('forgotPassword.send') }}

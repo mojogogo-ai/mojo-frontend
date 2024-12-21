@@ -96,7 +96,7 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue';
-import { showToast, Toast } from 'vant';
+import { showToast } from 'vant';
 import { botInfo, botPublish } from '@gptx/base/api/application';
 import ConfigureTelegramDialog from './ConfigureTelegramDialog.vue';
 import ConfigureDiscordDialog from './ConfigureDiscordDialog.vue';

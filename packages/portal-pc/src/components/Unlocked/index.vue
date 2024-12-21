@@ -48,8 +48,6 @@ const open = async () => {
 
 
 // commit action
-const publicKey = ref('') // publicKey就是address
-
 const __sendTr = async () => {
  
 };

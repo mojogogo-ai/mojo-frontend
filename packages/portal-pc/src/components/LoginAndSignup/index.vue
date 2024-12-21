@@ -18,13 +18,13 @@
                 <div class="h-full flex items-center m-auto w-[100%] at-2xl:max-w-500px at-xl:max-w-500px at-md:max-w-500px at-lg:max-w-500px">
                   <LoginForm
                     v-if="isLoginView"
-                    class="p-20px h-auto m-auto lt-xl:rounded-3xl lt-xl:light:bg-white w-full "
+                    class="w-full h-auto m-auto p-20px lt-xl:rounded-3xl lt-xl:light:bg-white "
                     @close="handleClose"
                     @to-register="toRegister"
                   />
                   <RegisterForm
                     v-else
-                    class="p-20px h-auto m-auto lt-xl:rounded-3xl lt-xl:light:bg-white"
+                    class="h-auto m-auto p-20px lt-xl:rounded-3xl lt-xl:light:bg-white"
                     @to-login="toLogin"
                   />
                 </div>
@@ -42,7 +42,7 @@
       </el-divider>
       <!-- Google Login Button -->
       <div class="w-full text-center">
-        <div class="flex justify-center items-center gap-5 mx-auto">
+        <div class="flex items-center justify-center gap-5 mx-auto">
           <el-icon :size="48" class="cursor-pointer ant-icon" @click="handleIconClick('facebook')">
             <template #default>
               <img :src="facebookIcon" alt="facebook">
@@ -61,7 +61,7 @@
         </div>
       </div>
       <el-divider class="mt-[20px] mb-[20px]" style="border-color: rgba(0, 0, 0, 0.3)" />
-      <div class="login-footer mx-auto">
+      <div class="mx-auto login-footer">
         <!-- 服务条款及隐私政策（此处可根据需要添加） -->
         <div
           class=" font-inter
@@ -105,7 +105,7 @@ import { ref } from 'vue';
 import { ElScrollbar, ElDivider, ElIcon, ElMessageBox, ElMessage } from 'element-plus';
 import LoginLogo from './LoginLogo';
 import { LoginForm, RegisterForm } from '@/components/LoginAndSignup/components';
-import 'firebaseui/dist/firebaseui.css';
+// import 'firebaseui/dist/firebaseui.css';
 import { welcomeAccess } from '@gptx/base/api/login';
 import facebookIcon from '@/assets/svg/Facebook.svg';
 import appleIcon from '@/assets/svg/apple.svg';

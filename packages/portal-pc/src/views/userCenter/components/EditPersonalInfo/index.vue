@@ -79,9 +79,8 @@
 <script setup>
 import { t } from '@gptx/base/i18n';
 import useUserStore from '@/store/modules/user.js';
-import { updatePersonalInfo, updateUserInfo } from '@gptx/base/api/user.js';
+import { updateUserInfo } from '@gptx/base/api/user.js';
 import { ElMessage } from 'element-plus';
-import { validatorEmail } from '@gptx/base/utils/validator'
 import mojoDialogTranslucent from '@/components/mojoDialogTranslucent/index.vue';
 
 const userStore = useUserStore();
@@ -92,9 +91,6 @@ const form = reactive({
   email: ''
 });
 const rules = reactive({
-  // username: [{ required: true, message: t('profile.ruleMessage.username'), trigger: 'blur' }],
-  // alias: [{ required: true, message: t('profile.ruleMessage.alias'), trigger: 'blur' }],
-  // email: [{validator: validatorEmail, trigger: 'blur'}, { required: true, message: t('profile.ruleMessage.email'), trigger: 'blur' }]
 });
 const formRef = ref(null);
 const loading = ref(false);

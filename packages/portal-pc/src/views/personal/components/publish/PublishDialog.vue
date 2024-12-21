@@ -86,12 +86,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
-import { t } from '@gptx/base/i18n';
-import { getOssPresignedUrlV2 } from '@gptx/base/api/user';
 import {botInfo, botPublish} from '@gptx/base/api/application';
-import axios from 'axios';
-import CryptoJS from 'crypto-js';
 import { ElMessage } from 'element-plus';
 import ConfigureTelegramDialog from '@/views/personal/components/publish/ConfigureTelegramDialog.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
@@ -99,13 +94,7 @@ import ConfigureDiscordDialog from '@/views/personal/components/publish/Configur
 
 const emits = defineEmits(['after-upload-knowledge-sources', 'after-update']);
 const isVisible = ref(false);
-const isEdit = ref(false);
 const botId = ref(null);
-const form = reactive({
-  name: '',
-  file_url: '',
-  fileList: []
-});
 
 
 const afterUpdate = (option) => {

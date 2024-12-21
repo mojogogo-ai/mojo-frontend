@@ -91,9 +91,6 @@ eventBus.on('botPublishSuccess', () => {
 const createNewBot = () => {
   router.push({ path: '/memebot' });
 };
-const editBot = (bot) => {
-  eventBus.emit('editBot', bot);
-};
 const _getMyBotList = async () => {
   if (!isLoadMore.value || isLoading.value) return; // 如果已加载完或正在加载中则退出
   isLoading.value = true;

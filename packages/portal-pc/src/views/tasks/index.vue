@@ -45,7 +45,7 @@ import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
 import TaskImg01 from '@/assets/images/tasks/01.svg';
 import TaskImg02 from '@/assets/images/tasks/02.svg';
 import TaskImg03 from '@/assets/images/tasks/03.svg';
-import TaskImg04 from '@/assets/images/tasks/04.svg';
+// import TaskImg04 from '@/assets/images/tasks/04.svg';
 import TaskImg05 from '@/assets/images/tasks/05.svg';
 import TaskImg06 from '@/assets/images/tasks/06.svg';
 import TaskImg07 from '@/assets/images/tasks/07.svg';

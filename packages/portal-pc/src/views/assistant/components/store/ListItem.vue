@@ -119,7 +119,6 @@
 </template>
 
 <script setup>
-// import { t } from '@gptx/base/i18n';
 import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
 import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
 import IconDiscord from '@/assets/images/bots/publish/discord.svg';
@@ -137,7 +136,6 @@ defineProps({
 });
 const emits = defineEmits(['open-new-chat', 'open-with',  'open-dig', 'duplicate']);
 
-let platList = reactive([{ s_name: 'telegram' }]);
 const platIcons = {
   telegram: IconTelegram,
   slack: IconSlack,

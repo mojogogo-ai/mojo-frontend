@@ -130,12 +130,7 @@ const getStoreList = async () => {
   }
 };
 
-const count = ref(0)
-const load = () => {
-  count.value += 2
-}
 onMounted(() => {
-  // onSearch();
 });
 </script>
 

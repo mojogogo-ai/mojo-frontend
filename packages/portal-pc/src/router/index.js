@@ -36,55 +36,7 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '',
-    name: 'ApplicationDetail',
-    meta: { title: t('menu.c') },
-    children: [
-      {
-        path: '/design/:id?',
-        name: 'Design',
-        component: () => import('@/views/personal/design'),
-        meta: { title: t('menu.c'), tab: 'a' }
-      },
-      {
-        path: '/analyze/:id?',
-        name: 'Analyze',
-        component: () => import('@/views/personal/analyze'),
-        meta: { title: t('menu.c'), tab: 'b' }
-      }
-    ]
-  },
-  {
-    path: '',
-    name: 'ApplicationPublish',
-    children: [
-      {
-        path: '/publish/:id?',
-        name: 'Publish',
-        component: () => import('@/views/personal/publish'),
-        meta: { title: t('menu.c') }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    children: [
-      {
-        path: '/base',
-        component: () => import('@/views/base/list'),
-        name: 'BaseList',
-        meta: { title: t('menu.b')}
-      },
-      {
-        path: '/base_detail/:id?',
-        component: () => import('@/views/base/detail'),
-        name: 'BaseDetail',
-        meta: { title: t('menu.b')}
-      }
-    ]
-  },
+
   {
     path: '',
     component: Layout,

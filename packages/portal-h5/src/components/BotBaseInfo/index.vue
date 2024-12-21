@@ -237,7 +237,7 @@ const onImageChange = (url, is_personalize_image_icon) => {
   form.is_personalize_image_icon = is_personalize_image_icon
 };
 // commit action
-const submitBaseInfo = async (el) => {
+const submitBaseInfo = async () => {
   if (loading.value) return;
   await formRef.value.validate();
   if (isCopy.value) await copyApp();

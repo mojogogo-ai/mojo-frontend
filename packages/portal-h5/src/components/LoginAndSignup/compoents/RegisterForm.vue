@@ -1,7 +1,5 @@
-<script setup lang="tsx">
-import { ref, reactive, onMounted, watch, defineEmits, onBeforeMount } from 'vue';
-import { Dialog, showFailToast, showToast } from 'vant'
-import { useUserStore } from '@/store/modules/user'
+<script setup>
+import { showFailToast, showToast } from 'vant'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { t } from '@gptx/base/i18n'
 import { auth } from "@/utils/firebase.js"
@@ -74,9 +72,9 @@ const register = async () => {
 }
 const forgotPasswordButtonRef = ref()
 
-const toForgetPassword = () => {
-  forgotPasswordButtonRef.value.openForgotPasswordDialog()
-}
+// const toForgetPassword = () => {
+//   forgotPasswordButtonRef.value.openForgotPasswordDialog()
+// }
 onBeforeMount(async () => {
   // await useUser.updateSysInfo();
   // isLogin.value = await getIsLogin();

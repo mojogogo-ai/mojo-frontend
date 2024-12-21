@@ -40,17 +40,6 @@ import { ElMessage } from 'element-plus';
 const emits = defineEmits(['after-upload-knowledge-sources', 'after-update']);
 const isVisible = ref(false);
 
-// publishOptions 内 不包含checked为true的项目
-// const uncheckedOptions = computed(() => publishOptions.filter(item => !item.checked));
-
-const goConfigure = (item) => {
-  // if (item.id === 'telegram') {
-  //   window.open('https://core.telegram.org/bots/api');
-  // } else if (item.id === 'discord') {
-  //   window.open('https://discord.com/developers/docs/intro');
-  // }
-};
-
 const loading = ref(false);
 const option = ref({
   bot_id: null,
@@ -117,6 +106,7 @@ const submitForm = async () => {
     } else {
       ElMessage.error(res.msg);
     }
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
     ElMessage.error('Authorization failed');
   } finally {

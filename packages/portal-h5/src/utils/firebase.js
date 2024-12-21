@@ -1,7 +1,7 @@
 // src/firebase.js
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import { showFailToast, showToast } from 'vant';
+import { showToast } from 'vant';
 import { t } from '@gptx/base/i18n'
 
 const firebaseConfig = window.FIREBASE_CONFIG

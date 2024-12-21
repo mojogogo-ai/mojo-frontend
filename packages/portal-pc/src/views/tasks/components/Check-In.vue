@@ -8,7 +8,7 @@
     destroy-on-close
   >
     <div class="check-in-container">
-      <div class="check-img flex justify-center flex-col items-center gap-4">
+      <div class="flex flex-col items-center justify-center gap-4 check-img">
         <svg width="401" height="400" viewBox="0 0 401 400" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M293.903 120.7L284.059 118.839L282.499 119.98L279.738 127.062L275.777 131.383L280.278 133.604C280.578 138.886 281.299 142.307 283.939 145.248C286.052 147.601 288.861 147.549 290.001 147.228L290.782 154.191L291.742 153.771L295.223 152.45L298.404 151.49L299.184 149.569L300.265 142.607L300.805 138.646L306.747 135.945V132.044L303.986 129.703L295.703 131.023L293.903 120.7Z" fill="white" />
           <path d="M282.399 285.605C276.385 276.585 269.21 258.768 266.375 250.986C257.341 255.206 238.323 267.208 234.525 281.451C230.727 295.694 240.064 316.795 245.208 325.565C250.747 326.99 260.308 324.972 264.396 323.785C263.275 315.081 261.033 297.356 261.033 296.09C261.033 294.507 261.033 293.914 262.023 293.32C262.814 292.845 275.936 287.979 282.399 285.605Z" fill="white" />
@@ -66,7 +66,7 @@
       <div class="check-in-text mt-[24px] mb-[30px]">
         Check-In to earn 5 Mojo Gogo points everyday!
       </div>
-      <div class="check-in-btn cursor-pointer">
+      <div class="cursor-pointer check-in-btn">
         <div
           @click="dayCheckInHandler"
         >
@@ -98,17 +98,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
-import { t } from '@gptx/base/i18n';
 import { dayCheckIn } from '@gptx/base/api/user';
 import { ElMessage } from 'element-plus';
 import useUserStore from '@/store/modules/user.js'; // Adjust this import as necessary
 
 
-const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
 const user = useUserStore();
-const open = async (option) => {
+const open = async () => {
   isVisible.value = true;
   await nextTick();
   formRef.value.resetFields();

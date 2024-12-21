@@ -13,7 +13,7 @@
     </div>
     <div
       v-show="!isShowSearch"
-      class="flex flex-1 items-center justify-center"
+      class="flex items-center justify-center flex-1"
     >
       <div class="sidebar-logo__link">
         <svg-icon
@@ -23,45 +23,7 @@
         {{ isCn ? $t('common.productName_Cn') : $t('common.productName') }}
       </div>
     </div>
-    <!--    <div
-          class="page-header-icon right"
-          :class="{ 'is-show-search': isShowSearch }"
-        >
-          <van-search
-            v-if="isShowSearch"
-            v-model="searchValue"
-            show-action
-            :placeholder="placeholder"
-            shape="round"
-            background="transparent"
-            @search="onSearch"
-          >
-            <template #action>
-              <div @click="isShowSearch = false">{{ t('common.cancel') }}</div>
-            </template>
-          </van-search>
-          <van-icon
-            v-if="inputArea && !isShowSearch"
-            name="search"
-            size="18"
-            color="#fff"
-            @click="isShowSearch = true"
-          />
-          <van-image
-            v-if="rightIcon.indexOf('/') > -1"
-            width="100%"
-            height="100%"
-            :src="rightIcon"
-            @click="emits('right-icon-click')"
-          />
-          <van-icon
-            v-else
-            size="18"
-            color="#fff"
-            :name="rightIcon"
-            @click="emits('right-icon-click')"
-          />
-        </div>-->
+ 
     <BotBaseInfo
       ref="baseInfoRef"
       @after-create="afterCreateBot"
@@ -109,10 +71,8 @@ defineProps({
     default: t('common.search')
   }
 });
-const emits = defineEmits(['search', 'right-icon-click']);
 
 const isShowSearch = ref(false);
-const searchValue = ref('');
 const isCn = computed(() => {
   return window.SITE_TYPE && window.SITE_TYPE === '2';
 });
@@ -121,10 +81,7 @@ const onLeftIconClick = () => {
   storeLayout.setSidebarVisible(true);
 };
 
-const onSearch = () => {
-  // isShowSearch.value = false;
-  emits('search', searchValue.value);
-};
+
 const useLogin = useLoginStore();
 const baseInfoRef = ref(null);
 const isLogin = ref(false);
@@ -170,14 +127,6 @@ onBeforeMount(async () => {
   user.updateSysInfo();
 });
 
-const onCreateClick = () => {
-  isLogin.value = getIsLogin();
-  if (isLogin.value && baseInfoRef.value) {
-    baseInfoRef.value.open();
-  } else {
-    useLogin.setLoginDialogVisible(true);
-  }
-};
 
 </script>
 

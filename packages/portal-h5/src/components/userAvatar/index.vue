@@ -98,7 +98,6 @@
 <script>
 import 'vue-cropper/dist/index.css';
 import { VueCropper } from 'vue-cropper';
-import { uploadAvatar, userAvatarUpload } from '@gptx/base/api/user';
 import { useDebounceFn } from '@vueuse/core';
 import { t } from '@gptx/base/i18n';
 import { showFailToast } from 'vant';
@@ -224,13 +223,7 @@ export default {
           // 都是.png的格式
           let base64ImgData = await this.getBase64ByBlob(data);
           formData.append('file', base64ImgData);
-          // let response = null;
-          // if (this.user) {
-          //   response = await userAvatarUpload(formData);
-          // } else {
-          //   response = await uploadAvatar(formData);
-          // }
-          // if (response.code !== 200) return false;
+
           this.open = false;
           this.options.img = base64ImgData;
           this.subLoading = false;

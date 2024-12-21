@@ -162,7 +162,7 @@
   import { ElMessageBox } from 'element-plus'
   import { showConfirmDialog } from 'vant';
   import { getToken } from '@gptx/base/utils/auth'
-  import { getCurLang } from '@gptx/base'
+  // import { getCurLang } from '@gptx/base'
   import { t } from '@gptx/base/i18n'
   import { evaluateApi } from "@gptx/base/api/application";
   import { chatNewSession } from "@gptx/base/api/chat";
@@ -179,7 +179,7 @@
   import IconCsv from '@/assets/images/base/upload/csv.svg';
 
   let controller = new AbortController()
-  const lang = getCurLang()
+  // const lang = getCurLang()
   const chatStore = useChatStore()
   const { scrollRef, scrollToBottom, scrollToBottomIfAtBottom } = useScroll() 
   const dataSources = computed(() => chatStore.getChatByUuid(chatStore.active))

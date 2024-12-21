@@ -1,9 +1,8 @@
-<script setup lang="tsx">
-import { ref, reactive, onMounted, watch } from 'vue'
+<script setup>
 import { useRoute } from 'vue-router'
-import { ElForm, ElFormItem, ElInput, ElMessage, ElMessageBox, ElButton } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { useUserStore } from '@/store/modules/user'
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth'
+import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { t } from '@gptx/base/i18n'
 // Firebase auth
 import { auth } from "@/utils/firebase.js" // Assuming you have initialized Firebase in firebase.js
@@ -24,7 +23,7 @@ const formData = reactive({
 
 const loading = ref(false)
 const firebaseLoading = ref(false)
-const redirect = ref<string>('')
+const redirect = ref('')
 
 // Validation rules
 const rules = reactive({
@@ -206,7 +205,7 @@ const toForgetPassword = () => {
       </el-form-item>
 
       <el-form-item class="w-full mb-[36px]">
-        <div class="link-button flex justify-between">
+        <div class="flex justify-between link-button">
           <el-button
             link
             class="font-Inter text-[15px] text-left underline"

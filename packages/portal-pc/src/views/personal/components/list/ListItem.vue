@@ -8,8 +8,7 @@
             width="80px"
             height="80px"
             fit="cover"
-            :src="bot.icon || defaultBotImage"
-            @click="toBotDetail"
+            :src="bot.icon"
           >
             <template #error>
               <div class="page-list-img__error">
@@ -129,10 +128,8 @@
 <script setup>
 import { t } from '@gptx/base/i18n';
 import { botDelete } from '@gptx/base/api/application';
-// import router from '@/router';
 import { memeCheck } from '@gptx/base/api/meme-bot';
 
-import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
 // import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
 // import IconDiscord from '@/assets/images/bots/publish/discord.svg';
 // import IconLine from '@/assets/images/bots/publish/line.svg';
@@ -147,7 +144,7 @@ import { ElMessageBox } from 'element-plus';
 import useUserStore from '@/store/modules/user.js';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
-const props = defineProps({
+defineProps({
   bot: {
     type: Object,
     required: true
@@ -157,9 +154,7 @@ const props = defineProps({
 const emit = defineEmits(['chat', 'delete', 'refresh-list', 'edit']);
 
 const goLink = (bot, platform) => {
-  // emit('chat', { bot, platform });
   let url
-  console.log(bot)
   if(platform === 'telegram') {
     let telegram_address = bot.telegram_address;
     if (telegram_address.startsWith('t.me')) {
@@ -179,11 +174,6 @@ const goLink = (bot, platform) => {
   emit('chat', { url });
 };
 
-// open bot sub page design(unused)|analyze(used)
-const toBotDetail = () => {
-  const { id } = props.bot;
-  // router.push({ path: `/design/${id}` });
-};
 // dropdown command delete
 const onDelete = async (id) => {
   try {

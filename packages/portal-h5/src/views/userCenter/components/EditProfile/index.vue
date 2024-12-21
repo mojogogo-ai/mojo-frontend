@@ -54,7 +54,6 @@
 import { t } from '@gptx/base/i18n';
 import { useUserStore } from '@/store/modules/user.js';
 import { updateUserInfo } from '@gptx/base/api/user.js';
-import { ElMessage } from 'element-plus';
 import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
 import { showFailToast, showSuccessToast } from 'vant';
 const onImageChange = (url, is_personalize_image_icon) => {
@@ -118,11 +117,6 @@ const submitProfileInfo = async () => {
   } catch (e) {
     console.error(e);
     // 提示更新失败
-    // ElMessage({
-    //   message: 'Failed to update profile. Please try again later.',
-    //   type: 'error',
-    //   duration: 2000
-    // });
     showFailToast('Failed to update profile. Please try again later.');
   } finally {
     await userStore.updateSysInfo()
