@@ -1,10 +1,10 @@
 <template>
-  <div class="cursor-pointer bot-manage-item">
+  <div class=" bot-manage-item">
     <div class="bmi-content">
       <div class="bmic-left">
-        <div class="bmicl-avatar">
+        <div class="cursor-pointer hover:opacity-75 bmicl-avatar" @click="detailCoin(bot)">
           <el-image
-            class="cursor-pointer bmicl-avatar-img"
+            class="bmicl-avatar-img"
             width="80px"
             height="80px"
             fit="cover"
@@ -27,15 +27,15 @@
             <span class="bmicli-author-name">{{ bot.symbol }}</span>
           </div>
           <div class="bmicl-toolbar">
-            <div class="h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Twitter')">
+            <div class="cursor-pointer hover:opacity-75 h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Twitter')">
               <svg-icon name="prime_twitter" class="text-xl text-[#000]" />
               <div class="text-black text-sm font-medium font-['Inter'] leading-relaxed">Twitter</div>
             </div>
-            <div class="h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Telegram')">
+            <div class="cursor-pointer hover:opacity-75 h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Telegram')">
               <svg-icon name="telegram-fill" class="text-xl text-[#000]" />
               <div class="text-black text-sm font-medium font-['Inter'] leading-relaxed">Telegram</div>
             </div>
-            <div class="h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Web')">
+            <div class="cursor-pointer hover:opacity-75 h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Web')">
               <svg-icon name="web-fill" class="text-xl text-[#000]" />
               <div class="text-black text-sm font-medium font-['Inter'] leading-relaxed">Website</div>
             </div>
@@ -78,7 +78,12 @@ const goLink = (bot, platform) => {
       window.open(url, '_blank');
   }
 };
-
+const detailCoin = (bot) => {
+  if (bot.token_mint) {
+    let url = `https://explorer.solana.com/address/${bot.token_mint}?cluster=devnet`;
+    window.open(url, '_blank')
+  }
+};
 </script>
 
 <style lang="scss" scoped>

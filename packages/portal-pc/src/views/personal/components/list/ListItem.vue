@@ -271,7 +271,11 @@ const lanchedMemeCoin = async (bot) => {
 };
 
 const detailCoin = (bot) => {
-  window.open(bot.meme_link, '_blank')
+  if (bot.token_mint) {
+    // let url = 'https://explorer.solana.com/address/GpfBHT3tov4XGZmscuRG4rQQMrjzk2eLrAq45cFRbZCb?cluster=devnet';
+    let url = `https://explorer.solana.com/address/${bot.token_mint}?cluster=devnet`;
+    window.open(url, '_blank')
+  }
 };
 </script>
 
