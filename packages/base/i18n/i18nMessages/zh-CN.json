@@ -1,106 +1,33 @@
 {
   "base": {
-    "a": "请输入知识库名称",
     "a1": "单次最多上传五个文件",
-    "action": {
-      "search": "检索"
-    },
     "ai_generate": "AI 生成",
-    "b": "知识库",
     "btn": "点击上传",
-    "c": "请输入有效链接",
-    "click": "点击按钮创建知识库",
-    "create_new": "构建属于你的第一个助手",
-    "description": "知识库描述",
-    "downloadTemp": "下载模版文件",
-    "e": "文件名称",
     "edit": "编辑基础信息",
-    "extra_0": "无",
-    "extra_1": "指令",
-    "extra_2": "图片",
-    "extra_3": "链接",
     "fileName": "文件《",
-    "fileTypePlaceholder": "文档状态",
-    "g": "序号",
-    "generateTooltip": "请输入知识库名称和介绍后，点击自动生成按钮，最多生成3次。",
-    "i": "解析进度",
-    "icon": "知识库图标",
-    "l": "操作",
     "label": {
       "createdAt": "创建时间",
-      "e": "停用",
       "fileNumber": "文件数",
       "fileSize": "文件大小",
       "fileUnit": "个",
-      "fileUnitNum": "个文件",
-      "isEnable": "状态",
-      "local": "本地文档",
-      "nf": "新增文件",
-      "qna": "QA问答",
-      "s": "启用",
-      "simi": "相似度",
-      "updatedAt": "编辑时间",
-      "words": "字符"
+      "nf": "新增文件"
     },
     "m": "重试",
-    "n1": "如果删除此文件,可能会导致绑定的其他机器人不可用,确定要删除吗？",
-    "name": "知识库名称",
-    "new": "创建知识库",
-    "no_base": "暂无知识库",
-    "no_date": "还没有文件哦，快来上传文件吧",
-    "not_found": "未找到知识库",
     "option": {
       "bind": "绑定",
-      "bound": "已绑定",
       "unbind": "移除"
     },
     "p": "》文件大小超过",
-    "place": {
-      "description": "这里是知识库的描述",
-      "name": "给知识库起一个独一无二的名字",
-      "test": "请输入测试文本"
-    },
     "pp": "》类型不支持",
-    "ruleMessage": {
-      "icon": "请上传知识库图标",
-      "name": "请填写知识库名称"
-    },
-    "sample": "Q&A问答模板",
-    "tab": {
-      "a": "搜索测试",
-      "b": "关联文件"
-    },
-    "title": {
-      "delete": "删除知识库",
-      "deleteSub": "将删除该知识库中所有文件以及助手的绑定关系，是否确认删除？",
-      "filename": "文件名称",
-      "select_status": "状态",
-      "select_type": "类型"
-    },
-    "uplaodSupportLocal": "形式多样使用方便",
-    "uplaodSupportQna": "导入问答对，增强准确性",
-    "uploadSupport": "支持 txt,pdf, md,html,doc,docx,xls,xlsx,csv,ppt,pptx 格式文件,每次最多上传5个文件，单个大小不超过20M",
-    "uploadSupportQna": "需和模板文件格式一致，",
     "uploadTip": "拖入文件或"
   },
   "bots": {
-    "PV": "数据概览",
     "a3": "分享",
-    "a8": "开场白",
     "a9": "请输入助手名称",
-    "analyze": {
-      "chat": "全部对话数",
-      "t1": "过去",
-      "t2": "天使用情况",
-      "user": "活跃用户数",
-      "users": "用户数"
-    },
-    "backup": " -- 副本",
     "basic_1": "选择",
     "bb": "复制成功",
     "bindKnowledge": "绑定知识库",
     "botAvatar": "修改头像",
-    "chats": "对话",
     "copy": "复制助手",
     "delete": "删除助手",
     "deleteDesc": "此操作仅会删除助手商店的助手，不会影响Telegram、Discord 和其他平台上已发布的助手，您可以在对应的平台上删除它们",
@@ -113,7 +40,6 @@
       "description": "助手介绍",
       "isVoice": "是否开启",
       "model": "模型",
-      "modify": "优化",
       "name": "助手名称",
       "notFound": "未命中策略",
       "notFoundTip1": "未找到知识库中相似内容时的策略",
@@ -121,7 +47,6 @@
       "notFoundTip3": "固定回复: 根据指定文本进行回复",
       "plugin": "插件列表",
       "preview": "预览与调试",
-      "previewDesc": "您可以在此处调试并预览当前助手的效果",
       "prologue": "开场白文案",
       "prologuePreset": "开场白预置问题",
       "searchCounts": "单次检索条数",
@@ -132,7 +57,6 @@
       "suggestion": "对话提示建议",
       "temperature": "温度",
       "temperatureTip": "温度越高回复越具有创意和不确定性，温度越低则回复更严谨",
-      "tip": "提示词",
       "tipModify": "提示词优化",
       "turns": "携带上下文轮数",
       "turnsTip": "设置带入模型上下文的对话历史轮数。轮数越多，多轮对话的相关性越高，但消耗的Token也越多",
@@ -159,7 +83,6 @@
       "tipWords": "这是你对机器人的设定和要求，说的越具体效果越好哦。例如: 请扮演平台的金牌客服，根据提供的已知信息解答用户的任何问题",
       "voiceType": "音色"
     },
-    "plugin": "插件",
     "publish": {
       "btn": "发布助手",
       "configured": "请先配置助手网页分享信息",
@@ -187,7 +110,6 @@
       },
       "line": "在 LINE 私人聊天中与您的助手互动。",
       "messenger": "在 Messenger 上与您的助手聊天，并使用元业务帐户与其他人分享。",
-      "pageTitle": "发布",
       "placeholder": {
         "password": "请输入密码",
         "passwordVali": "密码长度不得低于4位，且最大长度不得大于10位，任意数字或字母的组合"
@@ -196,19 +118,11 @@
       "robot": "右下角机器人",
       "robotDes": "支持在网站上配置机器人",
       "slack": "使用助手提高 Slack 工作空间的工作效率。",
-      "subtitle": "在以下第三方平台发布您的助手，即表示您已充分理解并同意遵循该平台的服务条款（包括但不限于任何隐私政策、社区指南、数据处理协议等）。",
       "telegram": "在 Telegram 私人聊天、群聊和频道中与助手互动",
-      "title": "选择发布平台",
       "website": "网页分享",
       "websiteDes": "用户在此链接可以直接和您的机器人聊天"
     },
     "publishAt": "发布于",
-    "publishWay": {
-      "plat": "本平台",
-      "social": "社交媒体",
-      "website": "Web网页"
-    },
-    "published": "已发布",
     "ruleMessage": {
       "catalog": "请至少选择一种分类",
       "description": "请填写助手描述",
@@ -216,20 +130,9 @@
       "name": "请填写助手名称"
     },
     "s": "上传文件只能是图片格式(jpg,png)!",
-    "status": "状态",
-    "tip": {
-      "tipWords": "请输入提示词"
-    },
-    "title": {
-      "analyze": "数据分析",
-      "design": "助手设计"
-    },
     "toPublish": "前往发布页面",
     "unpublish": "下架助手",
     "unpublishDesc": "此操作仅会从助手商店下架该助手，如需撤销授权社交媒体平台请移步至发布页面进行操作。",
-    "unpublished": "未发布",
-    "use": "助手使用情况",
-    "view": "查看助手",
     "w": "上传文件大小不能超过 5MB!",
     "ww": "头像仅支持JPG,PNG格式文件大小不能大于5MB"
   },
@@ -271,19 +174,10 @@
     "cancel": "取消",
     "clear": "清空",
     "confirm": "确定",
-    "d": "问",
-    "deleteSuccessful": "删除成功",
-    "deleted": "删除",
     "dislikeSuccess": "感谢您的反馈，希望给您提供更好的服务",
-    "done": "完成",
     "enter": "请输入",
     "expand": "展开",
-    "f": "答",
-    "fail": "操作失败",
     "fold": "收起",
-    "g": "扩展",
-    "h": "扩展内容",
-    "i": "保存成功",
     "language": {
       "en": "英文",
       "zh": "中文"
@@ -291,13 +185,10 @@
     "likeSuccess": "感谢您的支持",
     "loading": "加载中...",
     "next": "下一步",
-    "nodata": "暂无数据",
     "ok": "确定",
     "poweredBy": "Powered By",
     "productName": "Mojo GoGo",
     "productName_Cn": "千问千答",
-    "query": "查询",
-    "reset": "重置",
     "search": "搜索",
     "showThisLabel": "是否显示该标识",
     "stopResponding": "停止输出",
@@ -317,18 +208,13 @@
     "b": "请输入正确格式的邮箱",
     "c": "请填写4位数验证码",
     "e": "请勾选",
-    "needPassword": "您需要输入密码后才可以进行后续操作",
-    "password": "密码",
     "phoneNumber": "请输入正确的手机号码",
     "re-login": "身份认证已过期,请重新登录!",
-    "tips-3": "请输入您的密码",
     "validPassword": "密码长度不得少于8个字符，需包含大小写字母和数字"
   },
   "menu": {
     "ass": "助手商店",
-    "b": "知识库",
     "c": "助手",
-    "chat": "聊天",
     "d": "我的账户",
     "g": "当前网络不可用，请检查您的网络设置",
     "group": {
@@ -340,10 +226,6 @@
     "i": "系统错误"
   },
   "store": {
-    "action": {
-      "new": "开始对话",
-      "plat": "平台打开"
-    },
     "placeholder": {
       "name": "输入应用名称"
     },
@@ -361,22 +243,15 @@
     }
   },
   "user": {
-    "a": "个人中心",
-    "a3": "文档类型",
     "account": "账号",
     "avatarRequired": "请上传头像",
     "b": "退出登录",
-    "b1": "个人信息",
     "c": "确定退出登录吗？",
     "d": "头像",
-    "edit": "编辑",
     "editProfile": "编辑资料",
     "icon": "用户图标",
     "nameRequired": "请输入昵称",
     "nickName": "昵称",
-    "performanceLanguage": "设置您的首选语言，用于界面和AI 响应",
-    "preferredLanguage": "首选语言",
-    "submit": "提交",
-    "usualSetting": "常规设置"
+    "submit": "提交"
   }
 }

@@ -1,106 +1,33 @@
 {
   "base": {
-    "a": "請輸入知識庫名稱",
     "a1": "單次最多上傳五個檔案",
-    "action": {
-      "search": "檢索"
-    },
     "ai_generate": "AI 生成",
-    "b": "知識庫",
     "btn": "點擊上傳",
-    "c": "請輸入有效連結",
-    "click": "點擊按鈕建立知識庫",
-    "create_new": "建構屬於你的第一個助手",
-    "description": "知識庫描述",
-    "downloadTemp": "下載模版文件",
-    "e": "文件名稱",
     "edit": "編輯基礎訊息",
-    "extra_0": "無",
-    "extra_1": "指令",
-    "extra_2": "圖片",
-    "extra_3": "連結",
     "fileName": "文件《",
-    "fileTypePlaceholder": "檔案狀態",
-    "g": "序號",
-    "generateTooltip": "請輸入知識庫名稱和介紹後，點擊自動生成按鈕，最多生成3次。",
-    "i": "解析進度",
-    "icon": "知識庫圖標",
-    "l": "操作",
     "label": {
       "createdAt": "創建時間",
-      "e": "停用",
       "fileNumber": "文件數",
       "fileSize": "文件大小",
       "fileUnit": "個",
-      "fileUnitNum": "個文件",
-      "isEnable": "狀態",
-      "local": "本機文檔",
-      "nf": "新增文件",
-      "qna": "QA問答",
-      "s": "啟用",
-      "simi": "相似度",
-      "updatedAt": "編輯時間",
-      "words": "字元"
+      "nf": "新增文件"
     },
     "m": "重試",
-    "n1": "如果刪除此檔案，可能會導致綁定的其他機器人不可用，確定要刪除嗎？",
-    "name": "知識庫名稱",
-    "new": "創建知識庫",
-    "no_base": "暫無知識庫",
-    "no_date": "還沒有檔案哦，快來上傳檔案吧",
-    "not_found": "未找到知識庫",
     "option": {
       "bind": "綁定",
-      "bound": "已綁定",
       "unbind": "移除"
     },
     "p": "》文件大小超過",
-    "place": {
-      "description": "這裡是知識庫的描述",
-      "name": "給知識庫一個獨一無二的名字",
-      "test": "請輸入測試文字"
-    },
     "pp": "》類型不支持",
-    "ruleMessage": {
-      "icon": "請上傳知識庫圖標",
-      "name": "請填寫知識庫名稱"
-    },
-    "sample": "Q&A問答模板",
-    "tab": {
-      "a": "搜尋測試",
-      "b": "關聯文件"
-    },
-    "title": {
-      "delete": "刪除知識庫",
-      "deleteSub": "將刪除該知識庫中所有檔案以及助手的綁定關係，是否確認刪除？",
-      "filename": "檔案名稱",
-      "select_status": "狀態",
-      "select_type": "類型"
-    },
-    "uplaodSupportLocal": "形式多樣使用方便",
-    "uplaodSupportQna": "導入問答對，增強準確性",
-    "uploadSupport": "接受 txt,pdf, md,html,doc,docx,xls,xlsx,csv,ppt,pptx 格式檔案,每次最多上傳5個文件，單一大小不超過20M",
-    "uploadSupportQna": "需和範本文件格式一致，",
     "uploadTip": "拖入文件或"
   },
   "bots": {
-    "PV": "數據概覽",
     "a3": "分享",
-    "a8": "開場白",
     "a9": "請輸入助手名稱",
-    "analyze": {
-      "chat": "全部對話數",
-      "t1": "過去",
-      "t2": "天使用情況",
-      "user": "活躍用戶數",
-      "users": "使用者數"
-    },
-    "backup": " -- 備份",
     "basic_1": "選擇",
     "bb": "複製成功",
     "bindKnowledge": "綁定知識庫",
     "botAvatar": "修改頭像",
-    "chats": "對話",
     "copy": "拷貝助手",
     "delete": "刪除助手",
     "deleteDesc": "此操作只會刪除助手商店的助手，不會影響Telegram、Discord 和其他平台上已發布的助手，您可以在對應的平台上刪除它們",
@@ -113,7 +40,6 @@
       "description": "助手介紹",
       "isVoice": "是否開啟",
       "model": "模型",
-      "modify": "優化",
       "name": "助手名稱",
       "notFound": "未命中策略",
       "notFoundTip1": "未找到知識庫中相似內容時的策略",
@@ -121,7 +47,6 @@
       "notFoundTip3": "固定回复: 根據指定文字進行回复",
       "plugin": "插件列表",
       "preview": "預覽與調試",
-      "previewDesc": "您可以在此處調試並預覽當前助手的效果",
       "prologue": "開場白文案",
       "prologuePreset": "開場白預置問題",
       "searchCounts": "單次檢索條數",
@@ -132,7 +57,6 @@
       "suggestion": "對話提示建議",
       "temperature": "溫度",
       "temperatureTip": "溫度越高回覆越有創意和不確定性，溫度越低則回覆更嚴謹",
-      "tip": "提示詞",
       "tipModify": "提示詞優化",
       "turns": "攜帶上下文輪數",
       "turnsTip": "設定帶入模型上下文的對話歷史輪數。輪數越多，多輪對話的相關性越高，但消耗的Token也越多",
@@ -159,7 +83,6 @@
       "tipWords": "這是你對機器人的設定和要求，說的越具體效果越好。\n例如: 請扮演平台的金牌客服，根據提供的已知資訊解答用戶的任何問題",
       "voiceType": "音色"
     },
-    "plugin": "拓展",
     "publish": {
       "btn": "發布助手",
       "configured": "請先配置助手網頁分享信息",
@@ -187,7 +110,6 @@
       },
       "line": "在 LINE 私人聊天中與您的助手互動。",
       "messenger": "在 Messenger 上與您的助手聊天，並使用元業務帳戶與其他人分享。",
-      "pageTitle": "發布",
       "placeholder": {
         "password": "請輸入密碼",
         "passwordVali": "密碼長度不得低於4位，且最大長度不得大於10位，任意數字或字母的組合"
@@ -196,19 +118,11 @@
       "robot": "右下角機器人",
       "robotDes": "支援在網站上配置機器人",
       "slack": "使用助手提高 Slack 工作空間的工作效率。",
-      "subtitle": "在以下第三方平台發布您的助手，即表示您已充分瞭解並同意遵循該平台的服務條款（包括但不限於任何隱私權政策、社群指南、資料處理協議等）。",
       "telegram": "在 Telegram 私人聊天、群組聊天和頻道中與助理互動",
-      "title": "選擇發布平台",
       "website": "網頁分享",
       "websiteDes": "用戶在此連結可以直接與您的機器人聊天"
     },
     "publishAt": "發佈於",
-    "publishWay": {
-      "plat": "本平台",
-      "social": "社群媒體",
-      "website": "Web網頁"
-    },
-    "published": "已發布",
     "ruleMessage": {
       "catalog": "請至少選擇一種分類",
       "description": "請填寫助手描述",
@@ -216,20 +130,9 @@
       "name": "請填寫助手名稱"
     },
     "s": "上傳文件只能是圖片格式(jpg,png)!",
-    "status": "狀態",
-    "tip": {
-      "tipWords": "請輸入提示詞"
-    },
-    "title": {
-      "analyze": "數據分析",
-      "design": "助手設計"
-    },
     "toPublish": "前往發布頁面",
     "unpublish": "下架助手",
     "unpublishDesc": "此操作僅會從助手商店下架該助手，如需撤銷授權社群媒體平台請移步至發布頁面進行操作。",
-    "unpublished": "未發布",
-    "use": "助手使用情況",
-    "view": "查看助手",
     "w": "上傳文件大小不能超過 5MB!",
     "ww": "頭像僅支持JPG、PNG格式，檔案大小不能大於5MB"
   },
@@ -271,19 +174,10 @@
     "cancel": "取消",
     "clear": "清空",
     "confirm": "確定",
-    "d": "問",
-    "deleteSuccessful": "刪除成功",
-    "deleted": "刪除",
     "dislikeSuccess": "感謝您的反饋，希望給您提供更好的服務",
-    "done": "完成",
     "enter": "請輸入",
     "expand": "打開",
-    "f": "答",
-    "fail": "操作失敗",
     "fold": "折疊",
-    "g": "擴充",
-    "h": "擴充內容",
-    "i": "保存成功",
     "language": {
       "en": "英文",
       "zh": "中文"
@@ -291,13 +185,10 @@
     "likeSuccess": "感謝您的支持",
     "loading": "載入中...",
     "next": "下一步",
-    "nodata": "無數據",
     "ok": "確定",
     "poweredBy": "Powered By",
     "productName": "SafeGen AI",
     "productName_Cn": "千问千答",
-    "query": "查詢",
-    "reset": "重置",
     "search": "檢索",
     "showThisLabel": "是否顯示該標識",
     "stopResponding": "停止輸出",
@@ -317,18 +208,13 @@
     "b": "請輸入正確格式的郵箱",
     "c": "請填寫4位數驗證碼",
     "e": "請勾選",
-    "needPassword": "您需要輸入密碼後才可以進行後續操作",
-    "password": "密碼",
     "phoneNumber": "請輸入合法的手機號碼",
     "re-login": "身份認證已過期,請重新登入!",
-    "tips-3": "請輸入您的密碼",
     "validPassword": "密碼長度不得少於8個字元，需包含大小寫字母和數字"
   },
   "menu": {
     "ass": "助手商店",
-    "b": "知識庫",
     "c": "助手",
-    "chat": "對話",
     "d": "我的帳戶",
     "g": "當前網絡不可用，請檢查您的網絡設置",
     "group": {
@@ -340,10 +226,6 @@
     "i": "系統錯誤"
   },
   "store": {
-    "action": {
-      "new": "開始對話",
-      "plat": "平台打開"
-    },
     "placeholder": {
       "name": "輸入應用程式名稱"
     },
@@ -361,22 +243,15 @@
     }
   },
   "user": {
-    "a": "個人中心",
-    "a3": "文檔類型",
     "account": "賬號",
     "avatarRequired": "請上傳頭像",
     "b": "退出登錄",
-    "b1": "個人信息",
     "c": "確定退出登錄嗎？",
     "d": "頭像",
-    "edit": "編輯",
     "editProfile": "編輯資料",
     "icon": "使用者圖示",
     "nameRequired": "請輸入暱稱",
     "nickName": "昵稱",
-    "performanceLanguage": "設置您的首選語言，用於界面和 AI 響應",
-    "preferredLanguage": "首選語言",
-    "submit": "提交",
-    "usualSetting": "常規設定"
+    "submit": "提交"
   }
 }
