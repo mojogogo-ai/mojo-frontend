@@ -41,7 +41,7 @@
               Published
             </div>
 
-            <div v-if="bot.bot_type===1&&bot.meme_state === 3" class="p-2 bmiclt-btn" @click.stop="detailCoin">
+            <div v-if="bot.bot_type===1&&bot.meme_state === 3" class="p-2 bmiclt-btn" @click.stop="detailCoin(bot)">
               <el-avatar
                 size="small"
                 :src="bot.meme_icon"
@@ -260,10 +260,10 @@ const lanchedMemeCoin = async (bot) => {
 
 };
 
-const detailCoin = (bot) => {
-  if (bot.token_mint) {
+const detailCoin = (item) => {
+  if (item.meme_token_mint) {
     // let url = 'https://explorer.solana.com/address/GpfBHT3tov4XGZmscuRG4rQQMrjzk2eLrAq45cFRbZCb?cluster=devnet';
-    let url = `https://explorer.solana.com/address/${bot.token_mint}?cluster=devnet`;
+    let url = `https://explorer.solana.com/address/${item.meme_token_mint}?cluster=devnet`;
     window.open(url, '_blank')
   }
 };
