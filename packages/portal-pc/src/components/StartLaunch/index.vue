@@ -10,12 +10,7 @@
     align-center
   >
     <div class="success-result-content">
-      <!-- <el-result
-        icon="Info"
-        title="Successfully created"
-        sub-title="Please launch the meme bot."
-      /> -->
-      <p class="">Successfully created. Cost to launch an AI agent is 0.02 SOL.</p>
+      <p class="">Successfully created. Confirm and launch.</p>
     </div>
     <template #footer>
       <div class="flex justify-center w-full">

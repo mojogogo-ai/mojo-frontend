@@ -1,10 +1,6 @@
 <template>
   <div class="w-[562px] mx-auto">
     <div class="text-center  mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">Create Meme Bot</div>
-    <div class="w-full h-[38px] mb-2 px-3.5 py-3 bg-[#e1ff01]/5 rounded-xl justify-start items-start gap-3 inline-flex">
-      <div class="w-3.5 h-3.5 relative"><el-icon color="#e1ff01"><WarningFilled /></el-icon></div>
-      <div class="grow shrink basis-0 opacity-80 text-[#e1ff01] text-[12px] font-medium font-['Inter']">Cost to launch an AI agent is 0.02 SOL.</div>
-    </div>
     <el-form
       ref="formRef"
       label-position="top"
@@ -16,12 +12,12 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item
-            label="Your name"
+            label="Meme bot name"
             prop="name"
           >
             <el-input
               v-model="form.name"
-              placeholder="Your name"
+              placeholder="Meme bot name"
               maxlength="50"
               show-word-limit
               clearable
@@ -304,7 +300,7 @@ const form = reactive({
   is_personalize_image_icon: false
 });
 const rules = reactive({
-  name: [{ required: true, message: t('bots.ruleMessage.name') }],
+  name: [{ required: true, message: 'Meme bot name' }],
   classification: [{ required: true, message: t('bots.ruleMessage.catalog'), trigger: 'change' }],
   telegram_bot_address: [{ required: true, message: 'Telegram address' }],
   telegram_bot_token: [{ required: true, message: 'Please enter Telegram Bot token' }],
