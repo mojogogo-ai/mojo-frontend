@@ -12,12 +12,12 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item
-            label="Meme bot name"
+            label="Bot name"
             prop="name"
           >
             <el-input
               v-model="form.name"
-              placeholder="Meme bot name"
+              placeholder="Bot name"
               maxlength="50"
               show-word-limit
               clearable
