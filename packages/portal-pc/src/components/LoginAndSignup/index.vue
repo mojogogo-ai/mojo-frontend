@@ -105,7 +105,6 @@ import { ref } from 'vue';
 import { ElScrollbar, ElDivider, ElIcon, ElMessageBox, ElMessage } from 'element-plus';
 import LoginLogo from './LoginLogo';
 import { LoginForm, RegisterForm } from '@/components/LoginAndSignup/components';
-// import 'firebaseui/dist/firebaseui.css';
 import { welcomeAccess } from '@gptx/base/api/login';
 import facebookIcon from '@/assets/svg/Facebook.svg';
 import appleIcon from '@/assets/svg/apple.svg';
