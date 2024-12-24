@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import createVitePlugins from './vite/plugins'
-// import optimize from './vite/optimize'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 // vite 相关配置
@@ -43,19 +42,6 @@ export default defineConfig(({ mode, command }) => {
         }
       }
     },
-    // optimizeDeps: optimize, // 目前没用到
-
-    // optimizeDeps: {
-    //   include: ["@project-serum/anchor", "@solana/web3.js", "buffer"],
-    //   esbuildOptions: {
-    //     target: "esnext",
-    //     define: {
-    //       global: "globalThis",
-    //     },
-    //     plugins: [],
-    //   },
-    // },
-
     build: {
       outDir: 'dist', // 指定输出路径
       reportCompressedSize: false, // 启用/禁用 gzip 压缩大小报告。禁用该功能可能会提高大型项目的构建性能。

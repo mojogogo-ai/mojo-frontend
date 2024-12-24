@@ -15,16 +15,6 @@ export default function createCompression (env) {
         })
       )
     }
-    if (compressList.includes('brotli')) {
-      plugin.push(
-        compression({
-          verbose: false,
-          ext: '.br',
-          algorithm: 'brotliCompress',
-          deleteOriginFile: false
-        })
-      )
-    }
   }
   return plugin
 }
