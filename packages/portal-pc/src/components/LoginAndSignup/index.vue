@@ -48,11 +48,11 @@
               <img :src="facebookIcon" alt="facebook">
             </template>
           </el-icon>
-          <el-icon :size="48" class="cursor-pointer ant-icon" @click="handleIconClick('apple')">
+          <!-- <el-icon :size="48" class="cursor-pointer ant-icon" @click="handleIconClick('apple')">
             <template #default>
               <img :src="appleIcon" alt="apple">
             </template>
-          </el-icon>
+          </el-icon> -->
           <el-icon :size="48" class="cursor-pointer ant-icon" :loading="firebaseLoading" @click="handleIconClick('google')">
             <template #default>
               <img :src="googleIcon" alt="google">
