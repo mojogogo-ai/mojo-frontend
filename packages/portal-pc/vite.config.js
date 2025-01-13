@@ -45,15 +45,15 @@ export default defineConfig(({ mode, command }) => {
             });  
           },  
         },
-        '/portal': {
-            target: 'https://mojo-api.wanbin.tech', 
-            changeOrigin: true, 
-            configure: (proxy) => {  
-              proxy.on('proxyReq', (proxyReq, req, res) => {  
-                console.log(`[vite.proxy] Redirecting ${req.method} request: ${req.url} => ${proxyReq.path}`);  
-              });  
-            },  
-          },  
+        // '/portal': {
+        //     target: 'https://mojo-api.wanbin.tech', 
+        //     changeOrigin: true, 
+        //     configure: (proxy) => {  
+        //       proxy.on('proxyReq', (proxyReq, req, res) => {  
+        //         console.log(`[vite.proxy] Redirecting ${req.method} request: ${req.url} => ${proxyReq.path}`);  
+        //       });  
+        //     },  
+        //   },  
       }
     },
     build: {
