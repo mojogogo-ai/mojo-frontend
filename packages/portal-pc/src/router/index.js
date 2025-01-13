@@ -146,18 +146,6 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '',
-    component: Layout,
-    children: [
-      {
-        path: '/twitterbutton',
-        component: () => import('@/views/twitterbutton/index.vue'),
-        name: 'twitterbutton',
-        meta: { title: 'twitterbutton'}
-      }
-    ]
-  },
 ];
 export const asyncRouterMap = []
 
