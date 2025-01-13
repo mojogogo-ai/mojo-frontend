@@ -130,12 +130,7 @@
         label="Twitter"
         prop="twitter"
       >
-        <el-input
-          v-model="form.twitter"
-          placeholder="twitter"
-          maxlength="255"
-          clearable
-        />
+        <TwitterButton />
       </el-form-item>
       <el-form-item
         label="Configure Telegram address"
@@ -256,6 +251,16 @@
       >
         {{ submitText }}
       </el-button>
+      <el-button
+        style="width: 250px;"
+        type="primary"
+        :loading="loading"
+        :disabled="loading"
+        linear
+        @click="conversationBot()"
+      >
+        {{ conversationText }}
+      </el-button>
     </div>
 
     <UploadKnowledge
@@ -280,6 +285,7 @@ import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
 import UploadKnowledge from './uploadKnowledge/index.vue';
 import StartLaunch from '@/components/StartLaunch/index.vue';
 import { ref } from 'vue';
+import TwitterButton from './twitterbutton/index.vue';
 const router = useRouter();
 // const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
@@ -416,6 +422,12 @@ const submitHandle = async (el) => {
       }
     }
   });
+};
+
+const conversationText = ref('Conversation')
+const conversationBot = async (el) => {
+   router.push({ path: '/conversation' });
+  
 };
 
 const unlockedRef = ref(null)

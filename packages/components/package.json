@@ -15,7 +15,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vant": "^4.9.4"
+    "vant": "^4.9.4",
+    "marked": "^15.0.5"
   },
   "devDependencies": {
     "@vant/auto-import-resolver": "^1.2.1"

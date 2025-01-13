@@ -24,8 +24,6 @@
                 :suggested-question="suggestedQuestion||[]"
                 :last-flag="index == dataSources.length - 1"
                 :conversation-options="item.conversationOptions"
-                @regenerate-again="onRegenerateAgain()"
-                @ealuate="handleEaluate(item, index, $event)"
                 @predefined-question-handle="predefinedQuestionHandle"
               />
             </div>
@@ -37,23 +35,7 @@
       class="p-4"
     >
       <div style="max-width: 780px;" class="m-auto">
-        <div v-if="loading" class="flex justify-center w-full mb-2">
-          <el-button class="chat-operation" @click="handleStop">
-            <template #icon>
-              <el-icon><VideoPause /></el-icon>
-            </template>
-            <span>{{ $t('common.stopResponding') }}</span>
-          </el-button>
-        </div>
         <div class="flex flex-col items-center justify-between">
-          <div class="flex" style="position:relative; margin-bottom: 8px; width: 100%;">
-            <el-button :loading="clearLoading" :disabled="dataSources.length < 2" :class="{'chat-operation': dataSources.length > 1}" @click="handleClear">
-              <template #icon>
-                <el-icon><Delete /></el-icon>
-              </template>
-              <span>{{ $t('chat.operate_4') }}</span>
-            </el-button>
-          </div> 
           <div class="flex items-center justify-between w-full space-x-2">
             <div v-if="!isMobi()" class="flex flex-col justify-between w-full ">
               <NInput
@@ -111,10 +93,6 @@
                       {{ filesize(file.file_size) }}
                     </div>
                   </div>
-
-                  <div class="absolute cursor-pointer top-[6px] right-[6px] hover:opacity-85" @click="handleRemove(file)">
-                    <el-icon :size="16"><CircleClose /></el-icon>
-                  </div>
                 </div>
               </div>
             </div>
@@ -147,7 +125,6 @@
       ref="baseFileUploadRef"
       @reload="onReload"
     />
-    <DisLike ref="dialogRef" @dislike-submit="Dislike_Submit" />
   </div>
 </template>
   <script setup>
@@ -261,15 +238,15 @@
     let authToken = await getToken()
     let refsList = filetList.value.map(i=> i.ref)
     filetList.value = []
-    fetchEventSource(window.BASE_API + props.chatApiUrl, {
+    fetchEventSource("/v2" + props.chatApiUrl, {
       signal: controller.signal,
       method: 'POST',
       openWhenHidden: true,
       headers: {
         Authorization: `Bearer ${authToken}`,
-        // 'X-Client-Locale': lang === 'zh' ? 'zh-CN' : lang, // Locale
-        // 'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
-        // 'X-Client-Site': window.SITE_TYPE // X-Client-Site
+        'X-Client-Locale': 'zh-CN',//lang === 'zh' ? 'zh-CN' : lang, // Locale
+        'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
+        'X-Client-Site': '1'//window.SITE_TYPE // X-Client-Site
       },
       body: JSON.stringify({ // 参数
         app_id: chatStore.getChatHistoryByCurrentActive.id,
@@ -415,169 +392,6 @@
     })
   }
   
-  const onRegenerateAgain = () =>{
-    let lastAsk = dataSources.value[dataSources.value.length - 2].text
-    onConversation(lastAsk)
-  }
-  
-  function handleEaluate (item, index, bol) { // Ealuate
-    console.log(index, bol, 'index, bol')
-    if(bol) {
-      handleLike(item.conversationOptions.mid,index);
-    }else {
-      handleDislike(item.conversationOptions.mid,index)
-    }
-  }
-  
-  function handleLike (mid,index) {
-    let obj = {
-      mid: mid,
-      evaluate:2,
-    };
-    evaluateApi(obj).then((res) => {
-      if (res.code === 200) {
-        ElMessage.success(t('common.likeSuccess'));
-        chatStore.updateChatSomeByUuid(chatStore.active, index,
-            {
-              isGood: 2
-            }
-          )
-        }
-      }).catch(() => {
-    });
-  }
-  
-  function handleDislike (mid,index) {
-    itemMsgId.value = mid;
-    itemIndex.value = index;
-    dialogRef.value.show();
-  }
-  
-  function Dislike_Submit(val){
-    let obj = {
-      mid: itemMsgId.value,
-      evaluate:3,
-      tapType:val.tapType,
-      content:val.content,
-    };
-    evaluateApi(obj).then((res) => {
-      if (res.code === 200) {
-        ElMessage.success(t('common.dislikeSuccess'));
-        chatStore.updateChatSomeByUuid(chatStore.active, itemIndex.value,
-            {
-              isGood: 3
-            }
-          )
-        dialogRef.value.show();
-        }
-      }).catch(() => {
-    });
-  }
-  
-  function handleClear () {
-    if (loading.value) {
-      return
-    }
-    if(isMobi()){
-      showConfirmDialog({
-        title: t('chat.clearChat'),
-        message: t('chat.clearChatConfirm'),
-        confirmButtonText: t('common.clear'),
-        cancelButtonText: t('common.cancel'),
-        showConfirmButton: true
-      }).then(() => {
-        if (chatStore.getChatHistoryByCurrentActive.shared_key) { // shared chat
-          __shareNewSession()
-        } else {
-          __chatNewSession()
-        }
-      }).catch(() => {
-      });
-    } else {
-
-      ElMessageBox.confirm(
-        t('chat.clearChatConfirm'),
-        t('chat.clearChat'),
-        {
-          autofocus: false,
-          confirmButtonText: t('common.clear'),
-          cancelButtonText: t('common.cancel'),
-          type: 'warning'
-        }
-      ).then(() => {
-          if (chatStore.getChatHistoryByCurrentActive.shared_key) { // shared chat
-            __shareNewSession()
-          } else {
-            __chatNewSession()
-          }
-        })
-        .catch(() => { })
-    }
-  }
-  function __shareNewSession () {
-      clearLoading.value = true
-      shareNewSession({
-        // "debug": props.isDebug,
-        "shared_key": chatStore.getChatHistoryByCurrentActive.shared_key,
-      }).then((res) => {
-        if (res.code === 200) {
-          suggestedQuestion.value = []
-          chatStore.clearChatByUuid(chatStore.active)
-          // 此处注意兼容home页的聊天
-          chatStore.updateHistory(chatStore.active, {
-            sid: '',
-            predefined_question: chatStore.getChatHistoryByCurrentActive.predefined_question,
-          })
-          chatStore.addChatByUuid(
-            // 设置开场白
-            chatStore.active,
-            {
-              text: chatStore.getChatHistoryByCurrentActive.prologue.content || chatStore.getChatHistoryByCurrentActive.prologue,
-              predefined_question:chatStore.getChatHistoryByCurrentActive.predefined_question,
-              inversion: false,
-              isPrologue: true,
-              isHome: chatStore.getChatHistoryByCurrentActive.isHome,
-              error: false,
-              conversationOptions: null
-            }
-          );
-        }
-        clearLoading.value = false
-      }).catch(() => { clearLoading.value = false });
-  }
-
-  function __chatNewSession () {
-      clearLoading.value = true
-      chatNewSession({
-        "debug": props.isDebug,
-        "app_id": chatStore.getChatHistoryByCurrentActive.id,
-      }).then((res) => {
-        if (res.code === 200) {
-          suggestedQuestion.value = []
-          chatStore.clearChatByUuid(chatStore.active)
-          // 此处注意兼容home页的聊天
-          chatStore.updateHistory(chatStore.active, {
-            sid: '',
-            predefined_question: chatStore.getChatHistoryByCurrentActive.predefined_question,
-          })
-          chatStore.addChatByUuid(
-            // 设置开场白
-            chatStore.active,
-            {
-              text: chatStore.getChatHistoryByCurrentActive.prologue.content || chatStore.getChatHistoryByCurrentActive.prologue,
-              predefined_question:chatStore.getChatHistoryByCurrentActive.predefined_question,
-              inversion: false,
-              isPrologue: true,
-              isHome: chatStore.getChatHistoryByCurrentActive.isHome,
-              error: false,
-              conversationOptions: null
-            }
-          );
-        }
-        clearLoading.value = false
-      }).catch(() => { clearLoading.value = false });
-  }
-  
   function handleEnter (event) {
     if (!isMobi()) {
       if (event.key === 'Enter' && !event.shiftKey) {
@@ -589,15 +403,6 @@
         event.preventDefault()
         onConversation()
       }
-    }
-  }
-  
-  function handleStop () {
-    if (loading.value) {
-      controller.abort()
-      chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, { loading: false })
-      loading.value = false;
-      regenerateLoading.value = true;
     }
   }
 
@@ -625,12 +430,6 @@
   const onReload = (file) => {
     filetList.value = [...file]
     console.log(filetList.value, 'filetList.value99')
-  };
-
-  const handleRemove = (file) => {
-    const uid = file.uid;
-    const index = filetList.value.findIndex((_) => _.uid === uid);
-    filetList.value.splice(index, 1);
   };
   
   onMounted(() => {

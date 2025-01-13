@@ -122,7 +122,42 @@ export const constantRoutes = [
       }
     ]
   },
-  
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/conversation',
+        component: () => import('@/views/conversation/index.vue'),
+        name: 'conversation',
+        meta: { title: 'Conversation'}
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/twittersuccess',
+        component: () => import('@/views/twittersuccess/index.vue'),
+        name: 'twittersuccess',
+        meta: { title: 'Success'}
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/twitterbutton',
+        component: () => import('@/views/twitterbutton/index.vue'),
+        name: 'twitterbutton',
+        meta: { title: 'twitterbutton'}
+      }
+    ]
+  },
 ];
 export const asyncRouterMap = []
 
