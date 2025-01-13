@@ -36,12 +36,12 @@ export default defineConfig(({ mode, command }) => {
       host: true,
       open: true,
       proxy: {
-        '/v2': {
-          target: 'https://chat-dev.dappworks.cn/', // 开发
+        '/v1': {
+          target: 'https://api-dev.mojogogo.ai/portal/',
           changeOrigin: true,
           configure: (proxy, options) => {  
             proxy.on('proxyReq', (proxyReq, req, res) => {  
-              console.log(`Proxying request to: ${proxyReq.getHeader('host')}${proxyReq.path}`);  
+              console.log(`Proxying request to: ${proxyReq.protocol}//${proxyReq.getHeader('host')}${proxyReq.path}`);  
             });  
           },  
         },
