@@ -21,39 +21,14 @@
             style="margin-right: 8px"
             index="/personal"
           >
-            Personal
+            MyMeme
           </el-menu-item>
-          <el-sub-menu
-            index="/assistant-group"
-            :popper-offset="15"
-            popper-class="customs-sub-menu"
+          <el-menu-item
+            style="margin-right: 8px"
+            index="/assistant"
           >
-            <template #title>
-              Explore
-            </template>
-            <el-menu-item
-              style="min-width: 240px;"
-              index="/assistant"
-            >
-              <div class="flex  px-[5px] ">
-                <div class="mr-[16px] flex h-9 w-9 items-center justify-center rounded-full bg-black">
-                  <svg-icon
-                    style="color: rgba(225, 255, 1, 1); font-size: 24px"
-                    name="bot-store"
-                  />
-                </div>
-                <div class="flex flex-col">
-                  <div class="mb-3 font-['Inter'] text-xl font-bold text-black">{{ $t('menu.ass') }}</div>
-                  <div
-                    class="text-sm font-medium text-wrap
-                   text-black w-[243px]"
-                  >
-                    Offer daily clothing inspirations for you every day.
-                  </div>
-                </div>
-              </div>
-            </el-menu-item>
-          </el-sub-menu>
+            Explore
+          </el-menu-item>
         </el-menu>
       </div>
       <div class="create-bot-button">
@@ -62,7 +37,21 @@
           :ellipsis="false"
           class="font-[TTNormsPro] create-menu"
         >
-          <el-sub-menu
+        <el-menu-item
+              style="min-width: 240px;"
+              @click="createHandleSelect('2')"
+            >
+              <div class="flex px-[5px] justify-center items-center ">
+                <div class="mr-[16px] flex h-9 w-9 items-center justify-center rounded-full bg-black">
+                  <svg-icon
+                    style="color: rgba(225, 255, 1, 1); font-size: 24px"
+                    name="lucide-bot"
+                  />
+                </div>
+                <div class="font-['Inter'] text-xl font-bold text-black">Meme Bot</div>
+              </div>
+            </el-menu-item>
+          <!-- <el-sub-menu
             :popper-offset="15"
             popper-class="customs-sub-menu2"
           >
@@ -97,7 +86,7 @@
                 <div class="font-['Inter'] text-xl font-bold text-black">Meme Bot</div>
               </div>
             </el-menu-item>
-          </el-sub-menu>
+          </el-sub-menu> -->
         </el-menu>
       </div>
       <div class="flex items-center">

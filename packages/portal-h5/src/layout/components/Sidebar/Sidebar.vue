@@ -23,9 +23,9 @@
         Home
       </div>
       <div class="menu-cs-item" @click="goPage(2)">
-        Personal
+        MyMeme
       </div>
-      <div class="menu-cs-item explore-item" @click="goPage(3)">
+      <div class="menu-cs-item" @click="goPage(3)">
         Explore
       </div>
     </div>
