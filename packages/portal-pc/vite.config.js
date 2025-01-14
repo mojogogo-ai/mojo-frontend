@@ -36,24 +36,24 @@ export default defineConfig(({ mode, command }) => {
       host: true,
       open: true,
       proxy: {
-        '/v1': {
-          target: 'https://api-dev.mojogogo.ai/portal/',
-          changeOrigin: true,
-          configure: (proxy, options) => {  
-            proxy.on('proxyReq', (proxyReq, req, res) => {  
-              console.log(`Proxying request to: ${proxyReq.protocol}//${proxyReq.getHeader('host')}${proxyReq.path}`);  
-            });  
-          },  
-        },
-        // '/portal': {
-        //     target: 'https://mojo-api.wanbin.tech', 
-        //     changeOrigin: true, 
-        //     configure: (proxy) => {  
-        //       proxy.on('proxyReq', (proxyReq, req, res) => {  
-        //         console.log(`[vite.proxy] Redirecting ${req.method} request: ${req.url} => ${proxyReq.path}`);  
-        //       });  
-        //     },  
+        // '/v1': {
+        //   target: 'https://api-dev.mojogogo.ai/portal/',
+        //   changeOrigin: true,
+        //   configure: (proxy, options) => {  
+        //     proxy.on('proxyReq', (proxyReq, req, res) => {  
+        //       console.log(`Proxying request to: ${proxyReq.protocol}//${proxyReq.getHeader('host')}${proxyReq.path}`);  
+        //     });  
         //   },  
+        // },
+        '/portal': {
+            target: 'https://mojo-api.wanbin.tech', 
+            changeOrigin: true, 
+            configure: (proxy) => {  
+              proxy.on('proxyReq', (proxyReq, req, res) => {  
+                console.log(`[vite.proxy] Redirecting ${req.method} request: ${req.url} => ${proxyReq.path}`);  
+              });  
+            },  
+          },  
       }
     },
     build: {

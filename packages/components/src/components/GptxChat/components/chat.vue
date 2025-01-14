@@ -189,6 +189,11 @@
     }
   })
 
+  let messages = []; // 消息记录
+  let sid = null; // 用于存储 SID
+  let botId = null;
+  let currentToken = null; // Store for current token
+
   const inputTrim= (value) => !value.startsWith(" ")
   
   watch(() => dataSources.value.length, (len) => {
@@ -235,31 +240,39 @@
     scrollToBottom()
     let lastText = ''
   
-    let authToken = await getToken()
-    let refsList = filetList.value.map(i=> i.ref)
+    // let authToken = await getToken() TODO: replace fetch with getToken()
+    const response = await fetch('http://localhost:9004/portal/v1/open/auth/grant-token', {  
+      method: 'POST',  
+      headers: {  
+        'Content-Type': 'application/json',  
+      },  
+      body: JSON.stringify({  
+        appid: 'I6iz8SAHfimCuGQMCbwN',  
+        appkey: 'PcpTHb2q6w39oxQqCP1s',  
+        uid: 'sdfasfas',  
+      }),  
+    });  
+    const data = await response.json();  
+    
     filetList.value = []
-    fetchEventSource("/v2" + props.chatApiUrl, {
+    fetchEventSource("/portal" + '/v1/bot/meme-chat?token=' + data.data.token,{ //props.chatApiUrl, {
       signal: controller.signal,
       method: 'POST',
       openWhenHidden: true,
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        'X-Client-Locale': 'zh-CN',//lang === 'zh' ? 'zh-CN' : lang, // Locale
-        'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
-        'X-Client-Site': '1'//window.SITE_TYPE // X-Client-Site
-      },
-      body: JSON.stringify({ // 参数
-        app_id: chatStore.getChatHistoryByCurrentActive.id,
-        shared_key: chatStore.getChatHistoryByCurrentActive.shared_key || undefined, // shared chat
-        sid: chatStore.getChatHistoryByCurrentActive.sid || '',
-        refs: refsList.length ? refsList : undefined,
-        prompt: message,
-        stream: true
-      }),
+      headers: {  
+        'Content-Type': 'application/json',  
+      },  
+      body: JSON.stringify({  
+        bot_id: botId,  
+        prompt: message,  
+        stream: true,  
+        sid: sid,  
+      }),  
       onmessage (event) {
         const eData = JSON.parse(event.data)
         console.log('onmessage', eData)
-        // const data = JSON.parse(chunk)
+        botId = eData.bot_id
+        sid = eData.sid
         lastText = lastText + eData.content
         chatStore.updateChatByUuid(
           chatStore.active,
@@ -276,104 +289,6 @@
         chatStore.updateHistory(chatStore.active, {
           sid: eData.sid,
         })
-        suggestedQuestion.value = []
-        if(eData.data&&eData.data.suggested_question){
-          
-          try {
-            let suggested_question = JSON.parse(eData.data.suggested_question) || []
-
-            if (suggested_question[0] && typeof(suggested_question[0])==='string') {
-              suggestedQuestion.value = suggested_question
-            } else{
-              suggestedQuestion.value = []
-            }
-
-            setTimeout(()=>{
-              scrollToBottom()
-            }, 800)
-          } catch (e) {
-            console.log(e);
-            suggestedQuestion.value = []
-          }
-
-        }
-      },
-      onopen: async (response) => {
-        // {"code":500,"msg":"system error, please contact administrator","data":null}
-        if (response.ok && response.headers.get('content-type') === 'application/json') {
-          let res = await response.text()
-          res = JSON.parse(res) || null
-          console.log('response', res)
-          if (res && res.code && res.code === 401) {
-            controller.abort()
-            chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, {
-              text: t('login.re-login'),
-              error: true,
-              loading: false
-            })
-            loading.value = false
-            return false
-          } else if (res && res.code && (res.code === 901 || res.code === 902)) { // 游客，触发登录
-            controller.abort()
-            chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, {
-              text: t('chat.tip1'),
-              error: true,
-              loading: false
-            })
-            loading.value = false
-            emit('onError', res)
-            return false
-          }  else if (res && res.code && (res.code === 500 || res.code === 999)) {
-            controller.abort()
-            chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, {
-              text: res.msg,
-              error: true,
-              loading: false
-            })
-            loading.value = false
-            return false
-          } else if (res && res.code && res.code !== 200){
-            controller.abort()
-            loading.value = false
-            return false
-            //
-          } else {
-            //
-          }
-          // everything's good
-        }
-      },
-      onerror (onerror) {
-        console.log('onerror', onerror)
-        const errorMessage = t('common.wrong')
-        const currentChat = chatStore.getChatByUuidAndIndex(chatStore.active, dataSources.value.length - 1)
-        if (currentChat?.text && currentChat.text !== '') { // 中途意外出错，提示
-          chatStore.updateChatSomeByUuid(
-            chatStore.active,
-            dataSources.value.length - 1,
-            {
-              text: `${currentChat.text}\n[${errorMessage}]`,
-              error: true,
-              loading: false
-            }
-          )
-        }
-        chatStore.updateChatByUuid(
-          chatStore.active,
-          dataSources.value.length - 1,
-          {
-            text: errorMessage,
-            inversion: false,
-            error: true,
-            loading: false,
-            conversationOptions: null
-          }
-        )
-        controller.abort()
-        loading.value = false
-  
-        scrollToBottomIfAtBottom()
-        throw err; 
       },
       onclose () {
         chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, { loading: false })
