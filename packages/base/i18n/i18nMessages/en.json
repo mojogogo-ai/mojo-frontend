@@ -141,6 +141,7 @@
     "ww": "Avatar images must be in JPG or PNG format and must not exceed 5MB in size"
   },
   "chat": {
+    "start":"Start",
     "clearChat": "Conversation History",
     "clearChatConfirm": "Are you sure to clear this Conversation?",
     "copy": "Copy",

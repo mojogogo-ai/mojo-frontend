@@ -14,7 +14,7 @@ const router = useRouter();
 const chatApiUrl =  '/portal/conversation/chat-anonymous';
 const botConfig = ref(null)
 const _getChatDetail = async () => {
-  let systemBot = JSON.parse('{"id":"SafeGen-AI-Chat","name":"SafeGen AI","icon":"","prologue":"When you have the inspiration to create an assistant, just tell me your ideas, and I can help you create one. Additionally, if you need inspiration, feel free to browse the assistant store anytime to see what other developers have made; it might just spark your creativity!","description":"","system":true}')
+  let systemBot = JSON.parse('{"id":"SafeGen-AI-Chat","name":"SafeGen AI","icon":"","prologue":"Welcome to meme bot. Click start to start the journey","description":"","system":true}')
   let predefined_question = systemBot.predefined_question ? systemBot.predefined_question.map((i)=>{ return { content:i } }):[]
   let prologue =  { content: systemBot.prologue ||"" }
   let resData = { app:{ ...systemBot, system:true}, predefined_question, prologue, isHome: true }

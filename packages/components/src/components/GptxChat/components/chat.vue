@@ -38,6 +38,15 @@
         <div class="flex flex-col items-center justify-between">
           <div class="flex items-center justify-between w-full space-x-2">
             <div v-if="!isMobi()" class="flex flex-col justify-between w-full ">
+            <div v-if="isStart()">
+              <el-button
+                type="Primary"
+                @click="startHandle()"
+              >
+                {{ $t("chat.start") }}
+              </el-button>
+            </div>
+            <div v-else>
               <NInput
                 ref="inputRef"
                 v-model:value="prompt"
@@ -76,6 +85,8 @@
                   </div>
                 </template>
               </NInput>
+            </div>
+              
               <div v-if="filetList.length" class="flex flex-wrap  w-full p-2 mt-2 rounded-lg align-center bg-[#fff]">
                 <div v-for="file in filetList" class="relative flex  items-center m-1 rounded-lg bg-[#F6F7F9] p-4">
                   <img
@@ -96,7 +107,10 @@
                 </div>
               </div>
             </div>
-            
+            <StartLaunch
+              ref="startLaunchRef"
+              width="600px"
+            />
             <NInput
               v-if="isMobi()"
               ref="inputRef"
@@ -131,6 +145,8 @@
   import DisLike from '../../DisLike'
   import ImportFileDialog from './ImportFileDialog';
 
+  import { memeCheck } from '@gptx/base/api/meme-bot';
+
   import { NInput } from 'naive-ui'
   import Message from './Message/index.vue'
   import { useScroll } from '@gptx/base/useHooks/web/useChatScroll.js'
@@ -145,7 +161,7 @@
   import { chatNewSession } from "@gptx/base/api/chat";
   import { shareNewSession } from "@gptx/base/api/share";
   import { isMobi } from '@gptx/base'
-
+  import StartLaunch from '@/components/StartLaunch/index.vue';
   import { filesize } from 'filesize';
   import IconHtml from '@/assets/images/base/upload/html.svg';
   import IconMd from '@/assets/images/base/upload/md.svg';
@@ -191,20 +207,40 @@
 
   let messages = []; // 消息记录
   let sid = null; // 用于存储 SID
-  let botId = null;
+  const botId = ref(null);
+  let token = null;
   let currentToken = null; // Store for current token
+  
 
   const inputTrim= (value) => !value.startsWith(" ")
   
-  watch(() => dataSources.value.length, (len) => {
-    if (len > 1) {
+  watch(() => dataSources.value.length, (newLen,oldLen) => {
+    if (newLen > 1) {
       scrollToBottom()
     }
+
   }, { deep: true })
+
+  watch(botId,(newId,oldId)=>{
+    console.log(oldId===null,newId,oldId)
+    if (oldId===null && newId!==null){
+      console.log("botid change")
+      setMemeCheckTimer(newId, token)
+    }
+
+  },{ once: true })
   
   // 触发开场白预置问题
   function predefinedQuestionHandle (predefinedQuest) {
     onConversation(predefinedQuest)
+  }
+
+  function startHandle(){
+    onConversation("/CreateBot")
+  }
+
+  function isStart(){
+    return botId.value==null
   }
   
   async function onConversation (v) {
@@ -254,7 +290,8 @@
     });  
     const data = await response.json();  
     
-    filetList.value = []
+    filetList.value = [];
+    token = data.data.token;
     fetchEventSource("/portal" + '/v1/bot/meme-chat?token=' + data.data.token,{ //props.chatApiUrl, {
       signal: controller.signal,
       method: 'POST',
@@ -263,7 +300,7 @@
         'Content-Type': 'application/json',  
       },  
       body: JSON.stringify({  
-        bot_id: botId,  
+        bot_id: botId.value,  
         prompt: message,  
         stream: true,  
         sid: sid,  
@@ -271,7 +308,7 @@
       onmessage (event) {
         const eData = JSON.parse(event.data)
         console.log('onmessage', eData)
-        botId = eData.bot_id
+        botId.value = eData.bot_id
         sid = eData.sid
         lastText = lastText + eData.content
         chatStore.updateChatByUuid(
@@ -321,6 +358,38 @@
     }
   }
 
+  const memeCheckTimer = ref(null);
+  const startLaunchRef = ref(null);
+
+  const setMemeCheckTimer = (bot_id) =>{
+    console.log("memecheck",bot_id)
+   memeCheckTimer.value = setInterval(async () => {
+    try {
+
+      // check meme
+      const response = await fetch('http://localhost:9004/portal/v1/bot/meme-check?token='+token+'&bot_id='+bot_id, {  
+        method: 'GET',  
+        headers: {  
+          'Content-Type': 'application/json',  
+        },   
+      });  
+      const result = await response.json(); 
+      //const result = await memeCheck({ bot_id,token });
+      console.log(result)
+      if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
+        clearInterval(memeCheckTimer.value)
+        // memeCoinInfo.value = result.data;
+        loading.value = false;
+        startLaunchRef.value.open({ ...result.data, bot_id,token});
+      }
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
+  }, 3000);
+}
+
+
   const docIcons = {
   '.pdf': IconPdf,
   '.doc': IconDoc,
@@ -349,13 +418,18 @@
   
   onMounted(() => {
     scrollToBottom()
+    //onConversation("/CreateBot")
   })
   
   onUnmounted(() => {
     if (loading.value){
       controller.abort()
     }
+    clearInterval(memeCheckTimer.value);
+    clearInterval(botId.value);
   })
+
+ 
   
   </script>
   <style lang="scss">

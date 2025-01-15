@@ -137,6 +137,7 @@
     "ww": "头像仅支持JPG,PNG格式文件大小不能大于5MB"
   },
   "chat": {
+    "Start":"开始",
     "clearChat": "清空会话",
     "clearChatConfirm": "是否清空会话?",
     "copy": "复制",
