@@ -196,7 +196,7 @@
           clearable
         />
       </el-form-item>
-      <el-form-item
+      <!--<el-form-item
         required
         label=""
         prop=""
@@ -216,7 +216,7 @@
           </div>
         </template>
         <el-switch v-model="unlockValue" @change="changeValue1" />
-      </el-form-item>
+      </el-form-item>-->
 
       <el-form-item
         :label="t('bots.icon')"
@@ -426,12 +426,7 @@ const submitHandle = async (el) => {
           // loading.value = false;
           // emits('after-create', result.data);
           submitText.value = 'Pending...'
-          let url = form.telegram_bot_address;
-          if (url.startsWith('t.me')) {
-            url =  'https://' + url
-          }
           setMemeCheckTimer(result.data.id)
-          window.open(url, '_blank');
         } else {
           loading.value = false;
         }
