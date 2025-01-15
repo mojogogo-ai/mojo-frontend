@@ -36,8 +36,8 @@ export default defineConfig(({ mode, command }) => {
       host: true,
       open: true,
       proxy: {
-        '/v1': {
-          target: 'https://api-dev.mojogogo.ai/portal/',
+        '/portal': {
+          target: 'https://api-dev.mojogogo.ai',
           changeOrigin: true,
           configure: (proxy, options) => {  
             proxy.on('proxyReq', (proxyReq, req, res) => {  
