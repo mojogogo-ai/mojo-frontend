@@ -31,7 +31,7 @@
           >
             <el-select
               v-model="form.gender"
-              placeholder="Your gender"
+              placeholder="Bot gender"
             >
               <el-option
                 v-for="item in genderList"
@@ -52,7 +52,7 @@
           >
             <el-select
               v-model="form.classification"
-              placeholder="Your conversation Style"
+              placeholder="Bot conversation Style"
             >
               <el-option
                 v-for="item in conversationList"
@@ -126,12 +126,32 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item
-        label="Twitter"
-        prop="twitter"
-      >
-        <TwitterButton />
-      </el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item
+            label="Coin Symbol"
+            prop="symbol"
+          >
+            <el-input
+              v-model="form.symbol"
+              placeholder="Meme coin symbol"
+              maxlength="50"
+              show-word-limit
+              clearable
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item
+            label="Twitter"
+            prop="twitter"
+          >
+            <TwitterButton />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      
       <el-form-item
         label="Configure Telegram address"
         prop="telegram_bot_address"
@@ -294,11 +314,10 @@ const form = reactive({
   gender: null,
   classification: [],//  conversation
   audio: '',
-
+  symbol: '',
   twitter: '',
   telegram_bot_address: '',
   telegram_bot_token: '',
-
   introduction: '',
   icon: '',
   third_company:'',
@@ -306,12 +325,12 @@ const form = reactive({
   is_personalize_image_icon: false
 });
 const rules = reactive({
-  name: [{ required: true, message: 'Meme bot name' }],
+  name: [{ required: true, message: 'Please enter meme bot name' }],
+  symbol: [{ required: true, message: 'Please enter meme coin symbol' }],
+  gender: [{ required: true, message: 'Please select bot gender' }],
   classification: [{ required: true, message: t('bots.ruleMessage.catalog'), trigger: 'change' }],
-  telegram_bot_address: [{ required: true, message: 'Telegram address' }],
-  telegram_bot_token: [{ required: true, message: 'Please enter Telegram Bot token' }],
   icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
-  introduction: [{ required: true, message: t('bots.ruleMessage.introduction') }],
+  introduction: [{ required: true, message: 'Please enter your bot description' }],
 });
 
 // user gender,0 none-binary 1 male 2 female
@@ -402,6 +421,7 @@ const submitHandle = async (el) => {
         console.log(form,'form66666')
         loading.value = true;
         const result = await memeCreate(form);
+        console.log(result,'result is :')
         if (result.code === 200) {
           // loading.value = false;
           // emits('after-create', result.data);

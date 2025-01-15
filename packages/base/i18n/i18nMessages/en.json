@@ -40,7 +40,7 @@
       "catalog": "Assistant classification",
       "conversationStyle": "Conversation style",
       "description": "Assistant introduction",
-      "gender": "Gender Identity",
+      "gender": "Bot Gender",
       "isVoice": "Turn on",
       "model": "Model",
       "name": "Assistant name",
@@ -128,10 +128,10 @@
     },
     "publishAt": "posted on",
     "ruleMessage": {
-      "catalog": "Please select at least one category",
+      "catalog": "Please select one category",
       "description": "Please fill in the assistant description",
-      "icon": "Please upload the assistant icon",
-      "name": "Please fill in the assistant name"
+      "icon": "Please upload the bot icon",
+      "name": "Please fill in the bot name"
     },
     "s": "Only PNG, JPG Image Files Can Be Uploaded!",
     "toPublish": " Go to publish page",

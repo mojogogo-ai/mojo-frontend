@@ -1,6 +1,6 @@
 <template>  
   <div>  
-    <button @click="handleAuthorize">Authorize Twitter</button>  
+    <button @click="handleAuthorize">Connect Bot Twitter Account</button>  
     <!-- {{ authStatus }}   -->
   </div>  
 </template>  
