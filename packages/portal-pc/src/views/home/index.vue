@@ -15,7 +15,7 @@
         >
           Sign Up
         </el-button>
-        <el-button type="primary" @click="toCreate"> Create Bot </el-button>
+        <el-button type="primary" @click="toLaunch"> Create Bot </el-button>
       </div>
       <div class="flex w-full home-content">
         <div class="flex-1 home-part">
@@ -25,7 +25,7 @@
               Mojo GoGo, backed by PayFi, empowers AI with its own meme coins, unlocking endless possibilities. With our support, you can explore new realms of innovation and creativity.
             </div>
             <div class="pt-8 home-part1-btn">
-              <el-button type="primary" @click="toCreate"> Create Bot </el-button>
+              <el-button type="primary" @click="toLaunch"> Create Bot </el-button>
             </div>
           </div>
         </div>
@@ -138,14 +138,6 @@ watch(
 
 const toLogin = () => {
   useLogin.setLoginDialogVisible(true, 'signup'); // open login dialog
-};
-
-const toCreate = () => {
-  if (isLogin.value) {
-    useBot.openCreateBotDialog(); //open create bot dialog
-  } else {
-    useLogin.setLoginDialogVisible(true, 'login'); // open login dialog
-  }
 };
 
 const toPage = (path) => {
