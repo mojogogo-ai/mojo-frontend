@@ -195,24 +195,24 @@ const submitForm = async () => {
     return;
   }
   loading.value = true;
-  try {
-    //botPublish
-    await botPublish({
-      id: botId.value,
-      telegram_token: publishOptions[0].telegram_token,
-      discord_token: publishOptions[1].discord_token,
-      address: publishOptions[0].address || publishOptions[1].address
-    });
-    ElMessage.success('Bot publish successfully!');
-    emits('after-upload-knowledge-sources');
-    eventBus.emit('botPublishSuccess');
+  // try {
+  //   //botPublish
+  //   await botPublish({
+  //     id: botId.value,
+  //     telegram_token: publishOptions[0].telegram_token,
+  //     discord_token: publishOptions[1].discord_token,
+  //     address: publishOptions[0].address || publishOptions[1].address
+  //   });
+  //   ElMessage.success('Bot publish successfully!');
+  //   emits('after-upload-knowledge-sources');
+  //   eventBus.emit('botPublishSuccess');
     close();
-  } catch (error) {
-    console.error('Bot publish failed:', error);
-    ElMessage.error('Bot publish failed!');
-  } finally {
-    loading.value = false;
-  }
+  // } catch (error) {
+  //   console.error('Bot publish failed:', error);
+  //   ElMessage.error('Bot publish failed!');
+  // } finally {
+  //   loading.value = false;
+  // }
 };
 
 
