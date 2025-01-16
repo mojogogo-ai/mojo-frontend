@@ -6,6 +6,7 @@
 </template>  
   
 <script>  
+import { twitterAuth } from '@gptx/base/api/meme-bot';
 export default {  
   data() {  
     return {  
@@ -14,43 +15,18 @@ export default {
     };  
   },  
   async created() {  
-    this.currentToken = await this.fetchToken();
   }, 
   methods: {  
-    async fetchToken(){
-      const response = await fetch('http://localhost:9004/portal/v1/open/auth/grant-token', {  
-        method: 'POST',  
-        headers: {  
-          'Content-Type': 'application/json',  
-        },  
-        body: JSON.stringify({  
-          appid: 'I6iz8SAHfimCuGQMCbwN',  
-          appkey: 'PcpTHb2q6w39oxQqCP1s',  
-          uid: 'sdfasfas',  
-        }),  
-      });  
-      
-      if (!response.ok) {  
-        throw new Error('Failed to obtain token');  
-      }  
-      
-      const data = await response.json();  
-      return data.data.token;  
-    },
     async twitterAuth() {
-      const response = await fetch(`http://localhost:9004/portal/v1/twitter/authorize?token=${this.currentToken}`, {  
-        method: 'GET',  
-        headers: {  
-          'Content-Type': 'application/json',  
-        }
-      });
+      let url = ""
+      const response = await twitterAuth()
+      if (response.code === 200) {
+        url = response.data.redirect_uri
+      } else {
+        console.error('Failed to obtain twitter auth url')
+      }
       
-      if (!response.ok) {  
-        throw new Error('Failed to obtain token');  
-      }  
-      
-      const data = await response.json(); 
-      return data.data.redirect_uri;
+      return url;
     },
     async handleAuthorize() {  
       const twitterAuthUrl = await this.twitterAuth();

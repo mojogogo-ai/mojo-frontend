@@ -1,6 +1,12 @@
 
 import request from '@gptx/base/utils/request';
 
+export const twitterAuth = () =>
+request({
+    url: 'v1/twitter/authorize',
+    method: 'get',
+});
+
 export const getTokenCreate = (data) =>
 request({
     url: '/v1/dapp/token/create',
