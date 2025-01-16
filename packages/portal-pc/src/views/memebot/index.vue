@@ -240,6 +240,9 @@
       </el-form-item>
       
     </el-form>
+    <div class="h-full transition-all chat-bg">
+      <GptxChat v-if="botConfig" :bot-info="botConfig" :operation-config="operationConfig" :chat-api-url="chatApiUrl" :is-debug="false" style="max-width: 100%"  />
+    </div>
     <div class="flex justify-center w-full my-20">
       <el-button
         style="width: 250px;"
@@ -293,9 +296,21 @@ import StartLaunch from '@/components/StartLaunch/index.vue';
 import { ref } from 'vue';
 import TwitterButton from './twitterbutton/index.vue';
 
+import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 const router = useRouter();
 // const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
+const chatApiUrl =  '/portal/conversation/chat-anonymous';
+const botConfig = ref(null)
+const _getChatDetail = async () => {
+  let systemBot = JSON.parse('{"id":"SafeGen-AI-Chat","name":"SafeGen AI","icon":"","prologue":"Welcome to meme bot. Click start to start the journey","description":"","system":true}')
+  let predefined_question = systemBot.predefined_question ? systemBot.predefined_question.map((i)=>{ return { content:i } }):[]
+  let prologue =  { content: systemBot.prologue ||"" }
+  let resData = { app:{ ...systemBot, system:true}, predefined_question, prologue, isHome: true }
+  botConfig.value = resData;
+  return
+};
+_getChatDetail()
 const form = reactive({
   name: '',
   gender: null,
