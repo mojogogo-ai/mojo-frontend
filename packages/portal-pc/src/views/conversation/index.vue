@@ -47,7 +47,7 @@ const rules = reactive({
   telegram_bot_address: [{ required: true, message: 'Telegram address' }],
   telegram_bot_token: [{ required: true, message: 'Please enter Telegram Bot token' }],
   icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
-  introduction: [{ required: true, message: t('bots.ruleMessage.introduction') }],
+  introduction: [{ required: true, message: "Please enter description" }],
 });
 
 // user gender,0 none-binary 1 male 2 female

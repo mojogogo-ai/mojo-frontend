@@ -133,7 +133,7 @@ const form = reactive({
 const rules = reactive({
   icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
-  introduction: [{ required: true, message: t('bots.ruleMessage.introduction') }],
+  introduction: [{ required: true, message: 'Please enter description' }],
   classification: [{ required: true, message: t('bots.ruleMessage.catalog'), trigger: 'change' }]
 });
 const catalogList = reactive([

@@ -150,7 +150,7 @@ const rules = reactive({
     }
   ],
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
-  introduction: [{ required: true, message: t('bots.ruleMessage.introduction') }],
+  introduction: [{ required: true, message: "Please enter description" }],
   classification: [
     {
       message: t('bots.ruleMessage.catalog'),
