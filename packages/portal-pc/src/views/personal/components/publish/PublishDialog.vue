@@ -205,7 +205,7 @@ const submitForm = async () => {
   //   });
   //   ElMessage.success('Bot publish successfully!');
   //   emits('after-upload-knowledge-sources');
-  //   eventBus.emit('botPublishSuccess');
+    eventBus.emit('botPublishSuccess');
     close();
   // } catch (error) {
   //   console.error('Bot publish failed:', error);
