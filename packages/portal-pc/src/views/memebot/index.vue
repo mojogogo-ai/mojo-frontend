@@ -68,7 +68,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item
+          <!-- <el-form-item
             label="Audio Selection"
             prop="audio"
           >
@@ -127,11 +127,7 @@
                 </div>
               </template>
             </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
+          </el-form-item> -->
           <el-form-item
             label="Coin Symbol"
             prop="symbol"
@@ -145,17 +141,50 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item
-            label="Twitter"
-            prop="twitter"
-          >
-            <TwitterButton @update-auth-status="handleAuthStatusUpdate" />
-          </el-form-item>
-        </el-col>
       </el-row>
-
       
+      <el-form-item
+        label="Description"
+        prop="introduction"
+      >
+        <el-input
+          v-model="form.introduction"
+          type="textarea"
+          :rows="4"
+          placeholder="Describe your bot’s functions and usage."
+          maxlength="800"
+          show-word-limit
+          clearable
+        />
+      </el-form-item>
+      <el-form-item
+        :label="t('bots.icon')"
+        prop="icon"
+      >
+        <BotAvatarGenerator
+          :custom-style="{
+            width: '90px',
+            height: '90px',
+          }"
+          :default-avatar="form.icon"
+          :name="form.name"
+          :gender="form.gender"
+          :introduction="form.introduction"
+          :title="t('bots.icon')"
+          :disabled-tooltip-text="t('bots.generateIconTooltip')"
+          @before-generate="isAIloading = true"
+          @after-generate="isAIloading = false"
+          @change="onImageChange"
+        />
+      </el-form-item>
+
+      <el-form-item
+        label="Twitter"
+        prop="twitter"
+      >
+        <TwitterButton @update-auth-status="handleAuthStatusUpdate" />
+      </el-form-item>
+
       <el-form-item
         label="Configure Telegram address"
         prop="telegram_bot_address"
@@ -184,62 +213,6 @@
           placeholder="Please enter Telegram Bot token"
           maxlength="10000"
           clearable
-        />
-      </el-form-item>
-      <el-form-item
-        label="Description"
-        prop="introduction"
-      >
-        <el-input
-          v-model="form.introduction"
-          type="textarea"
-          :rows="4"
-          placeholder="Describe your bot’s functions and usage."
-          maxlength="800"
-          show-word-limit
-          clearable
-        />
-      </el-form-item>
-      <!--<el-form-item
-        required
-        label=""
-        prop=""
-        style="position: relative;"
-      >
-        <template #label>
-          <span>I would like to create a V-human with my bot</span>
-          <div
-            class="w-[100px] flex items-center justify-center px-2 py-[2px] bg-black " 
-            style="border-radius: 15px; border: 1px solid rgba(224, 255, 49, 0.5);position: absolute; top: -2px;right: 150px;"
-          >
-            <span class="text-[#e1ff01] text-[15px]">premium</span>
-            <svg-icon
-              class="text-[#e1ff01] text-[15px]"
-              name="star2"
-            />
-          </div>
-        </template>
-        <el-switch v-model="unlockValue" @change="changeValue1" />
-      </el-form-item>-->
-
-      <el-form-item
-        :label="t('bots.icon')"
-        prop="icon"
-      >
-        <BotAvatarGenerator
-          :custom-style="{
-            width: '90px',
-            height: '90px',
-          }"
-          :default-avatar="form.icon"
-          :name="form.name"
-          :gender="form.gender"
-          :introduction="form.introduction"
-          :title="t('bots.icon')"
-          :disabled-tooltip-text="t('bots.generateIconTooltip')"
-          @before-generate="isAIloading = true"
-          @after-generate="isAIloading = false"
-          @change="onImageChange"
         />
       </el-form-item>
       
