@@ -238,21 +238,7 @@
           @change="onImageChange"
         />
       </el-form-item>
-      <el-form-item
-        label="Knowledge sources"
-        prop="file_id_list"
-      >
-        <div class="upload-custom" @click="openUploadKnowledge">
-          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="37" viewBox="0 0 36 37" fill="none">
-            <path d="M16.5 24.5V12.275L12.6 16.175L10.5 14L18 6.5L25.5 14L23.4 16.175L19.5 12.275V24.5H16.5ZM9 30.5C8.175 30.5 7.469 30.2065 6.882 29.6195C6.295 29.0325 6.001 28.326 6 27.5V23H9V27.5H27V23H30V27.5C30 28.325 29.7065 29.0315 29.1195 29.6195C28.5325 30.2075 27.826 30.501 27 30.5H9Z" fill="#C5C5C5" />
-          </svg>
-          <div class="upload-custom-text">
-            <div class="upload-custom-text-top">
-              Click to upload file
-            </div>
-          </div>
-        </div>
-      </el-form-item>
+      
     </el-form>
     <div class="flex justify-center w-full my-20">
       <el-button
