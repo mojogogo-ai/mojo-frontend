@@ -21,7 +21,7 @@
             style="margin-right: 8px"
             index="/personal"
           >
-            MyMeme
+            My Memes
           </el-menu-item>
           <el-menu-item
             style="margin-right: 8px"
@@ -42,13 +42,7 @@
               @click="createHandleSelect('2')"
             >
               <div class="flex px-[5px] justify-center items-center ">
-                <div class="mr-[16px] flex h-9 w-9 items-center justify-center rounded-full bg-black">
-                  <svg-icon
-                    style="color: rgba(225, 255, 1, 1); font-size: 24px"
-                    name="lucide-bot"
-                  />
-                </div>
-                <div class="font-['Inter'] text-xl font-bold text-black">Meme Bot</div>
+                <div class="font-['Inter'] text-xl font-bold text-black">+ Create</div>
               </div>
             </el-menu-item>
           <!-- <el-sub-menu
