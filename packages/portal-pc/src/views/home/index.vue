@@ -20,10 +20,9 @@
       <div class="flex w-full home-content">
         <div class="flex-1 home-part">
           <div class="home-part-1">
-            <div class="home-part1-text">Create Your Own AI Bot</div>
+            <div class="home-part1-text">Unleash AI Coin Power</div>
             <div class="home-part1-text-content">
-              Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
-              routine tasks, and leverage AI-driven insights for smarter decision-making.
+              Mojo GoGo, backed by PayFi, empowers AI with its own meme coins, unlocking endless possibilities. With our support, you can explore new realms of innovation and creativity.
             </div>
             <div class="pt-8 home-part1-btn">
               <el-button type="primary" @click="toCreate"> Create Bot </el-button>
@@ -52,9 +51,9 @@
           <div class="home-part-4">
             <div class="w-[628px] h-[407px]">
               <div class="px-[48px] pt-10">
-                <div class="home-part4-text">Launch Your Meme Coin</div>
+                <div class="home-part4-text">Meme Coins Made Easy!</div>
                 <div class="home-part-4-text-content">
-                  Our AI bot platform lets you create and launch your own meme coin quickly and easily. With automated tools and no technical skills required, anyone can turn their idea into a reality.
+                  Our AI platform enables you to create and launch your own meme coin quickly and easily. With the assistance of your dedicated AI agent, anyone can turn their idea into reality.
                 </div>
                 <div class="pt-8 home-part4-btn">
                   <el-button
@@ -73,7 +72,7 @@
           <div class="home-part-1">
             <div class="home-part1-text">Create Your Own AI Bot</div>
             <div class="home-part1-text-content">
-              Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
+              Easily design and deploy AI agents tailored to your needs. Enhance customer service, automate
               routine tasks, and leverage AI-driven insights for smarter decision-making.
             </div>
             <div class="pt-8 home-part4-btn">
