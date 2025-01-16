@@ -10,8 +10,7 @@ import { twitterAuth } from '@gptx/base/api/meme-bot';
 export default {  
   data() {  
     return {  
-      authStatus: "unauthorized",
-      currentToken: '',
+      authStatus: "lala",
     };  
   },  
   async created() {  
@@ -21,7 +20,8 @@ export default {
       let url = ""
       const response = await twitterAuth()
       if (response.code === 200) {
-        url = response.data.redirect_uri
+        url = response.data.redirect_uri;
+        this.authStatus = response.data.state;
       } else {
         console.error('Failed to obtain twitter auth url')
       }
@@ -30,28 +30,8 @@ export default {
     },
     async handleAuthorize() {  
       const twitterAuthUrl = await this.twitterAuth();
+      this.$emit('update-auth-status', this.authStatus);
       const popup = window.open(twitterAuthUrl, "twitterAuthPopup", "width=500,height=600");  
-  
-      window.addEventListener("message", this.handleMessageEvent, false);  
-    },  
-    handleMessageEvent(event) {  
-      // Validate event origin to ensure it is from a trusted source  
-      if (event.origin !== "http://localhost:9004") {  
-        console.error("Untrusted message source:", event.origin);  
-        return;  
-      }  
-  
-      // Process the message received from the callback page  
-      const { code, message } = event.data;  
-      
-      if (code === 200) {  
-        this.authStatus = "Authorization Successful! 🎉";  
-      } else {  
-        this.authStatus = `Authorization Failed: ${message}`;  
-      }  
-  
-      // Remove the message event listener to avoid duplicate handling  
-      window.removeEventListener("message", this.handleMessageEvent);  
     },  
   },  
 };  

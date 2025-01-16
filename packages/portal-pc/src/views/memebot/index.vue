@@ -146,7 +146,7 @@
             label="Twitter"
             prop="twitter"
           >
-            <TwitterButton />
+            <TwitterButton @update-auth-status="handleAuthStatusUpdate" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -306,6 +306,7 @@ import UploadKnowledge from './uploadKnowledge/index.vue';
 import StartLaunch from '@/components/StartLaunch/index.vue';
 import { ref } from 'vue';
 import TwitterButton from './twitterbutton/index.vue';
+
 const router = useRouter();
 // const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
@@ -375,6 +376,11 @@ const audioList = reactive([
 const formRef = ref(null);
 const loading = ref(false);
 const isAIloading = ref(false);
+const parentAuthStatus = ref("unauthorized");
+
+function handleAuthStatusUpdate(newStatus) {
+  form.twitter = newStatus;
+}
 
 const close = () => {
   isVisible.value = false;
@@ -413,18 +419,16 @@ const afterUploadKnowledge = ({formFileList, file_id_list}) => {
 
 // commit action
 const submitText = ref('Create')
+
 const submitHandle = async (el) => {
   if (loading.value) return;
   await el.validate(async (valid) => {
     if (valid) {
       try {
-        console.log(form,'form66666')
+        console.log(form.twitter);
         loading.value = true;
         const result = await memeCreate(form);
-        console.log(result,'result is :')
         if (result.code === 200) {
-          // loading.value = false;
-          // emits('after-create', result.data);
           submitText.value = 'Pending...'
           setMemeCheckTimer(result.data.id)
         } else {
