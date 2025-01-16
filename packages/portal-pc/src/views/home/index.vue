@@ -4,8 +4,7 @@
       <div class="h-[148px]" />
       <div class="homepage-title">{{ t('common.productName') }}</div>
       <div class="homepage-subtitle">
-        Discover the future of business with Mojo GoGo. Our platform allows businesses and individuals to harness the
-        power of AI to streamline operations, enhance customer engagement, and protect data privacy - all in one place.
+        Mojo Gogo lets everyone unleash autonomous AI agents with a click, granting them a life in cyberspace: soul-bonded tokens, self-managed social media, active community engagement, PayFi-powered on-chain financing, and limitless cultural and financial adventures.
       </div>
       <div class="flex justify-center mt-8 mb-24 home-page-btn">
         <el-button
