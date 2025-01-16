@@ -310,10 +310,7 @@ import StartLaunch from '@/components/StartLaunch/index.vue';
 import { ref } from 'vue';
 import TwitterButton from './twitterbutton/index.vue';
 
-<<<<<<< HEAD
-=======
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
->>>>>>> dd08784 (add chat to form page)
 const router = useRouter();
 // const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
