@@ -1,6 +1,10 @@
 <template>
   <div class="w-[562px] mx-auto">
     <div class="text-center  mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">Create Meme Bot</div>
+    <!-- 按钮用于切换页面 -->  
+    <button @click="byFormHandle()">Create with Form</button>  
+    <button @click="byAiHandle()">Create with AI</button>
+    <div v-if="byForm">
     <el-form
       ref="formRef"
       label-position="top"
@@ -240,9 +244,7 @@
       </el-form-item>
       
     </el-form>
-    <div class="h-full transition-all chat-bg">
-      <GptxChat v-if="botConfig" :bot-info="botConfig" :operation-config="operationConfig" :chat-api-url="chatApiUrl" :is-debug="false" style="max-width: 100%"  />
-    </div>
+    
     <div class="flex justify-center w-full my-20">
       <el-button
         style="width: 250px;"
@@ -260,18 +262,11 @@
       >
         {{ submitText }}
       </el-button>
-      <el-button
-        style="width: 250px;"
-        type="primary"
-        :loading="loading"
-        :disabled="loading"
-        linear
-        @click="conversationBot()"
-      >
-        {{ conversationText }}
-      </el-button>
     </div>
-
+    </div>
+    <div v-else class="h-full transition-all chat-bg">
+      <GptxChat v-if="botConfig" :bot-info="botConfig" :operation-config="operationConfig" :chat-api-url="chatApiUrl" :is-debug="false" style="max-width: 100%"  />
+    </div>
     <UploadKnowledge
       ref="uploadKnowledgeRef"
       width="600px"
@@ -298,6 +293,7 @@ import TwitterButton from './twitterbutton/index.vue';
 
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 const router = useRouter();
+const byForm = ref(true);
 // const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
 const chatApiUrl =  '/portal/conversation/chat-anonymous';
@@ -381,6 +377,15 @@ const parentAuthStatus = ref("unauthorized");
 
 function handleAuthStatusUpdate(newStatus) {
   form.twitter_state = newStatus;
+}
+
+function byFormHandle(){
+  console.log(byForm)
+  byForm.value = true;
+}
+function byAiHandle(){
+  console.log(byForm)
+  byForm.value = false;
 }
 
 const close = () => {

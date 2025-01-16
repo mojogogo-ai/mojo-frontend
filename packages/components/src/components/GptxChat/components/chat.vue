@@ -107,10 +107,10 @@
                 </div>
               </div>
             </div>
-            <StartLaunch
+            <!-- <StartLaunch
               ref="startLaunchRef"
               width="600px"
-            />
+            /> -->
             <NInput
               v-if="isMobi()"
               ref="inputRef"
