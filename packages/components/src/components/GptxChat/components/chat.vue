@@ -38,13 +38,13 @@
         <div class="flex flex-col items-center justify-between">
           <div class="flex items-center justify-between w-full space-x-2">
             <div v-if="!isMobi()" class="flex flex-col justify-between w-full ">
-            <div v-if="isStart()">
-              <el-button
-                type="Primary"
+            <div v-if="isStart()" class="start-button-continer">
+              <button
+                class="start-button"
                 @click="startHandle()"
               >
                 {{ $t("chat.start") }}
-              </el-button>
+              </button>
             </div>
             <div v-else>
               <NInput
@@ -107,10 +107,10 @@
                 </div>
               </div>
             </div>
-            <!-- <StartLaunch
+            <StartLaunch
               ref="startLaunchRef"
               width="600px"
-            /> -->
+            />
             <NInput
               v-if="isMobi()"
               ref="inputRef"
@@ -186,6 +186,7 @@
   const itemIndex = ref(0)
   const emit = defineEmits(['onError'])
   const suggestedQuestion = ref([])
+  const iframeToken = ref(null)
   const props = defineProps({
     chatApiUrl:{
       type: String,
@@ -225,7 +226,7 @@
     console.log(oldId===null,newId,oldId)
     if (oldId===null && newId!==null){
       console.log("botid change")
-      setMemeCheckTimer(newId, token)
+      setMemeCheckTimer(newId)
     }
 
   },{ once: true })
@@ -277,22 +278,22 @@
     let lastText = ''
   
     // let authToken = await getToken() TODO: replace fetch with getToken()
-    const response = await fetch('http://localhost:9004/portal/v1/open/auth/grant-token', {  
-      method: 'POST',  
-      headers: {  
-        'Content-Type': 'application/json',  
-      },  
-      body: JSON.stringify({  
-        appid: 'I6iz8SAHfimCuGQMCbwN',  
-        appkey: 'PcpTHb2q6w39oxQqCP1s',  
-        uid: 'sdfasfas',  
-      }),  
-    });  
-    const data = await response.json();  
+    // const response = await fetch('http://localhost:9004/portal/v1/open/auth/grant-token', {  
+    //   method: 'POST',  
+    //   headers: {  
+    //     'Content-Type': 'application/json',  
+    //   },  
+    //   body: JSON.stringify({  
+    //     appid: 'I6iz8SAHfimCuGQMCbwN',  
+    //     appkey: 'PcpTHb2q6w39oxQqCP1s',  
+    //     uid: 'sdfasfas',  
+    //   }),  
+    // });  
+    // const data = await response.json();  
     
     filetList.value = [];
-    token = data.data.token;
-    fetchEventSource("/portal" + '/v1/bot/meme-chat?token=' + data.data.token,{ //props.chatApiUrl, {
+    if (iframeToken.value!==null){
+      fetchEventSource("/portal" + '/v1/bot/meme-chat?token=' + iframeToken.value,{ //props.chatApiUrl, {
       signal: controller.signal,
       method: 'POST',
       openWhenHidden: true,
@@ -342,6 +343,61 @@
         scrollToBottomIfAtBottom()
       }
     })
+    }else{
+      let authToken = await getToken();
+      fetchEventSource("/portal" + '/v1/bot/meme-chat',{ //props.chatApiUrl, {
+      signal: controller.signal,
+      method: 'POST',
+      openWhenHidden: true,
+      headers: {  
+        'Content-Type': 'application/json',  
+        'Authorization':'Bearer '+authToken,
+      },  
+      body: JSON.stringify({  
+        bot_id: botId.value,  
+        prompt: message,  
+        stream: true,  
+        sid: sid,  
+      }),  
+      onmessage (event) {
+        const eData = JSON.parse(event.data)
+        console.log('onmessage', eData)
+        botId.value = eData.bot_id
+        sid = eData.sid
+        lastText = lastText + eData.content
+        chatStore.updateChatByUuid(
+          chatStore.active,
+          dataSources.value.length - 1,
+          {
+            text: lastText,
+            inversion: false,
+            error: false,
+            loading: true,
+            conversationOptions: { mid: eData.mid, sid: eData.sid, extendsData:eData.data }
+          }
+        )
+        scrollToBottom()
+        chatStore.updateHistory(chatStore.active, {
+          sid: eData.sid,
+        })
+      },
+      onclose () {
+        chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, { loading: false })
+        if (lastText === '') {
+          chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1,
+            {
+              text: `[${t('common.wrong')}]`,
+              error: true,
+              loading: false
+            }
+          )
+        }
+        loading.value = false
+        scrollToBottomIfAtBottom()
+      }
+    })
+    }
+    
   }
   
   function handleEnter (event) {
@@ -365,23 +421,44 @@
     console.log("memecheck",bot_id)
    memeCheckTimer.value = setInterval(async () => {
     try {
-
-      // check meme
-      const response = await fetch('http://localhost:9004/portal/v1/bot/meme-check?token='+token+'&bot_id='+bot_id, {  
-        method: 'GET',  
-        headers: {  
-          'Content-Type': 'application/json',  
-        },   
-      });  
-      const result = await response.json(); 
-      //const result = await memeCheck({ bot_id,token });
-      console.log(result)
-      if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
-        clearInterval(memeCheckTimer.value)
-        // memeCoinInfo.value = result.data;
-        loading.value = false;
-        startLaunchRef.value.open({ ...result.data, bot_id,token});
+      if(iframeToken.value!==null){
+        // check meme
+        const response = await fetch('http://localhost:9004/portal/v1/bot/meme-check?token='+iframeToken.value+'&bot_id='+bot_id, {  
+          method: 'GET',  
+          headers: {  
+            'Content-Type': 'application/json',  
+          },   
+        });  
+        const result = await response.json(); 
+        //const result = await memeCheck({ bot_id,token });
+        console.log(result)
+        if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
+          clearInterval(memeCheckTimer.value)
+          // memeCoinInfo.value = result.data;
+          loading.value = false;
+          startLaunchRef.value.open({ ...result.data, bot_id,token});
+        }
+      }else{
+        // check meme
+        let authToken = await getToken();
+        const response = await fetch('http://localhost:9004/portal/v1/bot/meme-check?bot_id='+bot_id, {  
+          method: 'GET',  
+          headers: {  
+            'Content-Type': 'application/json',  
+            'Authorization':'Bearer '+authToken,
+          },   
+        });  
+        const result = await response.json(); 
+        //const result = await memeCheck({ bot_id,token });
+        console.log(result)
+        if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
+          clearInterval(memeCheckTimer.value)
+          // memeCoinInfo.value = result.data;
+          loading.value = false;
+          startLaunchRef.value.open({ ...result.data, bot_id,token});
+        }
       }
+      
     } catch (error) {
       console.log(error)
       throw error;
@@ -473,6 +550,33 @@
   }
   #scrollRef::-webkit-scrollbar {
     scrollbar-width: none; /* Firefox */
+  }
+
+  .start-button-continer{
+    display: flex; /* 启用Flexbox */  
+    justify-content: center; /* 水平居中按钮 */ 
+  }
+  .start-button{
+    
+    font-family: TT Norms Pro;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 23px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+    width: 206px;  
+    height: 48px;  
+    gap: 0px; /* This might not have an effect on a button element */  
+    border-radius: 48px;  
+    opacity: 1; /* Assuming you meant for the buttons to be fully opaque */  
+    border: none; /* Assuming you might not want borders */  
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */  
+    outline: none; /* Remove outline to improve aesthetics */  
+
+    background-color: #E0FF3133; /* Selected background */  
+    color: #E0FF31; /* Selected text color */  
   }
   </style>
   

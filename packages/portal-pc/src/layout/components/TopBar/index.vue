@@ -31,20 +31,21 @@
           </el-menu-item>
         </el-menu>
       </div>
-      <div class="create-bot-button">
-        <el-menu
+      <div class="create-bot-continer">
+        <!-- <el-menu
           mode="horizontal"
           :ellipsis="false"
           class="font-[TTNormsPro] create-menu"
-        >
-        <el-menu-item
+        > -->
+        <button
+              class="create-bot-button"
               style="min-width: 240px;"
               @click="createHandleSelect('2')"
             >
               <div class="flex px-[5px] justify-center items-center ">
                 <div class="font-['Inter'] text-xl font-bold text-black">+ Create</div>
               </div>
-            </el-menu-item>
+        </button>
           <!-- <el-sub-menu
             :popper-offset="15"
             popper-class="customs-sub-menu2"
@@ -81,7 +82,7 @@
               </div>
             </el-menu-item>
           </el-sub-menu> -->
-        </el-menu>
+        <!-- </el-menu> -->
       </div>
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
@@ -516,7 +517,7 @@ watch(
     line-height: unset !important;
   }
 }
-.create-bot-button{
+.create-bot-continer{
     .el-sub-menu__title {
       color: #000000;
     }
@@ -527,4 +528,13 @@ watch(
       display: none !important;
     }
   }
+
+.create-bot-button{
+  width: 205px;
+  height: 47px;
+  gap: 10px;
+  border-radius: 43px;
+  opacity: 0px;
+  background-color: #E1FF01;
+}
 </style>
