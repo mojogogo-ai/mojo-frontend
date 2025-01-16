@@ -2,8 +2,11 @@
   <div class="w-[562px] mx-auto">
     <div class="text-center  mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">Create Meme Bot</div>
     <!-- 按钮用于切换页面 -->  
-    <button @click="byFormHandle()">Create with Form</button>  
-    <button @click="byAiHandle()">Create with AI</button>
+     <div class="switch-container mb-[40px]">
+      <button @click="byFormHandle()" :class="['switch-button',{ 'selected': byForm }]">Create with Form</button>  
+      <button @click="byAiHandle()" :class="['switch-button',{ 'selected': !byForm }]">Create with AI</button>
+     </div>
+    
     <div v-if="byForm">
     <el-form
       ref="formRef"
@@ -596,5 +599,36 @@ onUnmounted(() => {
       transition: 0.1s;
       display: flex;
   }
+}
+</style>
+<style lang="scss">
+.switch-button {
+  font-family: TT Norms Pro;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 23px;
+  text-align: center;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+  width: 206px;  
+  height: 48px;  
+  gap: 0px; /* This might not have an effect on a button element */  
+  border-radius: 48px;  
+  opacity: 1; /* Assuming you meant for the buttons to be fully opaque */  
+  background-color: #FFFFFF1A; /* Default/unselected background */  
+  color: #FFFFFF; /* Default/unselected text color */  
+  border: none; /* Assuming you might not want borders */  
+  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */  
+  outline: none; /* Remove outline to improve aesthetics */  
+}
+.selected {  
+  background-color: #E0FF3133; /* Selected background */  
+  color: #E0FF31; /* Selected text color */  
+} 
+.switch-container {
+  display: flex; /* 启用Flexbox */  
+  justify-content: center; /* 水平居中按钮 */  
+  gap: 20px; /* 在按钮之间添加一些间隙 */ 
 }
 </style>
