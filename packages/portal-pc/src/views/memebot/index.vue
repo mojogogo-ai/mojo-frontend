@@ -316,7 +316,7 @@ const form = reactive({
   classification: [],//  conversation
   audio: '',
   symbol: '',
-  twitter: '',
+  twitter_state: '',
   telegram_bot_address: '',
   telegram_bot_token: '',
   introduction: '',
@@ -379,7 +379,7 @@ const isAIloading = ref(false);
 const parentAuthStatus = ref("unauthorized");
 
 function handleAuthStatusUpdate(newStatus) {
-  form.twitter = newStatus;
+  form.twitter_state = newStatus;
 }
 
 const close = () => {
