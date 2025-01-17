@@ -37,13 +37,14 @@
           :ellipsis="false"
           class="font-[TTNormsPro] create-menu"
         > -->
-        <button
+        <el-button
+              type="primary"
               class="create-bot-button font-['TT Norms Pro'] text-xl text-black"
               style="min-width: 240px;"
               @click="createHandleSelect('2')"
             >
                 + Create
-        </button>
+        </el-button>
           <!-- <el-sub-menu
             :popper-offset="15"
             popper-class="customs-sub-menu2"
