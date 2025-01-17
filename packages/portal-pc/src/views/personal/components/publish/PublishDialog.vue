@@ -203,8 +203,8 @@ const submitForm = async () => {
   //     discord_token: publishOptions[1].discord_token,
   //     address: publishOptions[0].address || publishOptions[1].address
   //   });
-  //   ElMessage.success('Bot publish successfully!');
-  //   emits('after-upload-knowledge-sources');
+    // ElMessage.success('Bot publish successfully!');
+    emits('after-upload-knowledge-sources');
     eventBus.emit('botPublishSuccess');
     close();
   // } catch (error) {

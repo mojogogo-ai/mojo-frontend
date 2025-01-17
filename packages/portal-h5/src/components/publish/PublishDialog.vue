@@ -208,13 +208,13 @@ const submitForm = async () => {
   }
   loading.value = true;
   try {
-    await botPublish({
-      id: botId.value,
-      telegram_token: publishOptions.find(item => item.id === 'telegram').telegram_token,
-      discord_token: publishOptions.find(item => item.id === 'discord').discord_token,
-      address: publishOptions.find(item => item.id === 'telegram').address || publishOptions.find(item => item.id === 'discord').address
-    });
-    showToast('Bot publish successfully!');
+    // await botPublish({
+    //   id: botId.value,
+    //   telegram_token: publishOptions.find(item => item.id === 'telegram').telegram_token,
+    //   discord_token: publishOptions.find(item => item.id === 'discord').discord_token,
+    //   address: publishOptions.find(item => item.id === 'telegram').address || publishOptions.find(item => item.id === 'discord').address
+    // });
+    // showToast('Bot publish successfully!');
     emits('after-upload-knowledge-sources');
     eventBus.emit('botPublishSuccess');
     close();
