@@ -38,13 +38,11 @@
           class="font-[TTNormsPro] create-menu"
         > -->
         <button
-              class="create-bot-button"
+              class="create-bot-button font-['TT Norms Pro'] text-xl text-black"
               style="min-width: 240px;"
               @click="createHandleSelect('2')"
             >
-              <div class="flex px-[5px] justify-center items-center ">
-                <div class="font-['Inter'] text-xl font-bold text-black">+ Create</div>
-              </div>
+                + Create
         </button>
           <!-- <el-sub-menu
             :popper-offset="15"
@@ -535,5 +533,6 @@ watch(
   border-radius: 43px;
   opacity: 0px;
   background-color: #E1FF01;
+  border-width: 0px;
 }
 </style>

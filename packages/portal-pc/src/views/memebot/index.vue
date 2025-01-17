@@ -351,6 +351,7 @@ const loading = ref(false);
 const isAIloading = ref(false);
 const parentAuthStatus = ref("unauthorized");
 
+
 function handleAuthStatusUpdate(newStatus) {
   form.twitter_state = newStatus;
 }
@@ -444,7 +445,7 @@ const setMemeCheckTimer = (bot_id) =>{
         clearInterval(memeCheckTimer.value)
         // memeCoinInfo.value = result.data;
         loading.value = false;
-        submitText.value = 'Create'
+        submitText.value = 'Create';
         formRef.value.resetFields();
         startLaunchRef.value.open({ ...result.data, bot_id});
       }

@@ -46,6 +46,14 @@
                 {{ $t("chat.start") }}
               </button>
             </div>
+            <div v-else-if="readyForLaunch" class="start-button-continer">
+              <button 
+                class="start-button"
+                @click="Launch()"
+              >
+                Launch
+              </button>
+            </div>
             <div v-else>
               <NInput
                 ref="inputRef"
@@ -211,7 +219,9 @@
   const botId = ref(null);
   let token = null;
   let currentToken = null; // Store for current token
-  
+  const startLaunchRef = ref(null);
+  const launchRef = ref(null);
+  const readyForLaunch = ref(false);
 
   const inputTrim= (value) => !value.startsWith(" ")
   
@@ -415,7 +425,6 @@
   }
 
   const memeCheckTimer = ref(null);
-  const startLaunchRef = ref(null);
 
   const setMemeCheckTimer = (bot_id) =>{
     console.log("memecheck",bot_id)
@@ -436,7 +445,9 @@
           clearInterval(memeCheckTimer.value)
           // memeCoinInfo.value = result.data;
           loading.value = false;
-          startLaunchRef.value.open({ ...result.data, bot_id,token});
+          launchRef.value = { ...result.data, bot_id};
+          readyForLaunch.value =true;
+          //startLaunchRef.value.open({ ...result.data, bot_id,token});
         }
       }else{
         // check meme
@@ -455,7 +466,9 @@
           clearInterval(memeCheckTimer.value)
           // memeCoinInfo.value = result.data;
           loading.value = false;
-          startLaunchRef.value.open({ ...result.data, bot_id,token});
+          launchRef.value = { ...result.data, bot_id};
+          readyForLaunch.value =true;
+          //startLaunchRef.value.open({ ...result.data, bot_id,token});
         }
       }
       
@@ -466,6 +479,9 @@
   }, 3000);
 }
 
+function Launch(){
+  startLaunchRef.value.open(launchRef.value);
+}
 
   const docIcons = {
   '.pdf': IconPdf,
