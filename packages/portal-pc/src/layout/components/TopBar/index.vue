@@ -113,7 +113,6 @@
     ref="loginRef"
     @dialog-close="onCloseLoginDialog"
     @close="onLoginClose"
-    @referral="onOpenReferralCodeDialog"
   />
 
   <!-- create bot -->
