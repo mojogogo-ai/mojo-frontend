@@ -116,13 +116,13 @@ const publishOptions = reactive([
     telegram_token: '',
     address: '',
     checked: false
-  },
-  {
-    id: 'discord',
-    name: 'Discord',
-    discord_token: '',
-    address: '',
-    checked: false
+  // },
+  // {
+  //   id: 'discord',
+  //   name: 'Discord',
+  //   discord_token: '',
+  //   address: '',
+  //   checked: false
   }
 ])
 const uncheckedOptions = computed(() => publishOptions.filter(item => item.checked));

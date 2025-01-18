@@ -241,10 +241,7 @@ const afterCreateBot = async (data) => {
   // 广播创建成功
   eventBus.emit('createBotSuccess', data);
   // TODO
-  uploadKnowledgeSourcesRef.value.open({
-    id: data?.id,
-    files: data?.files || null
-  });
+  publishDialogRef.value.open({ id:data?.id });
 };
 
 
