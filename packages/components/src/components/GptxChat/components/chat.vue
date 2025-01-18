@@ -432,7 +432,7 @@
     try {
       if(iframeToken.value!==null){
         // check meme
-        const response = await fetch('http://localhost:9004/portal/v1/bot/meme-check?token='+iframeToken.value+'&bot_id='+bot_id, {  
+        const response = await fetch(`${window.BASE_API}v1/bot/meme-check?token=`+iframeToken.value+'&bot_id='+bot_id, {  
           method: 'GET',  
           headers: {  
             'Content-Type': 'application/json',  
@@ -452,7 +452,7 @@
       }else{
         // check meme
         let authToken = await getToken();
-        const response = await fetch('http://localhost:9004/portal/v1/bot/meme-check?bot_id='+bot_id, {  
+        const response = await fetch(`${window.BASE_API}v1/bot/meme-check?bot_id=`+bot_id, {  
           method: 'GET',  
           headers: {  
             'Content-Type': 'application/json',  
