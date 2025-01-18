@@ -46,7 +46,7 @@
     // online start
     "dev.mojogogo.ai":{ // dev
       FIREBASE_CONFIG: firebaseConfig.dev,
-      BASE_API: "http://localhost:9004/portal/",
+      BASE_API: "https://api-dev.mojogogo.ai/portal/",
     },
     "test.mojogogo.ai":{ // test
       FIREBASE_CONFIG: firebaseConfig.test,
