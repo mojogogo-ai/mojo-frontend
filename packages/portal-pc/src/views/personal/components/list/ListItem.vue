@@ -23,7 +23,22 @@
           <div class="bmicli-title">
             {{ bot.name }}
           </div>
-          <div v-if="bot.bot_type===1&&bot.meme_state === 3" class="p-2 bmiclt-btn coin-continer" @click.stop="detailCoin(bot)">
+          <div class="bmicl-toolbar">
+            <!-- <div v-show="bot.public == '1'" class="bmiclt-btn">
+              Published
+            </div> -->
+
+            <!-- <div v-if="bot.bot_type===1&&bot.meme_state === 3" class="p-2 bmiclt-btn" @click.stop="detailCoin(bot)">
+              <el-avatar
+                size="small"
+                :src="bot.meme_icon"
+              />
+              <span class="ml-2"> {{ bot.meme_symbol }}</span>
+            </div> -->
+            <div v-if="bot.bot_type===1&&bot.meme_state !== 3" class="bmiclt-btn" :style="{backgroundColor: bot.meme_state === 3 ? 'rgba(17, 198, 65, 0.80)': '#db5f00'}">
+              {{ MemeStatusText[bot.meme_state] }}
+            </div>
+            <div v-if="bot.bot_type===1&&bot.meme_state === 3" class="p-2  coin-continer" @click.stop="detailCoin(bot)">
               <el-avatar
                 class="coin-logo"
                 size="small"
@@ -31,6 +46,7 @@
               />
               <span class="ml-2 meme-symbol"> ${{ bot.meme_symbol }}</span>
             </div>
+          </div>
           <div class="bmicli-author">
             <el-image
               class="bmicli-author-avatar"
@@ -44,22 +60,7 @@
           <div class="bmicli-desc" :title="bot.introduction">
             {{ bot.introduction }}
           </div>
-          <div class="bmicl-toolbar">
-            <div v-show="bot.public == '1'" class="bmiclt-btn">
-              Published
-            </div>
-
-            <!-- <div v-if="bot.bot_type===1&&bot.meme_state === 3" class="p-2 bmiclt-btn" @click.stop="detailCoin(bot)">
-              <el-avatar
-                size="small"
-                :src="bot.meme_icon"
-              />
-              <span class="ml-2"> {{ bot.meme_symbol }}</span>
-            </div> -->
-            <div v-if="bot.bot_type===1&&bot.meme_state !== 3" class="bmiclt-btn" :style="{backgroundColor: bot.meme_state === 3 ? 'rgba(17, 198, 65, 0.80)': '#db5f00'}">
-              {{ MemeStatusText[bot.meme_state] }}
-            </div>
-          </div>
+          
         </div>
       </div>
       <div class="bmic-right">
@@ -476,6 +477,8 @@ const detailCoin = (item) => {
   background-color: transparent;
 }
 .coin-continer{
+  padding-left: 0px;
+  padding-top: 0px;
   display: flex;
 }
 </style>
