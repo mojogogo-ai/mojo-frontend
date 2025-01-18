@@ -17,12 +17,12 @@
       <div class="pdc-list">
         <div v-for="item in publishOptions" class="pdc-list-item">
           <div class="configure-left">
-            <el-checkbox
+            <!-- <el-checkbox
               v-model="item.checked" :disabled="item.id === 'telegram' && !item.telegram_token || item.id === 'discord' && !item.discord_token"
               @change="(checked) => {
                 checkboxChange(item, checked)
               }"
-            />
+            /> -->
             <svg v-if="item.id === 'telegram'" class="ml-4 mr-2.5" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
               <g clip-path="url(#clip0_840_13917)">
                 <path d="M12.9487 0.5C9.76686 0.5 6.71248 1.76506 4.46436 4.01469C2.21393 6.26522 0.949374 9.31734 0.94873 12.5C0.94873 15.6813 2.21436 18.7357 4.46436 20.9853C6.71248 23.2349 9.76686 24.5 12.9487 24.5C16.1306 24.5 19.185 23.2349 21.4331 20.9853C23.6831 18.7357 24.9487 15.6813 24.9487 12.5C24.9487 9.31869 23.6831 6.26431 21.4331 4.01469C19.185 1.76506 16.1306 0.5 12.9487 0.5Z" fill="url(#paint0_linear_840_13917)" />
@@ -77,7 +77,7 @@
     <div class="divider-line" />
     <template #footer>
       <el-button type="primary" :loading="loading" :disabled="loading || uncheckedOptions.length === 0" @click="submitForm">
-        {{ 'Publish' }}
+        {{ 'Save' }}
       </el-button>
     </template>
     <ConfigureTelegramDialog ref="configureTelegramDialogRef" @after-update="afterUpdate" />

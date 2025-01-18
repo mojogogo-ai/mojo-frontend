@@ -251,6 +251,7 @@ const editAppInfo = async () => {
     if (result.code === 200) {
       loading.value = false;
       emits('after-update');
+      emits('after-upload-knowledge-sources');
       emits('after-create', {
         id: form.id,
         icon: form.icon,
