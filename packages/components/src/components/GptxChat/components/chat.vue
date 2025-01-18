@@ -303,7 +303,7 @@
     
     filetList.value = [];
     if (iframeToken.value!==null){
-      fetchEventSource("/portal" + '/v1/bot/meme-chat?token=' + iframeToken.value,{ //props.chatApiUrl, {
+      fetchEventSource(`${window.BASE_API}v1/bot/meme-chat?token=` + iframeToken.value,{ //props.chatApiUrl, {
       signal: controller.signal,
       method: 'POST',
       openWhenHidden: true,
@@ -355,7 +355,7 @@
     })
     }else{
       let authToken = await getToken();
-      fetchEventSource("/portal" + '/v1/bot/meme-chat',{ //props.chatApiUrl, {
+      fetchEventSource(`${window.BASE_API}v1/bot/meme-chat`,{ 
       signal: controller.signal,
       method: 'POST',
       openWhenHidden: true,
