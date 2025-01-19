@@ -265,8 +265,7 @@ const lanchedMemeCoin = async (bot) => {
 
 const detailCoin = (item) => {
   if (item.meme_token_mint) {
-    // let url = 'https://explorer.solana.com/address/GpfBHT3tov4XGZmscuRG4rQQMrjzk2eLrAq45cFRbZCb?cluster=devnet';
-    let url = `https://explorer.solana.com/address/${item.meme_token_mint}?cluster=devnet`;
+    let url = `https://pump.fun/coin/${item.meme_token_mint}`;
     window.open(url, '_blank')
   }
 };
