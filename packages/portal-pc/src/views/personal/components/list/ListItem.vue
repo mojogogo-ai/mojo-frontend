@@ -42,7 +42,7 @@
               <el-avatar
                 class="coin-logo"
                 size="small"
-                src="/src/assets/images/coin.png"
+                :src="coinImageUrl"
               />
               <span class="ml-2 meme-symbol"> {{ bot.meme_symbol }}</span>
             </div>
@@ -126,6 +126,7 @@
 import { t } from '@gptx/base/i18n';
 import { botDelete } from '@gptx/base/api/application';
 import { memeCheck } from '@gptx/base/api/meme-bot';
+import coinImageUrl from '@/assets/images/coin.png';
 
 // import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
 // import IconDiscord from '@/assets/images/bots/publish/discord.svg';
