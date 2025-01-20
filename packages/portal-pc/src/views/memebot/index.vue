@@ -248,27 +248,26 @@
       width="600px"
       @after-upload-knowledge="afterUploadKnowledge"
     />
+    <StartLaunch
+      ref="startLaunchRef"
+      width="600px"
+    />
     <Unlocked
       ref="unlockedRef"
       width="520px"
     />
   </div>
-  <Launcher ref="launcherDialog" :username="username" :coin="coin"/>
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
 import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
 import UploadKnowledge from './uploadKnowledge/index.vue';
+import StartLaunch from '@/components/StartLaunch/index.vue';
 import { ref } from 'vue';
 import TwitterButton from './twitterbutton/index.vue';
-import Launcher from './launcher/index.vue';
 
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
-
-const username = ref("JohnDoe");  
-const coin = ref("DogeCoin");
-
 const router = useRouter();
 const byForm = ref(true);
 // const emits = defineEmits(['after-create', 'after-update']);
@@ -409,14 +408,16 @@ const submitHandle = async (el) => {
   await el.validate(async (valid) => {
     if (valid) {
       try {
+        console.log(form.twitter);
         loading.value = true;
         const result = await memeCreate(form);
         if (result.code === 200) {
-          submitText.value = 'Creating your bot...'
+          submitText.value = 'Pending...'
           setMemeCheckTimer(result.data.id)
         } else {
           loading.value = false;
         }
+        // loading.value = false;
       } catch (e) {
         console.log(e);
         loading.value = false;
@@ -433,24 +434,25 @@ const conversationBot = async (el) => {
 
 const unlockedRef = ref(null)
 // 轮询查询状态
+const startLaunchRef = ref(null);
 const memeCheckTimer = ref(null);
-const launcherDialog = ref(null);
-
+// const memeCoinInfo = ref({});
 const setMemeCheckTimer = (bot_id) =>{
    memeCheckTimer.value = setInterval(async () => {
     try {
       const result = await memeCheck({ bot_id });
       if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
         clearInterval(memeCheckTimer.value)
+        // memeCoinInfo.value = result.data;
         loading.value = false;
         submitText.value = 'Create';
         formRef.value.resetFields();
-        launcherDialog.value.openPopup({ ...result.data, bot_id});
+        startLaunchRef.value.open({ ...result.data, bot_id});
       }
     } catch (error) {
       throw error;
     }
-  }, 4000);
+  }, 3000);
 }
 
 const getTgToken = () => {
