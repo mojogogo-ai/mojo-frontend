@@ -106,12 +106,6 @@
           </div>
           <template #dropdown>
             <el-dropdown-item
-              v-if="bot.public != '1'"
-              @click.stop="toPublish(bot)"
-            >
-              publish
-            </el-dropdown-item>
-            <el-dropdown-item
               class="is-delete"
               @click.stop="onDelete(bot.id)"
             >
