@@ -10,7 +10,7 @@
     align-center
   >
     <div class="success-result-content">
-      <p class="">Successfully created. Confirm and launch.</p>
+      <p class="">Successfully created. Confirm and launch your coin.</p>
     </div>
     <template #footer>
       <div class="flex justify-center w-full">
@@ -49,9 +49,8 @@ const launchLoading = ref(false);
 const memeCoinInfo = ref({});
 
 const open = async (coinInfo) => {
-  console.log(coinInfo,'coinInfo')
   memeCoinInfo.value = coinInfo;
-  console.log(memeCoinInfo.value,'coinInfo')
+  console.log(memeCoinInfo.value,'memecoinInfo')
 
   isVisible.value = true;
 };
@@ -84,6 +83,7 @@ const __sendTr = async () => {
       launchLoading.value = true;
       const res = await getTokenCreate(params);
       if (res.code === 200) {
+        console.log(res,'token creation res');
         const binaryData = base64ToBinary(res.data.tx_base64);
         
         // const connection = new Connection(clusterApiUrl('mainnet'));

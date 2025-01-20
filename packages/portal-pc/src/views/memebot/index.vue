@@ -248,10 +248,7 @@
       width="600px"
       @after-upload-knowledge="afterUploadKnowledge"
     />
-    <StartLaunch
-      ref="startLaunchRef"
-      width="600px"
-    />
+    <Launcher ref="launcherDialog" />
     <Unlocked
       ref="unlockedRef"
       width="520px"
@@ -263,14 +260,13 @@
 import { t } from '@gptx/base/i18n';
 import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
 import UploadKnowledge from './uploadKnowledge/index.vue';
-import StartLaunch from '@/components/StartLaunch/index.vue';
+import Launcher from './launcher/index.vue';
 import { ref } from 'vue';
 import TwitterButton from './twitterbutton/index.vue';
 
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 const router = useRouter();
 const byForm = ref(true);
-// const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
 const chatApiUrl =  '/portal/conversation/chat-anonymous';
 const botConfig = ref(null)
@@ -412,12 +408,11 @@ const submitHandle = async (el) => {
         loading.value = true;
         const result = await memeCreate(form);
         if (result.code === 200) {
-          submitText.value = 'Pending...'
+          submitText.value = 'Creating your bot...'
           setMemeCheckTimer(result.data.id)
         } else {
           loading.value = false;
         }
-        // loading.value = false;
       } catch (e) {
         console.log(e);
         loading.value = false;
@@ -434,20 +429,19 @@ const conversationBot = async (el) => {
 
 const unlockedRef = ref(null)
 // 轮询查询状态
-const startLaunchRef = ref(null);
+const launcherDialog = ref(null);
 const memeCheckTimer = ref(null);
-// const memeCoinInfo = ref({});
 const setMemeCheckTimer = (bot_id) =>{
    memeCheckTimer.value = setInterval(async () => {
     try {
       const result = await memeCheck({ bot_id });
+      console.log(result,'memeCheck result');
       if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
         clearInterval(memeCheckTimer.value)
-        // memeCoinInfo.value = result.data;
         loading.value = false;
         submitText.value = 'Create';
         formRef.value.resetFields();
-        startLaunchRef.value.open({ ...result.data, bot_id});
+        launcherDialog.value.openPopup({ ...result.data, bot_id});
       }
     } catch (error) {
       throw error;
