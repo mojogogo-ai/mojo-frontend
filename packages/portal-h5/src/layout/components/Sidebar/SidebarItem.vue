@@ -22,6 +22,9 @@ const props = defineProps({
   }
 });
 const isActive = (path) => {
+  // if (path === '/discord' && !isDiscordEnabled()) {
+  //   return false;
+  // }
   const isInclude = router?.currentRoute?.value?.path?.includes(path) ?? false;
   return isInclude;
 };
