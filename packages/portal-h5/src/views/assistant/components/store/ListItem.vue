@@ -95,12 +95,12 @@
             size="20"
             @click="openDig()"
           />
-          <svg-icon
+          <!-- <svg-icon
             name="discord"
             class="text-[#409eff] mr-3"
             size="20"
             @click="openDs(appInfo)"
-          />
+          /> -->
           <svg-icon
             name="telegram"
             class="text-[#409eff] mr-3"

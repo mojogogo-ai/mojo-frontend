@@ -100,7 +100,7 @@
                 :src="platIcons['telegram']"
               />
             </el-button>
-            <el-button
+            <!-- <el-button
               v-if="appInfo.discord_address"
               size="small"
               link
@@ -110,7 +110,7 @@
                 class="plat-icon"
                 :src="platIcons['discord']"
               />
-            </el-button>
+            </el-button> -->
           </div>
         </div>
       </template>
