@@ -190,6 +190,7 @@ const predefinedQuestionHandle = ((i)=>{
   }
 }
 .loader {
+  border-color: transparent;
   width: 25px;
   aspect-ratio: 4;
   --_g: no-repeat radial-gradient(circle closest-side,#ffffff 90%,#ffffff00);

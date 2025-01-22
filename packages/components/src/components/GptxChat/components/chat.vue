@@ -530,15 +530,17 @@ function Launch(){
       cursor: default !important;
   }
   .prompt-input{
+    --n-text-color: #fff !important;
+    color: white !important;
     height: 50px;
-    background-color: #FFFFFF26;
+    background-color: #FFFFFF26 !important;
     border-radius: 8px;
     border-width: 1px;
     border-color: #FFFFFF1A;
   }
   .prompt-input-h5{
-    height: 44px !important;;
-    background-color: #FFFFFF26 !important;;
+    height: 44px !important;
+    background-color: #FFFFFF26 !important;
     border-radius: 22px !important;
     border-width: 1px !important;
     border-color: #FFFFFF1A !important;

@@ -40,7 +40,7 @@
         <el-button
               type="primary"
               class="create-bot-button font-['TT Norms Pro'] text-xl text-black"
-              style="min-width: 240px;"
+              style="min-width: 150px;"
               @click="createHandleSelect('2')"
             >
                 + Create
