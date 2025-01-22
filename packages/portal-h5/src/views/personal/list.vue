@@ -57,7 +57,7 @@ import emptyRobotImageUrl from '@/assets/images/smart-people.svg';
 import { getMyBotList } from '@gptx/base/api/application';
 import ListItem from './components/list/ListItem.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
-
+import { useRouter } from 'vue-router';
 
 const form = reactive({
   published: '',
@@ -69,6 +69,7 @@ const isLoading = ref(false);
 const botList = ref([]);
 const total = ref(0);
 const isLoadMore = ref(true);
+const router = useRouter();
 
 // 监听 createBotSuccess 和 botPublishSuccess 事件，刷新列表
 eventBus.on('createBotSuccess', () => {
@@ -79,7 +80,7 @@ eventBus.on('botPublishSuccess', () => {
 });
 
 const createNewBot = () => {
-  eventBus.emit('createBot');
+  router.push({ path: '/memebot' });
 };
 const editBot = (bot) => {
   eventBus.emit('editBot', bot);
