@@ -23,7 +23,7 @@
         Home
       </div>
       <div class="menu-cs-item" @click="goPage(2)">
-        MyMeme
+        My Memes
       </div>
       <div class="menu-cs-item" @click="goPage(3)">
         Explore

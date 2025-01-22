@@ -175,7 +175,7 @@ const filetList = computed(() => {
           {{ callToolPending.message }}
         </div>
 
-        <div
+        <!-- <div
           v-if="!loading"
           class="flex flex-row self-end gap-2 mt-1"
         >
@@ -211,7 +211,7 @@ const filetList = computed(() => {
               />
             </el-button>
           </div>
-        </div>
+        </div> -->
         <!-- suggested question -->
         <div v-if="lastFlag&&!loading&&suggestedQuestion.length">
           <el-text>{{ $t('chat.tip3') }}</el-text>
