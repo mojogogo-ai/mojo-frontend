@@ -38,11 +38,9 @@
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-// import { Connection, clusterApiUrl } from '@solana/web3.js';
 import bs58 from "bs58";
 import { getTokenCreate, memePaid } from '@gptx/base/api/meme-bot';
 const router = useRouter();
-// const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
 
 const launchLoading = ref(false);

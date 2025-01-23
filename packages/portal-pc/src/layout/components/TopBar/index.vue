@@ -150,8 +150,6 @@ import LoginAndSignup from '@/components/LoginAndSignup';
 import StartLaunch from '@/components/StartLaunch/index.vue';
 
 import PhantomIcon from '@/assets/images/phantom.svg';
-// import CreateBot from '@/components/CreateBot';
-// import { supportLang } from '@gptx/base';
 import BotBaseInfo from '@/components/BotBaseInfo'
 import UploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vue';
 import PublishDialog from '@/views/personal/components/publish/PublishDialog.vue';
@@ -324,10 +322,9 @@ const publicKey = ref('') // publicKey就是address
 const curBalance = ref('')
 const getBalance = async () => {
   try {
-    const provider = getProvider(); // see "Detecting the Provider"
+    const provider = getProvider(); 
     const resp = await provider.connect();
-    // const connection = new Connection(clusterApiUrl('mainnet'));
-    const connection = new Connection(clusterApiUrl('devnet'));
+    const connection = new Connection(clusterApiUrl('mainnet'));
     
     const balance = await connection.getBalance(resp.publicKey);
     const accountInfo = await connection.getAccountInfo(resp.publicKey);
