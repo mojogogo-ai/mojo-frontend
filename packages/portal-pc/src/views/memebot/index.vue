@@ -154,7 +154,7 @@
           v-model="form.introduction"
           type="textarea"
           :rows="4"
-          placeholder="Describe your bot’s functions and usage."
+          placeholder="Describe your bot's functions and usage."
           maxlength="800"
           show-word-limit
           clearable
@@ -185,40 +185,67 @@
         label="Twitter"
         prop="twitter"
       >
-        <TwitterButton @update-auth-status="handleAuthStatusUpdate" />
+        <TwitterButton 
+        @updateTwitterLink="updateTwitterLink"
+        @update-auth-status="handleAuthStatusUpdate" />
       </el-form-item>
 
       <el-form-item
-        label="Configure Telegram address"
-        prop="telegram_bot_address"
+        label="Telegram"
+        prop="telegram"
       >
-        <div class="w-[552px] h-9 flex flex-col">
-          <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
-          <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot address ?</span>
-        </div>
         <el-input
-          v-model="form.telegram_bot_address"
-          placeholder="telegram address"
+          v-model="form.telegram"
+          placeholder="Enter your Telegram address"
+          maxlength="255"
+          clearable
+        />
+        <div class="toggle-container">
+          <label for="telegram-switch">Configure Telegram Bot</label>
+          <el-switch
+            v-model="isTelegramConfigured"
+            @change="toggleTelegramConfiguration"
+            active-color="#1da1f2"
+            inactive-color="#ccc"
+          />
+        </div>
+        <div v-if="isTelegramConfigured" class="additional-config">
+          <el-form-item
+            prop="telegram_bot_token"
+          >
+            <div class="w-[552px] h-9 flex flex-col">
+              <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
+              <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot adress and token?</span>
+            </div>
+            
+            <el-input 
+              v-model="form.telegram_bot_address"
+              placeholder="Enter Telegram Bot address"
+              maxlength="255"
+              clearable
+            />
+            <div class="w-[552px] h-5 flex flex-col"></div>
+            <el-input
+              v-model="form.telegram_bot_token"
+              placeholder="Please enter Telegram Bot token"
+              maxlength="10000"
+              clearable
+            />
+          </el-form-item>
+        </div>
+      </el-form-item>
+
+      <el-form-item
+        label="Website"
+        prop="website"
+      >
+        <el-input
+          v-model="form.website"
+          placeholder="Enter your website"
           maxlength="255"
           clearable
         />
       </el-form-item>
-      <el-form-item
-        label="Configure Telegram bot"
-        prop="telegram_bot_token"
-      >
-        <div class="w-[552px] h-9 flex flex-col">
-          <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
-          <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot token ?</span>
-        </div>
-        <el-input
-          v-model="form.telegram_bot_token"
-          placeholder="Please enter Telegram Bot token"
-          maxlength="10000"
-          clearable
-        />
-      </el-form-item>
-      
     </el-form>
     
     <div class="flex justify-center w-full my-20">
@@ -286,6 +313,9 @@ const form = reactive({
   audio: '',
   symbol: '',
   twitter_state: '',
+  twitter: '',
+  website: '',
+  telegram: '',
   telegram_bot_address: '',
   telegram_bot_token: '',
   introduction: '',
@@ -347,9 +377,14 @@ const loading = ref(false);
 const isAIloading = ref(false);
 const parentAuthStatus = ref("unauthorized");
 
+const isTelegramConfigured = ref(false);
 
 function handleAuthStatusUpdate(newStatus) {
   form.twitter_state = newStatus;
+}
+
+function updateTwitterLink(newLink) {
+  form.twitter = newLink;
 }
 
 function byFormHandle(){
@@ -449,14 +484,16 @@ const setMemeCheckTimer = (bot_id) =>{
   }, 3000);
 }
 
-const getTgToken = () => {
-  window.open('https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token', '_blank')
+const toggleTelegramConfiguration = () => {
+  if (!isTelegramConfigured.value) {
+    form.telegram_bot_address = '';
+    form.telegram_bot_token = '';
+  }
 };
 
-const changeValue1 = () => {
-  unlockedRef.value.open();
-  unlockValue.value = false;
-}
+const getTgToken = () => {
+  window.open('https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token', '_blank');
+};
 
 onUnmounted(() => {
   clearInterval(memeCheckTimer.value);
@@ -582,6 +619,26 @@ onUnmounted(() => {
       font-weight: 500;
     }
   }
+}
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.additional-config {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  margin-right: 10px;
+  font-size: 14px;
+  color: #fff;
 }
 </style>
 

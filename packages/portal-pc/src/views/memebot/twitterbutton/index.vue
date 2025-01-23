@@ -1,53 +1,104 @@
-<template>  
-  <div>  
-    <button @click="handleAuthorize">Connect Bot Twitter Account</button>  
-    <!-- {{ authStatus }}   -->
-  </div>  
-</template>  
-  
-<script>  
+<template>
+  <div class="twitter-connect">
+    <el-input
+      v-model="twitterLink"
+      placeholder="Enter your Twitter link"
+      class="twitter-input"
+      @change="updateTwitterLink"
+    />
+    <div class="toggle-container">
+      <label for="twitter-switch">Connect Bot Twitter Account</label>
+      <el-switch
+        v-model="isTwitterConnected"
+        @change="toggleTwitterConnection"
+        active-color="#1da1f2"
+        inactive-color="#ccc"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
 import { twitterAuth } from '@gptx/base/api/meme-bot';
-export default {  
-  data() {  
-    return {  
-      authStatus: "lala",
-    };  
-  },  
-  async created() {  
-  }, 
-  methods: {  
-    async twitterAuth() {
-      let url = ""
-      const response = await twitterAuth()
-      if (response.code === 200) {
-        url = response.data.redirect_uri;
-        this.authStatus = response.data.state;
+import { ref } from 'vue';
+
+export default {
+  setup(props, { emit }) {
+    const isTwitterConnected = ref(false);
+    const twitterLink = ref('');
+
+    const updateTwitterLink = () => {
+      emit('update-twitter-link', twitterLink.value);
+    };
+
+    const toggleTwitterConnection = async () => {
+      if (isTwitterConnected.value) {
+        await connectTwitter();
       } else {
-        console.error('Failed to obtain twitter auth url')
+        disconnectTwitter();
       }
-      
-      return url;
-    },
-    async handleAuthorize() {  
-      const twitterAuthUrl = await this.twitterAuth();
-      this.$emit('update-auth-status', this.authStatus);
-      const popup = window.open(twitterAuthUrl, "twitterAuthPopup", "width=500,height=600");  
-    },  
-  },  
-};  
-</script>  
-  
-<style scoped>  
-button {  
-  font-size: 14px;  
-  padding: 10px 20px;  
-  color: #ffffff;  
-  background-color: #1da1f2;  
-  border: none;  
-  border-radius: 5px;  
-  cursor: pointer;  
-}  
-button:hover {  
-  background-color: #1a91da;  
-}  
+    };
+
+    const connectTwitter = async () => {
+      const response = await twitterAuth();
+      if (response.code === 200) {
+        const twitterAuthUrl = response.data.redirect_uri;
+        emit('update-auth-status', 'connected');
+        window.open(twitterAuthUrl, "twitterAuthPopup", "width=500,height=600");
+      } else {
+        console.error('Failed to obtain twitter auth url');
+        twitterLink.value = ''; 
+      }
+    };
+
+    const disconnectTwitter = () => {
+      twitterLink.value = ''; 
+    };
+
+    return {
+      isTwitterConnected,
+      twitterLink,
+      toggleTwitterConnection,
+      updateTwitterLink,
+    };
+  },
+};
+</script>
+
+<style scoped>
+.twitter-connect {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.pdc-title {
+  color: #fff;
+  font-feature-settings: 'dlig' on;
+  font-family: "TT Norms Pro";
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  margin-bottom: 16px;
+}
+
+.pdc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+label {
+  margin-right: 10px;
+  font-size: 14px;
+  color: #fff;
+}
 </style>
