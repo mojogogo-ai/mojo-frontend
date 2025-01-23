@@ -60,13 +60,14 @@ const loginRegister = async () => {
             // Redirect to login or handle post-registration
             toLogin()
           } catch (error) {
-            console.error('Failed to bind referral code:', error)
-            ElMessage.error(t('login.invalidReferralCode'))
+            handleFirebaseError(error)
           }
         }
 
       } catch (error) {
-        handleFirebaseError(error)
+        console.error('Failed to bind referral code:', error)
+        ElMessage.error(t('login.invalidReferralCode'))
+        
       } finally {
         loading.value = false
       }

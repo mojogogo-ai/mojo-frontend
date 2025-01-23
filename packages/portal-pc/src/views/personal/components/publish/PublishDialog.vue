@@ -76,7 +76,7 @@
     </div>
     <div class="divider-line" />
     <template #footer>
-      <el-button type="primary" :loading="loading" :disabled="loading || uncheckedOptions.length === 0" @click="submitForm">
+      <el-button type="primary" :loading="loading" :disabled="loading" @click="submitForm">
         {{ 'Save' }}
       </el-button>
     </template>
