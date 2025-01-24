@@ -60,7 +60,7 @@
           <div class="bmicli-desc" :title="bot.introduction">
             {{ bot.introduction }}
           </div>
-          
+
         </div>
       </div>
       <div class="bmic-right">
@@ -71,7 +71,7 @@
     </div>
     <div class="bmi-bottom">
       <div class="cursor-pointer bmi-share-bar">
-        <div class="bmi-s-b-item" @click.stop="goLink(bot, 'telegram')">
+        <div v-if="bot?.telegram_address" class="bmi-s-b-item" @click.stop="goLink(bot, 'telegram')">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
             <g clip-path="url(#clip0_994_681)">
               <path d="M12.9487 0C9.76686 0 6.71248 1.26506 4.46436 3.51469C2.21393 5.76522 0.949374 8.81734 0.94873 12C0.94873 15.1813 2.21436 18.2357 4.46436 20.4853C6.71248 22.7349 9.76686 24 12.9487 24C16.1306 24 19.185 22.7349 21.4331 20.4853C23.6831 18.2357 24.9487 15.1813 24.9487 12C24.9487 8.81869 23.6831 5.76431 21.4331 3.51469C19.185 1.26506 16.1306 0 12.9487 0Z" fill="url(#paint0_linear_994_681)" />
