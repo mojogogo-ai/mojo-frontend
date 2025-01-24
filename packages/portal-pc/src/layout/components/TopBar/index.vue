@@ -324,7 +324,7 @@ const getBalance = async () => {
   try {
     const provider = getProvider(); 
     const resp = await provider.connect();
-    const connection = new Connection(clusterApiUrl('mainnet'));
+    const connection = new Connection(clusterApiUrl('mainnet-beta'));
     
     const balance = await connection.getBalance(resp.publicKey);
     const accountInfo = await connection.getAccountInfo(resp.publicKey);
