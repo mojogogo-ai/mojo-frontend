@@ -109,6 +109,7 @@ defineExpose({ setIsLogin });
      font-style: normal;
      font-weight: 500;
      line-height: 23px; /* 127.778% */
+     cursor: pointer;
      .login-item{
        width: 100%;
      }
