@@ -44,7 +44,7 @@
                 size="small"
                 :src="coinImageUrl"
               />
-              <!-- <span class="ml-2 meme-symbol"> {{ bot.meme_symbol }}</span> -->
+              <span class="ml-2 meme-symbol"> {{ bot.meme_symbol }}</span>
             </div>
           </div>
           <div class="bmicli-author">
