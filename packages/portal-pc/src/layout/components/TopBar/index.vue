@@ -322,10 +322,10 @@ const publicKey = ref('') // publicKey就是address
 const curBalance = ref('')
 const getBalance = async () => {
   try {
-    const provider = getProvider(); 
+    const provider = getProvider();
     const resp = await provider.connect();
     const connection = new Connection("https://dimensional-quick-sanctuary.solana-mainnet.quiknode.pro/b73ef3c61afe76bafce8615881ea46ce856db8a6");
-    
+
     const balance = await connection.getBalance(resp.publicKey);
     const accountInfo = await connection.getAccountInfo(resp.publicKey);
     curBalance.value = (balance/1000000000).toFixed(2)

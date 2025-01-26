@@ -4,6 +4,7 @@ import createVitePlugins from './vite/plugins'
 import optimize from './vite/optimize'
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
+import svgLoader from 'vite-svg-loader'
 
 // vite 相关配置
 // https://vitejs.dev/config/
@@ -17,6 +18,7 @@ export default defineConfig(({ mode, command }) => {
     base: command === 'build' || process.env.npm_lifecycle_event==='preview' ? '/h5/' : '/',
     plugins: [
       ...createVitePlugins(env, command === 'build'),
+      svgLoader(),
     ],
     resolve: {
       // https://cn.vitejs.dev/config/#resolve-alias

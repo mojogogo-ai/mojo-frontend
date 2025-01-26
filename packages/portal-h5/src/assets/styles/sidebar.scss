@@ -114,9 +114,10 @@
 .sidebar-logo {
   position: relative;
   width: 100%;
-  background: transparent !important;
+  background: var(--h5-bg-color-primary) !important;
   text-align: center;
   overflow: hidden;
+  border-bottom: 1px solid var(--neon-green-20, rgba(224, 255, 49, 0.20));
 
   &__link {
     display: flex;

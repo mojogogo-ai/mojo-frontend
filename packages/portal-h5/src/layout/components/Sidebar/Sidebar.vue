@@ -28,6 +28,11 @@
       <div class="menu-cs-item" @click="goPage(3)">
         Explore
       </div>
+      <div class="wallet">
+        <div class="wallet-btn" @click="installWallet">
+          <IconWallet class="icon"/> PHANTOM WALLET
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +44,7 @@ import router from '@/router'
 import NoLogin from './NoLogin';
 import User from './User';
 import { getIsLogin } from '@/utils/firebase.js';
+import IconWallet from '@/assets/svg/wallet.svg';
 
 import useLoginStore from '@/store/modules/login';
 
@@ -81,6 +87,9 @@ watch(
   },
   { immediate: false }
 );
+const installWallet= async () => {
+  window.open('https://phantom.app/', '_blank');
+}
 defineExpose({ setIsLogin });
 </script>
 <style lang="scss" scoped>
@@ -91,7 +100,7 @@ defineExpose({ setIsLogin });
     justify-content: center;
      //background: rgba(0, 0, 0, 0.05);
      //backdrop-filter: blur(35px);
-   background: transparent;
+   background: var(--h5-bg-color-primary);
    width: 100%;
 
    .menu-cs-item{
@@ -125,4 +134,39 @@ defineExpose({ setIsLogin });
      }
    }
  }
+ .wallet {
+   border-bottom: 1px solid var(--neon-green-20, rgba(224, 255, 49, 0.20));
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: rgba(255, 255, 255, 0.70);
+   text-align: center;
+   font-feature-settings: 'dlig' on;
+   font-family: Inter;
+   font-size: 18px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 23px; /* 127.778% */
+   cursor: pointer;
+   .wallet-btn{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-radius: 8px;
+     backdrop-filter: blur(35px);
+     background: var(--Style, #E1FF01);
+     color: var(--h5-text-color-primary);
+     font-size: 16px;
+     font-weight: 600;
+     margin: 26px 30px;
+     min-height: 48px;
+     width: 100%;
+     text-align: center;
+     .icon{
+       margin-right: 8px;
+     }
+   }
+ }
+
 </style>
