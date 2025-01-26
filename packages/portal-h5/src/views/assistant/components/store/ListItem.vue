@@ -35,6 +35,14 @@
               />
             </van-button>
           </div>
+          <div class="p-2  coin-continer" @click.stop="detailCoin(appInfo)">
+            <el-avatar
+              class="coin-logo"
+              size="small"
+              :src="coinImageUrl"
+            />
+            <span class="ml-2 meme-symbol"> {{ appInfo.symbol }}</span>
+          </div>
           <div class="mt-2">
             <van-image
               class="align-middle"
@@ -46,7 +54,7 @@
 
             <span class="mx-1 text-xs text-[var(--el-text-color-placeholder)]">  {{ appInfo.create_user_name || '-' }} </span>
 
-            <span class="text-xs text-[var(--el-text-color-placeholder)]"> @{{ appInfo.create_nick_name }} </span>
+<!--            <span class="text-xs text-[var(&#45;&#45;el-text-color-placeholder)]"> @{{ appInfo.create_nick_name }} </span>-->
           </div>
           <div
             class="text-placeholder my-2 line-clamp-4 h-[100px]"
@@ -116,6 +124,7 @@
 
 <script setup>
 import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
+import coinImageUrl from '@/assets/images/coin.png';
 // import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
 // import IconDiscord from '@/assets/images/bots/publish/discord.svg';
 // import IconLine from '@/assets/images/bots/publish/line.svg';
@@ -145,6 +154,13 @@ const openDs = ()=>{
 const openDig = () => {
   window.open('https://virtual-human.mojogogo.ai/', '_blank');
 };
+
+const detailCoin = (item) => {
+  if (item.meme_token_mint) {
+    let url = `https://pump.fun/coin/${item.meme_token_mint}`;
+    window.open(url, '_blank')
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -165,5 +181,29 @@ const openDig = () => {
 .text-\[var\(--van-blue\)\] {
   color: var(--van-blue);
 }
-
+.meme-symbol{
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #E1FF01;
+}
+.meme-symbol:hover {
+  cursor: pointer;
+}
+.coin-logo{
+  --el-avatar-size: 20px;
+  background-color: transparent;
+}
+.coin-continer{
+  padding-left: 0px;
+  padding-top: 0px;
+  display: flex;
+}
+.coin-continer:hover {
+  cursor: pointer;
+}
 </style>
