@@ -47,12 +47,12 @@ export default {
         window.open(twitterAuthUrl, "twitterAuthPopup", "width=500,height=600");
       } else {
         console.error('Failed to obtain twitter auth url');
-        twitterLink.value = ''; 
+        twitterLink.value = '';
       }
     };
 
     const disconnectTwitter = () => {
-      twitterLink.value = ''; 
+      twitterLink.value = '';
     };
 
     return {
@@ -70,7 +70,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  //background-color: rgba(0, 0, 0, 0.7);
 }
 
 .pdc-title {
