@@ -1,5 +1,4 @@
-<script setup lang="tsx">
-import { ref, reactive, onMounted, watch, defineEmits } from 'vue'
+<script setup>
 import { useRoute } from 'vue-router'
 import { Dialog, showFailToast, showToast } from 'vant';
 import { useUserStore } from '@/store/modules/user'
@@ -23,7 +22,7 @@ const formData = reactive({
 
 const loading = ref(false)
 const firebaseLoading = ref(false)
-const redirect = ref<string>('')
+const redirect = ref('')
 
 const rules = {
   username: [{ validator: validatorEmailVant, message: t('login.usernameError') }],
@@ -173,7 +172,7 @@ const toForgetPassword = () => {
         >
           {{ t('login.login') }}
         </van-button>
-        <div class="link-button flex justify-between">
+        <div class="flex justify-between link-button">
           <van-button
             plain
             class="font-Inter text-[15px] text-left"

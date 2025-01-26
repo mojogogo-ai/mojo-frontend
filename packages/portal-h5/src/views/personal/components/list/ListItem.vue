@@ -1,5 +1,5 @@
 <template>
-  <div class="bot-manage-item cursor-pointer">
+  <div class="cursor-pointer bot-manage-item">
     <div class="bmi-content">
       <div class="bmic-left">
         <div class="bmicl-avatar">
@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="bmi-bottom">
-      <div class="bmi-share-bar cursor-pointer">
+      <div class="cursor-pointer bmi-share-bar">
         <div class="bmi-s-b-item" @click.stop="goLink(bot, 'discord')">
           <!-- Discord 图标 -->
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
@@ -95,7 +95,6 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { showConfirmDialog, showToast } from 'vant';
 import { t } from '@gptx/base/i18n';
@@ -337,7 +336,6 @@ const onUnpublish = async (id) => {
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
-          -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           cursor: pointer;
         }

@@ -88,7 +88,6 @@ let isLoadMore = ref(true);
 let pageNum = ref(1);
 const pageSize = 10;
 const isLoading = ref(false);
-const refreshing = ref(false);
 
 const onDropDownClick = (plat, { address }) => {
   window.open(address, '_blank');
@@ -107,11 +106,9 @@ const goMorePoints = () => {
 };
 
 const getStoreList = async () => {
-  console.log('getStoreList1');
 
   if (!isLoadMore.value || isLoading.value) return; // 如果已加载完或正在加载中则退出
   isLoading.value = true;
-  console.log('getStoreList2');
   try {
     const { code, data } = await getPointLogList({
       page_num: pageNum.value,
@@ -133,18 +130,6 @@ const getStoreList = async () => {
   } finally {
     isLoading.value = false;
   }
-};
-
-const resetList = () => {
-  __data.storeList = [];
-  pageNum.value = 1;
-  isLoadMore.value = true;
-  getStoreList();
-};
-
-const onRefresh = () => {
-  resetList();
-  refreshing.value = false; // 完成刷新
 };
 
 onMounted(() => {
@@ -250,12 +235,10 @@ onMounted(() => {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  //min-height: 20vh;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(50px);
-  //overflow: hidden;
   padding: 0 20px;
 }
 

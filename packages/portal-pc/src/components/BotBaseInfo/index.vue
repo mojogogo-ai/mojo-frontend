@@ -45,6 +45,18 @@
         </el-select>
       </el-form-item>
       <el-form-item
+        :label="t('bots.label.symbol')"
+        prop="symbol"
+      >
+        <el-input
+          v-model="form.symbol"
+          :placeholder="t('bots.place.symbol')"
+          maxlength="6"
+          show-word-limit
+          clearable
+        />
+      </el-form-item>
+      <el-form-item
         :label="t('bots.label.conversationStyle')"
         prop="classification"
       >
@@ -81,6 +93,7 @@
           :default-avatar="form.icon"
           :name="form.name"
           :gender="form.gender"
+          :symbol="form.symbol"
           :introduction="form.introduction"
           :title="t('bots.icon')"
           :disabled-tooltip-text="t('bots.generateIconTooltip')"
@@ -114,11 +127,11 @@
 <script setup>
 import { t } from '@gptx/base/i18n';
 import { getBotInfo, createBot, botEdit } from '@gptx/base/api/application';
-import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
+// import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
 import { storeAppCopy } from '@gptx/base/api/chat.js';
 import { ElMessage } from 'element-plus';
 
-const emits = defineEmits(['after-create', 'after-update']);
+const emits = defineEmits(['after-create', 'after-update','after-upload-knowledge-sources']);
 const isVisible = ref(false);
 const isEdit = ref(false);
 const form = reactive({
@@ -133,7 +146,9 @@ const form = reactive({
 const rules = reactive({
   icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
-  introduction: [{ required: true, message: t('bots.ruleMessage.introduction') }],
+  symbol: [{ required: true, message: t('bots.ruleMessage.symbol') }],
+  gender: [{ required: true, message: t('bots.ruleMessage.gender') }],
+  introduction: [{ required: true, message: 'Please enter description' }],
   classification: [{ required: true, message: t('bots.ruleMessage.catalog'), trigger: 'change' }]
 });
 const catalogList = reactive([
@@ -169,12 +184,14 @@ const open = async (option) => {
       });
       // console.log(data, 'data')
       if (code === 200) {
+        console.log("data",data)
         form.icon = data.icon;
         form.name = data.name;
         form.introduction = data.introduction;
         form.classification = data.classification;
         form.gender = data.gender
         form.files = data.files;
+        form.symbol = data.symbol;
       }
     } catch (error) {
       console.log(error);
@@ -187,6 +204,7 @@ const open = async (option) => {
     // await nextTick();
     // alert(1)
     form.id = '';
+    form.symbol = '';
     form.icon = '';
     form.name = '';
     form.introduction = '';
@@ -202,6 +220,7 @@ const close = () => {
   form.id = '';
   form.icon = '';
   form.name = '';
+  form.symbol = '';
   form.introduction = '';
   form.classification = [];
   form.gender = null;
@@ -232,12 +251,15 @@ const editAppInfo = async () => {
     if (result.code === 200) {
       loading.value = false;
       emits('after-update');
+      emits('after-upload-knowledge-sources');
       emits('after-create', {
         id: form.id,
         icon: form.icon,
         name: form.name,
         introduction: form.introduction,
         classification: form.classification,
+        gender: form.gender,
+        symbol: form.symbol,
         files: form?.files || null
       });
       formRef.value.resetFields();

@@ -1,6 +1,6 @@
 <template>
   <el-header class="flex h-[80px] justify-center">
-    <div class="flex w-full min-w-[800px] max-w-[1280px] items-center ">
+    <div class="flex w-full min-w-[800px] max-w-[1280px] items-center justify-between ">
       <div class="flex items-center">
         <Logo class="flex-none mr-10" />
         <el-menu
@@ -8,7 +8,7 @@
           mode="horizontal"
           :ellipsis="false"
           :router="true"
-          class="font-[TTNormsPro]"
+          class="font-[TTNormsPro] left-menu"
           @select="handleSelect"
         >
           <el-menu-item
@@ -21,80 +21,88 @@
             style="margin-right: 8px"
             index="/personal"
           >
-            Personal
+            My Memes
           </el-menu-item>
-          <el-sub-menu
-            index="/assistant-group"
+          <el-menu-item
+            style="margin-right: 8px"
+            index="/assistant"
+          >
+            Explore
+          </el-menu-item>
+        </el-menu>
+      </div>
+      <div class="create-bot-continer">
+        <!-- <el-menu
+          mode="horizontal"
+          :ellipsis="false"
+          class="font-[TTNormsPro] create-menu"
+        > -->
+        <el-button
+              type="primary"
+              class="create-bot-button font-['TT Norms Pro'] text-xl text-black"
+              style="min-width: 150px;"
+              @click="createHandleSelect('2')"
+            >
+                + Create
+        </el-button>
+          <!-- <el-sub-menu
             :popper-offset="15"
-            popper-class="customs-sub-menu"
+            popper-class="customs-sub-menu2"
           >
             <template #title>
-              Explore
+              + Create
             </template>
             <el-menu-item
-              style="min-width: 240px;"
-              index="/assistant"
+              style="min-width: 220px;"
+              @click="createHandleSelect('1')"
             >
-              <div class="flex  px-[5px] ">
+              <div class="flex px-[5px] justify-center items-center ">
                 <div class="mr-[16px] flex h-9 w-9 items-center justify-center rounded-full bg-black">
                   <svg-icon
                     style="color: rgba(225, 255, 1, 1); font-size: 24px"
                     name="bot-store"
                   />
                 </div>
-                <div class="flex flex-col">
-                  <div class="mb-3 font-['Inter'] text-xl font-bold text-black">{{ $t('menu.ass') }}</div>
-                  <div
-                    class="text-sm font-medium text-wrap
-                   text-black w-[243px]"
-                  >
-                    Offer daily clothing inspirations for you every day.
-                  </div>
-                </div>
+                <div class="font-['Inter'] text-xl font-bold text-black">Bot</div>
               </div>
             </el-menu-item>
-          </el-sub-menu>
-        </el-menu>
-      </div>
-      <div class="create-bot-button">
-        <!--        create bot button-->
-        <el-button round class="font-[TTNormsPro]" @click="onCreateClick">
-          + Create Bot
-        </el-button>
-      </div>
-      <div class="lang-select mr-[34px]">
-        <!-- <el-dropdown v-if="langList.length" style="--el-dropdown-menuItem-hover-color: red" placement="bottom-start">
-          <el-button circle style="border: none!important;outline: none;width: 40px;height: 40px;">
-            <template #icon>
-              <el-icon style="width: 40px;height: 40px;">
-                <template #default>
-                  <svg style="width: 40px;height: 40px;display: block;font-size: 40px;" width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="bitcoin-icons:globe-outline">
-                      <rect y="0.5" width="40" height="40" rx="20" fill="white" fill-opacity="0.1" />
-                      <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="white" stroke-opacity="0.1" />
-                      <g id="Group">
-                        <path id="Vector" d="M20.0003 30.5057C22.137 30.5057 23.8691 26.0297 23.8691 20.5082C23.8691 14.9868 22.137 10.5107 20.0003 10.5107C17.8637 10.5107 16.1316 14.9868 16.1316 20.5082C16.1316 26.0297 17.8637 30.5057 20.0003 30.5057Z" stroke="#E1FF01" stroke-width="1.25" />
-                        <path id="Vector_2" d="M20.0002 30.501C25.5231 30.501 30.0002 26.0238 30.0002 20.501C30.0002 14.9781 25.5231 10.501 20.0002 10.501C14.4774 10.501 10.0002 14.9781 10.0002 20.501C10.0002 26.0238 14.4774 30.501 20.0002 30.501Z" stroke="#E1FF01" stroke-width="1.25" />
-                        <path id="Vector_3" d="M10.0005 20.4951L30.0005 20.5076" stroke="#E1FF01" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                      </g>
-                    </g>
-                  </svg>
-                </template>
-              </el-icon>
-            </template>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item v-for="item in langList" @click="changeLangCommand(item)">
-                {{ item.lable }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown> -->
+            <el-menu-item
+              style="min-width: 240px;"
+              @click="createHandleSelect('2')"
+            >
+              <div class="flex px-[5px] justify-center items-center ">
+                <div class="mr-[16px] flex h-9 w-9 items-center justify-center rounded-full bg-black">
+                  <svg-icon
+                    style="color: rgba(225, 255, 1, 1); font-size: 24px"
+                    name="lucide-bot"
+                  />
+                </div>
+                <div class="font-['Inter'] text-xl font-bold text-black">Meme Bot</div>
+              </div>
+            </el-menu-item>
+          </el-sub-menu> -->
+        <!-- </el-menu> -->
       </div>
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
+
+        <div v-if="isLogin">
+          <!-- <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">PHANTOM WALLET</el-button> -->
+          <div v-if="isPhantomInstalled" class="flex flex-col items-center justify-center" @click="test()">
+            <div class="flex items-center ">
+              <img style="border-radius: 8px" width="30px" height="30px" :src="PhantomIcon" alt="" srcset="">
+              <div
+                style="border: 2px solid rgba(224, 255, 49, 0.5);"
+                class="rounded-full flex items-center px-[6px] py-[1px] font-[500] ml-[4px] text-[11px] text-[#e1ff01]"
+              >
+                {{ curBalance }} SOL
+              </div>
+            </div>
+            <span v-if="publicKey" style="color: rgba(255, 255, 255, 0.70);font-size: 14px;"> {{ publicKey.substring(0, 4) + "..." + publicKey.substring(publicKey.length - 4, publicKey.length) }}</span>
+          </div>
+          <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button>
+        </div>
       </div>
     </div>
   </el-header>
@@ -104,12 +112,11 @@
     ref="loginRef"
     @dialog-close="onCloseLoginDialog"
     @close="onLoginClose"
-    @referral="onOpenReferralCodeDialog"
   />
 
   <!-- create bot -->
   <bot-base-info
-    ref="baseInfoRef"
+    ref="createBotRef"
     @after-create="afterCreateBot"
   />
   <UploadKnowledgeSources
@@ -123,6 +130,10 @@
     ref="referralCodeRef"
     @confirm="onConfirmUserInvite"
   />
+
+  <StartLaunch
+    ref="startLaunchRef"
+  />
 </template>
 
 <script setup>
@@ -134,22 +145,26 @@ import useLoginStore from '@/store/modules/login';
 import useBotStore from '@/store/modules/bot';
 import useUserStore from '@/store/modules/user.js';
 import { confirmUserInvite } from '@gptx/base/api/user.js';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import LoginAndSignup from '@/components/LoginAndSignup';
-import CreateBot from '@/components/CreateBot';
-import { getCurLang, supportLang } from '@gptx/base';
+import StartLaunch from '@/components/StartLaunch/index.vue';
+
+import PhantomIcon from '@/assets/images/phantom.svg';
 import BotBaseInfo from '@/components/BotBaseInfo'
 import UploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vue';
 import PublishDialog from '@/views/personal/components/publish/PublishDialog.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
+import { Connection, clusterApiUrl } from '@solana/web3.js';
+
 const route = useRoute();
+const router = useRouter();
 const useLogin = useLoginStore();
 const useBot = useBotStore();
 const useUser = useUserStore();
 
 const loginRef = ref(null);
-const baseInfoRef = ref(null);
+const createBotRef = ref(null);
 const isLogin = ref(false);
 const referralCodeRef = ref(null);
 
@@ -164,7 +179,7 @@ eventBus.on('publishBot', ({id}) => {
 eventBus.on('createBot', async () => {
   isLogin.value = await getIsLogin();
   if(isLogin.value) {
-    if (baseInfoRef.value) baseInfoRef.value.open({});
+    if (createBotRef.value) createBotRef.value.open({});
   } else {
     useLogin.setLoginDialogVisible(true, 'login');
   }
@@ -172,7 +187,7 @@ eventBus.on('createBot', async () => {
 eventBus.on('editBot', async (option) => {
   isLogin.value = await getIsLogin();
   if(isLogin.value) {
-    if (baseInfoRef.value) baseInfoRef.value.open(option);
+    if (createBotRef.value) createBotRef.value.open(option);
   } else {
     useLogin.setLoginDialogVisible(true, 'login');
   }
@@ -220,24 +235,39 @@ const afterUploadKnowledgeSources = ({id}) => {
   publishDialogRef.value.open({ id });
 };
 const afterCreateBot = async (data) => {
-  // router.push(`/design/${app_id}`);
   console.log('afterCreateBot', data);
   // 广播创建成功
   eventBus.emit('createBotSuccess', data);
   // TODO
-  uploadKnowledgeSourcesRef.value.open({
-    id: data?.id,
-    files: data?.files || null
-  });
+  publishDialogRef.value.open({ id:data?.id });
 };
 
 
 const onCreateClick = async() => {
   isLogin.value = await getIsLogin();
-  if (isLogin.value && baseInfoRef.value) {
-    baseInfoRef.value.open();
+  if (isLogin.value && createBotRef.value) {
+    createBotRef.value.open();
   } else {
     useLogin.setLoginDialogVisible(true);
+  }
+};
+
+// create bot
+const createHandleSelect = async (type) => {
+  if (type === '1') { // bot
+    onCreateClick()
+  } else { // meme bot
+    // useBot.setCreateBotDialog(false);
+    isLogin.value = await getIsLogin();
+    if (isLogin.value && createBotRef.value) {
+      if (isPhantomInstalled) {
+        router.push({ path: '/memebot' });
+      } else {
+        installWallet();
+      }
+    } else {
+      useLogin.setLoginDialogVisible(true);
+    }
   }
 };
 
@@ -251,6 +281,77 @@ const onLoginClick = (val) => {
   }
 };
 
+
+const connectWallet = async () => {
+  if (window.phantom?.solana?.isPhantom) {
+    const provider = window.phantom?.solana;
+    if (provider?.isPhantom) {
+      try {
+        const resp = await provider.connect();
+        publicKey.value = resp.publicKey.toString()
+        console.log('Public Key:', publicKey.value);
+      } catch (error) {
+        console.error('Error connecting to Phantom:', error);
+      }
+    }
+  } else {
+    console.error('Phantom not installed');
+  }
+}
+
+const installWallet= async () => {
+  window.open('https://phantom.app/', '_blank');
+}
+
+
+const getProvider =  () => {
+  if ('phantom' in window) {
+    const provider = window.phantom?.solana;
+    if (provider?.isPhantom) {
+      return provider;
+    }
+  }
+  // window.open('https://phantom.app/', '_blank');
+};
+
+
+// 发送交易(创建token)
+const publicKey = ref('') // publicKey就是address
+
+// 获取Balance
+const curBalance = ref('')
+const getBalance = async () => {
+  try {
+    const provider = getProvider(); 
+    const resp = await provider.connect();
+    const connection = new Connection("https://dimensional-quick-sanctuary.solana-mainnet.quiknode.pro/b73ef3c61afe76bafce8615881ea46ce856db8a6");
+    
+    const balance = await connection.getBalance(resp.publicKey);
+    const accountInfo = await connection.getAccountInfo(resp.publicKey);
+    curBalance.value = (balance/1000000000).toFixed(2)
+
+    console.log(accountInfo,'accountInfo')
+  } catch {
+    curBalance.value = 0
+  }
+}
+
+const isPhantomInstalled = window.phantom?.solana?.isPhantom
+
+// test
+const startLaunchRef = ref(null);
+const test = () => {
+  // startLaunchRef.value.open({
+  //   "name": "Dem Token6",
+  //   "symbol": "Dem6",
+  //   "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
+  // });
+  // console.log('test')
+}
+onMounted(() => {
+  connectWallet()
+  getBalance()
+})
 watch(
   () => route.path,
   (newPath, oldPath) => {
@@ -285,23 +386,23 @@ watch(
 watch(
   () => useBot.createBotDialog,
   () => {
-    if (baseInfoRef.value) baseInfoRef.value.open({});
+    if (createBotRef.value) createBotRef.value.open({});
   },
   { immediate: false }
 );
 
-const curLang = getCurLang();
-const langList = supportLang(); // 支持切换的语言
+// const curLang = getCurLang();
+// const langList = supportLang(); // 支持切换的语言
 // const language = computed(() => {
 //   return langList.find((i) => {
 //     return i.value === curLang;
 //   }).value;
 // });
-const changeLangCommand = (item) => {
-  console.log(item);
-  localStorage.setItem('lang', item.value);
-  window.location.reload();
-};
+// const changeLangCommand = (item) => {
+//   console.log(item);
+//   localStorage.setItem('lang', item.value);
+//   window.location.reload();
+// };
 
 </script>
 
@@ -336,26 +437,6 @@ const changeLangCommand = (item) => {
    }
  }
 
-
-
-
-.create-bot-button{
-  padding: 0 20px;
-  .el-button{
-    display: flex;
-    padding: 12px 51px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 43px;
-    background: var(--Style, #E1FF01);
-    color: #000;
-    font-feature-settings: 'dlig' on;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 23px; /* 127.778% */
-  }
-}
 :deep(.el-menu-item) {
   padding: 0 35px;
   color: rgba(255, 255, 255, 0.70);
@@ -417,5 +498,36 @@ const changeLangCommand = (item) => {
 .el-popper .el-menu--horizontal .el-menu .el-menu-item:not(.is-disabled):focus,
 .el-popper .el-menu--horizontal .el-menu .el-menu-item:not(.is-disabled):hover {
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+.customs-sub-menu2 {
+  .el-menu-item {
+    min-height: 50px;
+    height: auto !important;
+    padding: 10px 15px;
+    margin: 10px 0;
+    line-height: unset !important;
+  }
+}
+.create-bot-continer{
+    .el-sub-menu__title {
+      color: #000000;
+    }
+    .el-menu--horizontal>.el-sub-menu:hover .el-sub-menu__title {
+        color: #000000 !important;
+    }
+    .el-sub-menu__icon-arrow{
+      display: none !important;
+    }
+  }
+
+.create-bot-button{
+  width: 205px;
+  height: 47px;
+  gap: 10px;
+  border-radius: 43px;
+  opacity: 0px;
+  background-color: #E1FF01;
+  border-width: 0px;
 }
 </style>

@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@vant/use": "^1.6.0",
-    "vant": "^4.9.4"
+    "vant": "^4.9.15"
   },
   "devDependencies": {
     "@vant/auto-import-resolver": "^1.2.1"

@@ -16,7 +16,6 @@
         ref="loginRef"
         @dialog-close="onCloseLoginDialog"
         @close="onLoginClose"
-        @referral="onOpenReferralCodeDialog"
       />
       <CreateBot ref="botRef" />
       <referral-code

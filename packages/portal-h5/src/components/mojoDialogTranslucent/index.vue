@@ -26,8 +26,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-import { Dialog as VanDialog, Button as VanButton } from 'vant';
+import { Dialog as VanDialog } from 'vant';
 
 // 定义 props
 const props = defineProps({
@@ -64,6 +63,7 @@ const handleClose = () => {
 };
 
 // 定义确认按钮的事件
+// eslint-disable-next-line no-unused-vars
 const confirm = () => {
   emit('confirm');
   handleClose();

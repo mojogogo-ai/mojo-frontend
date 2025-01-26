@@ -24,8 +24,6 @@
                 :suggested-question="suggestedQuestion||[]"
                 :last-flag="index == dataSources.length - 1"
                 :conversation-options="item.conversationOptions"
-                @regenerate-again="onRegenerateAgain()"
-                @ealuate="handleEaluate(item, index, $event)"
                 @predefined-question-handle="predefinedQuestionHandle"
               />
             </div>
@@ -37,25 +35,26 @@
       class="p-4"
     >
       <div style="max-width: 780px;" class="m-auto">
-        <div v-if="loading" class="flex justify-center w-full mb-2">
-          <el-button class="chat-operation" @click="handleStop">
-            <template #icon>
-              <el-icon><VideoPause /></el-icon>
-            </template>
-            <span>{{ $t('common.stopResponding') }}</span>
-          </el-button>
-        </div>
         <div class="flex flex-col items-center justify-between">
-          <div class="flex" style="position:relative; margin-bottom: 8px; width: 100%;">
-            <el-button :loading="clearLoading" :disabled="dataSources.length < 2" :class="{'chat-operation': dataSources.length > 1}" @click="handleClear">
-              <template #icon>
-                <el-icon><Delete /></el-icon>
-              </template>
-              <span>{{ $t('chat.operate_4') }}</span>
-            </el-button>
-          </div> 
           <div class="flex items-center justify-between w-full space-x-2">
             <div v-if="!isMobi()" class="flex flex-col justify-between w-full ">
+            <div v-if="isStart()" class="start-button-continer">
+              <button
+                class="start-button"
+                @click="startHandle()"
+              >
+                {{ $t("chat.start") }}
+              </button>
+            </div>
+            <div v-else-if="readyForLaunch" class="start-button-continer">
+              <button 
+                class="start-button"
+                @click="Launch()"
+              >
+                Launch
+              </button>
+            </div>
+            <div v-else>
               <NInput
                 ref="inputRef"
                 v-model:value="prompt"
@@ -94,6 +93,8 @@
                   </div>
                 </template>
               </NInput>
+            </div>
+              
               <div v-if="filetList.length" class="flex flex-wrap  w-full p-2 mt-2 rounded-lg align-center bg-[#fff]">
                 <div v-for="file in filetList" class="relative flex  items-center m-1 rounded-lg bg-[#F6F7F9] p-4">
                   <img
@@ -111,14 +112,13 @@
                       {{ filesize(file.file_size) }}
                     </div>
                   </div>
-
-                  <div class="absolute cursor-pointer top-[6px] right-[6px] hover:opacity-85" @click="handleRemove(file)">
-                    <el-icon :size="16"><CircleClose /></el-icon>
-                  </div>
                 </div>
               </div>
             </div>
-            
+            <StartLaunch
+              ref="startLaunchRef"
+              width="600px"
+            />
             <NInput
               v-if="isMobi()"
               ref="inputRef"
@@ -147,12 +147,13 @@
       ref="baseFileUploadRef"
       @reload="onReload"
     />
-    <DisLike ref="dialogRef" @dislike-submit="Dislike_Submit" />
   </div>
 </template>
   <script setup>
   import DisLike from '../../DisLike'
   import ImportFileDialog from './ImportFileDialog';
+
+  import { memeCheck } from '@gptx/base/api/meme-bot';
 
   import { NInput } from 'naive-ui'
   import Message from './Message/index.vue'
@@ -162,13 +163,13 @@
   import { ElMessageBox } from 'element-plus'
   import { showConfirmDialog } from 'vant';
   import { getToken } from '@gptx/base/utils/auth'
-  import { getCurLang } from '@gptx/base'
+  // import { getCurLang } from '@gptx/base'
   import { t } from '@gptx/base/i18n'
   import { evaluateApi } from "@gptx/base/api/application";
   import { chatNewSession } from "@gptx/base/api/chat";
   import { shareNewSession } from "@gptx/base/api/share";
   import { isMobi } from '@gptx/base'
-
+  import StartLaunch from '@/components/StartLaunch/index.vue';
   import { filesize } from 'filesize';
   import IconHtml from '@/assets/images/base/upload/html.svg';
   import IconMd from '@/assets/images/base/upload/md.svg';
@@ -179,7 +180,7 @@
   import IconCsv from '@/assets/images/base/upload/csv.svg';
 
   let controller = new AbortController()
-  const lang = getCurLang()
+  // const lang = getCurLang()
   const chatStore = useChatStore()
   const { scrollRef, scrollToBottom, scrollToBottomIfAtBottom } = useScroll() 
   const dataSources = computed(() => chatStore.getChatByUuid(chatStore.active))
@@ -193,6 +194,7 @@
   const itemIndex = ref(0)
   const emit = defineEmits(['onError'])
   const suggestedQuestion = ref([])
+  const iframeToken = ref(null)
   const props = defineProps({
     chatApiUrl:{
       type: String,
@@ -212,17 +214,44 @@
     }
   })
 
+  let messages = []; // 消息记录
+  let sid = null; // 用于存储 SID
+  const botId = ref(null);
+  let token = null;
+  let currentToken = null; // Store for current token
+  const startLaunchRef = ref(null);
+  const launchRef = ref(null);
+  const readyForLaunch = ref(false);
+
   const inputTrim= (value) => !value.startsWith(" ")
   
-  watch(() => dataSources.value.length, (len) => {
-    if (len > 1) {
+  watch(() => dataSources.value.length, (newLen,oldLen) => {
+    if (newLen > 1) {
       scrollToBottom()
     }
+
   }, { deep: true })
+
+  watch(botId,(newId,oldId)=>{
+    console.log(oldId===null,newId,oldId)
+    if (oldId===null && newId!==null){
+      console.log("botid change")
+      setMemeCheckTimer(newId)
+    }
+
+  },{ once: true })
   
   // 触发开场白预置问题
   function predefinedQuestionHandle (predefinedQuest) {
     onConversation(predefinedQuest)
+  }
+
+  function startHandle(){
+    onConversation("/CreateBot")
+  }
+
+  function isStart(){
+    return botId.value==null
   }
   
   async function onConversation (v) {
@@ -258,31 +287,40 @@
     scrollToBottom()
     let lastText = ''
   
-    let authToken = await getToken()
-    let refsList = filetList.value.map(i=> i.ref)
-    filetList.value = []
-    fetchEventSource(window.BASE_API + props.chatApiUrl, {
+    // let authToken = await getToken() TODO: replace fetch with getToken()
+    // const response = await fetch('http://localhost:9004/portal/v1/open/auth/grant-token', {  
+    //   method: 'POST',  
+    //   headers: {  
+    //     'Content-Type': 'application/json',  
+    //   },  
+    //   body: JSON.stringify({  
+    //     appid: 'I6iz8SAHfimCuGQMCbwN',  
+    //     appkey: 'PcpTHb2q6w39oxQqCP1s',  
+    //     uid: 'sdfasfas',  
+    //   }),  
+    // });  
+    // const data = await response.json();  
+    
+    filetList.value = [];
+    if (iframeToken.value!==null){
+      fetchEventSource(`${window.BASE_API}v1/bot/meme-chat?token=` + iframeToken.value,{ //props.chatApiUrl, {
       signal: controller.signal,
       method: 'POST',
       openWhenHidden: true,
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        // 'X-Client-Locale': lang === 'zh' ? 'zh-CN' : lang, // Locale
-        // 'X-Client-Type': isMobi() ? 2 : 1, // X-Client-Type
-        // 'X-Client-Site': window.SITE_TYPE // X-Client-Site
-      },
-      body: JSON.stringify({ // 参数
-        app_id: chatStore.getChatHistoryByCurrentActive.id,
-        shared_key: chatStore.getChatHistoryByCurrentActive.shared_key || undefined, // shared chat
-        sid: chatStore.getChatHistoryByCurrentActive.sid || '',
-        refs: refsList.length ? refsList : undefined,
-        prompt: message,
-        stream: true
-      }),
+      headers: {  
+        'Content-Type': 'application/json',  
+      },  
+      body: JSON.stringify({  
+        bot_id: botId.value,  
+        prompt: message,  
+        stream: true,  
+        sid: sid,  
+      }),  
       onmessage (event) {
         const eData = JSON.parse(event.data)
         console.log('onmessage', eData)
-        // const data = JSON.parse(chunk)
+        botId.value = eData.bot_id
+        sid = eData.sid
         lastText = lastText + eData.content
         chatStore.updateChatByUuid(
           chatStore.active,
@@ -299,104 +337,6 @@
         chatStore.updateHistory(chatStore.active, {
           sid: eData.sid,
         })
-        suggestedQuestion.value = []
-        if(eData.data&&eData.data.suggested_question){
-          
-          try {
-            let suggested_question = JSON.parse(eData.data.suggested_question) || []
-
-            if (suggested_question[0] && typeof(suggested_question[0])==='string') {
-              suggestedQuestion.value = suggested_question
-            } else{
-              suggestedQuestion.value = []
-            }
-
-            setTimeout(()=>{
-              scrollToBottom()
-            }, 800)
-          } catch (e) {
-            console.log(e);
-            suggestedQuestion.value = []
-          }
-
-        }
-      },
-      onopen: async (response) => {
-        // {"code":500,"msg":"system error, please contact administrator","data":null}
-        if (response.ok && response.headers.get('content-type') === 'application/json') {
-          let res = await response.text()
-          res = JSON.parse(res) || null
-          console.log('response', res)
-          if (res && res.code && res.code === 401) {
-            controller.abort()
-            chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, {
-              text: t('login.re-login'),
-              error: true,
-              loading: false
-            })
-            loading.value = false
-            return false
-          } else if (res && res.code && (res.code === 901 || res.code === 902)) { // 游客，触发登录
-            controller.abort()
-            chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, {
-              text: t('chat.tip1'),
-              error: true,
-              loading: false
-            })
-            loading.value = false
-            emit('onError', res)
-            return false
-          }  else if (res && res.code && (res.code === 500 || res.code === 999)) {
-            controller.abort()
-            chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, {
-              text: res.msg,
-              error: true,
-              loading: false
-            })
-            loading.value = false
-            return false
-          } else if (res && res.code && res.code !== 200){
-            controller.abort()
-            loading.value = false
-            return false
-            //
-          } else {
-            //
-          }
-          // everything's good
-        }
-      },
-      onerror (onerror) {
-        console.log('onerror', onerror)
-        const errorMessage = t('common.wrong')
-        const currentChat = chatStore.getChatByUuidAndIndex(chatStore.active, dataSources.value.length - 1)
-        if (currentChat?.text && currentChat.text !== '') { // 中途意外出错，提示
-          chatStore.updateChatSomeByUuid(
-            chatStore.active,
-            dataSources.value.length - 1,
-            {
-              text: `${currentChat.text}\n[${errorMessage}]`,
-              error: true,
-              loading: false
-            }
-          )
-        }
-        chatStore.updateChatByUuid(
-          chatStore.active,
-          dataSources.value.length - 1,
-          {
-            text: errorMessage,
-            inversion: false,
-            error: true,
-            loading: false,
-            conversationOptions: null
-          }
-        )
-        controller.abort()
-        loading.value = false
-  
-        scrollToBottomIfAtBottom()
-        throw err; 
       },
       onclose () {
         chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, { loading: false })
@@ -413,169 +353,61 @@
         scrollToBottomIfAtBottom()
       }
     })
-  }
-  
-  const onRegenerateAgain = () =>{
-    let lastAsk = dataSources.value[dataSources.value.length - 2].text
-    onConversation(lastAsk)
-  }
-  
-  function handleEaluate (item, index, bol) { // Ealuate
-    console.log(index, bol, 'index, bol')
-    if(bol) {
-      handleLike(item.conversationOptions.mid,index);
-    }else {
-      handleDislike(item.conversationOptions.mid,index)
-    }
-  }
-  
-  function handleLike (mid,index) {
-    let obj = {
-      mid: mid,
-      evaluate:2,
-    };
-    evaluateApi(obj).then((res) => {
-      if (res.code === 200) {
-        ElMessage.success(t('common.likeSuccess'));
-        chatStore.updateChatSomeByUuid(chatStore.active, index,
-            {
-              isGood: 2
-            }
-          )
-        }
-      }).catch(() => {
-    });
-  }
-  
-  function handleDislike (mid,index) {
-    itemMsgId.value = mid;
-    itemIndex.value = index;
-    dialogRef.value.show();
-  }
-  
-  function Dislike_Submit(val){
-    let obj = {
-      mid: itemMsgId.value,
-      evaluate:3,
-      tapType:val.tapType,
-      content:val.content,
-    };
-    evaluateApi(obj).then((res) => {
-      if (res.code === 200) {
-        ElMessage.success(t('common.dislikeSuccess'));
-        chatStore.updateChatSomeByUuid(chatStore.active, itemIndex.value,
-            {
-              isGood: 3
-            }
-          )
-        dialogRef.value.show();
-        }
-      }).catch(() => {
-    });
-  }
-  
-  function handleClear () {
-    if (loading.value) {
-      return
-    }
-    if(isMobi()){
-      showConfirmDialog({
-        title: t('chat.clearChat'),
-        message: t('chat.clearChatConfirm'),
-        confirmButtonText: t('common.clear'),
-        cancelButtonText: t('common.cancel'),
-        showConfirmButton: true
-      }).then(() => {
-        if (chatStore.getChatHistoryByCurrentActive.shared_key) { // shared chat
-          __shareNewSession()
-        } else {
-          __chatNewSession()
-        }
-      }).catch(() => {
-      });
-    } else {
-
-      ElMessageBox.confirm(
-        t('chat.clearChatConfirm'),
-        t('chat.clearChat'),
-        {
-          autofocus: false,
-          confirmButtonText: t('common.clear'),
-          cancelButtonText: t('common.cancel'),
-          type: 'warning'
-        }
-      ).then(() => {
-          if (chatStore.getChatHistoryByCurrentActive.shared_key) { // shared chat
-            __shareNewSession()
-          } else {
-            __chatNewSession()
+    }else{
+      let authToken = await getToken();
+      fetchEventSource(`${window.BASE_API}v1/bot/meme-chat`,{ 
+      signal: controller.signal,
+      method: 'POST',
+      openWhenHidden: true,
+      headers: {  
+        'Content-Type': 'application/json',  
+        'Authorization':'Bearer '+authToken,
+      },  
+      body: JSON.stringify({  
+        bot_id: botId.value,  
+        prompt: message,  
+        stream: true,  
+        sid: sid,  
+      }),  
+      onmessage (event) {
+        const eData = JSON.parse(event.data)
+        console.log('onmessage', eData)
+        botId.value = eData.bot_id
+        sid = eData.sid
+        lastText = lastText + eData.content
+        chatStore.updateChatByUuid(
+          chatStore.active,
+          dataSources.value.length - 1,
+          {
+            text: lastText,
+            inversion: false,
+            error: false,
+            loading: true,
+            conversationOptions: { mid: eData.mid, sid: eData.sid, extendsData:eData.data }
           }
+        )
+        scrollToBottom()
+        chatStore.updateHistory(chatStore.active, {
+          sid: eData.sid,
         })
-        .catch(() => { })
+      },
+      onclose () {
+        chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, { loading: false })
+        if (lastText === '') {
+          chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1,
+            {
+              text: `[${t('common.wrong')}]`,
+              error: true,
+              loading: false
+            }
+          )
+        }
+        loading.value = false
+        scrollToBottomIfAtBottom()
+      }
+    })
     }
-  }
-  function __shareNewSession () {
-      clearLoading.value = true
-      shareNewSession({
-        // "debug": props.isDebug,
-        "shared_key": chatStore.getChatHistoryByCurrentActive.shared_key,
-      }).then((res) => {
-        if (res.code === 200) {
-          suggestedQuestion.value = []
-          chatStore.clearChatByUuid(chatStore.active)
-          // 此处注意兼容home页的聊天
-          chatStore.updateHistory(chatStore.active, {
-            sid: '',
-            predefined_question: chatStore.getChatHistoryByCurrentActive.predefined_question,
-          })
-          chatStore.addChatByUuid(
-            // 设置开场白
-            chatStore.active,
-            {
-              text: chatStore.getChatHistoryByCurrentActive.prologue.content || chatStore.getChatHistoryByCurrentActive.prologue,
-              predefined_question:chatStore.getChatHistoryByCurrentActive.predefined_question,
-              inversion: false,
-              isPrologue: true,
-              isHome: chatStore.getChatHistoryByCurrentActive.isHome,
-              error: false,
-              conversationOptions: null
-            }
-          );
-        }
-        clearLoading.value = false
-      }).catch(() => { clearLoading.value = false });
-  }
-
-  function __chatNewSession () {
-      clearLoading.value = true
-      chatNewSession({
-        "debug": props.isDebug,
-        "app_id": chatStore.getChatHistoryByCurrentActive.id,
-      }).then((res) => {
-        if (res.code === 200) {
-          suggestedQuestion.value = []
-          chatStore.clearChatByUuid(chatStore.active)
-          // 此处注意兼容home页的聊天
-          chatStore.updateHistory(chatStore.active, {
-            sid: '',
-            predefined_question: chatStore.getChatHistoryByCurrentActive.predefined_question,
-          })
-          chatStore.addChatByUuid(
-            // 设置开场白
-            chatStore.active,
-            {
-              text: chatStore.getChatHistoryByCurrentActive.prologue.content || chatStore.getChatHistoryByCurrentActive.prologue,
-              predefined_question:chatStore.getChatHistoryByCurrentActive.predefined_question,
-              inversion: false,
-              isPrologue: true,
-              isHome: chatStore.getChatHistoryByCurrentActive.isHome,
-              error: false,
-              conversationOptions: null
-            }
-          );
-        }
-        clearLoading.value = false
-      }).catch(() => { clearLoading.value = false });
+    
   }
   
   function handleEnter (event) {
@@ -591,15 +423,65 @@
       }
     }
   }
-  
-  function handleStop () {
-    if (loading.value) {
-      controller.abort()
-      chatStore.updateChatSomeByUuid(chatStore.active, dataSources.value.length - 1, { loading: false })
-      loading.value = false;
-      regenerateLoading.value = true;
+
+  const memeCheckTimer = ref(null);
+
+  const setMemeCheckTimer = (bot_id) =>{
+    console.log("memecheck",bot_id)
+   memeCheckTimer.value = setInterval(async () => {
+    try {
+      if(iframeToken.value!==null){
+        // check meme
+        const response = await fetch(`${window.BASE_API}v1/bot/meme-check?token=`+iframeToken.value+'&bot_id='+bot_id, {  
+          method: 'GET',  
+          headers: {  
+            'Content-Type': 'application/json',  
+          },   
+        });  
+        const result = await response.json(); 
+        //const result = await memeCheck({ bot_id,token });
+        console.log(result)
+        if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
+          clearInterval(memeCheckTimer.value)
+          // memeCoinInfo.value = result.data;
+          loading.value = false;
+          launchRef.value = { ...result.data, bot_id};
+          readyForLaunch.value =true;
+          //startLaunchRef.value.open({ ...result.data, bot_id,token});
+        }
+      }else{
+        // check meme
+        let authToken = await getToken();
+        const response = await fetch(`${window.BASE_API}v1/bot/meme-check?bot_id=`+bot_id, {  
+          method: 'GET',  
+          headers: {  
+            'Content-Type': 'application/json',  
+            'Authorization':'Bearer '+authToken,
+          },   
+        });  
+        const result = await response.json(); 
+        //const result = await memeCheck({ bot_id,token });
+        console.log(result)
+        if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
+          clearInterval(memeCheckTimer.value)
+          // memeCoinInfo.value = result.data;
+          loading.value = false;
+          launchRef.value = { ...result.data, bot_id};
+          readyForLaunch.value =true;
+          //startLaunchRef.value.open({ ...result.data, bot_id,token});
+        }
+      }
+      
+    } catch (error) {
+      console.log(error)
+      throw error;
     }
-  }
+  }, 3000);
+}
+
+function Launch(){
+  startLaunchRef.value.open(launchRef.value);
+}
 
   const docIcons = {
   '.pdf': IconPdf,
@@ -626,22 +508,21 @@
     filetList.value = [...file]
     console.log(filetList.value, 'filetList.value99')
   };
-
-  const handleRemove = (file) => {
-    const uid = file.uid;
-    const index = filetList.value.findIndex((_) => _.uid === uid);
-    filetList.value.splice(index, 1);
-  };
   
   onMounted(() => {
     scrollToBottom()
+    //onConversation("/CreateBot")
   })
   
   onUnmounted(() => {
     if (loading.value){
       controller.abort()
     }
+    clearInterval(memeCheckTimer.value);
+    clearInterval(botId.value);
   })
+
+ 
   
   </script>
   <style lang="scss">
@@ -649,14 +530,20 @@
       cursor: default !important;
   }
   .prompt-input{
+    --n-text-color: #fff !important;
+    color: white !important;
     height: 50px;
-    background-color: #fff;
+    background-color: #FFFFFF26 !important;
     border-radius: 8px;
+    border-width: 1px;
+    border-color: #FFFFFF1A;
   }
   .prompt-input-h5{
-    height: 44px !important;;
-    background-color: #fff !important;;
+    height: 44px !important;
+    background-color: #FFFFFF26 !important;
     border-radius: 22px !important;
+    border-width: 1px !important;
+    border-color: #FFFFFF1A !important;
     .n-input__input-el{
       height: 44px !important;
       line-height: 44px !important;
@@ -685,6 +572,33 @@
   }
   #scrollRef::-webkit-scrollbar {
     scrollbar-width: none; /* Firefox */
+  }
+
+  .start-button-continer{
+    display: flex; /* 启用Flexbox */  
+    justify-content: center; /* 水平居中按钮 */ 
+  }
+  .start-button{
+    
+    font-family: TT Norms Pro;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 23px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+    width: 206px;  
+    height: 48px;  
+    gap: 0px; /* This might not have an effect on a button element */  
+    border-radius: 48px;  
+    opacity: 1; /* Assuming you meant for the buttons to be fully opaque */  
+    border: none; /* Assuming you might not want borders */  
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */  
+    outline: none; /* Remove outline to improve aesthetics */  
+
+    background-color: #E0FF3133; /* Selected background */  
+    color: #E0FF31; /* Selected text color */  
   }
   </style>
   

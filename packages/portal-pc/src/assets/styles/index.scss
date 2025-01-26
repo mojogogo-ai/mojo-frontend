@@ -91,11 +91,11 @@ div:focus {
     top: 0;
     display: flex;
     align-items: center;
-    background-color: rgba(#fff, 0.1);
+    background-color: rgba(#111111, 0.1);
     backdrop-filter: blur(35px);
     z-index: 1;
 
-    .el-menu {
+    .el-menu.left-menu {
       padding: 6px;
       border-radius: 55px;
       backdrop-filter: blur(10px);
@@ -129,6 +129,54 @@ div:focus {
           &.is-active {
             .el-sub-menu__title {
               background: var(--el-text-color-primary);
+              border: none;
+              pointer-events: none;
+            }
+          }
+
+          .el-sub-menu__title {
+            border-radius: 23px;
+          }
+        }
+      }
+    }
+
+    .el-menu.create-menu {
+      padding: 6px;
+      border-radius: 55px;
+      backdrop-filter: blur(10px);
+
+      &.el-menu--horizontal {
+        --el-menu-horizontal-height: 44px;
+        border: 1px solid #E0FF31;
+        background: #E0FF31;
+        color: black;
+
+        .el-menu-item {
+          border-radius: 23px;
+          border: none;
+
+          &.is-active {
+            background: '#E0FF31';
+            pointer-events: none;
+          }
+
+          &:not(.is-disabled) {
+            &:hover,
+            &:focus {
+              // border: 1px solid #E0FF31;
+              // background: #E0FF31;
+              color: black;
+            }
+          }
+        }
+
+        //.el-menu--horizontal .el-menu-item:not(.is-disabled):focus,
+        //.el-menu--horizontal .el-menu-item:not(.is-disabled):hover
+        & > .el-sub-menu {
+          &.is-active {
+            .el-sub-menu__title {
+              background: '#E0FF31';
               border: none;
               pointer-events: none;
             }

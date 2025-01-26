@@ -95,12 +95,12 @@
             size="20"
             @click="openDig()"
           />
-          <svg-icon
+          <!-- <svg-icon
             name="discord"
             class="text-[#409eff] mr-3"
             size="20"
             @click="openDs(appInfo)"
-          />
+          /> -->
           <svg-icon
             name="telegram"
             class="text-[#409eff] mr-3"
@@ -115,13 +115,13 @@
 
 <script setup>
 import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
-import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
-import IconDiscord from '@/assets/images/bots/publish/discord.svg';
-import IconLine from '@/assets/images/bots/publish/line.svg';
-import IconMessenger from '@/assets/images/bots/publish/messenger.svg';
-import IconSlack from '@/assets/images/bots/publish/slack.svg';
-import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
-import IconReddit from '@/assets/images/bots/publish/reddit.svg';
+// import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
+// import IconDiscord from '@/assets/images/bots/publish/discord.svg';
+// import IconLine from '@/assets/images/bots/publish/line.svg';
+// import IconMessenger from '@/assets/images/bots/publish/messenger.svg';
+// import IconSlack from '@/assets/images/bots/publish/slack.svg';
+// import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
+// import IconReddit from '@/assets/images/bots/publish/reddit.svg';
 
 const props = defineProps({
   appInfo: {
@@ -131,15 +131,7 @@ const props = defineProps({
 });
 
 let platList = reactive([]);
-const platIcons = {
-  telegram: IconTelegram,
-  slack: IconSlack,
-  instagram: IconInstagram,
-  reddit: IconReddit,
-  discord: IconDiscord,
-  messenger: IconMessenger,
-  line: IconLine
-};
+
 const showMoreAction = ref(false);
 const openTg = ()=>{
   const cleanUrl = props?.appInfo?.telegram_address.replace(/^"|"$/g, '');
@@ -149,9 +141,9 @@ const openDs = ()=>{
   const cleanUrl = props?.appInfo?.discord_address.replace(/^"|"$/g, '');
   window.open(cleanUrl, '_blank');
 }
-// const openDig = () => {
-//   window.open('https://virtual-human.mojogogo.ai/', '_blank');
-// };
+const openDig = () => {
+  window.open('https://virtual-human.mojogogo.ai/', '_blank');
+};
 </script>
 
 <style lang="scss" scoped>

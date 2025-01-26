@@ -8,11 +8,6 @@
     :close-on-press-escape="false"
     @close="handleClose"
   >
-    <!-- Dialog 标题插槽 -->
-    <!--    <template #title>-->
-    <!--      <slot name="title">默认标题</slot>-->
-    <!--    </template>-->
-
     <!-- Dialog 内容插槽 -->
     <slot>默认内容</slot>
 
@@ -20,16 +15,13 @@
     <template #footer>
       <slot name="footer">
         <!--        <el-button @click="handleClose">取消</el-button>-->
-        <!--        <el-button type="primary" @click="confirm">确认</el-button>-->
+        <!--        <el-button type="primary" >确认</el-button>-->
       </slot>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-import { ElDialog, ElButton } from 'element-plus';
-
 // 定义 props
 const props = defineProps({
   visible: {
@@ -64,11 +56,6 @@ const handleClose = () => {
   emit('update:visible', false);
 };
 
-// 定义确认按钮的事件
-const confirm = () => {
-  emit('confirm');
-  handleClose();
-};
 
 // 动态设置主题颜色
 onMounted(() => {
@@ -104,28 +91,5 @@ function updateThemeColor(color) {
     border-top: 0!important;
   }
 }
-//.mojo-dialog-translucent .el-dialog__header {
-//  background-color: var(--dialog-header-bg-color);
-//  color: var(--dialog-header-text-color);
-//  background-color: var(--el-color-primary);
-//
-//}
-//.mojo-dialog-translucent .el-dialog__close {
-//  color: #000;
-//  font-size: 20px;
-//}
-//
-//.mojo-dialog-translucent .el-dialog__headerbtn:focus .el-dialog__close,
-//.mojo-dialog-translucent .el-dialog__headerbtn:hover .el-dialog__close {
-//  color: #000 !important;
-//  opacity: 0.75;
-//}
-//
-//.mojo-dialog-translucent .el-dialog__body {
-//  background-color: var(--dialog-body-bg-color);
-//  color: var(--dialog-body-text-color);
-//}
-
-
 
 </style>

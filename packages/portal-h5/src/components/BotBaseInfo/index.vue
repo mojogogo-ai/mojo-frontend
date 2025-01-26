@@ -150,7 +150,7 @@ const rules = reactive({
     }
   ],
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
-  introduction: [{ required: true, message: t('bots.ruleMessage.introduction') }],
+  introduction: [{ required: true, message: "Please enter description" }],
   classification: [
     {
       message: t('bots.ruleMessage.catalog'),
@@ -237,7 +237,7 @@ const onImageChange = (url, is_personalize_image_icon) => {
   form.is_personalize_image_icon = is_personalize_image_icon
 };
 // commit action
-const submitBaseInfo = async (el) => {
+const submitBaseInfo = async () => {
   if (loading.value) return;
   await formRef.value.validate();
   if (isCopy.value) await copyApp();

@@ -17,12 +17,12 @@
       <div class="pdc-list">
         <div v-for="item in publishOptions" class="pdc-list-item">
           <div class="configure-left">
-            <el-checkbox
+            <!-- <el-checkbox
               v-model="item.checked" :disabled="item.id === 'telegram' && !item.telegram_token || item.id === 'discord' && !item.discord_token"
               @change="(checked) => {
                 checkboxChange(item, checked)
               }"
-            />
+            /> -->
             <svg v-if="item.id === 'telegram'" class="ml-4 mr-2.5" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
               <g clip-path="url(#clip0_840_13917)">
                 <path d="M12.9487 0.5C9.76686 0.5 6.71248 1.76506 4.46436 4.01469C2.21393 6.26522 0.949374 9.31734 0.94873 12.5C0.94873 15.6813 2.21436 18.7357 4.46436 20.9853C6.71248 23.2349 9.76686 24.5 12.9487 24.5C16.1306 24.5 19.185 23.2349 21.4331 20.9853C23.6831 18.7357 24.9487 15.6813 24.9487 12.5C24.9487 9.31869 23.6831 6.26431 21.4331 4.01469C19.185 1.76506 16.1306 0.5 12.9487 0.5Z" fill="url(#paint0_linear_840_13917)" />
@@ -76,8 +76,8 @@
     </div>
     <div class="divider-line" />
     <template #footer>
-      <el-button type="primary" :loading="loading" :disabled="loading || uncheckedOptions.length === 0" @click="submitForm">
-        {{ 'Publish' }}
+      <el-button type="primary" :loading="loading" :disabled="loading" @click="submitForm">
+        {{ 'Save' }}
       </el-button>
     </template>
     <ConfigureTelegramDialog ref="configureTelegramDialogRef" @after-update="afterUpdate" />
@@ -86,12 +86,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
-import { t } from '@gptx/base/i18n';
-import { getOssPresignedUrlV2 } from '@gptx/base/api/user';
 import {botInfo, botPublish} from '@gptx/base/api/application';
-import axios from 'axios';
-import CryptoJS from 'crypto-js';
 import { ElMessage } from 'element-plus';
 import ConfigureTelegramDialog from '@/views/personal/components/publish/ConfigureTelegramDialog.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
@@ -99,13 +94,7 @@ import ConfigureDiscordDialog from '@/views/personal/components/publish/Configur
 
 const emits = defineEmits(['after-upload-knowledge-sources', 'after-update']);
 const isVisible = ref(false);
-const isEdit = ref(false);
 const botId = ref(null);
-const form = reactive({
-  name: '',
-  file_url: '',
-  fileList: []
-});
 
 
 const afterUpdate = (option) => {
@@ -127,13 +116,13 @@ const publishOptions = reactive([
     telegram_token: '',
     address: '',
     checked: false
-  },
-  {
-    id: 'discord',
-    name: 'Discord',
-    discord_token: '',
-    address: '',
-    checked: false
+  // },
+  // {
+  //   id: 'discord',
+  //   name: 'Discord',
+  //   discord_token: '',
+  //   address: '',
+  //   checked: false
   }
 ])
 const uncheckedOptions = computed(() => publishOptions.filter(item => item.checked));
@@ -206,24 +195,24 @@ const submitForm = async () => {
     return;
   }
   loading.value = true;
-  try {
-    //botPublish
-    await botPublish({
-      id: botId.value,
-      telegram_token: publishOptions[0].telegram_token,
-      discord_token: publishOptions[1].discord_token,
-      address: publishOptions[0].address || publishOptions[1].address
-    });
-    ElMessage.success('Bot publish successfully!');
+  // try {
+  //   //botPublish
+  //   await botPublish({
+  //     id: botId.value,
+  //     telegram_token: publishOptions[0].telegram_token,
+  //     discord_token: publishOptions[1].discord_token,
+  //     address: publishOptions[0].address || publishOptions[1].address
+  //   });
+    // ElMessage.success('Bot publish successfully!');
     emits('after-upload-knowledge-sources');
     eventBus.emit('botPublishSuccess');
     close();
-  } catch (error) {
-    console.error('Bot publish failed:', error);
-    ElMessage.error('Bot publish failed!');
-  } finally {
-    loading.value = false;
-  }
+  // } catch (error) {
+  //   console.error('Bot publish failed:', error);
+  //   ElMessage.error('Bot publish failed!');
+  // } finally {
+  //   loading.value = false;
+  // }
 };
 
 

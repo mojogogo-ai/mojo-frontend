@@ -1,5 +1,5 @@
 <template>
-  <div class="cursor-pointer bot-manage-item">
+  <div class="cursor-pointer bot-manage-item" @click="emit('edit')">
     <div class="bmi-content">
       <div class="bmic-left">
         <div class="bmicl-avatar">
@@ -8,8 +8,7 @@
             width="80px"
             height="80px"
             fit="cover"
-            :src="bot.icon || defaultBotImage"
-            @click="toBotDetail"
+            :src="bot.icon"
           >
             <template #error>
               <div class="page-list-img__error">
@@ -24,6 +23,30 @@
           <div class="bmicli-title">
             {{ bot.name }}
           </div>
+          <div class="bmicl-toolbar">
+            <!-- <div v-show="bot.public == '1'" class="bmiclt-btn">
+              Published
+            </div> -->
+
+            <!-- <div v-if="bot.bot_type===1&&bot.meme_state === 3" class="p-2 bmiclt-btn" @click.stop="detailCoin(bot)">
+              <el-avatar
+                size="small"
+                :src="bot.meme_icon"
+              />
+              <span class="ml-2"> {{ bot.meme_symbol }}</span>
+            </div> -->
+            <div v-if="bot.bot_type===1&&bot.meme_state !== 3" class="bmiclt-btn" :style="{backgroundColor: bot.meme_state === 3 ? 'rgba(17, 198, 65, 0.80)': '#db5f00'}">
+              {{ MemeStatusText[bot.meme_state] }}
+            </div>
+            <div v-if="bot.bot_type===1&&bot.meme_state === 3" class="p-2  coin-continer" @click.stop="detailCoin(bot)">
+              <el-avatar
+                class="coin-logo"
+                size="small"
+                :src="coinImageUrl"
+              />
+              <!-- <span class="ml-2 meme-symbol"> {{ bot.meme_symbol }}</span> -->
+            </div>
+          </div>
           <div class="bmicli-author">
             <el-image
               class="bmicli-author-avatar"
@@ -37,11 +60,7 @@
           <div class="bmicli-desc" :title="bot.introduction">
             {{ bot.introduction }}
           </div>
-          <div class="bmicl-toolbar">
-            <div v-show="bot.public == '1'" class="bmiclt-btn bb-publish">
-              Published
-            </div>
-          </div>
+          
         </div>
       </div>
       <div class="bmic-right">
@@ -52,12 +71,6 @@
     </div>
     <div class="bmi-bottom">
       <div class="cursor-pointer bmi-share-bar">
-        <div class="bmi-s-b-item" @click.stop="goLink(bot, 'discord')">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-            <rect x="0.94873" width="24" height="24" rx="12" fill="white" />
-            <path d="M19.1964 6.20799C18.016 5.65567 16.7671 5.26322 15.4829 5.04102C15.323 5.33021 15.1361 5.71918 15.0072 6.02862C13.6226 5.82041 12.2507 5.82041 10.8916 6.02862C10.7628 5.71925 10.5717 5.33021 10.4102 5.04102C9.12477 5.26331 7.87487 5.65676 6.69387 6.21087C4.34374 9.76229 3.70664 13.2254 4.02516 16.6395C5.58391 17.8035 7.09451 18.5106 8.57965 18.9734C8.94877 18.4658 9.27504 17.9284 9.55509 17.3668C9.02186 17.1638 8.5078 16.9136 8.01904 16.6192C8.14766 16.5239 8.27325 16.4245 8.39564 16.3213C11.3573 17.7066 14.5754 17.7066 17.5018 16.3213C17.6247 16.4239 17.7503 16.5232 17.8783 16.6192C17.3888 16.9144 16.8738 17.1651 16.3395 17.3683C16.6211 17.9322 16.9468 18.4701 17.3149 18.9748C18.8015 18.5121 20.3135 17.805 21.8722 16.6395C22.246 12.6817 21.2338 9.25041 19.1964 6.20799ZM9.95861 14.5399C9.06951 14.5399 8.34037 13.7098 8.34037 12.6991C8.34037 11.6884 9.05397 10.8569 9.95861 10.8569C10.8633 10.8569 11.5924 11.6869 11.5769 12.6991C11.5783 13.7098 10.8633 14.5399 9.95861 14.5399ZM15.9388 14.5399C15.0497 14.5399 14.3206 13.7098 14.3206 12.6991C14.3206 11.6884 15.0341 10.8569 15.9388 10.8569C16.8435 10.8569 17.5725 11.6869 17.557 12.6991C17.557 13.7098 16.8435 14.5399 15.9388 14.5399Z" fill="#5865F2" />
-          </svg>
-        </div>
         <div class="bmi-s-b-item" @click.stop="goLink(bot, 'telegram')">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
             <g clip-path="url(#clip0_994_681)">
@@ -77,17 +90,21 @@
         </div>
       </div>
       <div class="more-option-trigger" @click.stop="()=>{}">
+        <el-button
+          v-if="bot.bot_type===1 && bot.meme_state !== 3"
+          class="mr-5"
+          type="primary"
+          @click.stop="lanchedMemeCoin(bot)"
+        >
+          {{ MemeStatus[bot.meme_state] }}
+        </el-button>
         <el-dropdown popper-class="bot-manage-dropdown">
-          <el-icon color="#FFFFFF" size="16">
-            <MoreFilled />
-          </el-icon>
+          <div class="flex items-center justify-center rounded-[10px] w-11 h-11 bg-white/10 hover:opacity-75">
+            <el-icon color="#FFFFFF" class="rotate-90" size="14">
+              <MoreFilled />
+            </el-icon>
+          </div>
           <template #dropdown>
-            <el-dropdown-item
-              v-if="bot.public != '1'"
-              @click.stop="toPublish(bot)"
-            >
-              publish
-            </el-dropdown-item>
             <el-dropdown-item
               class="is-delete"
               @click.stop="onDelete(bot.id)"
@@ -99,41 +116,51 @@
       </div>
     </div>
   </div>
+  <StartLaunch
+    ref="startLaunchRef"
+    width="600px"
+  />
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { botDelete, removePublishApp } from '@gptx/base/api/application';
-import router from '@/router';
-import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
-import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
-import IconDiscord from '@/assets/images/bots/publish/discord.svg';
-import IconLine from '@/assets/images/bots/publish/line.svg';
-import IconMessenger from '@/assets/images/bots/publish/messenger.svg';
-import IconSlack from '@/assets/images/bots/publish/slack.svg';
-import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
-import IconReddit from '@/assets/images/bots/publish/reddit.svg';
+import { botDelete } from '@gptx/base/api/application';
+import { memeCheck } from '@gptx/base/api/meme-bot';
+import coinImageUrl from '@/assets/images/coin.png';
+
+// import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
+// import IconDiscord from '@/assets/images/bots/publish/discord.svg';
+// import IconLine from '@/assets/images/bots/publish/line.svg';
+// import IconMessenger from '@/assets/images/bots/publish/messenger.svg';
+// import IconSlack from '@/assets/images/bots/publish/slack.svg';
+// import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
+// import IconReddit from '@/assets/images/bots/publish/reddit.svg';
+
+import StartLaunch from '@/components/StartLaunch/index.vue';
+
 import { ElMessageBox } from 'element-plus';
 import useUserStore from '@/store/modules/user.js';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
-const props = defineProps({
+defineProps({
   bot: {
     type: Object,
     required: true
   }
 });
-const publishDialogRef = ref(null);
-const emit = defineEmits(['chat', 'delete', 'refresh-list']);
+// const publishDialogRef = ref(null);
+const emit = defineEmits(['chat', 'delete', 'refresh-list', 'edit']);
 
 const goLink = (bot, platform) => {
-  // emit('chat', { bot, platform });
   let url
-  console.log(bot)
   if(platform === 'telegram') {
-     url = bot.telegram_address
+    let telegram_address = bot.telegram_address;
+    if (telegram_address.startsWith('t.me')) {
+      telegram_address =  'https://' + telegram_address
+    }
+    url = telegram_address
   } else if(platform === 'discord') {
-     url = bot.discord_address
+    url = bot.discord_address
   }
   if(!url) {
     ElMessageBox.alert('Please configure the platform address first', 'Tips', {
@@ -145,11 +172,6 @@ const goLink = (bot, platform) => {
   emit('chat', { url });
 };
 
-// open bot sub page design(unused)|analyze(used)
-const toBotDetail = () => {
-  const { id } = props.bot;
-  // router.push({ path: `/design/${id}` });
-};
 // dropdown command delete
 const onDelete = async (id) => {
   try {
@@ -168,40 +190,86 @@ const onDelete = async (id) => {
   }
 };
 // dropdown command unpublish
-const onUnpublish = async (id) => {
-  try {
-    const { href } = router.resolve({ path: `/publish/${id}` });
-    await ElMessageBox.confirm(
-      `${t(
-        'bots.unpublishDesc'
-      )}<a class="text-[var(--el-color-primary)] hover:text-[var(--el-color-primary-light-3)]" href="${href}" >${t(
-        'bots.toPublish'
-      )}</a>`,
-      t('bots.unpublish'),
-      {
-        confirmButtonText: t('common.confirm'),
-        cancelButtonText: t('common.cancel'),
-        type: 'warning',
-        dangerouslyUseHTMLString: true,
-        customClass: 'customize-message-box'
-      }
-    );
-    const { code } = await removePublishApp({ app_id: id });
-    if (code === 200) emit('refresh-list');
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const onUnpublish = async (id) => {
+//   try {
+//     const { href } = router.resolve({ path: `/publish/${id}` });
+//     await ElMessageBox.confirm(
+//       `${t(
+//         'bots.unpublishDesc'
+//       )}<a class="text-[var(--el-color-primary)] hover:text-[var(--el-color-primary-light-3)]" href="${href}" >${t(
+//         'bots.toPublish'
+//       )}</a>`,
+//       t('bots.unpublish'),
+//       {
+//         confirmButtonText: t('common.confirm'),
+//         cancelButtonText: t('common.cancel'),
+//         type: 'warning',
+//         dangerouslyUseHTMLString: true,
+//         customClass: 'customize-message-box'
+//       }
+//     );
+//     const { code } = await removePublishApp({ app_id: id });
+//     if (code === 200) emit('refresh-list');
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 const user = useUserStore();
 const toPublish = async ({ id }) => {
   eventBus.emit('publishBot', { id });
+};
+
+const startLaunchRef = ref(null);
+const MemeStatus = {
+  // 1: 'Pending',
+  // 2: 'Launch',
+  // 3: 'Coin Launched'
+  1: 'Launch',
+  2: 'Launch',
+  3: 'Coin Launched'
+};
+const MemeStatusText = {
+  1: 'Launch pending',
+  2: 'Launching',
+  3: 'Coin Launched'
+};
+
+const lanchedMemeCoin = async (bot) => {
+  const result = await memeCheck({ bot_id: bot.id });
+  if (result.code === 200) { // 对话创建完成meme coin
+
+   const meme_state = result.data.state
+
+    if (meme_state === 1) { // TO create meme coin
+        goLink(bot, 'telegram')
+      } else if (meme_state === 2) { // lanching
+        startLaunchRef.value.open({ ...result.data, bot_id: bot.id });
+        // startLaunchRef.value.open({ // test
+        //   "name": "Dem0 Token" + new Date().getTime(),
+        //   "symbol": "Dem0" + new Date().getTime(),
+        //   "image": "https://s1.locimg.com/2024/12/11/3964164cf2a43.png",
+        //   bot_id: bot.id
+        // });
+      } else {
+        //
+      }
+  }
+
+
+};
+
+const detailCoin = (item) => {
+  if (item.meme_token_mint) {
+    let url = `https://pump.fun/coin/${item.meme_token_mint}`;
+    window.open(url, '_blank')
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .bot-manage-item{
-  width: 413px;
-  height: 222px;
+  width: 412px;
+  // height: 222px;
   flex-shrink: 0;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.10);
@@ -276,12 +344,14 @@ const toPublish = async ({ id }) => {
 
         }
         .bmicl-toolbar{
+          display: flex;
           height: 27px;
           .bmiclt-btn{
-            width: 73px;
-            height: 27px;
+            // width: 73px;
+            // height: 27px;
             display: flex;
             padding: 4px 8px;
+            margin-right: 5px;
             justify-content: center;
             align-items: center;
             border-radius: 8px;
@@ -300,7 +370,7 @@ const toPublish = async ({ id }) => {
   }
   .bmi-bottom{
     display: flex;
-    margin-top: 24px;
+    margin-top: 50px;
     justify-content: space-between;
     .bmi-share-bar{
       display: flex;
@@ -323,31 +393,12 @@ const toPublish = async ({ id }) => {
     position: relative;
     .more-option-trigger{
       position: absolute;
-      opacity: 0.8;
+      // opacity: 0.8;
       bottom: 0;
       right: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      :deep(.el-dropdown) {
-        width: 100%;
-        height: 100%;
-        button{
-          width: 100%;
-          height: 100%;
-        }
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      &:hover{
-        opacity: 1;
-      //   width: 40px;
-      // height: 40px;
-      // flex-shrink: 0;
-      // border-radius: 8px;
-      // background: rgba(255, 255, 255, 0.10);
-      }
     }
   }
 }
@@ -405,5 +456,23 @@ const toPublish = async ({ id }) => {
     }
   }
 }
-
+.meme-symbol{
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #E1FF01;
+}
+.coin-logo{
+  --el-avatar-size: 20px;
+  background-color: transparent;
+}
+.coin-continer{
+  padding-left: 0px;
+  padding-top: 0px;
+  display: flex;
+}
 </style>

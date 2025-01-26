@@ -1,7 +1,7 @@
 <template>
   <div class="bot-management">
     <div class="bot-management-title">
-      Bot Management
+      Manage My Bots
     </div>
     <div
       class="bot-management-content"
@@ -9,22 +9,21 @@
       :element-loading-text="t('common.loading')"
     >
       <div
-        v-if="botList.length && !isLoading"
+        v-if="botList.length"
         v-infinite-scroll="_getMyBotList"
         class="h-full"
         :infinite-scroll-disabled="!isLoadMore || isLoading"
-        :infinite-scroll-distance="10"
+        :infinite-scroll-distance="20"
       >
         <div class="flex flex-wrap gap-5 pt-3">
           <list-item
-            v-for="bot in botList"
-            :key="bot.id"
-            class="bot-management-item"
+            v-for="(bot, index) in botList"
+            :key="index"
             :bot="bot"
+            @edit="editBot(bot)"
             @chat="onChat($event, bot)"
             @delete="_getMyBotList"
             @refresh-list="_getMyBotList"
-            @click="editBot(bot)"
           />
         </div>
       </div>
@@ -66,6 +65,7 @@ import emptyRobotImageUrl from '@/assets/images/smart-people.svg';
 import { getMyBotList } from '@gptx/base/api/application';
 import ListItem from './components/list/ListItem.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
+import { useRouter } from 'vue-router';
 
 const form = reactive({
   published: '',
@@ -77,6 +77,7 @@ const isLoading = ref(false);
 const botList = ref([]);
 const total = ref(0);
 const isLoadMore = ref(true);
+const router = useRouter();
 
 // 监听 createBotSuccess 和 botPublishSuccess 事件，刷新列表
 eventBus.on('createBotSuccess', () => {
@@ -87,7 +88,7 @@ eventBus.on('botPublishSuccess', () => {
 });
 
 const createNewBot = () => {
-  eventBus.emit('createBot');
+  router.push({ path: '/memebot' });
 };
 const editBot = (bot) => {
   eventBus.emit('editBot', bot);
@@ -136,7 +137,7 @@ onMounted(() => {
 .bot-management-content {
   position: relative;
   height: 600px; /* 根据需要调整高度 */
-  overflow: hidden;
+  overflow: auto;
 }
 
 .el-scrollbar__wrap {

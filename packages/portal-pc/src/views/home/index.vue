@@ -4,10 +4,9 @@
       <div class="h-[148px]" />
       <div class="homepage-title">{{ t('common.productName') }}</div>
       <div class="homepage-subtitle">
-        Discover the future of business with Mojo GoGo. Our platform allows businesses and individuals to harness the
-        power of AI to streamline operations, enhance customer engagement, and protect data privacy - all in one place.
+        Mojo Gogo lets everyone unleash autonomous AI agents with a click, granting them a life in cyberspace: soul-bonded tokens, self-managed social media, active community engagement, PayFi-powered on-chain financing, and limitless cultural and financial adventures.
       </div>
-      <div class="mb-24 mt-8 flex justify-center home-page-btn">
+      <div class="flex justify-center mt-8 mb-24 home-page-btn">
         <el-button
           v-if="!isLogin"
           class="bg-[#ffffff] text-[#000000] border-[1px] border-[#000000] hover:bg-[#ffffff] hover:text-[#000000] hover:border-[#000000] "
@@ -16,18 +15,17 @@
         >
           Sign Up
         </el-button>
-        <el-button type="primary" @click="toCreate"> Create Bot </el-button>
+        <el-button type="primary" @click="toLaunch"> Create Bot </el-button>
       </div>
       <div class="flex w-full home-content">
-        <div class="home-part  flex-1">
+        <div class="flex-1 home-part">
           <div class="home-part-1">
-            <div class="home-part1-text">Create Your Own AI Bot</div>
+            <div class="home-part1-text">Unleash AI Coin Power</div>
             <div class="home-part1-text-content">
-              Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
-              routine tasks, and leverage AI-driven insights for smarter decision-making.
+              Mojo GoGo, backed by PayFi, empowers AI with its own meme coins, unlocking endless possibilities. With our support, you can explore new realms of innovation and creativity.
             </div>
             <div class="pt-8 home-part1-btn">
-              <el-button type="primary" @click="toCreate"> Create Bot </el-button>
+              <el-button type="primary" @click="toLaunch"> Create Bot </el-button>
             </div>
           </div>
         </div>
@@ -40,12 +38,12 @@
             />
           </div>
         </div>
-        <div class="home-part flex">
+        <div class="flex home-part">
           <div class="home-part-3">
             <el-image
               class="h-[407px] w-[628px]"
               fit="cover"
-              :src="Pic2"
+              :src="Pic4"
             />
           </div>
         </div>
@@ -53,26 +51,51 @@
           <div class="home-part-4">
             <div class="w-[628px] h-[407px]">
               <div class="px-[48px] pt-10">
-                <div class="home-part4-text">Next Gen AI Product</div>
+                <div class="home-part4-text">Meme Coins Made Easy!</div>
                 <div class="home-part-4-text-content">
-                  Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
-                  routine tasks, and leverage AI-driven insights for smarter decision-making.
+                  Our AI platform enables you to create and launch your own meme coin quickly and easily. With the assistance of your dedicated AI agent, anyone can turn their idea into reality.
                 </div>
                 <div class="pt-8 home-part4-btn">
                   <el-button
                     type="primary"
                     class=""
-                    @click="toPage('/assistant')"
+                    @click="toLaunch"
                   >
-                    Explore
+                    Launch Meme
                   </el-button>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="flex-1 home-part">
+          <div class="home-part-1">
+            <div class="home-part1-text">Create Your Own AI Bot</div>
+            <div class="home-part1-text-content">
+              Easily design and deploy AI agents tailored to your needs. Enhance customer service, automate
+              routine tasks, and leverage AI-driven insights for smarter decision-making.
+            </div>
+            <div class="pt-8 home-part4-btn">
+              <el-button
+                type="primary"
+                class=""
+                @click="toPage('/assistant')"
+              >
+                Explore
+              </el-button>
+            </div>
+          </div>
+        </div>
+        <div class="home-part">
+          <div class="home-part-2">
+            <el-image
+              class="h-[407px] w-[628px]"
+              fit="cover"
+              :src="Pic2"
+            />
+          </div>
+        </div>
       </div>
-
 
       <div class="h-[266px]" />
     </div>
@@ -83,6 +106,7 @@
 import { t } from '@gptx/base/i18n';
 import Pic3 from '@/assets/images/homepage/pic3.png';
 import Pic2 from '@/assets/images/homepage/pic2.png';
+import Pic4 from '@/assets/images/homepage/pic4.png';
 import { getIsLogin } from '@gptx/base/utils/auth';
 import useLoginStore from '@/store/modules/login';
 import useBotStore from '@/store/modules/bot';
@@ -103,7 +127,7 @@ watch(
 );
 watch(
   () => useLogin.loginDialogVisible,
-  async (val) => {
+  async () => {
     // console.log('isOpened', val);
     isLogin.value = await getIsLogin();
   },
@@ -116,17 +140,22 @@ const toLogin = () => {
   useLogin.setLoginDialogVisible(true, 'signup'); // open login dialog
 };
 
-const toCreate = () => {
-  if (isLogin.value) {
-    useBot.openCreateBotDialog(); //open create bot dialog
-  } else {
-    useLogin.setLoginDialogVisible(true, 'login'); // open login dialog
-  }
-};
-
 const toPage = (path) => {
   if (path) {
     router.push({ path });
+  }
+};
+
+const isPhantomInstalled = window.phantom?.solana?.isPhantom
+const toLaunch = async () => {
+  if (isLogin.value) {
+    if (isPhantomInstalled) {
+      router.push({ path: '/memebot' });
+    } else {
+      installWallet();
+    }
+  } else {
+    useLogin.setLoginDialogVisible(true, 'login'); // open login dialog
   }
 };
 </script>

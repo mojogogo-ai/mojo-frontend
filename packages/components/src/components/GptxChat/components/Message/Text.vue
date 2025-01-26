@@ -21,6 +21,8 @@ const props = defineProps({
   asRawText: Boolean
 })
 
+
+
 const isMobile = ref(false)
 const emit = defineEmits(['predefinedQuestionHandle']);
 const textRef = ref()
@@ -37,6 +39,20 @@ const mdi = new MarkdownIt({
     return highlightBlock(hljs.highlightAuto(code).value, '')
   }
 })
+const defaultRender = mdi.renderer.rules.link_open   
+    || function(tokens, idx, options, env, self) {  
+        return self.renderToken(tokens, idx, options);  
+};  
+mdi.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+    // 在所有链接上添加 target="_blank" 和 rel="noopener noreferrer"  
+    tokens[idx].attrPush(['target', '_blank']);  
+    tokens[idx].attrPush(['rel', 'noopener noreferrer']);  
+    
+    // 调用默认渲染器或原渲染规则，完成其他渲染逻辑  
+    return defaultRender(tokens, idx, options, env, self); 
+  };
+
+
 
 mdi.use(mila, [{
   matcher(href) {
@@ -53,7 +69,7 @@ const wrapClass = computed(() => {
   return [
     isMobile.value ? 'p-2' : 'px-3 py-2',
     props.inversion ? 'message-request' : 'message-reply',
-    props.inversion ? 'text-[#fff]': 'text-black',
+    props.inversion ? 'text-[#fff]': 'text-[#fff]',
     { 'text-red-500': props.error }
   ]
 })
@@ -65,7 +81,7 @@ const text = computed(() => {
   if (!props.asRawText) { return mdi.render(value) }
   return value
 })
-
+console.log("test",text)
 function highlightBlock (str, lang) {
   return `<pre class="code-block-wrapper"><div class="code-block-header"><span class="code-block-header__lang">${lang}</span><span class="code-block-header__copy">${t('chat.copyCode')}</span></div><code class="hljs code-block-body ${lang}">${str}</code></pre>`
 }
@@ -100,7 +116,7 @@ function textEventHandler(event){
   }
 }
 
-
+const testString1 = props.text
 // 预置问题--触发
 const predefinedQuestionHandle = ((i)=>{
   emit('predefinedQuestionHandle',i)
@@ -109,11 +125,11 @@ const predefinedQuestionHandle = ((i)=>{
 
 <template>
   <div
-    class="text-wrap min-w-[20px] rounded-[12px]"
+    class="text-wrap min-w-[20px] rounded-[12px] text-white"
     :class="wrapClass"
     :style="{
-      background: inversion?'linear-gradient( 126deg, #066BE9 0%, #4A9BFF 100%)':'#fff',
-      border: inversion ? 'none' : '1px solid #e8e9eC'
+      background: inversion?'#E0FF3180':'#FFFFFF26',
+      border: inversion ? '1px solid #E0FF3180' : '1px solid #FFFFFF1A'
     }"
   >
     <div
@@ -122,6 +138,7 @@ const predefinedQuestionHandle = ((i)=>{
     >
       <!-- 答 -->
       <div v-if="!inversion">
+        
         <div
           v-if="!asRawText"
           class="markdown-body"
@@ -173,9 +190,10 @@ const predefinedQuestionHandle = ((i)=>{
   }
 }
 .loader {
+  border-color: transparent;
   width: 25px;
   aspect-ratio: 4;
-  --_g: no-repeat radial-gradient(circle closest-side,#000 90%,#0000);
+  --_g: no-repeat radial-gradient(circle closest-side,#ffffff 90%,#ffffff00);
   background:
     var(--_g) 0 50%,
     var(--_g) 50%  50%,
@@ -198,6 +216,7 @@ const predefinedQuestionHandle = ((i)=>{
 .markdown-body {
 background-color: transparent;
 font-size: var(--font-size-14);
+color: white;
 
 p {
   white-space: pre-wrap;

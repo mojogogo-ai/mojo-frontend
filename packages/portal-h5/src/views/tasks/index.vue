@@ -2,24 +2,10 @@
   <div class="app-page">
     <page-header class="shrink-0" />
     <div class="tasks-title">Your Task List</div>
-    <div class="app-page-content flex flex-col">
-      <!--      <div class="shrink-0">-->
-      <!--        <van-tabs-->
-      <!--          v-model:active="activeTab"-->
-      <!--          background="transparent"-->
-      <!--          @click-tab="onTabChange"-->
-      <!--        >-->
-      <!--          <van-tab-->
-      <!--            v-for="{ id, name } in tabList"-->
-      <!--            :name="id"-->
-      <!--            :title="t(name)"-->
-      <!--          />-->
-      <!--        </van-tabs>-->
-      <!--      </div>-->
-
+    <div class="flex flex-col app-page-content">
       <div
         v-if="isLoading"
-        class="flex flex-1 items-center justify-center"
+        class="flex items-center justify-center flex-1"
       >
         <van-loading
           class="cover-loading"
@@ -65,7 +51,6 @@
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getList } from '@gptx/base/api/assistant-store';
 import ListItem from './components/ListItem';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
 import TaskImg01 from '@/assets/images/tasks/01.svg';
@@ -77,21 +62,14 @@ import TaskImg06 from '@/assets/images/tasks/06.svg';
 import TaskImg07 from '@/assets/images/tasks/07.svg';
 import CheckIn from './components/Check-In.vue';
 
-const router = useRouter();
-const tabList = reactive([]);
-const activeTab = ref(10000);
 const __data = reactive({
   storeList: []
 });
-let pageNum = 1;
-let pageSize = 36;
 let isLoadMore = true;
-const appName = ref('');
 let timer = null;
 const isLoading = ref(true);
 /* ref dom */
 const scrollbar = ref(null);
-const baseInfoRef = ref(null);
 
 const onSearch = () => {
   if (timer) {
@@ -99,7 +77,6 @@ const onSearch = () => {
     timer = null;
   }
   timer = setTimeout(() => {
-    pageNum = 1;
     isLoadMore = true;
     __data.storeList = [];
     isLoading.value = true;

@@ -30,7 +30,7 @@
         <template v-if="!isLoading && botList.length === 0">
           <van-empty :image="emptyRobotImageUrl">
             <template #description>
-              <div class="no-content-psl font-black">{{ t('common.noContent') }}</div>
+              <div class="font-black no-content-psl">{{ t('common.noContent') }}</div>
             </template>
             <!-- 显示创建新 Bot 按钮的条件 -->
             <van-button
@@ -57,7 +57,7 @@ import emptyRobotImageUrl from '@/assets/images/smart-people.svg';
 import { getMyBotList } from '@gptx/base/api/application';
 import ListItem from './components/list/ListItem.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
-
+import { useRouter } from 'vue-router';
 
 const form = reactive({
   published: '',
@@ -69,7 +69,7 @@ const isLoading = ref(false);
 const botList = ref([]);
 const total = ref(0);
 const isLoadMore = ref(true);
-const refreshing = ref(false);
+const router = useRouter();
 
 // 监听 createBotSuccess 和 botPublishSuccess 事件，刷新列表
 eventBus.on('createBotSuccess', () => {
@@ -80,7 +80,7 @@ eventBus.on('botPublishSuccess', () => {
 });
 
 const createNewBot = () => {
-  eventBus.emit('createBot');
+  router.push({ path: '/memebot' });
 };
 const editBot = (bot) => {
   eventBus.emit('editBot', bot);
@@ -125,10 +125,6 @@ const onLoad = () => {
   _getMyBotList();
 };
 
-const onRefresh = () => {
-  resetList();
-  refreshing.value = false; // 完成刷新
-};
 
 onMounted(() => {
   _getMyBotList();
@@ -142,7 +138,6 @@ onMounted(() => {
   height: 100vh; /* 让容器占满整个视口高度 */
   padding: 20px;
   box-sizing: border-box;
-  //background-color: #1a1a1a; /* 根据需要设置背景颜色 */
 }
 
 .bot-management-title {
@@ -157,12 +152,6 @@ onMounted(() => {
   font-weight: 500;
   line-height: 1.2; /* 使用倍数而不是固定像素 */
 }
-
-.bot-management-content {
-
-}
-
-
 
 .no-content-psl {
   color: rgba(255, 255, 255, 0.70);
@@ -185,9 +174,6 @@ onMounted(() => {
   margin-top: 20px;
 }
 
-.bot-management-item {
-  /* 保持原有样式，必要时进行调整 */
-}
 
 /* 响应 Vant Empty 组件的样式 */
 .van-empty {

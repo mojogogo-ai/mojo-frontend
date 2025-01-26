@@ -31,7 +31,6 @@
 </template>
 
 <script setup>
-import { t } from '@gptx/base/i18n';
 import { useUserStore } from '@/store/modules/user.js';
 import { updateUserInfo } from '@gptx/base/api/user.js';
 import { showFailToast, showSuccessToast } from 'vant';
@@ -65,6 +64,7 @@ const submitProfileInfo = async () => {
     await updateUserInfo({ nick_name: form.alias });
     showSuccessToast('Profile updated successfully');
     close();
+  // eslint-disable-next-line no-unused-vars
   } catch (e) {
     showFailToast('Failed to update profile');
   } finally {

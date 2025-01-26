@@ -16,16 +16,12 @@
 </template>
 
 <script setup>
-// import { t } from '@gptx/base/i18n';
-
 defineProps({
   appInfo: {
     type: Object,
     default: () => ({})
   }
 });
-const emits = defineEmits(['open-new-chat', 'open-with',  'open-dig', 'duplicate']);
-
 
 </script>
 

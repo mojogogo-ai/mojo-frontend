@@ -1,7 +1,48 @@
-# Vue 3 + Vite
+# mojo-frontend
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+> mojogogo 通用组件库代码
 
-## Recommended IDE Setup
+## 简介
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+* 前端技术栈 [Vue3](https://v3.cn.vuejs.org) + [Vite](https://cn.vitejs.dev) + [Tailwind css](https://tailwindcss.com/) + [Element Plus](https://element-plus.org/zh-CN)
+
+* 核心的组件就是chat组件（pc,h5共用）。
+
+## 构建
+
+```bash
+
+# 组件库打包，修改组件后需打包，引入的地方才生效
+pnpm run build:comp
+
+# 打包资源分析
+pnpm run report:comp
+
+# 代码格式检查
+pnpm run lint
+
+# 代码格式检查并自动修复
+pnpm run lint:fix
+```
+
+## 框架目录结构
+
+```bash
+  |-- build-lib.js # 打包脚本
+  |-- index.html
+  |-- package.json
+  |-- README.md #帮助文档
+  |-- vite.config.js #vite相关配置项
+  |-- src
+  |   |-- App.vue
+  |   |-- main.js
+  |   |-- assets # 图片，字体等资源目录
+  |   |-- components # 组件
+  |   |-- plugins # 常用插件封装
+  |   |-- store # 状态管理pinia
+  |-- vite
+      |-- plugins # vite 相关插件引入
+          |-- index.js
+```
+
+Copyright (c) 2022-present [www.dappworks.com](https://www.dappworks.com)

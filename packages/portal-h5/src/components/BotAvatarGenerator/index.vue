@@ -72,7 +72,6 @@
 <script setup>
 import { t } from '@gptx/base/i18n';
 import { ElMessageBox } from 'element-plus';
-import { generateKnowledgeIcon } from '@gptx/base/api/knowledge';
 import { generateBotIcon } from '@gptx/base/api/user.js';
 import userAvatarOss   from '@/components/userAvatarOss/index.vue';
 

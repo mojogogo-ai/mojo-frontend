@@ -100,11 +100,10 @@
 <script>
 import 'vue-cropper/dist/index.css';
 import { VueCropper } from 'vue-cropper';
-import { getOssPresignedUrlV2, getOssUrlV2 } from '@gptx/base/api/user';
+import { getOssPresignedUrlV2 } from '@gptx/base/api/user';
 import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core';
 import { t } from '@gptx/base/i18n';
-import { ElMessage } from 'element-plus';
 import CryptoJS from 'crypto-js';
 import { showFailToast } from 'vant';
 
@@ -267,10 +266,7 @@ export default {
 
           // 使用上传 URL 和表单数据上传文件
           await this.uploadFile(upload_url, fileOfBlob, form_data);
-          // const fileHttpUrl = await getOssUrlV2({
-          //   file_url: file_key,
-          //   file_key
-          // })
+
           console.log(file_url, 'file_url');
           // 提取文件访问 URL
           const imgUrl = file_url.split('?')[0];

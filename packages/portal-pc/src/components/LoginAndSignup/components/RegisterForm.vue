@@ -1,14 +1,12 @@
-<script setup lang="tsx">
-import { ref, reactive } from 'vue'
+<script setup>
 import { t } from '@gptx/base/i18n'
-import { ElInput, ElForm, ElFormItem, ElButton, ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { auth } from "@/utils/firebase.js" // Assuming Firebase is initialized in this file
 import { handleFirebaseError } from '@/utils/firebase.js'
 import { validatorEmail, validatorPassword } from '@gptx/base/utils/validator'
 import {bindEmailRefer} from '@gptx/base/api/user'
 import { useRoute } from 'vue-router'
-import {onBeforeMount} from 'vue';
 
 const emit = defineEmits(['to-login'])
 
@@ -62,13 +60,14 @@ const loginRegister = async () => {
             // Redirect to login or handle post-registration
             toLogin()
           } catch (error) {
-            console.error('Failed to bind referral code:', error)
-            ElMessage.error(t('login.invalidReferralCode'))
+            handleFirebaseError(error)
           }
         }
 
       } catch (error) {
-        handleFirebaseError(error)
+        console.error('Failed to bind referral code:', error)
+        ElMessage.error(t('login.invalidReferralCode'))
+        
       } finally {
         loading.value = false
       }
@@ -77,8 +76,6 @@ const loginRegister = async () => {
 }
 
 onBeforeMount(async () => {
-  // await useUser.updateSysInfo();
-  // isLogin.value = await getIsLogin();
   const route = useRoute();
   const { query } = route;
   if (query && query.referral_code) {
@@ -147,12 +144,6 @@ onBeforeMount(async () => {
   //width: 60px;
   background-color: transparent;
   color: #000000;
-
-  //&:hover {
-  //  background-color: var(--el-text-color-secondary);
-  //  color: var(--el-text-color-placeholder);
-  //}
-
   &:disabled {
     background-color: rgba(0, 0, 0, 0.3);
     color: var(--el-text-color-secondary);

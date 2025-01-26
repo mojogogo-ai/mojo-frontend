@@ -23,7 +23,7 @@
           accept=".pdf,.txt,.pptx"
           :before-read="beforeUpload"
           :disabled="loading || isUploading"
-          class="upload-demo w-full mt-4"
+          class="w-full mt-4 upload-demo"
           :after-read="handleFileSelect"
           @oversize="handleExceed"
         >
@@ -59,7 +59,7 @@ import { getOssPresignedUrlV2 } from '@gptx/base/api/user';
 import { botFileSave, updateBotFile } from '@gptx/base/api/application';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { showFailToast, showSuccessToast, Toast } from 'vant';
+import { showFailToast, showSuccessToast } from 'vant';
 
 const emits = defineEmits(['after-upload-knowledge-sources', 'after-update']);
 const isVisible = ref(false);

@@ -13,7 +13,7 @@ const props = defineProps({
   },
   chatApiUrl:{
     type: String,
-    default:'/portal/conversation/chat-debug'
+    default:'v1/bot/meme-chat?token=${token}'
   },
   isDebug: {
     type:Boolean,

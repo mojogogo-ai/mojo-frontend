@@ -118,13 +118,13 @@ const __data = reactive({
       icon: IconTelegram,
       _: {}
     },
-    {
-      title: 'Discord',
-      name: 'discord',
-      subtitle: t('bots.publish.discord'),
-      icon: IconDiscord,
-      _: {}
-    },
+    // {
+    //   title: 'Discord',
+    //   name: 'discord',
+    //   subtitle: t('bots.publish.discord'),
+    //   icon: IconDiscord,
+    //   _: {}
+    // },
     {
       title: 'LINE',
       name: 'line',

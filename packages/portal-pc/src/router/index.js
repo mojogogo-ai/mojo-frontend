@@ -36,55 +36,7 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '',
-    name: 'ApplicationDetail',
-    meta: { title: t('menu.c') },
-    children: [
-      {
-        path: '/design/:id?',
-        name: 'Design',
-        component: () => import('@/views/personal/design'),
-        meta: { title: t('menu.c'), tab: 'a' }
-      },
-      {
-        path: '/analyze/:id?',
-        name: 'Analyze',
-        component: () => import('@/views/personal/analyze'),
-        meta: { title: t('menu.c'), tab: 'b' }
-      }
-    ]
-  },
-  {
-    path: '',
-    name: 'ApplicationPublish',
-    children: [
-      {
-        path: '/publish/:id?',
-        name: 'Publish',
-        component: () => import('@/views/personal/publish'),
-        meta: { title: t('menu.c') }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    children: [
-      {
-        path: '/base',
-        component: () => import('@/views/base/list'),
-        name: 'BaseList',
-        meta: { title: t('menu.b')}
-      },
-      {
-        path: '/base_detail/:id?',
-        component: () => import('@/views/base/detail'),
-        name: 'BaseDetail',
-        meta: { title: t('menu.b')}
-      }
-    ]
-  },
+
   {
     path: '',
     component: Layout,
@@ -133,8 +85,7 @@ export const constantRoutes = [
         meta: { title: 'My task list'}
       }
     ]
-  }
-  ,
+  },
   {
     path: '',
     component: Layout,
@@ -146,7 +97,55 @@ export const constantRoutes = [
         meta: { title: 'Refer friends'}
       }
     ]
-  }
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/memebot',
+        component: () => import('@/views/memebot/index.vue'),
+        name: 'memebot',
+        meta: { title: 'Meme Bot'}
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/myCoins',
+        component: () => import('@/views/myCoins/index.vue'),
+        name: 'myCoins',
+        meta: { title: 'My coins'}
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/conversation',
+        component: () => import('@/views/conversation/index.vue'),
+        name: 'conversation',
+        meta: { title: 'Conversation'}
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/twittersuccess',
+        component: () => import('@/views/twittersuccess/index.vue'),
+        name: 'twittersuccess',
+        meta: { title: 'Success'}
+      }
+    ]
+  },
 ];
 export const asyncRouterMap = []
 

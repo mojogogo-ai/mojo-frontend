@@ -17,20 +17,5 @@ const allLang = {
   "zh-TW": tw,
 };
 const curLang = getCurLang(); // 当前语言
-// console.log("curLang: ", curLang)
 const locale = computed(() => allLang[curLang]);
-// watch(
-//   locale,
-//   (n) => {
-//     // console.log("locale: ", n)
-//     if (n && n.name === "en") {
-//       const app = document.getElementById("app");
-//       app.style.fontFamily = "Roboto-Regular, Roboto";
-//     } else {
-//       app.style.fontFamily = "Microsoft YaHei";
-//     }
-//   },
-//   { immediate: true }
-// );
-
 </script>

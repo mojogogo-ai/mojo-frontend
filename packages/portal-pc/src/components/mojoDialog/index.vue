@@ -20,15 +20,13 @@
     <template #footer>
       <slot name="footer">
         <!--        <el-button @click="handleClose">取消</el-button>-->
-        <!--        <el-button type="primary" @click="confirm">确认</el-button>-->
+        <!--        <el-button type="primary" >确认</el-button>-->
       </slot>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-import { ElDialog, ElButton } from 'element-plus';
 
 // 定义 props
 const props = defineProps({
@@ -64,11 +62,6 @@ const handleClose = () => {
   emit('update:visible', false);
 };
 
-// 定义确认按钮的事件
-const confirm = () => {
-  emit('confirm');
-  handleClose();
-};
 
 // 动态设置主题颜色
 onMounted(() => {

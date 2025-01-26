@@ -57,6 +57,7 @@ const handleClose = (action) => {
 };
 
 // 定义确认按钮的事件
+// eslint-disable-next-line no-unused-vars
 const confirm = () => {
   emit('confirm');
   handleClose('cancel');

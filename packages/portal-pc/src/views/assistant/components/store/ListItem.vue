@@ -29,6 +29,14 @@
               {{ appInfo.name }}
             </div>
           </div>
+          <div class="p-2  coin-continer" @click.stop="detailCoin(appInfo)">
+            <el-avatar
+              class="coin-logo"
+              size="small"
+              :src="coinImageUrl"
+            />
+            <span class="ml-2 meme-symbol"> {{ appInfo.symbol }}</span>
+          </div>
           <div class="mt-2">
             <el-avatar
               class="align-middle"
@@ -43,18 +51,6 @@
           >
             {{ appInfo.introduction }}
           </div>
-          <!-- <div
-            v-if="appInfo.app_categories && appInfo.app_categories.length"
-            class="mt-2"
-          >
-            <el-tag
-              v-for="{ name } in appInfo.app_categories"
-              class="mr-1"
-              type="info"
-            >
-              {{ t(name) }}
-            </el-tag>
-          </div> -->
         </div>
       </div>
       <template #footer>
@@ -100,7 +96,7 @@
                 :src="platIcons['telegram']"
               />
             </el-button>
-            <el-button
+            <!-- <el-button
               v-if="appInfo.discord_address"
               size="small"
               link
@@ -110,7 +106,7 @@
                 class="plat-icon"
                 :src="platIcons['discord']"
               />
-            </el-button>
+            </el-button> -->
           </div>
         </div>
       </template>
@@ -119,7 +115,6 @@
 </template>
 
 <script setup>
-// import { t } from '@gptx/base/i18n';
 import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
 import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
 import IconDiscord from '@/assets/images/bots/publish/discord.svg';
@@ -128,6 +123,7 @@ import IconMessenger from '@/assets/images/bots/publish/messenger.svg';
 import IconSlack from '@/assets/images/bots/publish/slack.svg';
 import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
 import IconReddit from '@/assets/images/bots/publish/reddit.svg';
+import coinImageUrl from '@/assets/images/coin.png';
 
 defineProps({
   appInfo: {
@@ -137,7 +133,6 @@ defineProps({
 });
 const emits = defineEmits(['open-new-chat', 'open-with',  'open-dig', 'duplicate']);
 
-let platList = reactive([{ s_name: 'telegram' }]);
 const platIcons = {
   telegram: IconTelegram,
   slack: IconSlack,
@@ -146,6 +141,13 @@ const platIcons = {
   discord: IconDiscord,
   messenger: IconMessenger,
   line: IconLine
+};
+
+const detailCoin = (item) => {
+  if (item.meme_token_mint) {
+    let url = `https://pump.fun/coin/${item.meme_token_mint}`;
+    window.open(url, '_blank')
+  }
 };
 
 </script>
@@ -170,5 +172,32 @@ const platIcons = {
      }
    }
  }
+
+ 
+.meme-symbol{
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #E1FF01;
+}
+.meme-symbol:hover {  
+  cursor: pointer;
+}  
+.coin-logo{
+  --el-avatar-size: 20px;
+  background-color: transparent;
+}
+.coin-continer{
+  padding-left: 0px;
+  padding-top: 0px;
+  display: flex;
+}
+.coin-continer:hover {  
+  cursor: pointer;
+}  
 
 </style>

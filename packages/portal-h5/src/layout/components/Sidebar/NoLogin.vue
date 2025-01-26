@@ -9,11 +9,9 @@
 </template>
 
 <script setup>
-const emits = defineEmits(['login-signup']);
 import useLoginStore from '@/store/modules/login.js';
 const useLogin = useLoginStore();
 const loginORsignup = (bol)=>{
-  // emits('login-signup', bol);
   if(bol){
     useLogin.setLoginDialogVisible(true, 'login');
   }else{

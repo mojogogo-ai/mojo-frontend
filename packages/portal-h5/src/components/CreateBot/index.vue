@@ -28,7 +28,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="Gender Identity"
+        label="Bot Gender"
         prop="category_id"
       >
         <el-select

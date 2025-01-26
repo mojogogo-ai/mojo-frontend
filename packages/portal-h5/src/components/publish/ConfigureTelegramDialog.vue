@@ -42,7 +42,7 @@
 <script setup>
 import { ref } from 'vue';
 import { botAuthorize } from '@gptx/base/api/application';
-import { showToast, Toast } from 'vant';
+import { showToast } from 'vant';
 
 const emits = defineEmits(['after-upload-knowledge-sources', 'after-update']);
 const isVisible = ref(false);
@@ -106,6 +106,7 @@ const submitForm = async () => {
     } else {
      showToast(res.msg);
     }
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
    showToast('Authorization failed');
   } finally {

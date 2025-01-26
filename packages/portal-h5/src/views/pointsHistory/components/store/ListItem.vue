@@ -16,16 +16,14 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
 
-const props = defineProps({
+defineProps({
   appInfo: {
     type: Object,
     default: () => ({}),
   },
 });
 
-const emit = defineEmits(['open-new-chat', 'open-with', 'open-dig', 'click']);
 </script>
 
 <style lang="scss" scoped>

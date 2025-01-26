@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { ref, reactive } from 'vue'
-import { Dialog, showFailToast, showToast } from 'vant'
+import { showFailToast, showToast } from 'vant'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { t } from '@gptx/base/i18n'
 import { auth } from "@/utils/firebase.js"
@@ -56,7 +56,7 @@ defineExpose({ openForgotPasswordDialog })
     width="90%"
     :before-close="closeForgotPasswordDialog"
   >
-    <div class="forget-logo mt-20">
+    <div class="mt-20 forget-logo">
       <a class="forget-logo__link">
         <svg-icon class="mr-4" name="logo" />
         {{ $t('common.productName') }}
@@ -68,7 +68,7 @@ defineExpose({ openForgotPasswordDialog })
         {{ t('forgotPassword.emailLabel') }}
       </div>
     </div>
-    <div class="mx-auto mb-20 px-4">
+    <div class="px-4 mx-auto mb-20">
       <van-form
         ref="formRef"
         :model="formData"

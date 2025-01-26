@@ -5,9 +5,9 @@
         <div class="profile-header">
           <div class="profile-header-text">My Profile</div>
           <div class="profile-content h-[103px] w-full">
-            <el-avatar :src="user.avatar" fit="cover" shape="square" :size="103" alt="User Profile" class="profile-image block" />
-            <div class="user-info flex-1">
-              <div class="flex  justify-between">
+            <el-avatar :src="user.avatar" fit="cover" shape="square" :size="103" alt="User Profile" class="block profile-image" />
+            <div class="flex-1 user-info">
+              <div class="flex justify-between">
                 <div class="user-points">{{ user.points }} pts</div>
                 <button class="edit-button" @click="editProfile">
                   Edit <i><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
@@ -103,12 +103,12 @@
 </template>
 <script setup>
 import { t } from '@gptx/base/i18n';
-import { getCurLang, supportLang } from '@gptx/base';
+// import { getCurLang, supportLang } from '@gptx/base';
 import { ElMessageBox } from 'element-plus';
 import { getAuth, signOut } from 'firebase/auth';
 import useUserStore from '@/store/modules/user.js';
 import useLoginStore from '@/store/modules/login'
-import BaseInfo from './components/BaseInfo';
+// import BaseInfo from './components/BaseInfo';
 import { useRouter } from 'vue-router';
 import EditPersonalInfo from './components/EditPersonalInfo';
 import EditProfile from './components/EditProfile';
@@ -119,23 +119,23 @@ const user = useUserStore();
 const useLogin = useLoginStore();
 console.log(user)
 
-const curLang = getCurLang();
-const langList = supportLang(); // 支持切换的语言
-const language = computed(() => {
-  return langList.find((i) => {
-    return i.value === curLang;
-  }).value;
-});
+// const curLang = getCurLang();
+// const langList = supportLang(); // 支持切换的语言
+// const language = computed(() => {
+//   return langList.find((i) => {
+//     return i.value === curLang;
+//   }).value;
+// });
 
 /* ref dom */
 const editPersonalInfoRef = ref(null);
 const editProfileRef = ref(null);
 
 
-const changeLangCommand = (command) => {
-  localStorage.setItem('lang', command);
-  window.location.reload();
-};
+// const changeLangCommand = (command) => {
+//   localStorage.setItem('lang', command);
+//   window.location.reload();
+// };
 const logout = async () => {
   try {
     const action = await ElMessageBox.confirm(t('user.c'), '', {

@@ -54,57 +54,6 @@ export const constantRoutes = [
   {
     path: '',
     component: Layout,
-    name: 'ApplicationDetail',
-    hidden: true,
-    meta: { title: t('menu.c'), icon: 'bots' },
-    children: [
-      {
-        path: '/design/:id?',
-        component: () => import('@/views/personal/design'),
-        meta: { title: t('menu.c'), icon: 'bots', tab: 'a' }
-      },
-      {
-        path: '/analyze/:id?',
-        component: () => import('@/views/personal/analyze'),
-        meta: { title: t('menu.c'), icon: 'bots', tab: 'b' }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    name: 'ApplicationPublish',
-    hidden: true,
-    children: [
-      {
-        path: '/publish/:id?',
-        component: () => import('@/views/personal/publish'),
-        meta: { title: t('menu.c'), icon: 'bots' }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    groupName: 'menu.group.c',
-    children: [
-      {
-        path: '/base',
-        component: () => import('@/views/base/list'),
-        name: 'BaseList',
-        meta: { title: t('menu.b'), icon: 'knowledge' }
-      },
-      {
-        path: '/base_detail/:id?',
-        component: () => import('@/views/base/detail'),
-        name: 'BaseDetail',
-        meta: { title: t('menu.b'), icon: 'knowledge' }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
     groupName: 'menu.group.e',
     children: [
       {
