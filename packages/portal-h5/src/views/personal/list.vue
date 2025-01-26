@@ -5,7 +5,7 @@
   />
   <div class="bot-management">
     <div class="bot-management-title">
-      {{ t('Bot Management') }}
+      Manage My Bots
     </div>
     <div class="bot-management-content">
       <van-list
