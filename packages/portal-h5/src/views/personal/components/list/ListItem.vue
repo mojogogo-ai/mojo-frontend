@@ -20,6 +20,9 @@
           <div class="bmicli-title" @click="toBotDetail">
             {{ bot.name }}
           </div>
+          <div v-if="bot.bot_type===1&&bot.meme_state !== 3" class="bmiclt-status" :style="{backgroundColor: bot.meme_state === 3 ? 'rgba(17, 198, 65, 0.80)': '#db5f00'}">
+            {{ MemeStatusText[bot.meme_state] }}
+          </div>
           <div class="bmicli-author">
             <van-image
               class="bmicli-author-avatar"
@@ -143,7 +146,11 @@ const goLink = (bot, platform) => {
   }
   emit('chat', { url });
 };
-
+const MemeStatusText = {
+  1: 'Launch pending',
+  2: 'Launching',
+  3: 'Coin Launched'
+};
 // 打开 Bot 详情页面
 const toBotDetail = () => {
   // const { id } = props.bot;
@@ -305,7 +312,20 @@ const onUnpublish = async (id) => {
           white-space: nowrap;
           cursor: pointer;
         }
-
+        .bmiclt-status {
+          width: 73px;
+          display: flex;
+          padding: 4px 8px;
+          justify-content: center;
+          align-items: center;
+          border-radius: 8px;
+          background: rgba(17, 198, 65, 0.8);
+          color: #fff;
+          font-family: Inter, sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 19px;
+        }
         .bmicli-author {
           display: flex;
           gap: 12px;
