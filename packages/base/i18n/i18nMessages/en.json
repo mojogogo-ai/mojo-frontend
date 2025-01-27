@@ -353,6 +353,13 @@
       "subtitle": "How to get discord Bot token ?",
       "botToken": "discord Bot token",
       "button": "Save"
+    },
+    "telegram": {
+      "title": "Connect to Telegram bots and chat with this bot in Telegram App.",
+      "subtitle": "How to get Telegram Bot token ?",
+      "botToken": "Telegram Bot token",
+      "address": "Telegram Address ",
+      "button": "Save"
     }
   }
 }

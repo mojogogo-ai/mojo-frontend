@@ -10,19 +10,19 @@
     append-to-body
   >
     <div class="pd-title">
-      Connect to Telegram bots and chat with this bot in Telegram App.<br>
-      <span class="cursor-pointer" @click="goPage">How to get Telegram Bot token ?</span>
+      {{t("personal.telegram.title")}}<br>
+      <span class="cursor-pointer" @click="goPage">{{t("personal.telegram.subtitle")}}</span>
     </div>
     <div class="pd-content">
       <div class="pdc-title">
-        Telegram Bot token <span>*</span>
+        {{t("personal.telegram.botToken")}}<span>*</span>
       </div>
       <div class="pdc-list">
         <el-input v-model="option.token" />
       </div>
       <!--      option.address-->
       <div class="pdc-title mt-[20px]">
-        Telegram Address <span>*</span>
+        {{t("personal.telegram.address")}}<span>*</span>
       </div>
       <div class="pdc-list">
         <el-input v-model="option.address" />
@@ -30,13 +30,14 @@
     </div>
     <template #footer>
       <el-button type="primary" :loading="loading" :disabled="loading || !option.token" @click="submitForm">
-        {{ 'Save' }}
+        {{t("personal.telegram.button")}}
       </el-button>
     </template>
   </mojoDialogTranslucent>
 </template>
 
 <script setup>
+import { t } from '@gptx/base/i18n';
 import { ref } from 'vue';
 import {botAuthorize} from '@gptx/base/api/application';
 import { ElMessage } from 'element-plus';
