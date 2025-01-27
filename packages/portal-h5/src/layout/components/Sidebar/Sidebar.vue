@@ -20,17 +20,20 @@
         </div>
       </div>
       <div class="menu-cs-item" @click="goPage(1)">
-        Home
+        {{ $t('menu.module.h') }}
       </div>
       <div class="menu-cs-item" @click="goPage(2)">
-        My Memes
+        {{ $t('menu.module.m') }}
       </div>
       <div class="menu-cs-item" @click="goPage(3)">
-        Explore
+        {{ $t('menu.module.e') }}
       </div>
       <div class="wallet">
         <div class="wallet-btn" @click="installWallet">
-          <IconWallet class="icon"/> PHANTOM WALLET
+          <svg-icon
+          name="wallet"
+          class="wallet-wallet_icon"/>
+          PHANTOM WALLET
         </div>
       </div>
     </div>
@@ -44,7 +47,6 @@ import router from '@/router'
 import NoLogin from './NoLogin';
 import User from './User';
 import { getIsLogin } from '@/utils/firebase.js';
-import IconWallet from '@/assets/svg/wallet.svg';
 
 import useLoginStore from '@/store/modules/login';
 
@@ -163,8 +165,9 @@ defineExpose({ setIsLogin });
      min-height: 48px;
      width: 100%;
      text-align: center;
-     .icon{
+     .wallet-wallet_icon{
        margin-right: 8px;
+       font-size: 30px;
      }
    }
  }

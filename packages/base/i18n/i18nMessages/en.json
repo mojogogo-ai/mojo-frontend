@@ -262,6 +262,15 @@
       "e": "Explore",
       "m": "manage"
     },
+    "module": {
+      "h": "Create",
+      "m": "My Memes",
+      "e": "Explore"
+    },
+    "button": {
+      "login": "Log in",
+      "singUp": "Sign up"
+    },
     "h": "There is a network error. Please refresh the page and try again",
     "i": "System error"
   },

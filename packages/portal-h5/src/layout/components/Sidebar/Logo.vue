@@ -15,7 +15,10 @@
         {{ isCn ? $t('common.productName_Cn') : $t('common.productName') }}
       </a>
       <div @click="closeTopbar">
-        <IconClose/>
+        <svg-icon
+          name="close"
+          class="sidebar-logo__close_icon"
+        />
       </div>
     </div>
     <van-divider class="sidebar-divider mb-0" />
@@ -25,7 +28,6 @@
 <script setup>
 
 import { useLayoutStore } from '@/store/modules/layout';
-import IconClose from '@/assets/svg/close.svg';
 
 defineProps({
   collapse: {

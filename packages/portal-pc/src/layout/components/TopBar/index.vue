@@ -15,19 +15,19 @@
             style="margin-right: 8px"
             index="/home"
           >
-            Home
+            {{ t('menu.module.h') }}
           </el-menu-item>
           <el-menu-item
             style="margin-right: 8px"
             index="/personal"
           >
-            My Memes
+            {{ t('menu.module.m') }}
           </el-menu-item>
           <el-menu-item
             style="margin-right: 8px"
             index="/assistant"
           >
-            Explore
+            {{ t('menu.module.e') }}
           </el-menu-item>
         </el-menu>
       </div>
@@ -137,6 +137,7 @@
 </template>
 
 <script setup>
+import { t } from '@gptx/base/i18n';
 import Logo from './Logo';
 import User from './User';
 import NoLogin from './NoLogin';
