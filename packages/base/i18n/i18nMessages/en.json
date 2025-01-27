@@ -360,6 +360,12 @@
       "botToken": "Telegram Bot token",
       "address": "Telegram Address ",
       "button": "Save"
+    },
+    "public": {
+      "titleOne": "By publishing your agent on the following platforms, you fully understand and agree to abide by",
+      "titleTwo": "Terms of service for each publishing channel",
+      "titleThree": "(including, but not limited to, any privacy policy, community guidelines, data processing agreement, etc.).",
+      "subtitle": "Publish to"
     }
   }
 }

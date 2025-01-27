@@ -284,5 +284,29 @@
       "title": "创建属于您的 AI Bot",
       "content": "轻松设计并部署量身定制的 AI 代理。提升客户服务，自动化日常任务，利用 AI 驱动的洞察力做出更聪明的决策。"
     }
+  },
+  "personal": {
+    "title": "管理我的 Bots",
+    "discord": {
+      "title": "连接到 Discord 机器人，并在 Discord 应用中与此机器人聊天。",
+      "subtitle": "如何获取 Discord 机器人 token？",
+      "botToken": "Discord 机器人 token",
+      "button": "保存"
+    },
+    "telegram": {
+      "title": "连接到 Telegram 机器人，并在 Telegram 应用中与此机器人聊天。",
+      "subtitle": "如何获取 Telegram 机器人 token？",
+      "botToken": "Telegram 机器人 token",
+      "address": "Telegram 地址",
+      "button": "保存"
+    },
+    "public": {
+      "titleOne": "通过在以下平台发布您的代理，您完全理解并同意遵守",
+      "titleTwo": "每个发布渠道的服务条款",
+      "titleThree": "(包括但不限于任何隐私政策、社区指南、数据处理协议等)。",
+      "subtitle": "发布到"
+    }
+
   }
+
 }

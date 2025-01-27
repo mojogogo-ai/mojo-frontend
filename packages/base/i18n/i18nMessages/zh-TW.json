@@ -283,6 +283,28 @@
       "title": "創建屬於你嘅 AI Bot",
       "content": "輕鬆設計同部署量身定做嘅 AI 代理。提升客戶服務，實現日常任務自動化，並利用 AI 推動嘅洞察力作出更聰明嘅決策。"
     }
-  }
+  },
+  "personal": {
+    "title": "管理我嘅 Bots",
+    "discord": {
+      "title": "連接到 Discord 机器人成並喺 Discord 應用入面同呢個機器人傾計。",
+      "subtitle": "點樣攞 Discord 机器人 token？",
+      "botToken": "Discord 机器人 token",
+      "button": "儲存"
+    },
+    "telegram": {
+      "title": "連接到 Telegram 机器人並喺 Telegram 應用入面同呢個機器人傾計。",
+      "subtitle": "點樣攞 Telegram 机器人 token？",
+      "botToken": "Telegram 机器人 token",
+      "address": "Telegram 地址",
+      "button": "儲存"
+    },
+    "public": {
+      "titleOne": "通過喺以下平台發佈你嘅代理，你完全理解並同意遵守",
+      "titleTwo": "每個發佈渠道嘅服務條款",
+      "titleThree": "(包括但唔限於任何私隱政策、社區指引、數據處理協議等)。",
+      "subtitle": "發佈到"
+    }
 
+  }
 }
