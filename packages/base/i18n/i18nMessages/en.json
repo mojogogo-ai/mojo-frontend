@@ -64,7 +64,8 @@
       "tipModify": "Prompt optimization",
       "turns": "Context rounds",
       "turnsTip": "Sets the number of dialogue history rounds brought into the model context. \nThe more rounds there are, the higher the relevance of the multi-round dialogue, but the more Tokens are consumed.",
-      "voice": "Bot voice"
+      "voice": "Bot voice",
+      "isTwitterConnected": "Connect Bot Twitter Account"
     },
     "n": "Model",
     "new": "Create Bot",
@@ -213,7 +214,11 @@
     "unbind": "unbind",
     "unbindTip": "Do you confirm the deauthorization?",
     "upload": "upload",
-    "wrong": "Something went wrong, please try again later."
+    "wrong": "Something went wrong, please try again later.",
+    "twitter": {
+      "tip": "Processing Authorization...",
+      "content": "Please wait, we are processing your authorization request."
+    }
   },
   "forgotPassword": {
     "dialogTitle": "Forgot password?",

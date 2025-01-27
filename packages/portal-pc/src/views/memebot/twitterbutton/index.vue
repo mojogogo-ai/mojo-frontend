@@ -7,7 +7,7 @@
       @change="updateTwitterLink"
     />
     <div class="toggle-container">
-      <label for="twitter-switch">Connect Bot Twitter Account</label>
+      <label for="twitter-switch">{{ t('bots.label.isTwitterConnected') }}</label>
       <el-switch
         v-model="isTwitterConnected"
         @change="toggleTwitterConnection"
@@ -19,10 +19,12 @@
 </template>
 
 <script>
+import { t } from '@gptx/base/i18n';
 import { twitterAuth } from '@gptx/base/api/meme-bot';
 import { ref } from 'vue';
 
 export default {
+  methods: { t },
   setup(props, { emit }) {
     const isTwitterConnected = ref(false);
     const twitterLink = ref('');
