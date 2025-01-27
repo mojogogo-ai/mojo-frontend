@@ -64,29 +64,17 @@
         </div>
       </div>
       <div class="bmic-right">
-        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M18.7417 1.5H3.94877V0.5H19.9488H20.4488V1V17H19.4488V2.20711L2.30232 19.3536L1.59521 18.6464L18.7417 1.5Z" fill="#E1FF01" />
-        </svg>
+        <svg-icon
+          name="arrow-upper-right" class="arrow-upper-right-icon" />
       </div>
     </div>
     <div class="bmi-bottom">
       <div class="cursor-pointer bmi-share-bar">
         <div v-if="bot?.telegram_address" class="bmi-s-b-item" @click.stop="goLink(bot, 'telegram')">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-            <g clip-path="url(#clip0_994_681)">
-              <path d="M12.9487 0C9.76686 0 6.71248 1.26506 4.46436 3.51469C2.21393 5.76522 0.949374 8.81734 0.94873 12C0.94873 15.1813 2.21436 18.2357 4.46436 20.4853C6.71248 22.7349 9.76686 24 12.9487 24C16.1306 24 19.185 22.7349 21.4331 20.4853C23.6831 18.2357 24.9487 15.1813 24.9487 12C24.9487 8.81869 23.6831 5.76431 21.4331 3.51469C19.185 1.26506 16.1306 0 12.9487 0Z" fill="url(#paint0_linear_994_681)" />
-              <path d="M6.38057 11.873C9.87932 10.349 12.2118 9.3443 13.3781 8.8588C16.7118 7.47261 17.4037 7.23186 17.8556 7.2237C17.9549 7.22211 18.1762 7.24667 18.3206 7.36339C18.4406 7.46183 18.4743 7.59495 18.4912 7.68842C18.5062 7.7818 18.5268 7.99461 18.5099 8.16074C18.3299 10.0582 17.5481 14.6629 17.1506 16.7882C16.9837 17.6874 16.6518 17.9889 16.3312 18.0184C15.6337 18.0825 15.1049 17.5579 14.4299 17.1155C13.3743 16.4231 12.7781 15.9922 11.7524 15.3167C10.5674 14.5359 11.3362 14.1067 12.0112 13.4055C12.1874 13.2219 15.2587 10.4291 15.3168 10.1758C15.3243 10.1441 15.3318 10.026 15.2606 9.96373C15.1912 9.9013 15.0881 9.92267 15.0131 9.93955C14.9062 9.96355 13.2206 11.0788 9.95057 13.2851C9.47245 13.614 9.03932 13.7743 8.64932 13.7659C8.22182 13.7567 7.39682 13.5236 6.7837 13.3245C6.0337 13.0802 5.43557 12.951 5.48807 12.536C5.51432 12.32 5.81245 12.099 6.38057 11.873Z" fill="white" />
-            </g>
-            <defs>
-              <linearGradient id="paint0_linear_994_681" x1="1200.95" y1="0" x2="1200.95" y2="2400" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#2AABEE" />
-                <stop offset="1" stop-color="#229ED9" />
-              </linearGradient>
-              <clipPath id="clip0_994_681">
-                <rect width="24" height="24" fill="white" transform="translate(0.94873)" />
-              </clipPath>
-            </defs>
-          </svg>
+          <svg-icon
+            name="telegram-icon"
+            class="telegram-icon"
+          />
         </div>
       </div>
       <div class="more-option-trigger" @click.stop="()=>{}">
@@ -474,5 +462,12 @@ const detailCoin = (item) => {
   padding-left: 0px;
   padding-top: 0px;
   display: flex;
+}
+.arrow-upper-right-icon{
+  font-size: 20px;
+  color: #E1FF01;
+}
+.telegram-icon{
+  font-size: 24px;
 }
 </style>

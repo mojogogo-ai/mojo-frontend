@@ -345,5 +345,14 @@
       "title": "Create Your Own AI Bot",
       "content": "Easily design and deploy AI agents tailored to your needs. Enhance customer service, automate\n   routine tasks, and leverage AI-driven insights for smarter decision-making."
     }
+  },
+  "personal": {
+    "title": "Manage My Bots",
+    "discord": {
+      "title": "Connect to Discord bots and chat with this bot in discord App.",
+      "subtitle": "How to get discord Bot token ?",
+      "botToken": "discord Bot token",
+      "button": "Save"
+    }
   }
 }

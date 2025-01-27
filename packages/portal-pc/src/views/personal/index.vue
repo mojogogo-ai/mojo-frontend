@@ -1,7 +1,7 @@
 <template>
   <div class="bot-management">
     <div class="bot-management-title">
-      Manage My Bots
+      {{t('personal.title')}}
     </div>
     <div
       class="bot-management-content"
