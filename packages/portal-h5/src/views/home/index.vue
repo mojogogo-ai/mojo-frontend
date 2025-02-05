@@ -4,7 +4,7 @@
     <div class="app-page-content">
       <div class="homepage-title">{{ t('common.productName') }}</div>
       <div class="homepage-subtitle">
-        Mojo Gogo lets everyone unleash autonomous AI agents with a click, granting them a life in cyberspace: soul-bonded tokens, self-managed social media, active community engagement, PayFi-powered on-chain financing, and limitless cultural and financial adventures.
+        {{t('home.subtitle')}}
       </div>
       <van-button
         v-if="!isLogin"
@@ -13,7 +13,7 @@
         type="primary"
         @click="onOpenLoginDialog"
       >
-        Sign up
+        {{t('home.button.signUp')}}
       </van-button>
       <van-button
         class="mb-4"
@@ -21,7 +21,7 @@
         type="primary"
         @click="createBot"
       >
-        + Create Bot
+        +  {{t('home.button.c')}}
       </van-button>
       <!-- <van-button
         class="mb-[80px]"
@@ -32,10 +32,9 @@
       </van-button> -->
       <div class="page-list mt-[80px]">
         <div class=" part-home-1">
-          <div class="mb-4 text-lg part-home-1-title">Create Your Own AI Bot</div>
+          <div class="mb-4 text-lg part-home-1-title">{{t("home.partOne.title")}}</div>
           <div class="mb-7 text-sm part-home-1-content">
-            Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
-            routine tasks, and leverage AI-driven insights for smarter decision-making.
+            {{t("home.partOne.content")}}
           </div>
           <van-button
             class="w-4/5"
@@ -55,17 +54,16 @@
       </div>
       <div class="page-list">
         <van-cell class="page-list__inner">
-          <div class="mb-4 text-lg">Next Gen AI Product</div>
+          <div class="mb-4 text-lg">{{t("home.partTwo.title")}}</div>
           <div class="mb-4 text-sm">
-            Easily design and deploy AI agents tailored to your business needs. Enhance customer service, automate
-            routine tasks, and leverage AI-driven insights for smarter decision-making.
+            {{t("home.partTwo.content")}}
           </div>
           <van-button
             class="w-4/5"
             type="primary"
             @click="jump('/assistant')"
           >
-            Explore
+            {{t("home.button.e")}}
           </van-button>
         </van-cell>
       </div>
