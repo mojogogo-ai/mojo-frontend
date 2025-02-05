@@ -83,6 +83,12 @@
           </el-sub-menu> -->
         <!-- </el-menu> -->
       </div>
+      <div>
+        <svg-icon
+            name="language"
+            class="icon-language"
+        />
+      </div>
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
@@ -533,5 +539,9 @@ watch(
   opacity: 0px;
   background-color: #E1FF01;
   border-width: 0px;
+}
+.icon-language{
+  font-size: 40px;
+  color: #E1FF01;
 }
 </style>

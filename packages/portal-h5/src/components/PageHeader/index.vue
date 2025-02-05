@@ -7,11 +7,17 @@
       />
       {{ isCn ? $t('common.productName_Cn') : $t('common.productName') }}
     </div>
-    <div class="page-header-icon" @click="onLeftIconClick">
+    <div class="page-header-icon">
+      <svg-icon
+          name="language"
+          class="sidebar-language__icon"
+          @click="onLanguageIconClick"
+      />
       <van-icon
         name="wap-nav"
         size="18"
         color="var(--van-blue)"
+        @click="onLeftIconClick"
       />
     </div>
 
@@ -67,6 +73,9 @@ const isCn = computed(() => {
   return window.SITE_TYPE && window.SITE_TYPE === '2';
 });
 
+const onLanguageIconClick = () => {
+  storeLayout.setLanguageVisible(true);
+}
 const onLeftIconClick = () => {
   storeLayout.setSidebarVisible(true);
 };
@@ -148,7 +157,6 @@ onBeforeMount(async () => {
     font-size: 20px;
   }
 }
-
 .page-header-icon {
   position: absolute;
   top: 50%;
@@ -156,8 +164,8 @@ onBeforeMount(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  width: 40px;
+  //height: 40px;
+  //width: 40px;
   transform: translateY(-50%);
 
   &.right {
@@ -175,6 +183,11 @@ onBeforeMount(async () => {
         padding: 0;
       }
     }
+  }
+  .sidebar-language__icon{
+    font-size: 24px;
+    color: #E1FF01;
+    margin-right: 20px;
   }
 }
 </style>
