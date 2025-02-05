@@ -42,6 +42,7 @@ const isCn = computed(() => {
 });
 const closeTopbar = () => {
   storeLayout.setSidebarVisible(false);
-};
+  storeLayout.setLanguageVisible(false);
+}
 const WEBSITE_HOME = window.WEBSITE_HOME;
 </script>
