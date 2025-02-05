@@ -37,9 +37,16 @@ onBeforeMount(() => {
 });
 
 const { locale } = useI18n()
-const changeLanguage = (value) => {
-  localStorage.setItem('lang',value) // 记住选择的语言
+const changeLanguage = (lang) => {
+  locale.value = lang;
+  localStorage.setItem('lang', lang);
 };
+onBeforeMount(() => {
+  const savedLang = localStorage.getItem('lang');
+  if (savedLang) {
+    locale.value = savedLang;
+  }
+});
 defineExpose({ setIsLogin });
 </script>
 <style lang="scss" scoped>
