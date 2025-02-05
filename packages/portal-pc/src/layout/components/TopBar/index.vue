@@ -83,12 +83,18 @@
           </el-sub-menu> -->
         <!-- </el-menu> -->
       </div>
-      <div>
-        <svg-icon
-            name="language"
-            class="icon-language"
-        />
-      </div>
+      <el-dropdown>
+        <span class="el-dropdown-link">
+          <svg-icon name="language" class="icon-language"/>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="changeLanguage('en')">English</el-dropdown-item>
+            <el-dropdown-item @click="changeLanguage('zh-CN')">中文简体</el-dropdown-item>
+            <el-dropdown-item @click="changeLanguage('zh-TW')">中文繁体</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
@@ -163,6 +169,8 @@ import PublishDialog from '@/views/personal/components/publish/PublishDialog.vue
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 import { Connection, clusterApiUrl } from '@solana/web3.js';
+import { useI18n } from "vue-i18n";
+
 
 const route = useRoute();
 const router = useRouter();
@@ -413,6 +421,18 @@ watch(
 //   localStorage.setItem('lang', item.value);
 //   window.location.reload();
 // };
+const { locale } = useI18n()
+
+const changeLanguage = (lang) => {
+  locale.value = lang;
+  localStorage.setItem('lang', lang);
+};
+onBeforeMount(() => {
+  const savedLang = localStorage.getItem('lang');
+  if (savedLang) {
+    locale.value = savedLang;
+  }
+});
 
 </script>
 
