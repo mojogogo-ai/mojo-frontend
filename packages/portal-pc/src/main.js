@@ -25,6 +25,29 @@ import './permission' // permission control
 import '@/styles/lib/tailwind.css'
 
 import { initializeApp } from 'firebase/app'
+
+import SolanaWallets from "solana-wallets-vue";
+
+// You can either import the default styles or create your own.
+import "solana-wallets-vue/styles.css";
+
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+
+import {
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
+
+import { useWallet } from 'solana-wallets-vue';
+
+const walletOptions = {
+  wallets: [
+    new PhantomWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+    new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+  ],
+  autoConnect: true,
+};
+
 // Initialize Firebase
 initializeApp(FIREBASE_CONFIG);
 
@@ -34,6 +57,8 @@ app.use(router)
 app.use(i18n)
 app.use(pinia)
 app.use(gptxComponents)
+
+app.use(SolanaWallets, walletOptions)
 
 app.use(elementIcons)
 app.component(SvgIcon.name, SvgIcon)

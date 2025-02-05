@@ -51,6 +51,8 @@
   import { getTokenCreate, memePaid } from '@gptx/base/api/meme-bot';
   import useUserStore from '@/store/modules/user.js';
   
+  import { WalletMultiButton,useWallet } from "solana-wallets-vue";
+  import { Connection, clusterApiUrl, Keypair, SystemProgram, Transaction,VersionedTransaction } from '@solana/web3.js';
   export default {  
     name: "launcherDialog",
     props: {  
@@ -65,6 +67,8 @@
     }, 
 
     setup(props, { expose }) { 
+      
+      const appInstance = getCurrentInstance();
       const user = useUserStore();
       const router = useRouter();  
       let coin = props.coin;
@@ -163,40 +167,49 @@
         nextStep(); // 开始第一步  
       };  
 
-      const publicKey = ref('') 
-
+      const address = ref('') 
+      
       const __sendTr = async () => {
-        const provider = getProvider(); // see "Detecting the Provider"
+        // const provider = getProvider(); // see "Detecting the Provider"
         
         try {
-          const resp = await provider.connect();
-          publicKey.value = resp.publicKey.toString()
+          // const resp = await provider.connect();
+          
+          
+          console.log("wallet",appInstance.appContext.config.globalProperties.$wallet);
+          const connection = new Connection(clusterApiUrl('mainnet-beta'));
           const params = {
               "bot_id": memeCoinInfo.value.bot_id,
               "chain_name": "solana",
               "name": memeCoinInfo.value.name,
               "symbol": memeCoinInfo.value.symbol,
               "image":  memeCoinInfo.value.icon,
-              "address": publicKey.value,
+              "address": address.value,
               "description":''
           };
 
           isTyping.value = true;
           const res = await getTokenCreate(params);
           if (res.code === 200) {
+            const sendTransaction = appInstance.appContext.config.globalProperties.$wallet.sendTransaction;
+            console.log(res,'token creation res');
+            const buffer = Buffer.from(res.data.tx_base64, 'base64');
+            console.log("buffer",buffer)
+            const transaction = VersionedTransaction.deserialize(buffer);
+            console.log("transaction",transaction)
             const binaryData = base64ToBinary(res.data.tx_base64);
+            
+                
             try {
 
-              let res = await provider.request({
-                  method: "signAndSendTransaction",
-                  params: {
-                      message: bs58.encode(binaryData),
-                  },
-              });
-              if(res.signature){
+              const signature = await sendTransaction(transaction, connection);
+              console.log("signature",signature)
+              await connection.confirmTransaction(signature, 'processed');
+        
+              if(signature){
                 isTyping.value = false;
-                console.log(res, 'res----->signature');
-                __memePaid(memeCoinInfo.value.bot_id, res.signature );
+                
+                __memePaid(memeCoinInfo.value.bot_id, signature );
                 nextStep();
               }
             
@@ -247,6 +260,10 @@
             console.log(res,'__memePaid')
           }
       }
+      watch(connectedWallet, async (currentValue) => {
+        console.log(currentValue);
+        address.value = currentValue.value.toBase58();
+      })
 
       expose({  
         openPopup,  

@@ -86,7 +86,7 @@
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
-
+        <wallet-multi-button v-if="!connectedWallet"></wallet-multi-button>
         <div v-if="isLogin">
           <!-- <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">PHANTOM WALLET</el-button> -->
           <div v-if="isPhantomInstalled" class="flex flex-col items-center justify-center" @click="test()">
@@ -159,6 +159,8 @@ import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 import { Connection, clusterApiUrl } from '@solana/web3.js';
 
+import { WalletMultiButton,useWallet } from "solana-wallets-vue";
+
 const route = useRoute();
 const router = useRouter();
 const useLogin = useLoginStore();
@@ -169,6 +171,14 @@ const loginRef = ref(null);
 const createBotRef = ref(null);
 const isLogin = ref(false);
 const referralCodeRef = ref(null);
+
+const connectedWallet = computed(() => {
+  const { publicKey, sendTransaction } = useWallet()
+
+  if (publicKey && publicKey.value) {
+    return publicKey
+  }
+})
 
 const activeIndex = ref('/home');
 const handleSelect = (key, keyPath) => {
@@ -322,19 +332,20 @@ const publicKey = ref('') // publicKey就是address
 
 // 获取Balance
 const curBalance = ref('')
-const getBalance = async () => {
+const getBalance = async (address) => {
   try {
-    const provider = getProvider(); // see "Detecting the Provider"
-    const resp = await provider.connect();
+    // const provider = getProvider(); // see "Detecting the Provider"
+    // const resp = await provider.connect();
     // const connection = new Connection(clusterApiUrl('mainnet'));
     const connection = new Connection(clusterApiUrl('devnet'));
-    
-    const balance = await connection.getBalance(resp.publicKey);
-    const accountInfo = await connection.getAccountInfo(resp.publicKey);
+    publicKey.value = address.value.toBase58();
+    const balance = await connection.getBalance(address.value);
+    const accountInfo = await connection.getAccountInfo(address.value);
     curBalance.value = (balance/1000000000).toFixed(2)
 
     console.log(accountInfo,'accountInfo')
-  } catch {
+  } catch(error) {
+    console.error(error)
     curBalance.value = 0
   }
 }
@@ -352,9 +363,15 @@ const test = () => {
   // console.log('test')
 }
 onMounted(() => {
-  connectWallet()
-  getBalance()
+  // connectWallet()
+  // getBalance()
 })
+
+watch(connectedWallet, async (currentValue) => {
+  console.log(currentValue);
+  await getBalance(currentValue);
+})
+
 watch(
   () => route.path,
   (newPath, oldPath) => {
@@ -385,6 +402,15 @@ watch(
   { immediate: false }
 );
 
+// watch(() => wallet.connected, (newVal, oldVal) => {  
+//   if (newVal) {  
+//     console.log("钱包已经连接");  
+//     // 钱包连接后的逻辑  
+//   } else {  
+//     console.log("钱包已经断开");  
+//     // 钱包断开后的逻辑  
+//   }  
+// });
 
 watch(
   () => useBot.createBotDialog,
