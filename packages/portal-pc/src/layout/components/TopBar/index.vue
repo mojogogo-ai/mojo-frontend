@@ -86,7 +86,7 @@
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
-        <wallet-multi-button v-if="!connectedWallet"></wallet-multi-button>
+        <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet"></wallet-multi-button>
         <div v-if="isLogin">
           <!-- <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">PHANTOM WALLET</el-button> -->
           <div v-if="isPhantomInstalled" class="flex flex-col items-center justify-center" @click="test()">
@@ -161,6 +161,7 @@ import { Connection, clusterApiUrl } from '@solana/web3.js';
 
 import { WalletMultiButton,useWallet } from "solana-wallets-vue";
 
+const appInstance = getCurrentInstance();
 const route = useRoute();
 const router = useRouter();
 const useLogin = useLoginStore();
@@ -171,14 +172,6 @@ const loginRef = ref(null);
 const createBotRef = ref(null);
 const isLogin = ref(false);
 const referralCodeRef = ref(null);
-
-const connectedWallet = computed(() => {
-  const { publicKey, sendTransaction } = useWallet()
-
-  if (publicKey && publicKey.value) {
-    return publicKey
-  }
-})
 
 const activeIndex = ref('/home');
 const handleSelect = (key, keyPath) => {
@@ -332,15 +325,15 @@ const publicKey = ref('') // publicKey就是address
 
 // 获取Balance
 const curBalance = ref('')
-const getBalance = async (address) => {
+const getBalance = async () => {
   try {
     // const provider = getProvider(); // see "Detecting the Provider"
     // const resp = await provider.connect();
     // const connection = new Connection(clusterApiUrl('mainnet'));
     const connection = new Connection(clusterApiUrl('devnet'));
-    publicKey.value = address.value.toBase58();
-    const balance = await connection.getBalance(address.value);
-    const accountInfo = await connection.getAccountInfo(address.value);
+    publicKey.value = appInstance.appContext.config.globalProperties.$wallet.publicKey.value.toBase58();
+    const balance = await connection.getBalance(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
+    const accountInfo = await connection.getAccountInfo(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
     curBalance.value = (balance/1000000000).toFixed(2)
 
     console.log(accountInfo,'accountInfo')
@@ -364,12 +357,7 @@ const test = () => {
 }
 onMounted(() => {
   // connectWallet()
-  // getBalance()
-})
-
-watch(connectedWallet, async (currentValue) => {
-  console.log(currentValue);
-  await getBalance(currentValue);
+  getBalance()
 })
 
 watch(
