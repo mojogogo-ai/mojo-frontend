@@ -260,10 +260,10 @@
             console.log(res,'__memePaid')
           }
       }
-      watch(connectedWallet, async (currentValue) => {
-        console.log(currentValue);
-        address.value = currentValue.value.toBase58();
-      })
+      // watch(connectedWallet, async (currentValue) => {
+      //   console.log(currentValue);
+      //   address.value = currentValue.value.toBase58();
+      // })
 
       expose({  
         openPopup,  

@@ -86,10 +86,10 @@
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
-        <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet"></wallet-multi-button>
+        <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
         <div v-if="isLogin">
           <!-- <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">PHANTOM WALLET</el-button> -->
-          <div v-if="isPhantomInstalled" class="flex flex-col items-center justify-center" @click="test()">
+          <div v-if="appInstance.appContext.config.globalProperties.$wallet.connected.value" class="flex flex-col items-center justify-center" @click="test()">
             <div class="flex items-center ">
               <img style="border-radius: 8px" width="30px" height="30px" :src="PhantomIcon" alt="" srcset="">
               <div
@@ -101,7 +101,7 @@
             </div>
             <span v-if="publicKey" style="color: rgba(255, 255, 255, 0.70);font-size: 14px;"> {{ publicKey.substring(0, 4) + "..." + publicKey.substring(publicKey.length - 4, publicKey.length) }}</span>
           </div>
-          <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button>
+          <!-- <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button> -->
         </div>
       </div>
     </div>
@@ -496,6 +496,11 @@ watch(
 
 </style>
 <style lang="scss">
+
+.swv-button{
+  background-color: #E1FF01 !important;
+  color: #000000 !important;
+}
 
 .customs-sub-menu {
   border-radius: 20px!important;

@@ -36,14 +36,16 @@ import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
+  TrustWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 
 import { useWallet } from 'solana-wallets-vue';
 
 const walletOptions = {
   wallets: [
-    new PhantomWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
-    new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+    new TrustWalletAdapter(),
+    new PhantomWalletAdapter(),
+    new SolflareWalletAdapter(),
   ],
   autoConnect: true,
 };
