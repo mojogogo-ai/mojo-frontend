@@ -47,7 +47,7 @@
               </button>
             </div>
             <div v-else-if="readyForLaunch" class="start-button-continer">
-              <button 
+              <button
                 class="start-button"
                 @click="Launch()"
               >
@@ -94,7 +94,7 @@
                 </template>
               </NInput>
             </div>
-              
+
               <div v-if="filetList.length" class="flex flex-wrap  w-full p-2 mt-2 rounded-lg align-center bg-[#fff]">
                 <div v-for="file in filetList" class="relative flex  items-center m-1 rounded-lg bg-[#F6F7F9] p-4">
                   <img
@@ -129,7 +129,7 @@
               @keypress="handleEnter"
             >
               <template #suffix>
-                <div 
+                <div
                   class="flex items-center cursor-pointer"
                   style="margin-right: 12px;" :style="{ 'opacity': loading || !prompt || !prompt.trim()?'0.5':'1' }"
                 >
@@ -182,7 +182,7 @@
   let controller = new AbortController()
   // const lang = getCurLang()
   const chatStore = useChatStore()
-  const { scrollRef, scrollToBottom, scrollToBottomIfAtBottom } = useScroll() 
+  const { scrollRef, scrollToBottom, scrollToBottomIfAtBottom } = useScroll()
   const dataSources = computed(() => chatStore.getChatByUuid(chatStore.active))
   const prompt = ref('')
   const loading = ref(false)
@@ -224,7 +224,7 @@
   const readyForLaunch = ref(false);
 
   const inputTrim= (value) => !value.startsWith(" ")
-  
+
   watch(() => dataSources.value.length, (newLen,oldLen) => {
     if (newLen > 1) {
       scrollToBottom()
@@ -240,7 +240,7 @@
     }
 
   },{ once: true })
-  
+
   // 触发开场白预置问题
   function predefinedQuestionHandle (predefinedQuest) {
     onConversation(predefinedQuest)
@@ -253,7 +253,7 @@
   function isStart(){
     return botId.value==null
   }
-  
+
   async function onConversation (v) {
     regenerateLoading.value = false;
     let message = v ? v : prompt.value;
@@ -264,7 +264,7 @@
     if(message.trim() === '' && filetList.value.length!==0){
       message = t('chat.tip4')
     }
-  
+
     controller = new AbortController()
     // 问
     chatStore.addChatByUuid(chatStore.active,{
@@ -275,7 +275,7 @@
     })
     loading.value = true
     prompt.value = ''
-  
+
     // 答
     chatStore.addChatByUuid(chatStore.active, {
       text: '',
@@ -286,36 +286,37 @@
     })
     scrollToBottom()
     let lastText = ''
-  
+
     // let authToken = await getToken() TODO: replace fetch with getToken()
-    // const response = await fetch('http://localhost:9004/portal/v1/open/auth/grant-token', {  
-    //   method: 'POST',  
-    //   headers: {  
-    //     'Content-Type': 'application/json',  
-    //   },  
-    //   body: JSON.stringify({  
-    //     appid: 'I6iz8SAHfimCuGQMCbwN',  
-    //     appkey: 'PcpTHb2q6w39oxQqCP1s',  
-    //     uid: 'sdfasfas',  
-    //   }),  
-    // });  
-    // const data = await response.json();  
-    
+    // const response = await fetch('http://localhost:9004/portal/v1/open/auth/grant-token', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     appid: 'I6iz8SAHfimCuGQMCbwN',
+    //     appkey: 'PcpTHb2q6w39oxQqCP1s',
+    //     uid: 'sdfasfas',
+    //   }),
+    // });
+    // const data = await response.json();
+
     filetList.value = [];
     if (iframeToken.value!==null){
-      fetchEventSource(`${window.BASE_API}v1/bot/meme-chat?token=` + iframeToken.value,{ //props.chatApiUrl, {
+      fetchEventSource(`${window.BASE_API}v1/bot/chat?token=` + iframeToken.value,{ //props.chatApiUrl, {
       signal: controller.signal,
       method: 'POST',
       openWhenHidden: true,
-      headers: {  
-        'Content-Type': 'application/json',  
-      },  
-      body: JSON.stringify({  
-        bot_id: botId.value,  
-        prompt: message,  
-        stream: true,  
-        sid: sid,  
-      }),  
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        bot_id: botId.value,
+        prompt: message,
+        stream: true,
+        sid: sid,
+        chat_type: 1
+      }),
       onmessage (event) {
         const eData = JSON.parse(event.data)
         console.log('onmessage', eData)
@@ -355,20 +356,21 @@
     })
     }else{
       let authToken = await getToken();
-      fetchEventSource(`${window.BASE_API}v1/bot/meme-chat`,{ 
+      fetchEventSource(`${window.BASE_API}v1/bot/chat`,{
       signal: controller.signal,
       method: 'POST',
       openWhenHidden: true,
-      headers: {  
-        'Content-Type': 'application/json',  
+      headers: {
+        'Content-Type': 'application/json',
         'Authorization':'Bearer '+authToken,
-      },  
-      body: JSON.stringify({  
-        bot_id: botId.value,  
-        prompt: message,  
-        stream: true,  
-        sid: sid,  
-      }),  
+      },
+      body: JSON.stringify({
+        bot_id: botId.value,
+        prompt: message,
+        stream: true,
+        sid: sid,
+        chat_type: 1
+      }),
       onmessage (event) {
         const eData = JSON.parse(event.data)
         console.log('onmessage', eData)
@@ -407,9 +409,9 @@
       }
     })
     }
-    
+
   }
-  
+
   function handleEnter (event) {
     if (!isMobi()) {
       if (event.key === 'Enter' && !event.shiftKey) {
@@ -432,13 +434,13 @@
     try {
       if(iframeToken.value!==null){
         // check meme
-        const response = await fetch(`${window.BASE_API}v1/bot/meme-check?token=`+iframeToken.value+'&bot_id='+bot_id, {  
-          method: 'GET',  
-          headers: {  
-            'Content-Type': 'application/json',  
-          },   
-        });  
-        const result = await response.json(); 
+        const response = await fetch(`${window.BASE_API}v1/bot/meme-check?token=`+iframeToken.value+'&bot_id='+bot_id, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const result = await response.json();
         //const result = await memeCheck({ bot_id,token });
         console.log(result)
         if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
@@ -452,14 +454,14 @@
       }else{
         // check meme
         let authToken = await getToken();
-        const response = await fetch(`${window.BASE_API}v1/bot/meme-check?bot_id=`+bot_id, {  
-          method: 'GET',  
-          headers: {  
-            'Content-Type': 'application/json',  
+        const response = await fetch(`${window.BASE_API}v1/bot/meme-check?bot_id=`+bot_id, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
             'Authorization':'Bearer '+authToken,
-          },   
-        });  
-        const result = await response.json(); 
+          },
+        });
+        const result = await response.json();
         //const result = await memeCheck({ bot_id,token });
         console.log(result)
         if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
@@ -471,7 +473,7 @@
           //startLaunchRef.value.open({ ...result.data, bot_id,token});
         }
       }
-      
+
     } catch (error) {
       console.log(error)
       throw error;
@@ -501,19 +503,19 @@ function Launch(){
     }
     baseFileUploadRef.value.openModal()
   }
-  
+
   // docs
   const filetList = ref([])
   const onReload = (file) => {
     filetList.value = [...file]
     console.log(filetList.value, 'filetList.value99')
   };
-  
+
   onMounted(() => {
     scrollToBottom()
     //onConversation("/CreateBot")
   })
-  
+
   onUnmounted(() => {
     if (loading.value){
       controller.abort()
@@ -522,8 +524,8 @@ function Launch(){
     clearInterval(botId.value);
   })
 
- 
-  
+
+
   </script>
   <style lang="scss">
   .n-input.n-input--disabled .n-input__input-el, .n-input.n-input--disabled .n-input__textarea-el {
@@ -566,7 +568,7 @@ function Launch(){
         opacity: 0.8;
       }
     }
-  
+
   #scrollRef::-webkit-scrollbar {
     display: none; /* Chrome Safari */
   }
@@ -575,11 +577,11 @@ function Launch(){
   }
 
   .start-button-continer{
-    display: flex; /* 启用Flexbox */  
-    justify-content: center; /* 水平居中按钮 */ 
+    display: flex; /* 启用Flexbox */
+    justify-content: center; /* 水平居中按钮 */
   }
   .start-button{
-    
+
     font-family: TT Norms Pro;
     font-size: 20px;
     font-weight: 500;
@@ -588,17 +590,16 @@ function Launch(){
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
 
-    width: 206px;  
-    height: 48px;  
-    gap: 0px; /* This might not have an effect on a button element */  
-    border-radius: 48px;  
-    opacity: 1; /* Assuming you meant for the buttons to be fully opaque */  
-    border: none; /* Assuming you might not want borders */  
-    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */  
-    outline: none; /* Remove outline to improve aesthetics */  
+    width: 206px;
+    height: 48px;
+    gap: 0px; /* This might not have an effect on a button element */
+    border-radius: 48px;
+    opacity: 1; /* Assuming you meant for the buttons to be fully opaque */
+    border: none; /* Assuming you might not want borders */
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+    outline: none; /* Remove outline to improve aesthetics */
 
-    background-color: #E0FF3133; /* Selected background */  
-    color: #E0FF31; /* Selected text color */  
+    background-color: #E0FF3133; /* Selected background */
+    color: #E0FF31; /* Selected text color */
   }
   </style>
-  
