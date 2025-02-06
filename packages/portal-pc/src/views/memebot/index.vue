@@ -189,6 +189,7 @@
           :file-list="form.fileList"
           class="upload-demo w-full mt-[16px]"
           :auto-upload="false"
+          :disabled="form.fileList.length >= 5"
           :limit="5"
           :accept="'application/pdf,.txt,.pptx'"
           :on-change="handleFileSelect"
@@ -196,7 +197,7 @@
           :on-exceed="handleExceed"
           :on-remove="handleFileRemove"
         >
-          <div class="upload-custom" @click="openUploadKnowledge">
+          <div class="upload-custom">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="37" viewBox="0 0 36 37" fill="none">
               <path d="M16.5 24.5V12.275L12.6 16.175L10.5 14L18 6.5L25.5 14L23.4 16.175L19.5 12.275V24.5H16.5ZM9 30.5C8.175 30.5 7.469 30.2065 6.882 29.6195C6.295 29.0325 6.001 28.326 6 27.5V23H9V27.5H27V23H30V27.5C30 28.325 29.7065 29.0315 29.1195 29.6195C28.5325 30.2075 27.826 30.501 27 30.5H9Z" fill="#C5C5C5" />
             </svg>
@@ -319,11 +320,13 @@ import { t } from '@gptx/base/i18n';
 import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
 import UploadKnowledge from './uploadKnowledge/index.vue';
 import Launcher from './launcher/index.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import TwitterButton from './twitterbutton/index.vue';
 
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 import { ElMessage } from 'element-plus';
+import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
+import CryptoJS from 'crypto-js';
 const router = useRouter();
 const byForm = ref(true);
 const isVisible = ref(false);
@@ -353,6 +356,7 @@ const form = reactive({
   introduction: '',
   icon: '',
   third_company:'',
+  fileList: [],
   file_id_list: [],
   is_personalize_image_icon: false
 });
@@ -450,9 +454,6 @@ const onImageChange = (url, is_personalize_image_icon) => {
 
 
 const uploadKnowledgeRef = ref(null);
-const openUploadKnowledge = () => {
-  uploadKnowledgeRef.value.open();
-};
 
 let AllFileList = [];
 const afterUploadKnowledge = ({formFileList, file_id_list}) => {
@@ -487,6 +488,7 @@ const submitHandle = async (el) => {
     }
   });
 };
+
 
 const conversationText = ref('Conversation')
 const conversationBot = async (el) => {
@@ -532,11 +534,70 @@ onUnmounted(() => {
 });
 
 // upload file
-const handleFileSelect = async (file) =>{
 
+const fileForm = reactive({
+  name: '',
+  file_url: '',
+  fileList: []
+});
+const handleFileSelect = async (file) =>{
+  const actualFile = file.raw;
+
+  if (!(actualFile instanceof File)) {
+    console.error("Invalid file type received:", actualFile);
+    return false;
+  }
+  // 检查文件类型
+  const allowedExtensions = ['pdf', 'txt', 'pptx'];
+  const fileExtension = actualFile.name.split('.').pop().toLowerCase();
+  if (!allowedExtensions.includes(fileExtension)) {
+    ElMessage.error('Only PDF, TXT, PPTX files are allowed!');
+    form.fileList = form.fileList.filter((item) => item.file !== actualFile); // 移除不符合条件的文件
+    return false;
+  }
+  // 检查单个文件大小
+  if (actualFile.size / 1024 / 1024 > 100) {
+    ElMessage.error('File size exceeds 100 MB limit!');
+    form.fileList = form.fileList.filter((item) => item.file !== actualFile); // 移除不符合条件的文件
+    return false;
+  }
+  // 检查总文件数量
+  if (form.fileList.length >= 5) {
+    ElMessage.error('You can upload up to 5 files only.');
+    return false;
+  }
+  // 检查总文件大小
+  const totalSize = form.fileList.reduce((sum, fileData) => sum + fileData.size, 0) + actualFile.size;
+  if (totalSize / 1024 / 1024 > 100) {
+    ElMessage.error('Total file size exceeds 100 MB limit!');
+    form.fileList = form.fileList.filter((item) => item.file !== actualFile); // 移除不符合条件的文件
+    return false;
+  }
+  // 如果通过所有验证，则生成文件哈希并添加到文件列表
+  const fileData = {
+    file: actualFile,
+    name: actualFile.name,
+    size: actualFile.size,
+    hash: await generateFileHash(actualFile)
+  };
+
+  form.fileList.push(fileData);
+  ElMessage.success('File added successfully!');
+
+  return false; // 防止自动上传
 }
 const beforeUpload = (file) => {
-
+  const isAllowedType = ['pdf', 'txt', 'pptx'].includes(file.name.split('.').pop().toLowerCase());
+  const isWithinSizeLimit = file.size / 1024 / 1024 < 100;
+  if (!isAllowedType) {
+    // this.$message.error('Only PDF, TXT, PPTX files are allowed!');
+    ElMessage.error('Only PDF, TXT, PPTX files are allowed!');
+  }
+  if (!isWithinSizeLimit) {
+    // this.$message.error('File size exceeds 100 MB limit!');
+    ElMessage.error('File size exceeds 100 MB limit!');
+  }
+  return isAllowedType && isWithinSizeLimit;
 }
 
 const handleExceed = () => {
@@ -545,8 +606,65 @@ const handleExceed = () => {
 };
 
 const handleFileRemove = (file) => {
-
+// 从 fileList 中移除该文件
+  console.log('item.file', form.fileList)
+  console.log(file, '文件')
+  form.fileList = form.fileList.filter((item) => item.file !== file.file);
+  ElMessage.success('File removed successfully!');
 }
+const generateFileHash = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const fileData = event.target.result;
+      const wordArray = CryptoJS.lib.WordArray.create(fileData);
+      const hash = CryptoJS.SHA256(wordArray).toString(CryptoJS.enc.Hex);
+      console.log('文件哈希:', hash);
+      resolve(hash);
+    };
+    reader.onerror = (error) => reject(error);
+    reader.readAsArrayBuffer(file);
+  });
+};
+const submitFile = async () => {
+  try {
+    const fileDataList = [];
+    for (const fileData of form.fileList) {
+      if (!fileData.url) { // 新增文件
+        const { file, name, size, hash } = fileData;
+        const presignedData = await getPresignedUrl(name, size, hash);
+        const { upload_url, form_data, file_id_list } = presignedData.data;
+        await uploadFile(upload_url, file, form_data);
+        fileDataList.push(...file_id_list);
+        fileData.url = presignedData.data.file_url;
+        console.log('文件上传成功:', fileData.url);
+      } else {
+        // 已有文件直接使用其ID
+        fileDataList.push(fileData.id);
+      }
+    }
+  }catch (error) {
+    console.error('文件上传失败:', error);
+  }finally {
+
+  }
+}
+
+const getPresignedUrl = async (fileName, fileSize, fileHash) => {
+  try {
+    const response = await getOssPresignedUrlV2({
+      biz_type: 'users',
+      file_name: fileName,
+      file_size: fileSize,
+      file_hash: fileHash
+    });
+    return response;
+  } catch (error) {
+    console.error("Failed to get presigned URL:", error);
+    throw error;
+  } finally {
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -633,7 +751,12 @@ const handleFileRemove = (file) => {
 .el-card__body {
   padding: 12px 16px !important;
 }
-
+:deep(.el-upload) {
+  width: 100%;
+}
+:deep(.el-upload-list__item:hover) {
+  color: black;
+}
 .upload-custom {
     flex-direction: column;
     align-items: center;
@@ -741,4 +864,5 @@ label {
   justify-content: center; /* 水平居中按钮 */
   gap: 20px; /* 在按钮之间添加一些间隙 */
 }
+
 </style>
