@@ -38,13 +38,11 @@
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-// import { Connection, clusterApiUrl } from '@solana/web3.js';
 import bs58 from "bs58";
 import { getTokenCreate, memePaid } from '@gptx/base/api/meme-bot';
 import { WalletMultiButton,useWallet } from "solana-wallets-vue";
 import { Connection, clusterApiUrl, Keypair, SystemProgram, Transaction,VersionedTransaction } from '@solana/web3.js';
 const router = useRouter();
-// const emits = defineEmits(['after-create', 'after-update']);
 const isVisible = ref(false);
 const appInstance = getCurrentInstance();
 

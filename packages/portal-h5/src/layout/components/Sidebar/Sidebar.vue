@@ -20,13 +20,21 @@
         </div>
       </div>
       <div class="menu-cs-item" @click="goPage(1)">
-        Home
+        {{ $t('menu.module.h') }}
       </div>
       <div class="menu-cs-item" @click="goPage(2)">
-        My Memes
+        {{ $t('menu.module.m') }}
       </div>
       <div class="menu-cs-item" @click="goPage(3)">
-        Explore
+        {{ $t('menu.module.e') }}
+      </div>
+      <div class="wallet">
+        <div class="wallet-btn" @click="installWallet">
+          <svg-icon
+          name="wallet"
+          class="wallet-wallet_icon"/>
+          PHANTOM WALLET
+        </div>
       </div>
     </div>
   </div>
@@ -81,6 +89,9 @@ watch(
   },
   { immediate: false }
 );
+const installWallet= async () => {
+  window.open('https://phantom.app/', '_blank');
+}
 defineExpose({ setIsLogin });
 </script>
 <style lang="scss" scoped>
@@ -91,7 +102,7 @@ defineExpose({ setIsLogin });
     justify-content: center;
      //background: rgba(0, 0, 0, 0.05);
      //backdrop-filter: blur(35px);
-   background: transparent;
+   background: var(--h5-bg-color-primary);
    width: 100%;
 
    .menu-cs-item{
@@ -109,6 +120,7 @@ defineExpose({ setIsLogin });
      font-style: normal;
      font-weight: 500;
      line-height: 23px; /* 127.778% */
+     cursor: pointer;
      .login-item{
        width: 100%;
      }
@@ -124,4 +136,40 @@ defineExpose({ setIsLogin });
      }
    }
  }
+ .wallet {
+   border-bottom: 1px solid var(--neon-green-20, rgba(224, 255, 49, 0.20));
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: rgba(255, 255, 255, 0.70);
+   text-align: center;
+   font-feature-settings: 'dlig' on;
+   font-family: Inter;
+   font-size: 18px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 23px; /* 127.778% */
+   cursor: pointer;
+   .wallet-btn{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-radius: 8px;
+     backdrop-filter: blur(35px);
+     background: var(--Style, #E1FF01);
+     color: var(--h5-text-color-primary);
+     font-size: 16px;
+     font-weight: 600;
+     margin: 26px 30px;
+     min-height: 48px;
+     width: 100%;
+     text-align: center;
+     .wallet-wallet_icon{
+       margin-right: 8px;
+       font-size: 30px;
+     }
+   }
+ }
+
 </style>

@@ -27,15 +27,15 @@
             <span class="bmicli-author-name">{{ bot.symbol }}</span>
           </div>
           <div class="bmicl-toolbar">
-            <div class="cursor-pointer hover:opacity-75 h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Twitter')">
+            <div v-if="bot?.twitter" class="cursor-pointer hover:opacity-75 h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Twitter')">
               <svg-icon name="prime_twitter" class="text-xl text-[#000]" />
               <div class="text-black text-sm font-medium font-['Inter'] leading-relaxed">Twitter</div>
             </div>
-            <div class="cursor-pointer hover:opacity-75 h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Telegram')">
+            <div v-if="bot?.telegram"  class="cursor-pointer hover:opacity-75 h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Telegram')">
               <svg-icon name="telegram-fill" class="text-xl text-[#000]" />
               <div class="text-black text-sm font-medium font-['Inter'] leading-relaxed">Telegram</div>
             </div>
-            <div class="cursor-pointer hover:opacity-75 h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Web')">
+            <div v-if="bot?.website" class="cursor-pointer hover:opacity-75 h-[30px] px-2 py-0.5 mr-2 mb-2 bg-[#e1ff01] rounded-[27px] justify-start items-center gap-1 inline-flex" @click="goLink(bot, 'Web')">
               <svg-icon name="web-fill" class="text-xl text-[#000]" />
               <div class="text-black text-sm font-medium font-['Inter'] leading-relaxed">Website</div>
             </div>

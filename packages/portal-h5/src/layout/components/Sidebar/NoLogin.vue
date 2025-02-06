@@ -1,10 +1,8 @@
 <template>
   <div class="login-item-menu">
-    <el-link type="primary" @click="loginORsignup(true)"> Log in</el-link>
-    <svg xmlns="http://www.w3.org/2000/svg" width="1" height="30" viewBox="0 0 1 30" fill="none">
-      <path d="M0.5 29.5V0.5" stroke="#E0FF31" stroke-opacity="0.2" />
-    </svg>
-    <el-link type="primary" @click="loginORsignup(false)">Sign up </el-link>
+    <el-link type="primary" @click="loginORsignup(true)">{{$t("menu.button.login")}}</el-link>
+    <div class="line"></div>
+    <el-link type="primary" @click="loginORsignup(false)">{{$t("menu.button.singUp")}}</el-link>
   </div>
 </template>
 
@@ -26,7 +24,11 @@ const loginORsignup = (bol)=>{
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  //margin: 20px 0;
+  .line{
+    height: 30px;
+    width: 1px;
+    background: rgba(224, 255, 49, 0.20);
+  }
   :deep(.el-link){
     cursor: pointer;
     color: rgba(255, 255, 255, 0.70);

@@ -13,7 +13,7 @@ const props = defineProps({
   },
   chatApiUrl:{
     type: String,
-    default:'v1/bot/meme-chat?token=${token}'
+    default:'v1/bot/chat?token=${token}'
   },
   isDebug: {
     type:Boolean,
@@ -122,7 +122,7 @@ const recordDataStructureChange = (sourceRecordList, sids) =>{
       question_type:item.question_type,
       status:item.status,
       tap_type:item.tap_type
-    })   
+    })
     // answer
     chatRecordList.push({
       conversationOptions:{
@@ -143,8 +143,8 @@ const recordDataStructureChange = (sourceRecordList, sids) =>{
       question_type:item.question_type,
       status:item.status,
       tap_type:item.tap_type
-    })   
-    
+    })
+
   }
   return chatRecordList
 }

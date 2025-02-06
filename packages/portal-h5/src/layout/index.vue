@@ -10,6 +10,16 @@
         class="sidebar-container"
       />
     </van-popup>
+    <van-popup
+        v-model:show="storeLayout.isShowLanguage"
+        position="top"
+        class="sidebar-popup"
+    >
+      <Language
+          ref="sidebarRef"
+          class="sidebar-container"
+      />
+    </van-popup>
     <div class="main-container">
       <app-main />
       <LoginAndSignup
@@ -27,6 +37,7 @@
 </template>
 
 <script setup>
+import Language from "@/layout/components/Sidebar/Language.vue";
 import Sidebar from './components/Sidebar/Sidebar.vue';
 import { AppMain } from './components';
 import { useLayoutStore } from '@/store/modules/layout';

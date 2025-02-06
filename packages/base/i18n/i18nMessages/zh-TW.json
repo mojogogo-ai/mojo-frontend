@@ -22,6 +22,9 @@
     "uploadTip": "拖入文件或"
   },
   "bots": {
+    "title": "做Meme機械人",
+    "bot_form": "用表單创建",
+    "bot_ai": "用AI创建",
     "a3": "分享",
     "a9": "請輸入助手名稱",
     "basic_1": "選擇",
@@ -60,7 +63,8 @@
       "tipModify": "提示詞優化",
       "turns": "攜帶上下文輪數",
       "turnsTip": "設定帶入模型上下文的對話歷史輪數。輪數越多，多輪對話的相關性越高，但消耗的Token也越多",
-      "voice": "助理音色"
+      "voice": "助理音色",
+      "isTwitterConnected": "連接機械人 Twitter 帳戶"
     },
     "n": "模型",
     "new": "創建助手",
@@ -202,7 +206,12 @@
     "unbind": "撤銷授權",
     "unbindTip": "是否確認解除授權",
     "upload": "上傳",
-    "wrong": "好像出錯了，請稍後再試。"
+    "wrong": "好像出錯了，請稍後再試。",
+    "twitter": {
+      "tip": "處理授權中...",
+      "content": "請等陣，我哋正喺處理你嘅授權請求。"
+    }
+
   },
   "login": {
     "b": "請輸入正確格式的郵箱",
@@ -221,6 +230,15 @@
       "c": "創造",
       "e": "探索",
       "m": "管理"
+    },
+    "module": {
+      "h": "首頁",
+      "m": "我的 Memes",
+      "e": "探索"
+    },
+    "button": {
+      "login": "Log in",
+      "singUp": "Sign up"
     },
     "h": "網絡出現異常，請刷新後重試",
     "i": "系統錯誤"
@@ -253,5 +271,49 @@
     "nameRequired": "請輸入暱稱",
     "nickName": "昵稱",
     "submit": "提交"
+  },
+  "home": {
+    "subtitle": "Mojo Gogo 令每個人只需輕輕一按就可以釋放自主 AI 代理，賦予佢哋喺網絡世界嘅生命：靈魂綁定代幣、自主管理社交媒體、積極嘅社區互動、由 PayFi 提供動力嘅鏈上融資，仲有無限嘅文化同財務冒險。",
+    "button": {
+      "signUp": "註冊",
+      "c": "創建 Bot",
+      "l": "發佈 Meme",
+      "e": "探索"
+    },
+    "partOne": {
+      "title": "釋放 AI 幣嘅力量",
+      "content": "Mojo GoGo，憑住 PayFi 嘅支持，畀 AI 擁有自己嘅 Meme 幣，解鎖無限可能。通過我哋嘅支持，你可以探索創新同創意嘅新領域。"
+    },
+    "partFour": {
+      "title": "Meme 幣變得簡單！",
+      "content": "我哋嘅 AI 平台令你可以快啲輕鬆創建同發佈你自己嘅 Meme 幣。喺專屬 AI 代理嘅幫助下，任何人都可以將佢哋嘅創意變成現實。"
+    },
+    "partTwo": {
+      "title": "創建屬於你嘅 AI Bot",
+      "content": "輕鬆設計同部署量身定做嘅 AI 代理。提升客戶服務，實現日常任務自動化，並利用 AI 推動嘅洞察力作出更聰明嘅決策。"
+    }
+  },
+  "personal": {
+    "title": "管理我嘅 Bots",
+    "discord": {
+      "title": "連接到 Discord 机器人成並喺 Discord 應用入面同呢個機器人傾計。",
+      "subtitle": "點樣攞 Discord 机器人 token？",
+      "botToken": "Discord 机器人 token",
+      "button": "儲存"
+    },
+    "telegram": {
+      "title": "連接到 Telegram 机器人並喺 Telegram 應用入面同呢個機器人傾計。",
+      "subtitle": "點樣攞 Telegram 机器人 token？",
+      "botToken": "Telegram 机器人 token",
+      "address": "Telegram 地址",
+      "button": "儲存"
+    },
+    "public": {
+      "titleOne": "通過喺以下平台發佈你嘅代理，你完全理解並同意遵守",
+      "titleTwo": "每個發佈渠道嘅服務條款",
+      "titleThree": "(包括但唔限於任何私隱政策、社區指引、數據處理協議等)。",
+      "subtitle": "發佈到"
+    }
+
   }
 }

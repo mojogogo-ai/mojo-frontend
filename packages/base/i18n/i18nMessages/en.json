@@ -23,6 +23,9 @@
     "uploadTip": "Drag & Drop or "
   },
   "bots": {
+    "title": "Create Meme Bot",
+    "bot_form": "Create with Form",
+    "bot_ai": "Create with AI",
     "a3": "Share",
     "a9": "Bot name",
     "basic_1": "select",
@@ -64,7 +67,8 @@
       "tipModify": "Prompt optimization",
       "turns": "Context rounds",
       "turnsTip": "Sets the number of dialogue history rounds brought into the model context. \nThe more rounds there are, the higher the relevance of the multi-round dialogue, but the more Tokens are consumed.",
-      "voice": "Bot voice"
+      "voice": "Bot voice",
+      "isTwitterConnected": "Connect Bot Twitter Account"
     },
     "n": "Model",
     "new": "Create Bot",
@@ -213,7 +217,11 @@
     "unbind": "unbind",
     "unbindTip": "Do you confirm the deauthorization?",
     "upload": "upload",
-    "wrong": "Something went wrong, please try again later."
+    "wrong": "Something went wrong, please try again later.",
+    "twitter": {
+      "tip": "Processing Authorization...",
+      "content": "Please wait, we are processing your authorization request."
+    }
   },
   "forgotPassword": {
     "dialogTitle": "Forgot password?",
@@ -261,6 +269,15 @@
       "c": "Create",
       "e": "Explore",
       "m": "manage"
+    },
+    "module": {
+      "h": "Create",
+      "m": "My Memes",
+      "e": "Explore"
+    },
+    "button": {
+      "login": "Log in",
+      "singUp": "Sign up"
     },
     "h": "There is a network error. Please refresh the page and try again",
     "i": "System error"
@@ -315,5 +332,48 @@
     "nameRequired": "Please enter a nickname",
     "nickName": "Nickname",
     "submit": "Submit"
+  },
+  "home": {
+    "subtitle": "Mojo Gogo lets everyone unleash autonomous AI agents with a click, granting them a life in cyberspace: soul-bonded tokens, self-managed social media, active community engagement, PayFi-powered on-chain financing, and limitless cultural and financial adventures.",
+    "button": {
+      "signUp": "Sign Up" ,
+      "c": "Create Bot",
+      "l": "Launch Meme",
+      "e": "Explore"
+    },
+    "partOne": {
+      "title": "Unleash AI Coin Power",
+      "content": "Mojo GoGo, backed by PayFi, empowers AI with its own meme coins, unlocking endless possibilities. With our support, you can explore new realms of innovation and creativity."
+    },
+    "partFour": {
+      "title": "Meme Coins Made Easy!",
+      "content": "Our AI platform enables you to create and launch your own meme coin quickly and easily. With the assistance of your dedicated AI agent, anyone can turn their idea into reality."
+    },
+    "partTwo": {
+      "title": "Create Your Own AI Bot",
+      "content": "Easily design and deploy AI agents tailored to your needs. Enhance customer service, automate\n   routine tasks, and leverage AI-driven insights for smarter decision-making."
+    }
+  },
+  "personal": {
+    "title": "Manage My Bots",
+    "discord": {
+      "title": "Connect to Discord bots and chat with this bot in discord App.",
+      "subtitle": "How to get discord Bot token ?",
+      "botToken": "discord Bot token",
+      "button": "Save"
+    },
+    "telegram": {
+      "title": "Connect to Telegram bots and chat with this bot in Telegram App.",
+      "subtitle": "How to get Telegram Bot token ?",
+      "botToken": "Telegram Bot token",
+      "address": "Telegram Address ",
+      "button": "Save"
+    },
+    "public": {
+      "titleOne": "By publishing your agent on the following platforms, you fully understand and agree to abide by",
+      "titleTwo": "Terms of service for each publishing channel",
+      "titleThree": "(including, but not limited to, any privacy policy, community guidelines, data processing agreement, etc.).",
+      "subtitle": "Publish to"
+    }
   }
 }

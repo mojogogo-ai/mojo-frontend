@@ -9,12 +9,12 @@
     destroy-on-close
   >
     <div class="pd-title">
-      Connect to Discord bots and chat with this bot in discord App.<br>
-      <span>How to get discord Bot token ?</span>
+      {{t("personal.discord.title")}}}<br>
+      <span> {{t("personal.discord.subtitle")}}}</span>
     </div>
     <div class="pd-content">
       <div class="pdc-title">
-        discord Bot token <span>*</span>
+        {{t("personal.discord.botToken")}} <span>*</span>
       </div>
       <div class="pdc-list">
         <el-input v-model="option.token" />
@@ -26,13 +26,14 @@
     </div>
     <template #footer>
       <el-button type="primary" :loading="loading" :disabled="loading || !option.token" @click="submitForm">
-        {{ 'Save' }}
+        {{ t('personal.discord.button') }}
       </el-button>
     </template>
   </mojoDialogTranslucent>
 </template>
 
 <script setup>
+import { t } from '@gptx/base/i18n';
 import { ref } from 'vue';
 import {botAuthorize} from '@gptx/base/api/application';
 import { ElMessage } from 'element-plus';

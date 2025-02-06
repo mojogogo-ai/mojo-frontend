@@ -102,6 +102,71 @@
           @change="onImageChange"
         />
       </el-form-item>
+      <el-form-item
+        label="Twitter"
+        prop="twitter"
+      >
+        <TwitterButton
+          @updateTwitterLink="updateTwitterLink"
+          @update-auth-status="handleAuthStatusUpdate" />
+      </el-form-item>
+      <el-form-item
+        label="Telegram"
+        prop="telegram"
+      >
+        <el-input
+          v-model="form.telegram"
+          placeholder="Enter your Telegram address"
+          maxlength="255"
+          clearable
+        />
+        <div class="toggle-container">
+          <label for="telegram-switch">Configure Telegram Bot</label>
+          <el-switch
+            v-model="isTelegramConfigured"
+            @change="toggleTelegramConfiguration"
+            active-color="#1da1f2"
+            inactive-color="#ccc"
+          />
+        </div>
+        <div v-if="isTelegramConfigured" class="additional-config">
+          <el-form-item
+            prop="telegram_bot_token"
+          >
+            <div class="w-[552px] h-9 flex flex-col">
+              <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
+              <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot adress and token?</span>
+            </div>
+
+            <el-input
+              v-model="form.telegram_bot_address"
+              placeholder="Enter Telegram Bot address"
+              maxlength="255"
+              clearable
+            />
+            <div class="w-[552px] h-5 flex flex-col"></div>
+            <el-input
+              v-model="form.telegram_bot_token"
+              placeholder="Please enter Telegram Bot token"
+              maxlength="10000"
+              clearable
+            />
+          </el-form-item>
+        </div>
+      </el-form-item>
+      <el-form-item
+        label="Website"
+        prop="website"
+      >
+        <el-input
+          v-model="form.website"
+          placeholder="Enter your website"
+          maxlength="255"
+          clearable
+        />
+      </el-form-item>
+
+
     </el-form>
     <template #footer>
       <el-button
@@ -130,6 +195,8 @@ import { getBotInfo, createBot, botEdit } from '@gptx/base/api/application';
 // import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
 import { storeAppCopy } from '@gptx/base/api/chat.js';
 import { ElMessage } from 'element-plus';
+import TwitterButton from '@/views/memebot/twitterbutton/index.vue';
+import { ref } from 'vue';
 
 const emits = defineEmits(['after-create', 'after-update','after-upload-knowledge-sources']);
 const isVisible = ref(false);
@@ -141,7 +208,13 @@ const form = reactive({
   classification: [],
   gender: null,
   third_company: '',
-  is_personalize_image_icon: false
+  is_personalize_image_icon: false,
+  twitter_state: '',
+  twitter: '',
+  website: '',
+  telegram: '',
+  telegram_bot_address: '',
+  telegram_bot_token: '',
 });
 const rules = reactive({
   icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
@@ -171,6 +244,8 @@ const formRef = ref(null);
 const loading = ref(false);
 const isAIloading = ref(false);
 const isCopy = ref(false);
+const isTelegramConfigured = ref(false);
+
 
 const open = async (option) => {
   if (option?.id) form.id = option?.id;
@@ -303,6 +378,19 @@ const copyApp = async () => {
     loading.value = false;
   }
 };
+function updateTwitterLink(newLink) {
+  form.twitter = newLink;
+}
+function handleAuthStatusUpdate(newStatus) {
+  form.twitter_state = newStatus;
+}
+const toggleTelegramConfiguration = () => {
+  if (!isTelegramConfigured.value) {
+    form.telegram_bot_address = '';
+    form.telegram_bot_token = '';
+  }
+};
+
 
 defineExpose({ open });
 </script>
@@ -391,4 +479,12 @@ defineExpose({ open });
 .el-card__body {
   padding: 12px 16px !important;
 }
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  width: 100%;
+}
+
 </style>

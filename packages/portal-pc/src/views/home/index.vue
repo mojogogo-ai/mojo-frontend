@@ -4,7 +4,7 @@
       <div class="h-[148px]" />
       <div class="homepage-title">{{ t('common.productName') }}</div>
       <div class="homepage-subtitle">
-        Mojo Gogo lets everyone unleash autonomous AI agents with a click, granting them a life in cyberspace: soul-bonded tokens, self-managed social media, active community engagement, PayFi-powered on-chain financing, and limitless cultural and financial adventures.
+      {{t('home.subtitle')}}
       </div>
       <div class="flex justify-center mt-8 mb-24 home-page-btn">
         <el-button
@@ -13,19 +13,19 @@
           type="primary"
           @click="toLogin"
         >
-          Sign Up
+          {{t('home.button.signUp')}}
         </el-button>
-        <el-button type="primary" @click="toLaunch"> Create Bot </el-button>
+        <el-button type="primary" @click="toLaunch">  {{t('home.button.c')}} </el-button>
       </div>
       <div class="flex w-full home-content">
         <div class="flex-1 home-part">
           <div class="home-part-1">
-            <div class="home-part1-text">Unleash AI Coin Power</div>
+            <div class="home-part1-text">{{t("home.partOne.title")}}</div>
             <div class="home-part1-text-content">
-              Mojo GoGo, backed by PayFi, empowers AI with its own meme coins, unlocking endless possibilities. With our support, you can explore new realms of innovation and creativity.
+            {{t("home.partOne.content")}}
             </div>
             <div class="pt-8 home-part1-btn">
-              <el-button type="primary" @click="toLaunch"> Create Bot </el-button>
+              <el-button type="primary" @click="toLaunch"> {{t('home.button.c')}} </el-button>
             </div>
           </div>
         </div>
@@ -51,17 +51,16 @@
           <div class="home-part-4">
             <div class="w-[628px] h-[407px]">
               <div class="px-[48px] pt-10">
-                <div class="home-part4-text">Meme Coins Made Easy!</div>
+                <div class="home-part4-text">{{t('home.partFour.title')}}</div>
                 <div class="home-part-4-text-content">
-                  Our AI platform enables you to create and launch your own meme coin quickly and easily. With the assistance of your dedicated AI agent, anyone can turn their idea into reality.
-                </div>
+                {{t('home.partFour.content')}}</div>
                 <div class="pt-8 home-part4-btn">
                   <el-button
                     type="primary"
                     class=""
                     @click="toLaunch"
                   >
-                    Launch Meme
+                    {{t('home.button.l')}}
                   </el-button>
                 </div>
               </div>
@@ -70,10 +69,9 @@
         </div>
         <div class="flex-1 home-part">
           <div class="home-part-1">
-            <div class="home-part1-text">Create Your Own AI Bot</div>
+            <div class="home-part1-text">{{t("home.partTwo.title")}}</div>
             <div class="home-part1-text-content">
-              Easily design and deploy AI agents tailored to your needs. Enhance customer service, automate
-              routine tasks, and leverage AI-driven insights for smarter decision-making.
+              {{t("home.partTwo.content")}}
             </div>
             <div class="pt-8 home-part4-btn">
               <el-button
@@ -81,7 +79,7 @@
                 class=""
                 @click="toPage('/assistant')"
               >
-                Explore
+                {{t("home.button.e")}}
               </el-button>
             </div>
           </div>

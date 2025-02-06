@@ -1,29 +1,26 @@
 <template>
   <div class="page-header">
-    <div
-      v-show="!isShowSearch"
-      class="page-header-icon"
-      @click="onLeftIconClick"
-    >
+    <div class="sidebar-logo__link">
+      <svg-icon
+        name="logo"
+        class="sidebar-logo__icon"
+      />
+      {{ isCn ? $t('common.productName_Cn') : $t('common.productName') }}
+    </div>
+    <div class="page-header-icon">
+      <svg-icon
+          name="language"
+          class="sidebar-language__icon"
+          @click="onLanguageIconClick"
+      />
       <van-icon
         name="wap-nav"
         size="18"
         color="var(--van-blue)"
+        @click="onLeftIconClick"
       />
     </div>
-    <div
-      v-show="!isShowSearch"
-      class="flex items-center justify-center flex-1"
-    >
-      <div class="sidebar-logo__link">
-        <svg-icon
-          name="logo"
-          class="sidebar-logo__icon"
-        />
-        {{ isCn ? $t('common.productName_Cn') : $t('common.productName') }}
-      </div>
-    </div>
- 
+
     <BotBaseInfo
       ref="baseInfoRef"
       @after-create="afterCreateBot"
@@ -72,11 +69,13 @@ defineProps({
   }
 });
 
-const isShowSearch = ref(false);
 const isCn = computed(() => {
   return window.SITE_TYPE && window.SITE_TYPE === '2';
 });
 
+const onLanguageIconClick = () => {
+  storeLayout.setLanguageVisible(true);
+}
 const onLeftIconClick = () => {
   storeLayout.setSidebarVisible(true);
 };
@@ -136,12 +135,13 @@ onBeforeMount(async () => {
   top: 0;
   width: 100%;
   height: var(--van-action-bar-height);
-  padding: 0 32px;
+  padding: 0 8px 0 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--h5-fill-color-light);
+  background-color: var(--h5-bg-color-primary);
   backdrop-filter: var(--backdrop-blur);
+  border-bottom: 1px solid var(--van-border-color);
   z-index: 1;
 
   &[border='bottom'] {
@@ -150,13 +150,13 @@ onBeforeMount(async () => {
 
   .sidebar-logo__link {
     margin-top: 0;
+    font-size: 18px;
   }
 
   .sidebar-logo__icon {
     font-size: 20px;
   }
 }
-
 .page-header-icon {
   position: absolute;
   top: 50%;
@@ -164,13 +164,9 @@ onBeforeMount(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30px;
-  width: 30px;
+  //height: 40px;
+  //width: 40px;
   transform: translateY(-50%);
-  border: var(--van-border);
-  border-radius: 50%;
-  background: var(--h5-fill-color-light);
-  //backdrop-filter: var(--backdrop-blur);
 
   &.right {
     left: unset;
@@ -187,6 +183,11 @@ onBeforeMount(async () => {
         padding: 0;
       }
     }
+  }
+  .sidebar-language__icon{
+    font-size: 24px;
+    color: #E1FF01;
+    margin-right: 20px;
   }
 }
 </style>

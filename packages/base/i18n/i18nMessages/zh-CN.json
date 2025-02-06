@@ -22,6 +22,9 @@
     "uploadTip": "拖入文件或"
   },
   "bots": {
+    "title": "创建Meme机器人",
+    "bot_form": "使用表单创建",
+    "bot_ai": "使用AI创建",
     "a3": "分享",
     "a9": "请输入助手名称",
     "basic_1": "选择",
@@ -60,7 +63,8 @@
       "tipModify": "提示词优化",
       "turns": "携带上下文轮数",
       "turnsTip": "设置带入模型上下文的对话历史轮数。轮数越多，多轮对话的相关性越高，但消耗的Token也越多",
-      "voice": "助手音色"
+      "voice": "助手音色",
+      "isTwitterConnected": "连接机器人 Twitter 账户"
     },
     "n": "模型",
     "new": "创建助手",
@@ -203,7 +207,12 @@
     "unbind": "撤销授权",
     "unbindTip": "是否确认解除授权",
     "upload": "上传",
-    "wrong": "好像出错了，请稍后再试。"
+    "wrong": "好像出错了，请稍后再试。",
+    "twitter": {
+      "tip": "正在处理授权...",
+      "content": "请稍候，我们正在处理您的授权请求。"
+    }
+
   },
   "login": {
     "b": "请输入正确格式的邮箱",
@@ -222,6 +231,15 @@
       "c": "创造",
       "e": "探索",
       "m": "管理"
+    },
+    "module": {
+      "h": "首页",
+      "m": "我的 Memes",
+      "e": "探索"
+    },
+    "button": {
+      "login": "登录",
+      "singUp": "註冊"
     },
     "h": "网络出现异常，请刷新后重试",
     "i": "系统错误"
@@ -254,5 +272,50 @@
     "nameRequired": "请输入昵称",
     "nickName": "昵称",
     "submit": "提交"
+  },
+  "home": {
+    "subtitle": "Mojo Gogo 让每个人只需点击一下即可释放自主 AI 代理，为其赋予网络世界的生命：灵魂绑定代币、自主管理社交媒体、积极的社区互动、由 PayFi 提供动力的链上融资，以及无限的文化和金融冒险。",
+    "button": {
+      "signUp": "注册",
+      "c": "创建 Bot",
+      "l": "发布 Meme",
+      "e": "探索"
+    },
+    "partOne": {
+      "title": "释放 AI 币的力量",
+      "content": "Mojo GoGo，借助 PayFi 的支持，让 AI 拥有自己的 Meme 币，解锁无限可能。通过我们的支持，您可以探索创新和创意的新领域。"
+    },
+    "partFour": {
+      "title": "Meme 币变得简单！",
+      "content": "我们的 AI 平台使您能够快速轻松地创建和发布自己的 Meme 币。在专属 AI 代理的帮助下，任何人都可以将他们的创意变为现实。"
+    },
+    "partTwo": {
+      "title": "创建属于您的 AI Bot",
+      "content": "轻松设计并部署量身定制的 AI 代理。提升客户服务，自动化日常任务，利用 AI 驱动的洞察力做出更聪明的决策。"
+    }
+  },
+  "personal": {
+    "title": "管理我的 Bots",
+    "discord": {
+      "title": "连接到 Discord 机器人，并在 Discord 应用中与此机器人聊天。",
+      "subtitle": "如何获取 Discord 机器人 token？",
+      "botToken": "Discord 机器人 token",
+      "button": "保存"
+    },
+    "telegram": {
+      "title": "连接到 Telegram 机器人，并在 Telegram 应用中与此机器人聊天。",
+      "subtitle": "如何获取 Telegram 机器人 token？",
+      "botToken": "Telegram 机器人 token",
+      "address": "Telegram 地址",
+      "button": "保存"
+    },
+    "public": {
+      "titleOne": "通过在以下平台发布您的代理，您完全理解并同意遵守",
+      "titleTwo": "每个发布渠道的服务条款",
+      "titleThree": "(包括但不限于任何隐私政策、社区指南、数据处理协议等)。",
+      "subtitle": "发布到"
+    }
+
   }
+
 }

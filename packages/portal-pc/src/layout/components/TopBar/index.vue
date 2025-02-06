@@ -15,19 +15,19 @@
             style="margin-right: 8px"
             index="/home"
           >
-            Home
+            {{ t('menu.module.h') }}
           </el-menu-item>
           <el-menu-item
             style="margin-right: 8px"
             index="/personal"
           >
-            My Memes
+            {{ t('menu.module.m') }}
           </el-menu-item>
           <el-menu-item
             style="margin-right: 8px"
             index="/assistant"
           >
-            Explore
+            {{ t('menu.module.e') }}
           </el-menu-item>
         </el-menu>
       </div>
@@ -83,6 +83,18 @@
           </el-sub-menu> -->
         <!-- </el-menu> -->
       </div>
+      <el-dropdown>
+        <span class="el-dropdown-link">
+          <svg-icon name="language" class="icon-language"/>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="changeLanguage('en')">English</el-dropdown-item>
+            <el-dropdown-item @click="changeLanguage('zh-CN')">中文简体</el-dropdown-item>
+            <el-dropdown-item @click="changeLanguage('zh-TW')">中文繁体</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
@@ -137,6 +149,7 @@
 </template>
 
 <script setup>
+import { t } from '@gptx/base/i18n';
 import Logo from './Logo';
 import User from './User';
 import NoLogin from './NoLogin';
@@ -150,14 +163,14 @@ import LoginAndSignup from '@/components/LoginAndSignup';
 import StartLaunch from '@/components/StartLaunch/index.vue';
 
 import PhantomIcon from '@/assets/images/phantom.svg';
-// import CreateBot from '@/components/CreateBot';
-// import { supportLang } from '@gptx/base';
 import BotBaseInfo from '@/components/BotBaseInfo'
 import UploadKnowledgeSources from '@/components/uploadKnowledgeSources/index.vue';
 import PublishDialog from '@/views/personal/components/publish/PublishDialog.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 import { Connection, clusterApiUrl } from '@solana/web3.js';
+import { useI18n } from "vue-i18n";
+
 
 import { WalletMultiButton,useWallet } from "solana-wallets-vue";
 import { watch } from 'vue';
@@ -245,7 +258,10 @@ const afterCreateBot = async (data) => {
   // 广播创建成功
   eventBus.emit('createBotSuccess', data);
   // TODO
-  publishDialogRef.value.open({ id:data?.id });
+  uploadKnowledgeSourcesRef.value.open({
+    id: data?.id,
+    files: data?.files || null
+  });
 };
 
 
@@ -331,10 +347,13 @@ const getBalance = async () => {
     // const provider = getProvider(); // see "Detecting the Provider"
     // const resp = await provider.connect();
     // const connection = new Connection(clusterApiUrl('mainnet'));
-    const connection = new Connection(clusterApiUrl('devnet'));
+    const connection = new Connection("https://dimensional-quick-sanctuary.solana-mainnet.quiknode.pro/b73ef3c61afe76bafce8615881ea46ce856db8a6");
+
     publicKey.value = appInstance.appContext.config.globalProperties.$wallet.publicKey.value.toBase58();
     const balance = await connection.getBalance(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
     const accountInfo = await connection.getAccountInfo(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
+    
+    
     curBalance.value = (balance/1000000000).toFixed(2)
 
     console.log(accountInfo,'accountInfo')
@@ -427,6 +446,18 @@ watch(
 //   localStorage.setItem('lang', item.value);
 //   window.location.reload();
 // };
+const { locale } = useI18n()
+
+const changeLanguage = (lang) => {
+  locale.value = lang;
+  localStorage.setItem('lang', lang);
+};
+onBeforeMount(() => {
+  const savedLang = localStorage.getItem('lang');
+  if (savedLang) {
+    locale.value = savedLang;
+  }
+});
 
 </script>
 
@@ -558,5 +589,9 @@ watch(
   opacity: 0px;
   background-color: #E1FF01;
   border-width: 0px;
+}
+.icon-language{
+  font-size: 40px;
+  color: #E1FF01;
 }
 </style>
