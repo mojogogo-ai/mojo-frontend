@@ -76,6 +76,7 @@
             class="telegram-icon"
           />
         </div>
+        <div v-else class="no-icon"></div>
       </div>
       <div class="more-option-trigger" @click.stop="()=>{}">
         <el-button
@@ -376,6 +377,14 @@ const detailCoin = (item) => {
           width: 25px;
           height: 24px;
         }
+      }
+      .no-icon{
+        width: 25px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
       }
     }
     position: relative;
