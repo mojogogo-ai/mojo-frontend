@@ -762,7 +762,6 @@ const getPresignedUrl = async (fileName, fileSize, fileHash) => {
     align-items: center;
     justify-content: center;
     color: #999;
-    cursor: pointer;
     width: 100%;
     transition: border-color 0.3s;
     display: inline-flex;
