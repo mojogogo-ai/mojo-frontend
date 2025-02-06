@@ -23,6 +23,9 @@
     "uploadTip": "Drag & Drop or "
   },
   "bots": {
+    "title": "Create Meme Bot",
+    "bot_form": "Create with Form",
+    "bot_ai": "Create with AI",
     "a3": "Share",
     "a9": "Bot name",
     "basic_1": "select",

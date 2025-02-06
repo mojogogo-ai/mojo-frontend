@@ -2,12 +2,12 @@
   <div class="w-[562px] mx-auto">
     <div
       class="text-center mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
-      Create Meme Bot
+      {{t('bots.title')}}
     </div>
     <!-- 按钮用于切换页面 -->
     <div class="switch-container mb-[40px]">
-      <button @click="byFormHandle()" :class="['switch-button',{ 'selected': byForm }]">Create with Form</button>
-      <button @click="byAiHandle()" :class="['switch-button',{ 'selected': !byForm }]">Create with AI</button>
+      <button @click="byFormHandle()" :class="['switch-button',{ 'selected': byForm }]"> {{t('bots.bot_form')}}</button>
+      <button @click="byAiHandle()" :class="['switch-button',{ 'selected': !byForm }]"> {{t('bots.bot_ai')}}</button>
     </div>
 
     <div v-if="byForm">
@@ -123,7 +123,7 @@
         </el-form-item>
         <el-form-item
           label="Knowledge sources"
-          prop="file_id_list"
+          prop="fileList"
         >
           <el-upload
             ref="uploadRef"
@@ -139,7 +139,7 @@
             :on-remove="handleFileRemove"
           >
             <div class="upload-custom">
-              <svg-icon name="upload-file" class="upload-file-icon"/>
+              <svg-icon name="upload-file" class="upload-file-icon" />
               <div class="upload-custom-text">
                 <div class="upload-custom-text-top">
                   Click to upload file or drag it here
@@ -244,11 +244,6 @@
       <GptxChat v-if="botConfig" :bot-info="botConfig" :operation-config="operationConfig" :chat-api-url="chatApiUrl"
                 :is-debug="false" style="max-width: 100%" />
     </div>
-    <UploadKnowledge
-      ref="uploadKnowledgeRef"
-      width="600px"
-      @after-upload-knowledge="afterUploadKnowledge"
-    />
     <Launcher ref="launcherDialog" />
     <Unlocked
       ref="unlockedRef"
@@ -260,15 +255,14 @@
 <script setup>
 import { t } from '@gptx/base/i18n';
 import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
-import UploadKnowledge from './uploadKnowledge/index.vue';
 import Launcher from './launcher/index.vue';
 import { reactive, ref } from 'vue';
 import TwitterButton from './twitterbutton/index.vue';
-
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 import { ElMessage } from 'element-plus';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
 import CryptoJS from 'crypto-js';
+import axios from 'axios';
 
 const router = useRouter();
 const byForm = ref(true);
@@ -328,35 +322,10 @@ const conversationList = reactive([
   { id: 'Customize', name: 'Customize' }
 ]);
 
-const unlockValue = ref(false);
-const audioList = reactive([
-  {
-    id: 'Aiden',
-    name: 'Aiden',
-    icon: 'Aiden_voice'
-  },
-  {
-    id: 'Eva',
-    name: 'Eva',
-    icon: 'Eva_voice'
-  },
-  {
-    id: 'Jason',
-    name: 'Jason',
-    icon: 'Jason_voice'
-  },
-  {
-    id: 'Sara',
-    name: 'Sara',
-    icon: 'Sara_voice'
-  }
-]);
-
 
 const formRef = ref(null);
 const loading = ref(false);
 const isAIloading = ref(false);
-const parentAuthStatus = ref('unauthorized');
 
 const isTelegramConfigured = ref(false);
 
@@ -399,17 +368,6 @@ const onImageChange = (url, is_personalize_image_icon) => {
 };
 
 
-const uploadKnowledgeRef = ref(null);
-
-let AllFileList = [];
-const afterUploadKnowledge = ({ formFileList, file_id_list }) => {
-  AllFileList = [...formFileList];
-  console.log(AllFileList, 'AllFileList');
-
-  form.file_id_list = [...file_id_list];
-  // publishDialogRef.value.open({ id });
-};
-
 // commit action
 const submitText = ref('Create');
 
@@ -420,8 +378,8 @@ const submitHandle = async (el) => {
       try {
         console.log(form.twitter);
         loading.value = true;
-        if (form.fileList.length > 0 ){
-          await submitFile()
+        if (form.fileList.length > 0) {
+          await submitFile();
         }
         const result = await memeCreate(form);
         if (result.code === 200) {
@@ -438,12 +396,6 @@ const submitHandle = async (el) => {
   });
 };
 
-
-const conversationText = ref('Conversation');
-const conversationBot = async (el) => {
-  router.push({ path: '/conversation' });
-
-};
 
 const unlockedRef = ref(null);
 // 轮询查询状态
@@ -484,11 +436,6 @@ onUnmounted(() => {
 
 // upload file
 
-const fileForm = reactive({
-  name: '',
-  file_url: '',
-  fileList: []
-});
 const handleFileSelect = async (file) => {
   const actualFile = file.raw;
 
@@ -555,9 +502,7 @@ const handleExceed = () => {
 };
 
 const handleFileRemove = (file) => {
-// 从 fileList 中移除该文件
-  console.log('item.file', form.fileList);
-  console.log(file, '文件');
+  // 从 fileList 中移除该文件
   form.fileList = form.fileList.filter((item) => item.file !== file.file);
   ElMessage.success('File removed successfully!');
 };
@@ -599,6 +544,19 @@ const submitFile = async () => {
 
   }
 };
+const uploadFile = async (upload_url, file, form_data) => {
+  const form = new FormData();
+
+  for (const [key, value] of Object.entries(form_data)) {
+    form.append(key, value);
+  }
+
+  form.append('file', file);
+
+  await axios.post(upload_url, form, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+};
 
 const getPresignedUrl = async (fileName, fileSize, fileHash) => {
   try {
@@ -618,90 +576,6 @@ const getPresignedUrl = async (fileName, fileSize, fileHash) => {
 </script>
 
 <style lang="scss" scoped>
-.base-info-img {
-  position: relative;
-  width: 88px;
-  height: 88px;
-  cursor: pointer;
-  border-radius: 8px;
-  overflow: hidden;
-
-  &::after {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #eee;
-    font-size: 24px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: rgba(#000, 0.4);
-    content: '+';
-    opacity: 0;
-  }
-
-  &:hover {
-    &::after {
-      opacity: 1;
-    }
-  }
-}
-
-.base-info-avatar {
-  width: 100%;
-  height: 100%;
-}
-
-.base-list-row {
-  display: flex;
-}
-
-.base-list-col {
-  & + & {
-    margin-left: 16px;
-  }
-}
-
-.base-list-img {
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
-
-  &__error {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background: var(--el-fill-color-light);
-    color: var(--el-text-color-secondary);
-    font-size: 20px;
-  }
-}
-
-.base-list-option {
-  padding-top: 4px;
-  color: #999;
-  font-size: 20px;
-  line-height: 32px;
-  border-top: 1px solid #eee;
-
-  .base-list-col {
-    display: flex;
-    align-items: center;
-
-    & + .base-list-col {
-      margin-left: 8px;
-    }
-  }
-}
-
-.el-card__body {
-  padding: 12px 16px !important;
-}
-
 :deep(.el-upload) {
   width: 100%;
 }
@@ -725,9 +599,10 @@ const getPresignedUrl = async (fileName, fileSize, fileHash) => {
   border: 1px dashed #C5C5C5;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(50px);
+
   .upload-file-icon {
     font-size: 36px;
-    color:#c5c5c5;
+    color: #c5c5c5;
   }
 
   .upload-custom-text {
@@ -779,21 +654,7 @@ label {
   font-size: 14px;
   color: #fff;
 }
-</style>
 
-<style lang="scss">
-.play-item {
-  display: none;
-}
-
-.hover-operation:hover {
-  .play-item {
-    transition: 0.1s;
-    display: flex;
-  }
-}
-</style>
-<style lang="scss">
 .switch-button {
   font-family: TT Norms Pro;
   font-size: 20px;
@@ -805,25 +666,25 @@ label {
 
   width: 206px;
   height: 48px;
-  gap: 0px; /* This might not have an effect on a button element */
+  gap: 0px;
   border-radius: 48px;
-  opacity: 1; /* Assuming you meant for the buttons to be fully opaque */
-  background-color: #FFFFFF1A; /* Default/unselected background */
-  color: #FFFFFF; /* Default/unselected text color */
-  border: none; /* Assuming you might not want borders */
-  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
-  outline: none; /* Remove outline to improve aesthetics */
+  opacity: 1;
+  background-color: #FFFFFF1A;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
 
 .selected {
-  background-color: #E0FF3133; /* Selected background */
-  color: #E0FF31; /* Selected text color */
+  background-color: #E0FF3133;
+  color: #E0FF31;
 }
 
 .switch-container {
-  display: flex; /* 启用Flexbox */
-  justify-content: center; /* 水平居中按钮 */
-  gap: 20px; /* 在按钮之间添加一些间隙 */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
-
 </style>
+

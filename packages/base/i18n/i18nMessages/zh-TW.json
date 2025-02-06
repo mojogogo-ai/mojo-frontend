@@ -22,6 +22,9 @@
     "uploadTip": "拖入文件或"
   },
   "bots": {
+    "title": "做Meme機械人",
+    "bot_form": "用表單创建",
+    "bot_ai": "用AI创建",
     "a3": "分享",
     "a9": "請輸入助手名稱",
     "basic_1": "選擇",
