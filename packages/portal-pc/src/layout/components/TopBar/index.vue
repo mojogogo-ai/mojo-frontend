@@ -528,9 +528,10 @@ onBeforeMount(() => {
 </style>
 <style lang="scss">
 
-.swv-button{
+.swv-button-trigger{
   background-color: #E1FF01 !important;
   color: #000000 !important;
+  font-size: 13px;
 }
 
 .customs-sub-menu {
