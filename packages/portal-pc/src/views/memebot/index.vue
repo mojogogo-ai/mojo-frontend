@@ -579,9 +579,21 @@ const getPresignedUrl = async (fileName, fileSize, fileHash) => {
 :deep(.el-upload) {
   width: 100%;
 }
+:deep(.el-icon--document) {
+  color: #fff;
+}
 
 :deep(.el-upload-list__item:hover) {
-  color: black;
+  color: #000;
+  .el-icon--document{
+    color: #000;
+  }
+  .el-upload-list__item-file-name{
+    color: #000;
+  }
+  .el-icon--close{
+    color: #000;
+  }
 }
 
 .upload-custom {
