@@ -420,6 +420,9 @@ const submitHandle = async (el) => {
       try {
         console.log(form.twitter);
         loading.value = true;
+        if (form.fileList.length > 0 ){
+          await submitFile()
+        }
         const result = await memeCreate(form);
         if (result.code === 200) {
           submitText.value = 'Creating your bot...';
@@ -589,6 +592,7 @@ const submitFile = async () => {
         fileDataList.push(fileData.id);
       }
     }
+    form.file_id_list = fileDataList;
   } catch (error) {
     console.error('文件上传失败:', error);
   } finally {
