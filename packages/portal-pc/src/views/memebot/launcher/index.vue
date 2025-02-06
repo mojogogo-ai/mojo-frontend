@@ -184,7 +184,7 @@
               "name": memeCoinInfo.value.name,
               "symbol": memeCoinInfo.value.symbol,
               "image":  memeCoinInfo.value.icon,
-              "address": address.value,
+              "address": appInstance.appContext.config.globalProperties.$wallet.publicKey.value.toBase58(),
               "description":''
           };
 
@@ -204,7 +204,7 @@
 
               const signature = await sendTransaction(transaction, connection);
               console.log("signature",signature)
-              await connection.confirmTransaction(signature, 'processed');
+              // await connection.confirmTransaction(signature, 'processed');
         
               if(signature){
                 isTyping.value = false;

@@ -160,6 +160,7 @@ import { eventBus } from '@gptx/base/utils/eventBus.js';
 import { Connection, clusterApiUrl } from '@solana/web3.js';
 
 import { WalletMultiButton,useWallet } from "solana-wallets-vue";
+import { watch } from 'vue';
 
 const appInstance = getCurrentInstance();
 const route = useRoute();
@@ -360,6 +361,12 @@ onMounted(() => {
   getBalance()
 })
 
+watch(
+  () => appInstance.appContext.config.globalProperties.$wallet.publicKey.value,
+  () => {
+    getBalance()
+  }
+);
 watch(
   () => route.path,
   (newPath, oldPath) => {

@@ -106,7 +106,7 @@ const __sendTr = async () => {
 
           const signature = await sendTransaction(transaction, connection);
           console.log("signature",signature)
-          await connection.confirmTransaction(signature, 'processed');
+          // await connection.confirmTransaction(signature, 'processed');
         //   //const signature = await sendTransaction();
         //   let res = await provider.request({
         //       method: "signAndSendTransaction",
