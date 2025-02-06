@@ -1,12 +1,12 @@
 <template>
   <div class="w-[562px] mx-auto">
     <div class="text-center  mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">Create Meme Bot</div>
-    <!-- 按钮用于切换页面 -->  
+    <!-- 按钮用于切换页面 -->
      <div class="switch-container mb-[40px]">
-      <button @click="byFormHandle()" :class="['switch-button',{ 'selected': byForm }]">Create with Form</button>  
+      <button @click="byFormHandle()" :class="['switch-button',{ 'selected': byForm }]">Create with Form</button>
       <button @click="byAiHandle()" :class="['switch-button',{ 'selected': !byForm }]">Create with AI</button>
      </div>
-    
+
     <div v-if="byForm">
     <el-form
       ref="formRef"
@@ -145,7 +145,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      
+
       <el-form-item
         label="Description"
         prop="introduction"
@@ -184,23 +184,39 @@
         label="Knowledge sources"
         prop="file_id_list"
       >
-        <div class="upload-custom" @click="openUploadKnowledge">
-          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="37" viewBox="0 0 36 37" fill="none">
-            <path d="M16.5 24.5V12.275L12.6 16.175L10.5 14L18 6.5L25.5 14L23.4 16.175L19.5 12.275V24.5H16.5ZM9 30.5C8.175 30.5 7.469 30.2065 6.882 29.6195C6.295 29.0325 6.001 28.326 6 27.5V23H9V27.5H27V23H30V27.5C30 28.325 29.7065 29.0315 29.1195 29.6195C28.5325 30.2075 27.826 30.501 27 30.5H9Z" fill="#C5C5C5" />
-          </svg>
-          <div class="upload-custom-text">
-            <div class="upload-custom-text-top">
-              Click to upload file
+        <el-upload
+          ref="uploadRef"
+          :file-list="form.fileList"
+          class="upload-demo w-full mt-[16px]"
+          :auto-upload="false"
+          :limit="5"
+          :accept="'application/pdf,.txt,.pptx'"
+          :on-change="handleFileSelect"
+          :before-upload="beforeUpload"
+          :on-exceed="handleExceed"
+          :on-remove="handleFileRemove"
+        >
+          <div class="upload-custom" @click="openUploadKnowledge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="37" viewBox="0 0 36 37" fill="none">
+              <path d="M16.5 24.5V12.275L12.6 16.175L10.5 14L18 6.5L25.5 14L23.4 16.175L19.5 12.275V24.5H16.5ZM9 30.5C8.175 30.5 7.469 30.2065 6.882 29.6195C6.295 29.0325 6.001 28.326 6 27.5V23H9V27.5H27V23H30V27.5C30 28.325 29.7065 29.0315 29.1195 29.6195C28.5325 30.2075 27.826 30.501 27 30.5H9Z" fill="#C5C5C5" />
+            </svg>
+            <div class="upload-custom-text">
+              <div class="upload-custom-text-top">
+                Click to upload file or drag it here
+              </div>
+              <div class="upload-custom-text-bottom">
+                Up to 5 files, total 100 MB, PDF, TXT, PPTX
+              </div>
             </div>
           </div>
-        </div>
+        </el-upload>
       </el-form-item>
 
       <el-form-item
         label="Twitter"
         prop="twitter"
       >
-        <TwitterButton 
+        <TwitterButton
         @updateTwitterLink="updateTwitterLink"
         @update-auth-status="handleAuthStatusUpdate" />
       </el-form-item>
@@ -232,8 +248,8 @@
               <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
               <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot adress and token?</span>
             </div>
-            
-            <el-input 
+
+            <el-input
               v-model="form.telegram_bot_address"
               placeholder="Enter Telegram Bot address"
               maxlength="255"
@@ -262,7 +278,7 @@
         />
       </el-form-item>
     </el-form>
-    
+
     <div class="flex justify-center w-full my-20">
       <el-button
         style="width: 250px;"
@@ -307,6 +323,7 @@ import { ref } from 'vue';
 import TwitterButton from './twitterbutton/index.vue';
 
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
+import { ElMessage } from 'element-plus';
 const router = useRouter();
 const byForm = ref(true);
 const isVisible = ref(false);
@@ -364,23 +381,23 @@ const conversationList = reactive([
 
 const unlockValue = ref(false)
 const audioList = reactive([
-  { 
-    id: 'Aiden', 
+  {
+    id: 'Aiden',
     name: 'Aiden',
     icon: 'Aiden_voice'
    },
-  { 
-    id: 'Eva', 
+  {
+    id: 'Eva',
     name: 'Eva' ,
     icon: 'Eva_voice'
   },
-  { 
+  {
     id: 'Jason',
     name: 'Jason' ,
     icon: 'Jason_voice'
   },
-  { 
-    id: 'Sara', 
+  {
+    id: 'Sara',
     name: 'Sara' ,
     icon: 'Sara_voice'
   }
@@ -441,7 +458,7 @@ let AllFileList = [];
 const afterUploadKnowledge = ({formFileList, file_id_list}) => {
   AllFileList = [...formFileList]
   console.log(AllFileList,'AllFileList')
-  
+
   form.file_id_list = [...file_id_list]
   // publishDialogRef.value.open({ id });
 };
@@ -474,7 +491,7 @@ const submitHandle = async (el) => {
 const conversationText = ref('Conversation')
 const conversationBot = async (el) => {
    router.push({ path: '/conversation' });
-  
+
 };
 
 const unlockedRef = ref(null)
@@ -514,6 +531,22 @@ onUnmounted(() => {
   clearInterval(memeCheckTimer.value);
 });
 
+// upload file
+const handleFileSelect = async (file) =>{
+
+}
+const beforeUpload = (file) => {
+
+}
+
+const handleExceed = () => {
+  // this.$message.warning('You can upload up to 5 files only.');
+  ElMessage.warning('You can upload up to 5 files only.');
+};
+
+const handleFileRemove = (file) => {
+
+}
 </script>
 
 <style lang="scss" scoped>
@@ -633,6 +666,16 @@ onUnmounted(() => {
       font-style: normal;
       font-weight: 500;
     }
+    .upload-custom-text-bottom {
+      color: rgba(255, 255, 255, 0.70);
+      text-align: center;
+      font-feature-settings: 'dlig' on;
+      font-family: "TT Norms Pro";
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 23px; /* 191.667% */
+    }
   }
 }
 .toggle-container {
@@ -678,24 +721,24 @@ label {
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
 
-  width: 206px;  
-  height: 48px;  
-  gap: 0px; /* This might not have an effect on a button element */  
-  border-radius: 48px;  
-  opacity: 1; /* Assuming you meant for the buttons to be fully opaque */  
-  background-color: #FFFFFF1A; /* Default/unselected background */  
-  color: #FFFFFF; /* Default/unselected text color */  
-  border: none; /* Assuming you might not want borders */  
-  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */  
-  outline: none; /* Remove outline to improve aesthetics */  
+  width: 206px;
+  height: 48px;
+  gap: 0px; /* This might not have an effect on a button element */
+  border-radius: 48px;
+  opacity: 1; /* Assuming you meant for the buttons to be fully opaque */
+  background-color: #FFFFFF1A; /* Default/unselected background */
+  color: #FFFFFF; /* Default/unselected text color */
+  border: none; /* Assuming you might not want borders */
+  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+  outline: none; /* Remove outline to improve aesthetics */
 }
-.selected {  
-  background-color: #E0FF3133; /* Selected background */  
-  color: #E0FF31; /* Selected text color */  
-} 
+.selected {
+  background-color: #E0FF3133; /* Selected background */
+  color: #E0FF31; /* Selected text color */
+}
 .switch-container {
-  display: flex; /* 启用Flexbox */  
-  justify-content: center; /* 水平居中按钮 */  
-  gap: 20px; /* 在按钮之间添加一些间隙 */ 
+  display: flex; /* 启用Flexbox */
+  justify-content: center; /* 水平居中按钮 */
+  gap: 20px; /* 在按钮之间添加一些间隙 */
 }
 </style>
