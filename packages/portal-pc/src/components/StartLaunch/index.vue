@@ -40,8 +40,11 @@
 import { t } from '@gptx/base/i18n';
 import bs58 from "bs58";
 import { getTokenCreate, memePaid } from '@gptx/base/api/meme-bot';
+import { WalletMultiButton,useWallet } from "solana-wallets-vue";
+import { Connection, clusterApiUrl, Keypair, SystemProgram, Transaction,VersionedTransaction } from '@solana/web3.js';
 const router = useRouter();
 const isVisible = ref(false);
+const appInstance = getCurrentInstance();
 
 const launchLoading = ref(false);
 const memeCoinInfo = ref({});
@@ -56,24 +59,28 @@ const close = () => {
   isVisible.value = false;
 };
 
-
 // commit action
-const publicKey = ref('') // publicKey就是address
+const address = ref('') // publicKey就是address
 
 const __sendTr = async () => {
-    const provider = getProvider(); // see "Detecting the Provider"
+    // const provider = getProvider(); // see "Detecting the Provider"
     
     try {
-      const resp = await provider.connect();
-      console.log(resp,'resp')
-      publicKey.value = resp.publicKey.toString()
+      // const resp = await provider.connect();
+      // console.log(resp,'resp')
+      // const publicKey = await useWallet();
+      // address.value = publicKey.value.toBase58();
+      // publicKey.value = resp.publicKey.toString()
+      //const sendTransaction = useWallet();
+      console.log("wallet",appInstance.appContext.config.globalProperties.$wallet);
+      const connection = new Connection(clusterApiUrl('mainnet-beta'));
       const params = {
           "bot_id": memeCoinInfo.value.bot_id,
           "chain_name": "solana",
           "name": memeCoinInfo.value.name,
           "symbol": memeCoinInfo.value.symbol,
           "image":  memeCoinInfo.value.icon,
-          "address": publicKey.value,
+          "address": appInstance.appContext.config.globalProperties.$wallet.publicKey.value.toBase58(),
           "description":''
       };
       console.log(params,'params')
@@ -81,23 +88,32 @@ const __sendTr = async () => {
       launchLoading.value = true;
       const res = await getTokenCreate(params);
       if (res.code === 200) {
+        const sendTransaction = appInstance.appContext.config.globalProperties.$wallet.sendTransaction;
         console.log(res,'token creation res');
+        const buffer = Buffer.from(res.data.tx_base64, 'base64');
+        console.log("buffer",buffer)
+        const transaction = VersionedTransaction.deserialize(buffer);
+        console.log("transaction",transaction)
         const binaryData = base64ToBinary(res.data.tx_base64);
+        
         
         // const connection = new Connection(clusterApiUrl('mainnet'));
         // const connection = new Connection(clusterApiUrl('devnet'));
-
+       
         try {
 
-          let res = await provider.request({
-              method: "signAndSendTransaction",
-              params: {
-                  message: bs58.encode(binaryData),
-              },
-          });
-          if(res.signature){
+          const signature = await sendTransaction(transaction, connection);
+          console.log("signature",signature)
+          // await connection.confirmTransaction(signature, 'processed');
+        //   //const signature = await sendTransaction();
+        //   let res = await provider.request({
+        //       method: "signAndSendTransaction",
+        //       params: {
+        //           message: bs58.encode(binaryData),
+        //       },
+        //   });
+          if(signature){
             launchLoading.value = false;
-            console.log(res, 'res----->signature')
             // let connectRes =  await connection.getSignatureStatus(signature);
             // if(connectRes.context){
             //   launchLoading.value = false;
@@ -105,7 +121,7 @@ const __sendTr = async () => {
             // }
             close()
             // 发送交易成功后
-            __memePaid(memeCoinInfo.value.bot_id, res.signature )
+            __memePaid(memeCoinInfo.value.bot_id, signature )
             router.push({ path: '/personal' });
           }
         
@@ -114,7 +130,8 @@ const __sendTr = async () => {
             console.error("Transaction confirmation failed:", error);
         }
       }
-    } catch  {
+    } catch  (error){
+      console.error("Transaction confirmation failed:", error);
       ElMessage({
           message: 'Please connect to Phantom wallet.',
           type: 'error',

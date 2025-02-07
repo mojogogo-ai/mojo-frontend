@@ -98,10 +98,10 @@
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
-
+        <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
         <div v-if="isLogin">
           <!-- <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">PHANTOM WALLET</el-button> -->
-          <div v-if="isPhantomInstalled" class="flex flex-col items-center justify-center" @click="test()">
+          <div v-if="appInstance.appContext.config.globalProperties.$wallet.connected.value" class="flex flex-col items-center justify-center" @click="test()">
             <div class="flex items-center ">
               <img style="border-radius: 8px" width="30px" height="30px" :src="PhantomIcon" alt="" srcset="">
               <div
@@ -113,7 +113,7 @@
             </div>
             <span v-if="publicKey" style="color: rgba(255, 255, 255, 0.70);font-size: 14px;"> {{ publicKey.substring(0, 4) + "..." + publicKey.substring(publicKey.length - 4, publicKey.length) }}</span>
           </div>
-          <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button>
+          <!-- <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button> -->
         </div>
       </div>
     </div>
@@ -172,6 +172,10 @@ import { Connection, clusterApiUrl } from '@solana/web3.js';
 import { useI18n } from "vue-i18n";
 
 
+import { WalletMultiButton,useWallet } from "solana-wallets-vue";
+import { watch } from 'vue';
+
+const appInstance = getCurrentInstance();
 const route = useRoute();
 const router = useRouter();
 const useLogin = useLoginStore();
@@ -340,16 +344,21 @@ const publicKey = ref('') // publicKey就是address
 const curBalance = ref('')
 const getBalance = async () => {
   try {
-    const provider = getProvider();
-    const resp = await provider.connect();
+    // const provider = getProvider(); // see "Detecting the Provider"
+    // const resp = await provider.connect();
+    // const connection = new Connection(clusterApiUrl('mainnet'));
     const connection = new Connection("https://dimensional-quick-sanctuary.solana-mainnet.quiknode.pro/b73ef3c61afe76bafce8615881ea46ce856db8a6");
 
-    const balance = await connection.getBalance(resp.publicKey);
-    const accountInfo = await connection.getAccountInfo(resp.publicKey);
+    publicKey.value = appInstance.appContext.config.globalProperties.$wallet.publicKey.value.toBase58();
+    const balance = await connection.getBalance(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
+    const accountInfo = await connection.getAccountInfo(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
+    
+    
     curBalance.value = (balance/1000000000).toFixed(2)
 
     console.log(accountInfo,'accountInfo')
-  } catch {
+  } catch(error) {
+    console.error(error)
     curBalance.value = 0
   }
 }
@@ -367,9 +376,16 @@ const test = () => {
   // console.log('test')
 }
 onMounted(() => {
-  connectWallet()
+  // connectWallet()
   getBalance()
 })
+
+watch(
+  () => appInstance.appContext.config.globalProperties.$wallet.publicKey.value,
+  () => {
+    getBalance()
+  }
+);
 watch(
   () => route.path,
   (newPath, oldPath) => {
@@ -400,6 +416,15 @@ watch(
   { immediate: false }
 );
 
+// watch(() => wallet.connected, (newVal, oldVal) => {  
+//   if (newVal) {  
+//     console.log("钱包已经连接");  
+//     // 钱包连接后的逻辑  
+//   } else {  
+//     console.log("钱包已经断开");  
+//     // 钱包断开后的逻辑  
+//   }  
+// });
 
 watch(
   () => useBot.createBotDialog,
@@ -502,6 +527,12 @@ onBeforeMount(() => {
 
 </style>
 <style lang="scss">
+
+.swv-button-trigger{
+  background-color: #E1FF01 !important;
+  color: #000000 !important;
+  font-size: 13px;
+}
 
 .customs-sub-menu {
   border-radius: 20px!important;

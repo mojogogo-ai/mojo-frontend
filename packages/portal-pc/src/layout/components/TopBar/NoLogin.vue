@@ -2,7 +2,7 @@
   <div>
     <!-- <el-link type="primary" style="margin:0 26px 0 20px;" @click="loginHadle(true)"> Log in</el-link>  -->
     <el-link type="primary" @click="loginHadle(true)"> Log in   </el-link>
-    <el-link type="primary" style="margin:0 0 0 20px;" @click="loginHadle(false)">Sign up   <el-icon class="mt-[2px]"><ArrowRightBold /></el-icon></el-link>
+    <!-- <el-link type="primary" style="margin:0 0 0 20px;" @click="loginHadle(false)">Sign up   <el-icon class="mt-[2px]"><ArrowRightBold /></el-icon></el-link> -->
   </div>
 </template>
 
