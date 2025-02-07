@@ -176,8 +176,8 @@ const onChangeGeneratedIcon = (url) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 64px;
-  width: 64px;
+  height: 80px;
+  width: 80px;
   font-size: 0.8em;
   line-height: 1.4;
   color: var(--h5-text-color-placeholder);

@@ -122,37 +122,6 @@
           />
         </el-form-item>
         <el-form-item
-          label="Knowledge sources"
-          prop="fileList"
-        >
-          <el-upload
-            ref="uploadRef"
-            :file-list="form.fileList"
-            class="upload-demo w-full mt-[16px]"
-            :auto-upload="false"
-            :disabled="form.fileList.length >= 5"
-            :limit="5"
-            :accept="'application/pdf,.txt,.pptx'"
-            :on-change="handleFileSelect"
-            :before-upload="beforeUpload"
-            :on-exceed="handleExceed"
-            :on-remove="handleFileRemove"
-          >
-            <div class="upload-custom">
-              <svg-icon name="upload-file" class="upload-file-icon" />
-              <div class="upload-custom-text">
-                <div class="upload-custom-text-top">
-                  Click to upload file or drag it here
-                </div>
-                <div class="upload-custom-text-bottom">
-                  Up to 5 files, total 100 MB, PDF, TXT, PPTX
-                </div>
-              </div>
-            </div>
-          </el-upload>
-        </el-form-item>
-
-        <el-form-item
           label="Twitter"
           prop="twitter"
         >
@@ -171,41 +140,6 @@
             maxlength="255"
             clearable
           />
-          <div class="toggle-container">
-            <label for="telegram-switch">Configure Telegram Bot</label>
-            <el-switch
-              v-model="isTelegramConfigured"
-              @change="toggleTelegramConfiguration"
-              active-color="#1da1f2"
-              inactive-color="#ccc"
-            />
-          </div>
-          <div v-if="isTelegramConfigured" class="additional-config">
-            <el-form-item
-              prop="telegram_bot_token"
-            >
-              <div class="w-[552px] h-9 flex flex-col">
-                <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
-                <span
-                  class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:"
-                  @click="getTgToken">How to get Telegram Bot adress and token?</span>
-              </div>
-
-              <el-input
-                v-model="form.telegram_bot_address"
-                placeholder="Enter Telegram Bot address"
-                maxlength="255"
-                clearable
-              />
-              <div class="w-[552px] h-5 flex flex-col"></div>
-              <el-input
-                v-model="form.telegram_bot_token"
-                placeholder="Please enter Telegram Bot token"
-                maxlength="10000"
-                clearable
-              />
-            </el-form-item>
-          </div>
         </el-form-item>
 
         <el-form-item
@@ -214,7 +148,7 @@
         >
           <el-input
             v-model="form.website"
-            placeholder="Enter your website"
+            placeholder="Enter your website link"
             maxlength="255"
             clearable
           />

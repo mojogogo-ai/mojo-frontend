@@ -68,7 +68,7 @@ const onCreateClick = () => {
 const goPage = (index) => {
   switch (index) {
     case 1:
-      router.push({ path: '/home' });
+      router.push({ path: '/memebot' });
       break;
     case 2:
       router.push({ path: '/personal' });

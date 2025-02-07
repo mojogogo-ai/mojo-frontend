@@ -6,15 +6,15 @@
       class="twitter-input"
       @change="updateTwitterLink"
     />
-    <div class="toggle-container">
-      <label for="twitter-switch">{{ t('bots.label.isTwitterConnected') }}</label>
-      <el-switch
-        v-model="isTwitterConnected"
-        @change="toggleTwitterConnection"
-        active-color="#1da1f2"
-        inactive-color="#ccc"
-      />
-    </div>
+<!--    <div class="toggle-container">-->
+<!--      <label for="twitter-switch">{{ t('bots.label.isTwitterConnected') }}</label>-->
+<!--      <el-switch-->
+<!--        v-model="isTwitterConnected"-->
+<!--        @change="toggleTwitterConnection"-->
+<!--        active-color="#1da1f2"-->
+<!--        inactive-color="#ccc"-->
+<!--      />-->
+<!--    </div>-->
   </div>
 </template>
 

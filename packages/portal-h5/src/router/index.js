@@ -117,7 +117,20 @@ export const constantRoutes = [
         meta: { title: 'Refer friends', icon: 'user' }
       }
     ]
-  }
+  },
+  {
+    path: '',
+    component: Layout,
+    // groupName: 'memebot', TODO
+    children: [
+      {
+        path: '/memebot',
+        component: () => import('@/views/memebot/store'),
+        name: 'memebot',
+        meta: { title: t('menu.ass'), icon: 'app-store' }
+      }
+    ]
+  },
 ];
 
 const getRoutes = function () {

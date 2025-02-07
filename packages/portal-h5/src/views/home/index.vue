@@ -85,9 +85,8 @@ import Pic2 from '@/assets/images/homepage/pic2.png';
 import { getIsLogin } from '@/utils/firebase.js';
 import useLoginStore from '@/store/modules/login.js';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
+import router from '@/router'
 
-const route = useRoute();
-const router = useRouter();
 let isLogin = ref(false);
 const useLogin = useLoginStore();
 const isOpened = computed(() => useLogin.loginDialogVisible);
@@ -96,13 +95,14 @@ const onOpenLoginDialog = () => {
   useLogin.setLoginDialogVisible(true, 'signup');
 };
 
-const createBot = async() => {
-  let isLogin = getIsLogin();
-   if(isLogin) {
-     eventBus.emit('createBot');
-   } else {
-      useLogin.setLoginDialogVisible(true, 'login');
-    }
+const createBot = () => {
+  router.push({ path: '/memebot' });
+  // let isLogin = getIsLogin();
+  //  if(isLogin) {
+  //    eventBus.emit('createBot');
+  //  } else {
+  //     useLogin.setLoginDialogVisible(true, 'login');
+  //   }
 };
 
 const jump = (path) => {

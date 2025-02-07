@@ -351,10 +351,10 @@ export default {
   height: 100%;
   line-height: 1;
   color: #a4a4a4;
-  border: 1px solid #e6e6e6;
+  //border: 1px solid #e6e6e6;
   border-radius: inherit;
   &:hover {
-    border-color: #066be9;
+    //border-color: #066be9;
   }
 }
 
