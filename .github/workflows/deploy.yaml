@@ -1,22 +1,17 @@
-name: Upload to S3 and Invalidate CloudFront
+name: Production Deploy
 
 permissions:
   id-token: write   # This is required for requesting the JWT
   contents: read    # This is required for actions/checkout
+
 on:
-  push:
-    branches:
-      - develop
-      - release/**
-    paths-ignore:
-      - 'README.md'
-      # - '.github/**'
+  workflow_dispatch:
 
 
 env:
   AWS_REGION: us-west-1
   AWS_ASSUME_ROLE: arn:aws:iam::650443235714:role/mojogogo-aiGithubRole
-  CLOUDFRONT_ID: E1VC8THOG18KIV
+  CLOUDFRONT_ID: EQQIDGD2NBXS4
 
 jobs:
   build-and-deploy:
@@ -75,7 +70,7 @@ jobs:
         id: set_cloudfront_id
         run: |
           if [[ $BRANCH_NAME == "main" ]]; then
-            echo "CLOUDFRONT_ID=???" >> $GITHUB_ENV
+            echo "CLOUDFRONT_ID=EQQIDGD2NBXS4" >> $GITHUB_ENV
           elif [[ $BRANCH_NAME == "develop" ]]; then
             echo "CLOUDFRONT_ID=E36N073WH9X2JK" >> $GITHUB_ENV
           elif [[ $BRANCH_NAME == "release/v"* ]]; then

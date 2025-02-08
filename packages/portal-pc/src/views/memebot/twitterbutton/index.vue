@@ -45,7 +45,7 @@ export default {
     const connectTwitter = async () => {
       const response = await twitterAuth();
       if (response.code === 200) {
-         let authStatus = response.data.state;
+        let authStatus = response.data.state;
         const twitterAuthUrl = response.data.redirect_uri;
         emit('update-auth-status', authStatus);
         window.open(twitterAuthUrl, "twitterAuthPopup", "width=500,height=600");
