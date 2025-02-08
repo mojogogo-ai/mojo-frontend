@@ -346,7 +346,7 @@ const submitHandle = async (el) => {
         console.log(form.twitter);
         loading.value = true;
         if (form.fileList.length > 0) {
-          await submitFile();
+          // await submitFile();
         }
         const result = await memeCreate(form);
         if (result.code === 200) {
@@ -394,153 +394,12 @@ const toggleTelegramConfiguration = () => {
   }
 };
 
-const getTgToken = () => {
-  window.open('https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token', '_blank');
-};
+
 
 onUnmounted(() => {
   clearInterval(memeCheckTimer.value);
 });
 
-// upload file
-
-const handleFileSelect = async (file) => {
-  const actualFile = file.raw;
-
-  if (!(actualFile instanceof File)) {
-    console.error('Invalid file type received:', actualFile);
-    return false;
-  }
-  // 检查文件类型
-  const allowedExtensions = ['pdf', 'txt', 'pptx'];
-  const fileExtension = actualFile.name.split('.').pop().toLowerCase();
-  if (!allowedExtensions.includes(fileExtension)) {
-    ElMessage.error('Only PDF, TXT, PPTX files are allowed!');
-    form.fileList = form.fileList.filter((item) => item.file !== actualFile); // 移除不符合条件的文件
-    return false;
-  }
-  // 检查单个文件大小
-  if (actualFile.size / 1024 / 1024 > 100) {
-    ElMessage.error('File size exceeds 100 MB limit!');
-    form.fileList = form.fileList.filter((item) => item.file !== actualFile); // 移除不符合条件的文件
-    return false;
-  }
-  // 检查总文件数量
-  if (form.fileList.length >= 5) {
-    ElMessage.error('You can upload up to 5 files only.');
-    return false;
-  }
-  // 检查总文件大小
-  const totalSize = form.fileList.reduce((sum, fileData) => sum + fileData.size, 0) + actualFile.size;
-  if (totalSize / 1024 / 1024 > 100) {
-    ElMessage.error('Total file size exceeds 100 MB limit!');
-    form.fileList = form.fileList.filter((item) => item.file !== actualFile); // 移除不符合条件的文件
-    return false;
-  }
-  // 如果通过所有验证，则生成文件哈希并添加到文件列表
-  const fileData = {
-    file: actualFile,
-    name: actualFile.name,
-    size: actualFile.size,
-    hash: await generateFileHash(actualFile)
-  };
-
-  form.fileList.push(fileData);
-  ElMessage.success('File added successfully!');
-
-  return false; // 防止自动上传
-};
-const beforeUpload = (file) => {
-  const isAllowedType = ['pdf', 'txt', 'pptx'].includes(file.name.split('.').pop().toLowerCase());
-  const isWithinSizeLimit = file.size / 1024 / 1024 < 100;
-  if (!isAllowedType) {
-    // this.$message.error('Only PDF, TXT, PPTX files are allowed!');
-    ElMessage.error('Only PDF, TXT, PPTX files are allowed!');
-  }
-  if (!isWithinSizeLimit) {
-    // this.$message.error('File size exceeds 100 MB limit!');
-    ElMessage.error('File size exceeds 100 MB limit!');
-  }
-  return isAllowedType && isWithinSizeLimit;
-};
-
-const handleExceed = () => {
-  // this.$message.warning('You can upload up to 5 files only.');
-  ElMessage.warning('You can upload up to 5 files only.');
-};
-
-const handleFileRemove = (file) => {
-  // 从 fileList 中移除该文件
-  form.fileList = form.fileList.filter((item) => item.file !== file.file);
-  ElMessage.success('File removed successfully!');
-};
-const generateFileHash = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const fileData = event.target.result;
-      const wordArray = CryptoJS.lib.WordArray.create(fileData);
-      const hash = CryptoJS.SHA256(wordArray).toString(CryptoJS.enc.Hex);
-      console.log('文件哈希:', hash);
-      resolve(hash);
-    };
-    reader.onerror = (error) => reject(error);
-    reader.readAsArrayBuffer(file);
-  });
-};
-const submitFile = async () => {
-  try {
-    const fileDataList = [];
-    for (const fileData of form.fileList) {
-      if (!fileData.url) { // 新增文件
-        const { file, name, size, hash } = fileData;
-        const presignedData = await getPresignedUrl(name, size, hash);
-        const { upload_url, form_data, file_id_list } = presignedData.data;
-        await uploadFile(upload_url, file, form_data);
-        fileDataList.push(...file_id_list);
-        fileData.url = presignedData.data.file_url;
-        console.log('文件上传成功:', fileData.url);
-      } else {
-        // 已有文件直接使用其ID
-        fileDataList.push(fileData.id);
-      }
-    }
-    form.file_id_list = fileDataList;
-  } catch (error) {
-    console.error('文件上传失败:', error);
-  } finally {
-
-  }
-};
-const uploadFile = async (upload_url, file, form_data) => {
-  const form = new FormData();
-
-  for (const [key, value] of Object.entries(form_data)) {
-    form.append(key, value);
-  }
-
-  form.append('file', file);
-
-  await axios.post(upload_url, form, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  });
-};
-
-const getPresignedUrl = async (fileName, fileSize, fileHash) => {
-  try {
-    const response = await getOssPresignedUrlV2({
-      biz_type: 'users',
-      file_name: fileName,
-      file_size: fileSize,
-      file_hash: fileHash
-    });
-    return response;
-  } catch (error) {
-    console.error('Failed to get presigned URL:', error);
-    throw error;
-  } finally {
-  }
-};
 </script>
 
 <style lang="scss" scoped>
