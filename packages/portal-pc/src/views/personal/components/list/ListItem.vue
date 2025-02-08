@@ -1,5 +1,5 @@
 <template>
-  <div class="cursor-pointer bot-manage-item" @click="emit('edit')">
+  <div class="cursor-pointer bot-manage-item" @click="goPage(bot.id)">
     <div class="bmi-content">
       <div class="bmic-left">
         <div class="bmicl-avatar">
@@ -253,6 +253,10 @@ const detailCoin = (item) => {
     window.open(url, '_blank')
   }
 };
+const goPage = (id) => {
+  router.push({ path: '/memebot', query: { id: id } });
+}
+
 </script>
 
 <style lang="scss" scoped>
