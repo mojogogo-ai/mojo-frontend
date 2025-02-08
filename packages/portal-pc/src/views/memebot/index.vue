@@ -2,10 +2,12 @@
   <div class="w-[562px] mx-auto">
     <div
       class="text-center mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
-      {{t('bots.title')}}
+      <span v-show="status ==='create'">{{t('bots.title')}}</span>
+      <span v-show="status ==='edit'">Edit Meme Bot</span>
+
     </div>
     <!-- 按钮用于切换页面 -->
-    <div class="switch-container mb-[40px]">
+    <div v-show="status ==='create'" class="switch-container mb-[40px]">
       <button @click="byFormHandle()" :class="['switch-button',{ 'selected': byForm }]"> {{t('bots.bot_form')}}</button>
       <button @click="byAiHandle()" :class="['switch-button',{ 'selected': !byForm }]"> {{t('bots.bot_ai')}}</button>
     </div>
@@ -197,12 +199,42 @@ import { ElMessage } from 'element-plus';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
-
+import { useRoute } from 'vue-router';
+import { getBotInfo } from '@gptx/base/api/application.js';
 const router = useRouter();
 const byForm = ref(true);
 const isVisible = ref(false);
 const chatApiUrl = '/portal/conversation/chat-anonymous';
 const botConfig = ref(null);
+const route = useRoute();
+const id = route.query.id;
+const status = ref('create'); // create，edit
+const _getMemeDetail = async () => {
+  if (id) {
+    status.value = 'edit';
+    try {
+      const { code, data } = await getBotInfo({
+        id: id
+      });
+      if (code === 200) {
+        form.icon = data.icon;
+        form.name = data.name;
+        form.introduction = data.introduction;
+        form.classification = data.classification;
+        form.gender = data.gender
+        form.symbol = data.symbol;
+        form.twitter = data.twitter;
+        form.telegram = data.telegram;
+        form.website = data.website;
+      }
+    } catch (error){
+      ElMessage.error(t('bots.error.getDetail'));
+    } finally {
+
+    }
+  }
+}
+_getMemeDetail();
 const _getChatDetail = async () => {
   let systemBot = JSON.parse('{"id":"SafeGen-AI-Chat","name":"SafeGen AI","icon":"","prologue":"Welcome to MojoGogo. Click start to start the journey","description":"","system":true}');
   let predefined_question = systemBot.predefined_question ? systemBot.predefined_question.map((i) => {
@@ -306,6 +338,7 @@ const onImageChange = (url, is_personalize_image_icon) => {
 const submitText = ref('Create');
 
 const submitHandle = async (el) => {
+  // TODO 编辑 和 创建接口 分开
   if (loading.value) return;
   await el.validate(async (valid) => {
     if (valid) {
@@ -329,6 +362,7 @@ const submitHandle = async (el) => {
     }
   });
 };
+
 
 
 const unlockedRef = ref(null);

@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-end">
-    <div class="px-[16px] py-[10px]" style="border: 1px dashed #C5C5C5;border-radius: 12px;">
+    <div class="px-[16px] py-[10px]" style="border: 1px dashed #C5C5C5;border-radius: 12px; background-color: #0f1106;">
       <user-avatar-oss
         :avatar="iconUrl || defaultAvatar"
         :custom-style="{
@@ -157,8 +157,8 @@ const onChangeGeneratedIcon = (url) => {
   //width: 224px;
   //padding: 0 8px;
   margin-left: 36px;
-  //background-color: var(--el-input-bg-color);
-  //border-radius: 8px;
+  background-color: #0f1106;
+  border-radius: 8px;
   //backdrop-filter: var(--backdrop-blur);
 }
 
