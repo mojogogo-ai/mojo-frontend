@@ -7,20 +7,36 @@
   >
     <div class="form-row">
       <van-field
+        v-model="form.name"
         label="Bot name"
         name="name"
         placeholder="Bot name"
-        required
         :rules="rules.name"
+        show-word-limit
+        clearable
+        background
+        required
       />
 
       <van-field
+        v-model="form.gender"
         label="Bot Gender"
         name="gender"
         placeholder="Bot Gender"
-        required
         :rules="rules.gender"
-      />
+        required
+        background
+        clearable
+      >
+        <template #input>
+          <selector
+            v-model="form.gender"
+            :columns="genderList.map((_) => ({ ..._, label: t(_.name) }))"
+            :columns-field-names="{ text: 'label', value: 'id' }"
+            :placeholder="t('bots.place.catalog')"
+          />
+        </template>
+      </van-field>
     </div>
 
     <div class="form-row">
@@ -30,23 +46,41 @@
         placeholder="Conversation Style"
         required
         :rules="rules.classification"
-      />
+      >
+        <template #input>
+          <selector
+            v-model="form.classification"
+            :columns="catalogList.map((_) => ({ ..._, label: t(_.name) }))"
+            :columns-field-names="{ text: 'label', value: 'id' }"
+            :placeholder="t('bots.place.catalog')"
+          />
+        </template>
+      </van-field>
       <van-field
+        v-model="form.symbol"
         label="Coin Symbol"
         name="symbol"
         placeholder="Meme coin symbol"
-        required
         :rules="rules.symbol"
-        class="form-row"
+        required
+        background
+        clearable
       />
 
     </div>
     <van-field
+      v-model="form.introduction"
       label="Description"
       name="introduction"
       placeholder="Describe your bot's functions and usage"
-      required
       :rules="rules.introduction"
+      maxlength="2000"
+      type="textarea"
+      show-word-limit
+      clearable
+      background
+      required
+      :rows="3"
     />
 
     <van-field
@@ -72,18 +106,21 @@
     </van-field>
 
     <van-field
+      v-model="form.twitter"
       label="Twitter"
       name="twitter"
       placeholder="Enter your Twitter link"
       class="form-row"
     />
     <van-field
+      v-model="form.telegram"
       label="Telegram"
       name="telegram"
       placeholder="Enter your Telegram Address"
       class="form-row"
     />
     <van-field
+      v-model="form.website"
       label="Website"
       name="website"
       placeholder="Enter your Website link"
@@ -151,6 +188,13 @@ const rules = reactive({
     }
   ],
 });
+const catalogList = reactive([
+  // Natural Professional Passionate Customize
+  { id: 'Natural', name: 'Natural' },
+  { id: 'Professional', name: 'Professional' },
+  { id: 'Passionate', name: 'Passionate' },
+  { id: 'Customize', name: 'Customize' }
+]);
 const genderList = reactive([
   { id: 0, name: 'None-binary' },
   { id: 1, name: 'Male' },
@@ -223,6 +267,28 @@ const createNewBot = async () => {
   :deep(input){
     display: inline-flex;
     height: 40px;
+    padding: 10px 16px;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    border: 1px solid #3A3A3A;
+    backdrop-filter: blur(50px);
+  }
+  :deep(.selector-row){
+    display: inline-flex;
+    height: 40px;
+    padding: 10px 16px;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    border: 1px solid #3A3A3A;
+    backdrop-filter: blur(50px);
+  }
+  :deep(textarea){
+    display: inline-flex;
+    //height: 40px;
     padding: 10px 16px;
     align-items: center;
     gap: 10px;
