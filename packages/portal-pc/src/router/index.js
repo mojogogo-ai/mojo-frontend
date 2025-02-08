@@ -115,6 +115,18 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
+        path: '/memebotDetail',
+        component: () => import('@/views/memebotDetail/index.vue'),
+        name: 'memebotDetail',
+        meta: { title: 'Meme Bot'}
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
         path: '/myCoins',
         component: () => import('@/views/myCoins/index.vue'),
         name: 'myCoins',

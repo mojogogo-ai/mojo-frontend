@@ -111,6 +111,10 @@
         </div>
       </template>
     </el-card>
+    <div class="bmic-right" @click="goPage(appInfo.id)">
+      <svg-icon
+        name="arrow-upper-right" class="arrow-upper-right-icon" />
+    </div>
   </div>
 </template>
 
@@ -124,6 +128,8 @@ import IconSlack from '@/assets/images/bots/publish/slack.svg';
 import IconInstagram from '@/assets/images/bots/publish/instagram.svg';
 import IconReddit from '@/assets/images/bots/publish/reddit.svg';
 import coinImageUrl from '@/assets/images/coin.png';
+import { useRoute } from 'vue-router';
+
 
 defineProps({
   appInfo: {
@@ -149,10 +155,23 @@ const detailCoin = (item) => {
     window.open(url, '_blank')
   }
 };
-
+const router = useRouter();
+const goPage = (id) => {
+  router.push({ path: '/memebotDetail', query: { id: id } });
+}
 </script>
 
 <style lang="scss" scoped>
+.page-list{
+  position: relative;
+  .bmic-right{
+    position:  absolute;
+    top: 10px;
+    right: 28px;
+    font-size: 20px;
+    color: #E1FF01;
+  }
+}
  .custom-toolbar{
    display: flex;
    div{
@@ -173,7 +192,7 @@ const detailCoin = (item) => {
    }
  }
 
- 
+
 .meme-symbol{
   font-family: Inter;
   font-size: 16px;
@@ -184,9 +203,9 @@ const detailCoin = (item) => {
   text-decoration-skip-ink: none;
   color: #E1FF01;
 }
-.meme-symbol:hover {  
+.meme-symbol:hover {
   cursor: pointer;
-}  
+}
 .coin-logo{
   --el-avatar-size: 20px;
   background-color: transparent;
@@ -196,8 +215,8 @@ const detailCoin = (item) => {
   padding-top: 0px;
   display: flex;
 }
-.coin-continer:hover {  
+.coin-continer:hover {
   cursor: pointer;
-}  
+}
 
 </style>

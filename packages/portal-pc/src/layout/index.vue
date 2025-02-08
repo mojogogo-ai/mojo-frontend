@@ -10,7 +10,7 @@
         class="object-cover w-full h-full"
       />
     </div>
-    <div v-if="pageType === '/memebot'" class="edit-bg"></div>
+    <div v-if="pageType === '/memebot' || pageType === '/memebotDetail'" class="edit-bg"></div>
     <TopBar />
     <div class="main-container">
       <app-main />
