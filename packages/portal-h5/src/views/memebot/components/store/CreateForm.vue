@@ -12,14 +12,12 @@
         name="name"
         placeholder="Bot name"
         :rules="rules.name"
-        show-word-limit
         clearable
         background
         required
       />
 
       <van-field
-        v-model="form.gender"
         label="Bot Gender"
         name="gender"
         placeholder="Bot Gender"
@@ -76,7 +74,6 @@
       :rules="rules.introduction"
       maxlength="2000"
       type="textarea"
-      show-word-limit
       clearable
       background
       required
@@ -88,7 +85,7 @@
       name="icon"
       required
       :rules="rules.icon"
-      class="form-row bot-icon"
+      class="bot-icon"
     >
       <template #input>
         <bot-avatar-generator
@@ -245,10 +242,14 @@ const createNewBot = async () => {
   .form-row{
     display: flex;
     gap: 8px;
-    margin-bottom: 16px;
+    :deep(.van-field__value) {
+      height: 65px;
+    }
+    //margin-bottom: 16px;
   }
   .bot-icon{
     margin-top: 16px;
+    margin-bottom: 16px;
   }
   .button-row {
     display: flex;
@@ -266,7 +267,6 @@ const createNewBot = async () => {
   }
   :deep(input){
     display: inline-flex;
-    height: 40px;
     padding: 10px 16px;
     align-items: center;
     gap: 10px;
@@ -277,7 +277,6 @@ const createNewBot = async () => {
   }
   :deep(.selector-row){
     display: inline-flex;
-    height: 40px;
     padding: 10px 16px;
     align-items: center;
     gap: 10px;
@@ -288,7 +287,6 @@ const createNewBot = async () => {
   }
   :deep(textarea){
     display: inline-flex;
-    //height: 40px;
     padding: 10px 16px;
     align-items: center;
     gap: 10px;
