@@ -126,14 +126,15 @@
     <div class="form-row button-row">
       <van-button round block type="primary"
                   :disabled="loading"
-                  @click="close"
+                  @click="submitBaseInfo"
       >
         Create
       </van-button>
       <van-button round block native-type="submit" class="cancel-button"
                   :loading="loading"
                   :disabled="loading"
-                  @click="submitBaseInfo">
+                  @click="close"
+      >
         Cancel
       </van-button>
     </div>
@@ -157,8 +158,8 @@ const form = reactive({
   twitter: '',
   telegram: '',
   website: '',
-  is_personalize_image_icon: false,
-})
+  is_personalize_image_icon: false
+});
 const rules = reactive({
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
   gender: [{
@@ -174,8 +175,8 @@ const rules = reactive({
       validator: () => !!(form.classification && form.classification.length > 0)
     }
   ],
-  symbol: [],
-  introduction: [{ required: true, message: "Please enter description" }],
+  symbol: [{ required: true, message: 'Please enter symbol' }],
+  introduction: [{ required: true, message: 'Please enter description' }],
   icon: [
     {
       required: true,
@@ -183,7 +184,7 @@ const rules = reactive({
       trigger: 'change',
       validator: () => !!(form.icon && form.icon !== defaultRobotAvatar)
     }
-  ],
+  ]
 });
 const catalogList = reactive([
   // Natural Professional Passionate Customize
@@ -199,9 +200,10 @@ const genderList = reactive([
 ]);
 const isAILoading = ref(false);
 const loading = ref(false);
+const formRef = ref(null);
 const onImageChange = (url, is_personalize_image_icon) => {
-  form.icon = url
-  form.is_personalize_image_icon = is_personalize_image_icon
+  form.icon = url;
+  form.is_personalize_image_icon = is_personalize_image_icon;
 };
 const close = () => {
   form.name = '';
@@ -217,8 +219,10 @@ const close = () => {
   formRef.value.resetFields();
 };
 const submitBaseInfo = async () => {
-  await createNewBot()
-}
+  if (loading.value) return;
+  await formRef.value.validate();
+  await createNewBot();
+};
 const createNewBot = async () => {
   try {
     loading.value = true;
@@ -239,33 +243,41 @@ const createNewBot = async () => {
 .create-form {
   min-width: 375px;
   padding: 0 13.5px;
-  .form-row{
+
+  .form-row {
     display: flex;
     gap: 8px;
+
     :deep(.van-field__value) {
       height: 65px;
     }
+
     //margin-bottom: 16px;
   }
-  .bot-icon{
+
+  .bot-icon {
     margin-top: 16px;
     margin-bottom: 16px;
   }
+
   .button-row {
     display: flex;
     justify-content: center;
     margin-top: 20px;
   }
-  .cancel-button{
+
+  .cancel-button {
     border: 1px solid rgba(255, 255, 255, 0.20);
     background: #000;
     color: #FFF;
   }
-  :deep(.van-cell ){
+
+  :deep(.van-cell ) {
     background: #000;
     padding: 0;
   }
-  :deep(input){
+
+  :deep(input) {
     display: inline-flex;
     padding: 10px 16px;
     align-items: center;
@@ -275,7 +287,8 @@ const createNewBot = async () => {
     border: 1px solid #3A3A3A;
     backdrop-filter: blur(50px);
   }
-  :deep(.selector-row){
+
+  :deep(.selector-row) {
     display: inline-flex;
     padding: 10px 16px;
     align-items: center;
@@ -285,7 +298,8 @@ const createNewBot = async () => {
     border: 1px solid #3A3A3A;
     backdrop-filter: blur(50px);
   }
-  :deep(textarea){
+
+  :deep(textarea) {
     display: inline-flex;
     padding: 10px 16px;
     align-items: center;
@@ -295,17 +309,20 @@ const createNewBot = async () => {
     border: 1px solid #3A3A3A;
     backdrop-filter: blur(50px);
   }
-  :deep(.van-field__label--required::after){
+
+  :deep(.van-field__label--required::after) {
     margin-left: 4px;
     color: var(--van-field-required-mark-color);
     content: "*";
   }
-  :deep(.van-field__label--required::before){
+
+  :deep(.van-field__label--required::before) {
     margin-right: 2px;
     color: var(--van-field-required-mark-color);
     content: "";
   }
-  :deep(.van-button){
+
+  :deep(.van-button) {
     display: flex;
     width: 168px;
     height: 48px;
