@@ -22,7 +22,7 @@
               <div>
                 <div class="nick-name-out">@{{ user.nickName }}</div>
               </div>
-              <div
+              <!-- <div
                 style="border: 2px solid rgba(224, 255, 49, 0.5)"
                 class="rounded-full
                 flex items-center
@@ -32,14 +32,14 @@
                   mx-[6px]
                    text-[11px]
                    text-[#e1ff01]"
-              >
-                <span>{{ user.points }} pts</span>
+              > -->
+                <!-- <span>{{ user.points }} pts</span> -->
                 <!-- <CountTo
                   suffix="pts"
                   :decimals="0"
                   :end-val="user.points"
                 /> -->
-              </div>
+              <!-- </div> -->
             </div>
           </div>
         </div>
