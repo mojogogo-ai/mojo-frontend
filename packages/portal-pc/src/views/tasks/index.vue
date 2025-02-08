@@ -81,25 +81,25 @@ const getStoreList = async () => {
         app_name: 'Sign up with Mojo Gogo',
         app_description: 'Sign up/Log in with Apple ID,Gmail,or other email account.',
         app_icon: TaskImg01,
-        points: '+ 200 pts'
-      },
-      {
-        app_name: 'Create AI Me',
-        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
-        app_icon: TaskImg02,
         points: '+ 100 pts'
       },
-      {
-        app_name: 'Personalize AI Me Image',
-        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
-        app_icon: TaskImg03,
-        points: '+ 20 pts'
-      },
+      // {
+      //   app_name: 'Create AI Me',
+      //   app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+      //   app_icon: TaskImg02,
+      //   points: '+ 100 pts'
+      // },
+      // {
+      //   app_name: 'Personalize AI Me Image',
+      //   app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+      //   app_icon: TaskImg03,
+      //   points: '+ 20 pts'
+      // },
       {
         app_name: 'Daily Check-In',
         app_description: 'Daily login,check-in and interact.',
         app_icon: TaskImg07,
-        points: '+ 5 pts',
+        points: '+ 10 pts',
         id: 7
       },
       // {
@@ -108,17 +108,17 @@ const getStoreList = async () => {
       //   app_icon: TaskImg04,
       //   points: '+ 5 pts'
       // },
-      {
-        app_name: 'Interact with ChatBot',
-        app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
-        app_icon: TaskImg05,
-        points: '+ 5 pts'
-      },
+      // {
+      //   app_name: 'Interact with ChatBot',
+      //   app_description: 'Sign up/ Log in with Gmail or Telegram and receive 200 points',
+      //   app_icon: TaskImg05,
+      //   points: '+ 5 pts'
+      // },
       {
         app_name: 'Refer Friends',
         app_description: 'Refer friends to use and successfully complete the registration.',
         app_icon: TaskImg06,
-        points: '+ 50 pts'
+        points: '+ 30 pts'
       }
     ]
   );
