@@ -83,18 +83,18 @@
           </el-sub-menu> -->
         <!-- </el-menu> -->
       </div>
-      <el-dropdown>
+<!--      <el-dropdown>-->
 <!--        <span class="el-dropdown-link">-->
 <!--          <svg-icon name="language" class="icon-language"/>-->
 <!--        </span>-->
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item @click="changeLanguage('en')">English</el-dropdown-item>
-            <el-dropdown-item @click="changeLanguage('zh-CN')">中文简体</el-dropdown-item>
-            <el-dropdown-item @click="changeLanguage('zh-TW')">中文繁体</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+<!--        <template #dropdown>-->
+<!--          <el-dropdown-menu>-->
+<!--            <el-dropdown-item @click="changeLanguage('en')">English</el-dropdown-item>-->
+<!--            <el-dropdown-item @click="changeLanguage('zh-CN')">中文简体</el-dropdown-item>-->
+<!--            <el-dropdown-item @click="changeLanguage('zh-TW')">中文繁体</el-dropdown-item>-->
+<!--          </el-dropdown-menu>-->
+<!--        </template>-->
+<!--      </el-dropdown>-->
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
