@@ -99,8 +99,49 @@
             </el-select>
           </el-form-item>
       </div>
-      <div v-if="grade === 'advanced'">
+      <div>
+        <el-form-item
+          label="Reply to Twitter Comments"
+          prop="telegram_bot_token"
+        >
+          <el-switch
+            active-color="#1da1f2"
+            inactive-color="#ccc"
+          />
+        </el-form-item>
+        <el-form-item
+          label="Configure Telegram Bot"
+          prop="telegram_bot_token"
+        >
+          <el-switch
+            active-color="#1da1f2"
+            inactive-color="#ccc"
+          />
+        </el-form-item>
+        <el-form-item
+          prop="telegram_bot_token"
+        >
+          <div class="w-[552px] h-9 flex flex-col">
+            <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
+            <span
+              class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:"
+              @click="getTgToken">How to get Telegram Bot adress and token?</span>
+          </div>
 
+          <el-input
+            v-model="form.telegram_bot_address"
+            placeholder="Enter Telegram Bot address"
+            maxlength="255"
+            clearable
+          />
+          <div class="w-[552px] h-5 flex flex-col"></div>
+          <el-input
+            v-model="form.telegram_bot_token"
+            placeholder="Please enter Telegram Bot token"
+            maxlength="10000"
+            clearable
+          />
+        </el-form-item>
       </div>
       </el-form>
     </div>
@@ -163,7 +204,9 @@ const _getMemeDetail = async () => {
   }
 };
 _getMemeDetail();
-
+const getTgToken = () => {
+  window.open('https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token', '_blank');
+};
 const handleFileSelect = () => {}
 const beforeUpload = () => {}
 const handleExceed = () => {}
