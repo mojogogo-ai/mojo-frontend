@@ -122,6 +122,7 @@
           >
             <el-switch
               v-model="form.telegram_config"
+              @change="toggleTelegramConfiguration"
               active-color="#1da1f2"
               inactive-color="#ccc"
             />
@@ -367,6 +368,12 @@ const getPresignedUrl = async (fileName, fileSize, fileHash) => {
     console.error('Failed to get presigned URL:', error);
     throw error;
   } finally {
+  }
+};
+const toggleTelegramConfiguration = () => {
+  if (!form.telegram_config) {
+    form.telegram_bot_address = '';
+    form.telegram_bot_token = '';
   }
 };
 </script>

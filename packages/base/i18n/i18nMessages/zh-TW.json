@@ -23,6 +23,7 @@
   },
   "bots": {
     "title": "做Meme機械人",
+    "edit_title": "編輯Meme機械人",
     "bot_form": "用表單创建",
     "bot_ai": "用AI创建",
     "a3": "分享",
@@ -38,6 +39,7 @@
     "generateIconTooltip": "請輸入助手名稱和介紹後，點擊自動生成按鈕，最多生成3次。",
     "icon": "助手圖示",
     "label": {
+      "symbol":"幣種符號",
       "bindKnowledgeBase": "綁定知識庫",
       "catalog": "助理分類",
       "description": "助手介紹",
@@ -85,7 +87,13 @@
       "strategy2": "固定回覆",
       "suggestion": "在每次助理回覆後，自動根據對話內容提供 3 個使用者提問的建議",
       "tipWords": "這是你對機器人的設定和要求，說的越具體效果越好。\n例如: 請扮演平台的金牌客服，根據提供的已知資訊解答用戶的任何問題",
-      "voiceType": "音色"
+      "voiceType": "音色",
+      "classification": "機械人對話風格",
+      "symbol": "Meme幣種符號",
+      "description": "描述你嘅機械人功能同使用方法",
+      "twitter": "請輸入你嘅 twitter 地址",
+      "telegram": "請輸入你嘅 Telegram 地址",
+      "website": "請輸入你嘅 Website 地址"
     },
     "publish": {
       "btn": "發布助手",

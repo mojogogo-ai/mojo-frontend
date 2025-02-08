@@ -24,6 +24,7 @@
   },
   "bots": {
     "title": "Create Meme Bot",
+    "edit_title": "Edit Meme Bot",
     "bot_form": "Create with Form",
     "bot_ai": "Create with AI",
     "a3": "Share",
@@ -39,11 +40,11 @@
     "generateIconTooltip": "Click AI Generate Button after enter your bot's name and description to auto generate an icon for you assisatant, you can generate icons up to 3 time.",
     "icon": "Bot Icon",
     "label": {
-      "symbol":"Bot Symbol",
+      "symbol":"Coin Symbol",
       "bindKnowledgeBase": "Bind base",
       "catalog": "Bot classification",
       "conversationStyle": "Conversation Style",
-      "description": "Bot Introduction",
+      "description": "Description",
       "gender": "Bot Gender",
       "isVoice": "Turn on",
       "model": "Model",
@@ -91,7 +92,13 @@
       "strategy2": "Fixed reply",
       "suggestion": "After each assistant replies, automatically provides 3 suggest questions based on the conversation content.",
       "tipWords": "These are your settings and requirements for the robot. The more specific you are, the better the effect will be. For example: Please act as the gold medal customer service of the platform and answer any questions from users based on the known information provided.",
-      "voiceType": "timbre"
+      "voiceType": "timbre",
+      "classification": "Bot conversation Style",
+      "symbol": "Meme coin symbol",
+      "description": "Describe your bot's functions and usage",
+      "twitter": "Enter your Twitter address",
+      "telegram": "Enter your Telegram address",
+      "website": "Enter your website link"
     },
     "publish": {
       "btn": "Publish",

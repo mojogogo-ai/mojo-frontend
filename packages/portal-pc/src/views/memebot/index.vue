@@ -1,9 +1,10 @@
 <template>
   <div class="w-[562px] mx-auto">
+
     <div
       class="text-center mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
       <span v-show="status ==='create'">{{t('bots.title')}}</span>
-      <span v-show="status ==='edit'">Edit Meme Bot</span>
+      <span v-show="status ==='edit'">{{t('bots.edit_title')}}</span>
 
     </div>
     <!-- 按钮用于切换页面 -->
@@ -24,11 +25,11 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item
-              label="Bot name"
+              :label="t('bots.label.name')"
               prop="name">
               <el-input
                 v-model="form.name"
-                placeholder="Bot name"
+                :placeholder="t('bots.label.name')"
                 maxlength="50"
                 show-word-limit
                 clearable
@@ -42,7 +43,7 @@
             >
               <el-select
                 v-model="form.gender"
-                placeholder="Bot gender"
+                :placeholder="t('bots.label.gender')"
               >
                 <el-option
                   v-for="item in genderList"
@@ -62,7 +63,7 @@
             >
               <el-select
                 v-model="form.classification"
-                placeholder="Bot conversation Style"
+                :placeholder="t('bots.placeholder.classification')"
               >
                 <el-option
                   v-for="item in conversationList"
@@ -75,12 +76,12 @@
           </el-col>
           <el-col :span="12">
             <el-form-item
-              label="Coin Symbol"
+              :label="t('bots.label.symbol')"
               prop="symbol"
             >
               <el-input
                 v-model="form.symbol"
-                placeholder="Meme coin symbol"
+                :placeholder="t('bots.placeholder.symbol')"
                 maxlength="50"
                 show-word-limit
                 clearable
@@ -90,14 +91,14 @@
         </el-row>
 
         <el-form-item
-          label="Description"
+          :label="t('bots.label.description')"
           prop="introduction"
         >
           <el-input
             v-model="form.introduction"
             type="textarea"
             :rows="4"
-            placeholder="Describe your bot's functions and usage."
+            :placeholder="t('bots.placeholder.description')"
             maxlength="800"
             show-word-limit
             clearable
@@ -127,9 +128,15 @@
           label="Twitter"
           prop="twitter"
         >
-          <TwitterButton
-            @updateTwitterLink="updateTwitterLink"
-            @update-auth-status="handleAuthStatusUpdate" />
+          <el-input
+            v-model="form.twitter"
+            :placeholder="t('bots.placeholder.twitter')"
+            maxlength="255"
+            clearable
+          />
+<!--          <TwitterButton-->
+<!--            @updateTwitterLink="updateTwitterLink"-->
+<!--            @update-auth-status="handleAuthStatusUpdate" />-->
         </el-form-item>
 
         <el-form-item
@@ -138,7 +145,7 @@
         >
           <el-input
             v-model="form.telegram"
-            placeholder="Enter your Telegram address"
+            :placeholder="t('bots.placeholder.telegram')"
             maxlength="255"
             clearable
           />
@@ -150,7 +157,7 @@
         >
           <el-input
             v-model="form.website"
-            placeholder="Enter your website link"
+            :placeholder="t('bots.placeholder.website')"
             maxlength="255"
             clearable
           />
@@ -200,7 +207,7 @@ import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
-import { getBotInfo } from '@gptx/base/api/application.js';
+import { botEdit, getBotInfo } from '@gptx/base/api/application.js';
 const router = useRouter();
 const byForm = ref(true);
 const isVisible = ref(false);
@@ -217,6 +224,7 @@ const _getMemeDetail = async () => {
         id: id
       });
       if (code === 200) {
+        form.id = data.id;
         form.icon = data.icon;
         form.name = data.name;
         form.introduction = data.introduction;
@@ -224,7 +232,7 @@ const _getMemeDetail = async () => {
         form.gender = data.gender
         form.symbol = data.symbol;
         form.twitter = data.twitter;
-        form.telegram = data.telegram;
+        form.telegram = data.telegram; // TODO 详情接口 后端没有返回 值
         form.website = data.website;
       }
     } catch (error){
@@ -247,6 +255,7 @@ const _getChatDetail = async () => {
 };
 _getChatDetail();
 const form = reactive({
+  id: '',
   name: '',
   gender: null,
   classification: [],//  conversation
@@ -338,22 +347,32 @@ const onImageChange = (url, is_personalize_image_icon) => {
 const submitText = ref('Create');
 
 const submitHandle = async (el) => {
-  // TODO 编辑 和 创建接口 分开
   if (loading.value) return;
   await el.validate(async (valid) => {
     if (valid) {
       try {
-        console.log(form.twitter);
         loading.value = true;
         if (form.fileList.length > 0) {
           // await submitFile();
         }
-        const result = await memeCreate(form);
-        if (result.code === 200) {
-          submitText.value = 'Creating your bot...';
-          setMemeCheckTimer(result.data.id);
-        } else {
-          loading.value = false;
+        if (status.value === 'create'){
+          delete form.id
+          const result = await memeCreate(form);
+          if (result.code === 200) {
+            submitText.value = 'Creating your bot...';
+            setMemeCheckTimer(result.data.id);
+          } else {
+            loading.value = false;
+          }
+        }
+        if(status.value === 'edit'){
+          const result = await botEdit(form);
+          if (result.code === 200) {
+            submitText.value = 'Edit your bot...';
+            setMemeCheckTimer(form.id);
+          } else {
+            loading.value = false;
+          }
         }
       } catch (e) {
         console.log(e);
@@ -386,14 +405,6 @@ const setMemeCheckTimer = (bot_id) => {
     }
   }, 3000);
 };
-
-const toggleTelegramConfiguration = () => {
-  if (!isTelegramConfigured.value) {
-    form.telegram_bot_address = '';
-    form.telegram_bot_token = '';
-  }
-};
-
 
 
 onUnmounted(() => {

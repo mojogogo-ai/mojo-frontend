@@ -24,6 +24,7 @@
   "bots": {
     "title": "创建Meme机器人",
     "bot_form": "使用表单创建",
+    "edit_title": "编辑Meme机器人",
     "bot_ai": "使用AI创建",
     "a3": "分享",
     "a9": "请输入助手名称",
@@ -38,6 +39,7 @@
     "generateIconTooltip": "请输入助手名称和介绍后，点击自动生成按钮，最多生成3次",
     "icon": "助手图标",
     "label": {
+      "symbol":"币种符号",
       "bindKnowledgeBase": "绑定知识库",
       "catalog": "助手分类",
       "description": "助手介绍",
@@ -85,7 +87,13 @@
       "strategy2": "固定回复",
       "suggestion": "在每次助手回复后，自动根据对话内容提供 3 条用户提问的建议",
       "tipWords": "这是你对机器人的设定和要求，说的越具体效果越好哦。例如: 请扮演平台的金牌客服，根据提供的已知信息解答用户的任何问题",
-      "voiceType": "音色"
+      "voiceType": "音色",
+      "classification": "机器人对话风格",
+      "symbol": "Meme币种符号",
+      "description": "描述您的机器人功能和使用方法",
+      "twitter": "请输入您的 twitter 地址",
+      "telegram": "请输入您的 Telegram 地址",
+      "website": "请输入您的 Website 地址"
     },
     "publish": {
       "btn": "发布助手",
