@@ -8,11 +8,11 @@
       {{ isCn ? $t('common.productName_Cn') : $t('common.productName') }}
     </div>
     <div class="page-header-icon">
-      <svg-icon
-          name="language"
-          class="sidebar-language__icon"
-          @click="onLanguageIconClick"
-      />
+<!--      <svg-icon-->
+<!--          name="language"-->
+<!--          class="sidebar-language__icon"-->
+<!--          @click="onLanguageIconClick"-->
+<!--      />-->
       <van-icon
         name="wap-nav"
         size="18"
