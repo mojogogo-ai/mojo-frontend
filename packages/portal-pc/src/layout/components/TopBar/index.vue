@@ -84,9 +84,9 @@
         <!-- </el-menu> -->
       </div>
       <el-dropdown>
-        <span class="el-dropdown-link">
-          <svg-icon name="language" class="icon-language"/>
-        </span>
+<!--        <span class="el-dropdown-link">-->
+<!--          <svg-icon name="language" class="icon-language"/>-->
+<!--        </span>-->
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item @click="changeLanguage('en')">English</el-dropdown-item>
@@ -352,8 +352,8 @@ const getBalance = async () => {
     publicKey.value = appInstance.appContext.config.globalProperties.$wallet.publicKey.value.toBase58();
     const balance = await connection.getBalance(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
     const accountInfo = await connection.getAccountInfo(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
-    
-    
+
+
     curBalance.value = (balance/1000000000).toFixed(2)
 
     console.log(accountInfo,'accountInfo')
@@ -416,14 +416,14 @@ watch(
   { immediate: false }
 );
 
-// watch(() => wallet.connected, (newVal, oldVal) => {  
-//   if (newVal) {  
-//     console.log("钱包已经连接");  
-//     // 钱包连接后的逻辑  
-//   } else {  
-//     console.log("钱包已经断开");  
-//     // 钱包断开后的逻辑  
-//   }  
+// watch(() => wallet.connected, (newVal, oldVal) => {
+//   if (newVal) {
+//     console.log("钱包已经连接");
+//     // 钱包连接后的逻辑
+//   } else {
+//     console.log("钱包已经断开");
+//     // 钱包断开后的逻辑
+//   }
 // });
 
 watch(
