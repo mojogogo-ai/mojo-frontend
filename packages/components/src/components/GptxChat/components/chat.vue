@@ -32,7 +32,7 @@
       </div>
     </main>
     <footer
-      class="p-4"
+      class="mb-[36px]"
     >
       <div style="max-width: 780px;" class="m-auto">
         <div class="flex flex-col items-center justify-between">
@@ -87,7 +87,7 @@
                     class="flex items-center cursor-pointer"
                     style="margin-right: 12px;" :style="{ 'opacity': loading || (!prompt.trim() && filetList.length===0) ?'0.5':'1' }"
                   >
-                    <el-icon size="26" color="#066BE9" @click="onConversation('')">
+                    <el-icon size="26" color="#E0FF31" @click="onConversation('')">
                       <Promotion />
                     </el-icon>
                   </div>
@@ -169,7 +169,7 @@
   import { chatNewSession } from "@gptx/base/api/chat";
   import { shareNewSession } from "@gptx/base/api/share";
   import { isMobi } from '@gptx/base'
-  import StartLaunch from '@/components/StartLaunch/index.vue';
+  // import StartLaunch from '@/components/StartLaunch/index.vue'; // TODO
   import { filesize } from 'filesize';
   import IconHtml from '@/assets/images/base/upload/html.svg';
   import IconMd from '@/assets/images/base/upload/md.svg';
@@ -602,4 +602,22 @@ function Launch(){
     background-color: #E0FF3133; /* Selected background */
     color: #E0FF31; /* Selected text color */
   }
-  </style>
+  :deep(.n-input__border) {
+    border: 1px solid #E0FF31;
+    --n-border-focus: 1px solid #E0FF31 !important;
+    --n-border-hover: 1px solid #E0FF31 !important;
+    --n-box-shadow-focus: 1px solid #E0FF31 !important;
+  }
+  :deep(.n-input--focus) {
+    border: 1px solid #E0FF31 !important;
+  }
+  :deep(.n-input--hover) {
+    border: 1px solid #E0FF31 !important;
+  }
+  :deep(.n-input--stateful) {
+    border: 1px solid #E0FF31 !important;
+  }
+  :deep(.n-input){
+    border: 1px solid #E0FF31;
+  }
+</style>

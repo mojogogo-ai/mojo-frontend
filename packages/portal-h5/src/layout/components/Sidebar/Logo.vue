@@ -6,7 +6,7 @@
         class="sidebar-logo__link mt-0"
 
         :href="WEBSITE_HOME"
-        @click.prevent
+        @click.prevent="toPage()"
       >
         <svg-icon
           name="logo"
@@ -45,4 +45,8 @@ const closeTopbar = () => {
   storeLayout.setLanguageVisible(false);
 }
 const WEBSITE_HOME = window.WEBSITE_HOME;
+const router = useRouter();
+const toPage = () => {
+  router.push({ path: '/home' })
+};
 </script>

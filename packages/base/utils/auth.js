@@ -11,7 +11,7 @@ const getFirebaseRefleshToken = () => {
   return new Promise((resolve) => {
     firebase.initializeApp(window.FIREBASE_CONFIG);
     onAuthStateChanged(getAuth(), function (user) {
-      console.log('onAuthStateChanged user: ', user);
+      // console.log('onAuthStateChanged user: ', user);
       if (user) {
         try {
           user.getIdToken().then(function (token) {
