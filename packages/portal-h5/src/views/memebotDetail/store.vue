@@ -112,9 +112,9 @@
           </van-field>
 
           <div v-show="form.grade === 'advanced'">
-            <van-field name="switch" label="Configure Telegram Bot">
+            <van-field name="switch" label="Configure Telegram Bot" class="form-switch">
               <template #input>
-                <van-switch />
+                <van-switch size="16px"/>
               </template>
             </van-field>
             <div>
@@ -127,17 +127,13 @@
               <van-field
                 name="telegram_bot_address"
                 label="telegram_bot_address"
-                maxlength="50"
-                show-word-limit
-                clearable
-                background
-                required
+                label-align="top"
               />
 
             </div>
-            <van-field name="switch" label="Configure Twitter Bot">
+            <van-field name="switch" label="Configure Twitter Bot" class="form-switch">
               <template #input>
-                <van-switch />
+                <van-switch size="16px"/>
               </template>
             </van-field>
             <div>
@@ -562,10 +558,10 @@ const getTgToken = () => {
     }
   }
   .memebot-detail-grade{
-    background: transparent !important;
-    backdrop-filter: none;
-    padding: 0;
-    margin-bottom: 18px;
+    //background: transparent !important;
+    //backdrop-filter: none;
+    //padding: 0;
+    //margin-bottom: 18px;
 
     :deep(.selector-row){
       border-radius: 12px;
@@ -579,9 +575,32 @@ const getTgToken = () => {
       flex-shrink: 0;
     }
   }
+  :deep(input){
+    border-radius: 12px;
+    border: 1px solid #3A3A3A;
+    backdrop-filter: blur(50px);
+    display: inline-flex;
+    height: 40px;
+    padding: 10px 16px;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
   :deep(label) {
     font-size: 12px;
     white-space: nowrap;
+  }
+  :deep(.van-field){
+    background: transparent !important;
+    backdrop-filter: none;
+    padding: 0;
+    margin-bottom: 18px;
+  }
+  .form-switch{
+    :deep(.van-field__value){
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
 }
