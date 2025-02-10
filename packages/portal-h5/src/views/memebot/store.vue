@@ -7,9 +7,10 @@
       @search="onSearch"
     />
     <div class="create-title">
-      {{t('bots.title')}}
+      <span v-show="status ==='create'">{{t('bots.title')}}</span>
+      <span v-show="status ==='edit'">{{t('bots.edit_title')}}</span>
     </div>
-    <div class="tab-container mb-[40px]">
+    <div v-show="status ==='create'" class="tab-container mb-[40px]">
       <button @click="tabClick('form')" :class="['tab-button',{ 'selected': tab ==='form'}]">
         {{t('bots.bot_form')}}
       </button>
@@ -17,17 +18,19 @@
         {{t('bots.bot_ai')}}
       </button>
     </div>
-    <CreateForm v-show="tab === 'form'"></CreateForm>
+    <CreateEditForm v-show="tab === 'form'" :editForm="editForm" :status="status"></CreateEditForm>
     <CreateAi v-show="tab === 'ai'"></CreateAi>
   </div>
 </template>
 
 <script setup>
-import { CreateForm, CreateAi } from './components/store/index.js';
-
+import { CreateEditForm, CreateAi } from './components/store/index.js';
+import { useRoute } from 'vue-router';
 import { t } from '@gptx/base/i18n';
 import { getList } from '@gptx/base/api/assistant-store';
 import { ref } from 'vue';
+import { getBotInfo } from '@gptx/base/api/application.js';
+import { ElMessage } from 'element-plus';
 
 const router = useRouter();
 const __data = reactive({
@@ -73,6 +76,49 @@ const getStoreList = async () => {
     console.log(error);
   }
 };
+const route = useRoute();
+const id = route.query.id;
+const status = ref('create'); // create，edit
+
+const editForm = reactive({
+  id: '',
+  icon: '',
+  name: '',
+  introduction: '',
+  classification: [],
+  gender: null,
+  symbol: '',
+  twitter: '',
+  telegram: '',
+  website: '',
+})
+const _getMemeDetail = async () => {
+  if (id) {
+    status.value = 'edit';
+    try {
+      const { code, data } = await getBotInfo({
+        id: id
+      });
+      if (code === 200) {
+        editForm.id = data.id;
+        editForm.icon = data.icon;
+        editForm.name = data.name;
+        editForm.introduction = data.introduction;
+        editForm.classification = data.classification;
+        editForm.gender = data.gender
+        editForm.symbol = data.symbol;
+        editForm.twitter = data.twitter;
+        editForm.telegram = data.telegram;
+        editForm.website = data.website;
+      }
+    } catch (error){
+      ElMessage.error(t('bots.error.getDetail'));
+    } finally {
+
+    }
+  }
+}
+_getMemeDetail();
 
 
 onMounted(async () => {

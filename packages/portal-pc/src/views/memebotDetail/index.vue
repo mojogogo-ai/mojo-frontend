@@ -23,6 +23,7 @@
             <span class="symbol"> {{ form.symbol }}</span>
           </div>
           <div class="detail-socials">
+            <!--              TODO 跳转-->
             <div v-if="form.twitter" class="social">
               <svg-icon
                 name="prime_twitter"

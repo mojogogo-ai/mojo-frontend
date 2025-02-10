@@ -23,7 +23,7 @@
           @chat="onChat($event, bot)"
           @delete="_getMyBotList"
           @refresh-list="_getMyBotList"
-          @click="editBot(bot)"
+          @click="goPage(bot.id)"
         />
 
         <!-- 空内容展示 -->
@@ -83,7 +83,8 @@ const createNewBot = () => {
   router.push({ path: '/memebot' });
 };
 const editBot = (bot) => {
-  eventBus.emit('editBot', bot);
+
+  // eventBus.emit('editBot', bot);
 };
 const _getMyBotList = async () => {
   if (!isLoadMore.value || isLoading.value) return; // 如果已加载完或正在加载中则退出
@@ -124,7 +125,9 @@ const onChat = ({ url }) => {
 const onLoad = () => {
   _getMyBotList();
 };
-
+const goPage = (id) => {
+  router.push({ path: '/memebot', query: { id: id } });
+}
 
 onMounted(() => {
   _getMyBotList();

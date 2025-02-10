@@ -232,7 +232,7 @@ const _getMemeDetail = async () => {
         form.gender = data.gender
         form.symbol = data.symbol;
         form.twitter = data.twitter;
-        form.telegram = data.telegram; // TODO 详情接口 后端没有返回 值
+        form.telegram = data.telegram;
         form.website = data.website;
       }
     } catch (error){

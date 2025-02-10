@@ -1,4 +1,4 @@
-import CreateForm from "./CreateForm.vue";
+import CreateEditForm from "./CreateEditForm.vue";
 import CreateAi from "./CreateAi.vue";
 
-export { CreateForm, CreateAi }
+export { CreateEditForm, CreateAi }

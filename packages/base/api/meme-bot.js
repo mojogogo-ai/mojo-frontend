@@ -48,3 +48,13 @@ export function memeList(params) {
       params
     });
 }
+
+// bot twitter
+export function setTwitter(data) {
+  return request({
+    url: '/v1/twitter/feature-set',
+    method: 'post',
+    data
+  });
+}
+

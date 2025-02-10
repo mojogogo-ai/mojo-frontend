@@ -144,8 +144,12 @@
 import { reactive } from 'vue';
 import { t } from '@gptx/base/i18n/index.js';
 import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
-import { createBot } from '@gptx/base/api/application.js';
+import { botEdit, createBot } from '@gptx/base/api/application.js';
 import router from '@/router/index.js';
+const props = defineProps({
+  editForm: Object,
+  status: String,
+});
 
 
 const form = reactive({
@@ -159,6 +163,34 @@ const form = reactive({
   telegram: '',
   website: '',
   is_personalize_image_icon: false
+});
+watch(() => props.editForm, (newEditForm) => {
+  if (newEditForm) {
+    form.name = newEditForm.name || '';
+    form.gender = newEditForm.gender || null;
+    form.classification = newEditForm.classification || [];
+    form.symbol = newEditForm.symbol || '';
+    form.introduction = newEditForm.introduction || '';
+    form.icon = newEditForm.icon || '';
+    form.twitter = newEditForm.twitter || '';
+    form.telegram = newEditForm.telegram || '';
+    form.website = newEditForm.website || '';
+    form.is_personalize_image_icon = newEditForm.is_personalize_image_icon || false;
+  }
+}, { immediate: true });
+onMounted(() => {
+  if (props.editForm) {
+    form.name = props.editForm.name || '';
+    form.gender = props.editForm.gender || null;
+    form.classification = props.editForm.classification || [];
+    form.symbol = props.editForm.symbol || '';
+    form.introduction = props.editForm.introduction || '';
+    form.icon = props.editForm.icon || '';
+    form.twitter = props.editForm.twitter || '';
+    form.telegram = props.editForm.telegram || '';
+    form.website = props.editForm.website || '';
+    form.is_personalize_image_icon = props.editForm.is_personalize_image_icon || false;
+  }
 });
 const rules = reactive({
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
@@ -221,7 +253,13 @@ const close = () => {
 const submitBaseInfo = async () => {
   if (loading.value) return;
   await formRef.value.validate();
-  await createNewBot();
+  if(props.status === 'create'){
+    await createNewBot();
+  }
+  if(props.status ==='edit'){
+    await botEdit(form);
+  }
+
 };
 const createNewBot = async () => {
   try {

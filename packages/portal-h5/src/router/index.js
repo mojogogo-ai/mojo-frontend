@@ -128,6 +128,12 @@ export const constantRoutes = [
         component: () => import('@/views/memebot/store'),
         name: 'memebot',
         meta: { title: t('menu.ass'), icon: 'app-store' }
+      },
+      {
+        path: '/memebotDetail',
+        component: () => import('@/views/memebotDetail/store'),
+        name: 'memebotDetail',
+        meta: { title: t('menu.ass'), icon: 'app-store' }
       }
     ]
   },

@@ -72,6 +72,10 @@
             </van-tag>
           </div> -->
         </div>
+        <div  @click="goPage(appInfo.id)">
+          <svg-icon
+            name="arrow-upper-right" class="arrow-upper-right-icon" />
+        </div>
       </div>
       <div class="flex justify-between page-list-option">
         <div class="flex items-center gap-5">
@@ -125,6 +129,9 @@
 <script setup>
 import defaultBotImage from '@/assets/logo/bot-default-logo.svg';
 import coinImageUrl from '@/assets/images/coin.png';
+import ListItem from '@/views/personal/components/list/ListItem.vue';
+import { useRouter } from 'vue-router';
+
 // import IconTelegram from '@/assets/images/bots/publish/telegram.svg';
 // import IconDiscord from '@/assets/images/bots/publish/discord.svg';
 // import IconLine from '@/assets/images/bots/publish/line.svg';
@@ -139,6 +146,7 @@ const props = defineProps({
     default: () => ({})
   }
 });
+const router = useRouter();
 
 let platList = reactive([]);
 
@@ -161,6 +169,9 @@ const detailCoin = (item) => {
     window.open(url, '_blank')
   }
 };
+const goPage = (id) => {
+  router.push({ path: '/memebotDetail', query: { id: id } });
+}
 </script>
 
 <style lang="scss" scoped>
@@ -205,5 +216,9 @@ const detailCoin = (item) => {
 }
 .coin-continer:hover {
   cursor: pointer;
+}
+.arrow-upper-right-icon{
+  font-size: 20px;
+  color: #E1FF01;
 }
 </style>
