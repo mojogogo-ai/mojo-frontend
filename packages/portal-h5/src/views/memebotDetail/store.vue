@@ -7,7 +7,8 @@
       @search="onSearch"
     />
 
-    <div class="text-center mt-[26px] mb-[26px] text-[#e1ff01] text-[20px] font-bold font-['TT Norms Pro'] leading-[23px]">
+    <div
+      class="text-center mt-[26px] mb-[26px] text-[#e1ff01] text-[20px] font-bold font-['TT Norms Pro'] leading-[23px]">
       Coin Detail
     </div>
     <div class="w-[348px] mx-auto memebot-detail mb-[40px]">
@@ -32,32 +33,34 @@
               />
               <span class="symbol"> {{ form.symbol }}</span>
             </div>
-            <div class="detail-socials">
-<!--              TODO 跳转-->
-              <div v-if="form.twitter" class="social">
-                <svg-icon
-                  name="prime_twitter"
-                  class="icon"
-                />
+          </div>
+          <div class="detail-socials">
+            <div class="social">
+              <svg-icon
+                name="prime_twitter"
+                class="icon"
+              />
 
-                Twitter
-              </div>
-              <div v-if="form.telegram" class="social">
-                <svg-icon
-                  name="telegram"
-                  class="icon"
-                />
-                Telegram
-              </div>
-              <div v-if="form.website" class="social">
-                <svg-icon
-                  name="web-fill"
-                  class="icon"
-
-                />
-                Website
-              </div>
+              Twitter
             </div>
+            <div class="social">
+              <svg-icon
+                name="telegram"
+                class="icon"
+              />
+              Telegram
+            </div>
+            <div class="social">
+              <svg-icon
+                name="web-fill"
+                class="icon"
+
+              />
+              Website
+            </div>
+          </div>
+          <div class="detail-introduction">
+            {{ form.introduction }}
           </div>
         </div>
       </div>
@@ -95,28 +98,52 @@
           </van-uploader>
           <van-field
             name="grade"
-            background
-            required
             label="function"
-            clearable
+            class="memebot-detail-grade"
+            label-align="top"
           >
             <template #input>
               <selector
+                v-model="form.grade"
                 :columns="gradeList.map((_) => ({ ..._, label: t(_.name) }))"
                 :columns-field-names="{ text: 'label', value: 'id' }"
               />
             </template>
           </van-field>
-          <van-field name="switch" label="开关">
-            <template #input>
-              <van-switch/>
-            </template>
-          </van-field>
-          <van-field
-            name="用户名"
-            label="用户名"
-            placeholder="用户名"
-          />
+
+          <div v-show="form.grade === 'advanced'">
+            <van-field name="switch" label="Configure Telegram Bot">
+              <template #input>
+                <van-switch />
+              </template>
+            </van-field>
+            <div>
+              <div class="w-[552px] h-9 flex flex-col">
+                <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
+                <span
+                  class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:"
+                  @click="getTgToken">How to get Telegram Bot adress and token?</span>
+              </div>
+              <van-field
+                name="telegram_bot_address"
+                label="telegram_bot_address"
+                maxlength="50"
+                show-word-limit
+                clearable
+                background
+                required
+              />
+
+            </div>
+            <van-field name="switch" label="Configure Twitter Bot">
+              <template #input>
+                <van-switch />
+              </template>
+            </van-field>
+            <div>
+
+            </div>
+          </div>
 
         </van-form>
 
@@ -134,6 +161,7 @@ import { getBotInfo } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
 import { showFailToast, showSuccessToast } from 'vant';
+
 const route = useRoute();
 
 const __data = reactive({
@@ -158,8 +186,7 @@ const onSearch = () => {
 const getStoreList = async () => {
   if (!isLoadMore) return;
   try {
-    const { code, data } = await getList({
-    });
+    const { code, data } = await getList({});
     if (code === 200) {
       const {
         list,
@@ -190,19 +217,21 @@ const form = reactive({
   website: '',
   fileList: [],
   file_id_list: [],
-  twitter_comment: false, // TODO
-  post_day: 0, // 每天可以发推的数量
-  reply_comment_day: 0, // 每天可以回复评论的数量
-  like_day: 0, // 每天点赞的数量
   telegram_config: false,
   telegram_bot_address: '',
   telegram_bot_token: '',
+  twitter_config: false,
+  twitter_connect: false,
+  twitter_state: '',
+  twitter_post_day: 0,
+  twitter_reply_comment_day: 0,
+  twitter_like_day: 0,
   grade: 'basic'
 });
 // gradeList
 const gradeList = reactive([
-  { id: 'basic', name: 'basic'},
-  { id: 'advanced', name: 'advanced'}
+  { id: 'basic', name: 'basic' },
+  { id: 'advanced', name: 'advanced' }
 ]);
 const _getMemeDetail = async () => {
   const id = route.query.id;
@@ -217,19 +246,19 @@ const _getMemeDetail = async () => {
         form.name = data.name;
         form.introduction = data.introduction;
         form.classification = data.classification;
-        form.gender = data.gender
+        form.gender = data.gender;
         form.symbol = data.symbol;
         form.twitter = data.twitter;
         form.telegram = data.telegram;
         form.website = data.website;
       }
-    } catch (error){
+    } catch (error) {
       ElMessage.error(t('bots.error.getDetail'));
     } finally {
 
     }
   }
-}
+};
 _getMemeDetail();
 
 const beforeUpload = (files) => {
@@ -264,7 +293,7 @@ const handleFileSelect = async (files) => {
     const actualFile = file.file || file; // 根据具体情况获取 File 对象
 
     if (!(actualFile instanceof File)) {
-      console.error("接收到的文件类型无效:", actualFile);
+      console.error('接收到的文件类型无效:', actualFile);
       showFailToast('无效的文件类型！');
       continue;
     }
@@ -317,7 +346,7 @@ const handleFileSelect = async (files) => {
 
       showSuccessToast(`${actualFile.name} 添加成功！`);
     } catch (error) {
-      console.error("生成文件哈希失败:", error);
+      console.error('生成文件哈希失败:', error);
       showFailToast(`${actualFile.name} 处理失败！`);
     }
   }
@@ -327,45 +356,50 @@ const handleFileSelect = async (files) => {
 const handleExceed = () => {
   showFailToast('You can upload up to 5 files only.');
 };
-
+const getTgToken = () => {
+  window.open('https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token', '_blank');
+};
 
 </script>
 
 <style lang="scss" scoped>
-.memebot-detail{
+.memebot-detail {
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.10);
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(50px);
 }
-.memebot-detail-top{
-  padding: 40px 40px 48px;
+
+.memebot-detail-top {
+  padding: 18px 18px 20px;
   display: flex;
   border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+
   .detail-icon {
-    margin-right: 31px;
-    .bmicl-avatar-img{
-      img{
-        border-radius: 12px;
-      }
+    margin-right: 12px;
+
+    :deep(.van-image__img) {
+      border-radius: 12px;
     }
   }
-  .detail-base{
-    .detail-name{
+
+  .detail-base {
+    .detail-name {
       color: #FFF;
       font-family: Inter;
       font-size: 16px;
       font-style: normal;
       font-weight: 600;
       line-height: 19px; /* 67.857% */
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
-    .detail-meme-socials{
+
+    .detail-meme-socials {
       display: flex;
       align-items: center;
-      gap: 90px;
-      margin-bottom: 26px;
-      .detail-meme{
+      margin-bottom: 8px;
+
+      .detail-meme {
         display: flex;
         align-items: center;
         color: #FFF;
@@ -375,34 +409,39 @@ const handleExceed = () => {
         font-style: normal;
         font-weight: 700;
         line-height: 23px; /* 143.75% */
-        .symbol{
+        .symbol {
           margin-left: 4px;
         }
       }
-      .detail-socials {
+    }
+
+    .detail-socials {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+
+      .social {
+        border-radius: 21.6px;
+        background: var(--Style, #E1FF01);
+        color: #000;
+        font-feature-settings: 'dlig' on;
+        font-family: Inter;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20.8px; /* 185.714% */
         display: flex;
-        gap: 8px;
-        .social{
-          border-radius: 21.6px;
-          background: var(--Style, #E1FF01);
-          color: #000;
-          font-feature-settings: 'dlig' on;
-          font-family: Inter;
-          font-size: 11.2px;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 20.8px; /* 185.714% */
-          display: flex;
-          padding: 1.6px 6.4px;
-          align-items: center;
-          gap: 3.2px;
-          .icon{
-            font-size: 16px;
-          }
+        padding: 1px 4px;
+        align-items: center;
+        gap: 2px;
+
+        .icon {
+          font-size: 12px;
         }
       }
     }
-    .detail-introduction{
+
+    .detail-introduction {
       width: 471.059px;
       color: rgba(255, 255, 255, 0.70);
       font-feature-settings: 'dlig' on;
@@ -415,17 +454,135 @@ const handleExceed = () => {
   }
 
 }
-.memebot-detail-bottom{
-  padding: 44px 40px 40px 130px;
-  .bottom-label{
+
+.memebot-detail-bottom {
+  padding: 18px 18px 18px 95px;
+
+  .bottom-label {
     color: #FFF;
     font-feature-settings: 'dlig' on;
     font-family: "TT Norms Pro";
-    font-size: 16px;
+    font-size: 13px;
     font-style: normal;
     font-weight: 700;
     line-height: 23px; /* 115% */
-    margin-bottom: 42px;
+    margin-bottom: 18px;
   }
+
+  .upload-demo {
+    width: 100%;
+    /* margin-top: 16px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+
+    :deep(.van-uploader__wrapper) {
+      width: 100%;
+      display: flex;
+      flex-direction: column-reverse;
+
+      .van-uploader__file {
+        width: 100%;
+        height: 32px;
+        flex-direction: row;
+        justify-content: flex-start;
+        background: transparent;
+        color: #fff;
+      }
+
+      .van-uploader__file-name {
+        margin-top: 0;
+        width: auto;
+        background: transparent;
+        color: #fff;
+      }
+
+      .van-uploader__file-icon {
+        font-size: 16px;
+      }
+
+      .van-uploader__preview-delete {
+        top: 12px;
+      }
+    }
+
+
+  }
+
+  .upload-custom {
+    flex-direction: column;
+    align-items: center;
+    color: #999;
+    cursor: pointer;
+    width: 100%;
+    transition: border-color 0.3s;
+    display: inline-flex;
+    flex-shrink: 0;
+    border-radius: 12px;
+    border: 1px dashed #C5C5C5;
+    background: rgba(0, 0, 0, 0.50);
+    backdrop-filter: blur(50px);
+    height: 180px;
+    padding: 10px 16px;
+    justify-content: center;
+    gap: 10px;
+
+    .upload-file-icon {
+      font-size: 28px;
+      color: #ffffff;
+    }
+
+    .upload-custom-text {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .upload-custom-text-top {
+        color: #FFF;
+        font-feature-settings: 'dlig' on;
+        font-family: "TT Norms Pro";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 23px; /* 164.286% */
+      }
+
+      .upload-custom-text-bottom {
+        color: rgba(255, 255, 255, 0.70);
+        text-align: center;
+        font-feature-settings: 'dlig' on;
+        font-family: "TT Norms Pro";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 23px; /* 191.667% */
+      }
+    }
+  }
+  .memebot-detail-grade{
+    background: transparent !important;
+    backdrop-filter: none;
+    padding: 0;
+    margin-bottom: 18px;
+
+    :deep(.selector-row){
+      border-radius: 12px;
+      border: 1px solid #3A3A3A;
+      backdrop-filter: blur(50px);
+      display: inline-flex;
+      height: 40px;
+      padding: 10px 16px;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+  }
+  :deep(label) {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
 }
 </style>
