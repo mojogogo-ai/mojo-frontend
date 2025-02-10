@@ -2,7 +2,7 @@
   <div class="w-[562px] mx-auto">
 
     <div
-      class="text-center mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
+      class="text-center mt-[80px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
       <span v-show="status ==='create'">{{t('bots.title')}}</span>
       <span v-show="status ==='edit'">{{t('bots.edit_title')}}</span>
 

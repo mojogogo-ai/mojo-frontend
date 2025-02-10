@@ -1,5 +1,8 @@
 <template>
-  <div class="w-[800px] mx-auto memebot-detail">
+  <div class="text-center mt-[80px] mb-[80px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
+    Coin Detail
+  </div>
+  <div class="w-[800px] mx-auto memebot-detail mb-[40px]">
     <div class="memebot-detail-top">
       <div class="detail-icon">
         <el-image
@@ -160,7 +163,7 @@
         </div>
         <el-form-item class="detail-button">
           <el-button>Cancel</el-button>
-          <el-button type="primary" >Confirm</el-button>
+          <el-button type="primary" @click="submitFile">Confirm</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -170,10 +173,10 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import { getBotInfo } from '@gptx/base/api/application.js';
+import { getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
 import { t } from '@gptx/base/i18n/index.js';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import coinImageUrl from '@/assets/images/coin.png';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
@@ -181,6 +184,7 @@ import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
 
 const route = useRoute();
 const form = reactive({
+  id: '',
   name: '',
   gender: null,
   classification: [],//  conversation
@@ -196,9 +200,10 @@ const form = reactive({
   telegram_config: false,
   telegram_bot_address: '',
   telegram_bot_token: '',
-
   grade: 'basic'
 });
+const loading = ref(false);
+const formRef = ref(null);
 const _getMemeDetail = async () => {
   const id = route.query.id;
   if (id) {
@@ -207,6 +212,7 @@ const _getMemeDetail = async () => {
         id: id
       });
       if (code === 200) {
+        form.id = data.id;
         form.icon = data.icon;
         form.name = data.name;
         form.introduction = data.introduction;
@@ -334,6 +340,11 @@ const submitFile = async () => {
         fileDataList.push(fileData.id);
       }
     }
+    await updateBotFile({
+      bot_id: form.id,
+      file_id_list: fileDataList,
+    });
+    ElMessage.success('Files updated successfully!');
     form.file_id_list = fileDataList;
   } catch (error) {
     console.error('文件上传失败:', error);
@@ -376,6 +387,9 @@ const toggleTelegramConfiguration = () => {
     form.telegram_bot_token = '';
   }
 };
+const submitHandle = (el) => {
+
+}
 </script>
 
 <style lang="scss" scoped>
