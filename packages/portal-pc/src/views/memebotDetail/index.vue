@@ -23,8 +23,7 @@
             <span class="symbol"> {{ form.symbol }}</span>
           </div>
           <div class="detail-socials">
-            <!--              TODO 跳转-->
-            <div v-if="form.twitter" class="social">
+            <div v-if="form.twitter" class="social" @click="goLink('twitter')">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -32,14 +31,14 @@
 
               Twitter
             </div>
-            <div v-if="form.telegram" class="social">
+            <div v-if="form.telegram" class="social" @click="goLink('telegram')">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div v-if="form.website" class="social">
+            <div v-if="form.website" class="social"  @click="goLink('website')">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -109,17 +108,6 @@
         </el-form-item>
         <div v-show="form.grade === 'advanced'">
           <el-form-item
-            label="Reply to Twitter Comments"
-            prop="twitter_comment"
-            class="switch-part"
-          >
-            <el-switch
-              v-model="form.twitter_comment"
-              active-color="#1da1f2"
-              inactive-color="#ccc"
-            />
-          </el-form-item>
-          <el-form-item
             label="Configure Telegram Bot"
             prop="telegram_config"
             class="switch-part"
@@ -160,6 +148,55 @@
               />
             </el-form-item>
           </div>
+          <el-form-item
+            label="Configure Twitter Bot"
+            prop="twitter_config"
+            class="switch-part"
+          >
+            <el-switch
+              v-model="form.twitter_config"
+              active-color="#1da1f2"
+              inactive-color="#ccc"
+            />
+          </el-form-item>
+          <div v-if="form.twitter_config">
+            <el-form-item
+              label="Connect Bot Twitter Account"
+              prop="twitter_connect"
+              class="switch-part"
+            >
+              <el-switch
+                v-model="form.twitter_connect"
+                active-color="#1da1f2"
+                inactive-color="#ccc"
+                @change="toggleTwitterConnection"
+              />
+            </el-form-item>
+            <el-form-item
+              prop="twitter_post_day"
+            >
+              <el-input
+                v-model="form.twitter_post_day"
+                clearable
+              />
+            </el-form-item>
+            <el-form-item
+              prop="twitter_reply_comment_day"
+            >
+              <el-input
+                v-model="form.twitter_reply_comment_day"
+                clearable
+              />
+            </el-form-item>
+            <el-form-item
+              prop="twitter_like_day"
+            >
+              <el-input
+                v-model="form.twitter_like_day"
+                clearable
+              />
+            </el-form-item>
+          </div>
 
         </div>
         <el-form-item class="detail-button">
@@ -182,6 +219,7 @@ import coinImageUrl from '@/assets/images/coin.png';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
+import { twitterAuth, setTwitter } from '@gptx/base/api/meme-bot.js';
 
 const route = useRoute();
 const form = reactive({
@@ -197,10 +235,15 @@ const form = reactive({
   website: '',
   fileList: [],
   file_id_list: [],
-  twitter_comment: false,
   telegram_config: false,
   telegram_bot_address: '',
   telegram_bot_token: '',
+  twitter_config: false,
+  twitter_connect: false,
+  twitter_state: '',
+  twitter_post_day: 0,
+  twitter_reply_comment_day: 0,
+  twitter_like_day: 0,
   grade: 'basic'
 });
 const loading = ref(false);
@@ -345,6 +388,12 @@ const submitFile = async () => {
       bot_id: form.id,
       file_id_list: fileDataList,
     });
+    await setTwitter({
+      bot_id: form.id,
+      post_day: form.twitter_post_day,
+      reply_comment_day: form.twitter_reply_comment_day,
+      like_day: form.twitter_like_day
+    })
     ElMessage.success('Files updated successfully!');
     form.file_id_list = fileDataList;
   } catch (error) {
@@ -388,9 +437,31 @@ const toggleTelegramConfiguration = () => {
     form.telegram_bot_token = '';
   }
 };
-const submitHandle = (el) => {
-
+const goLink = (platform) => {
+  // TODO
 }
+const toggleTwitterConnection = async () => {
+  if (form.twitter_connect) {
+    await connectTwitter();
+  } else {
+    disconnectTwitter();
+  }
+};
+const connectTwitter = async () => {
+  const response = await twitterAuth();
+  if (response.code === 200) {
+    let authStatus = response.data.state;
+    const twitterAuthUrl = response.data.redirect_uri;
+    form.twitter_state = authStatus
+    window.open(twitterAuthUrl, "twitterAuthPopup", "width=500,height=600");
+  } else {
+    console.error('Failed to obtain twitter auth url');
+    // twitterLink.value = ''; TODO
+  }
+};
+const disconnectTwitter = () => {
+  // twitterLink.value = '';
+};
 </script>
 
 <style lang="scss" scoped>
