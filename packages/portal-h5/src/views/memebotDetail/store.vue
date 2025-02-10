@@ -114,30 +114,51 @@
           <div v-show="form.grade === 'advanced'">
             <van-field name="switch" label="Configure Telegram Bot" class="form-switch">
               <template #input>
-                <van-switch size="16px"/>
+                <van-switch size="16px" v-model="form.telegram_config"/>
               </template>
             </van-field>
-            <div>
+            <div v-if="form.telegram_config">
               <div class="w-[552px] h-9 flex flex-col">
-                <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
+                <span class="text-white/70 text-[12px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
                 <span
-                  class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:"
+                  class="text-[#e1ff01] text-[12px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:"
                   @click="getTgToken">How to get Telegram Bot adress and token?</span>
               </div>
               <van-field
                 name="telegram_bot_address"
-                label="telegram_bot_address"
+                placeholder="Enter Telegram Bot address"
+                label-align="top"
+              />
+              <van-field
+                name="telegram_bot_token"
+                placeholder="Please enter Telegram Bot token"
                 label-align="top"
               />
 
             </div>
             <van-field name="switch" label="Configure Twitter Bot" class="form-switch">
               <template #input>
-                <van-switch size="16px"/>
+                <van-switch size="16px" v-model="form.twitter_config"/>
               </template>
             </van-field>
-            <div>
-
+            <div v-if="form.twitter_config">
+              <van-field name="switch" label="Connect Bot Twitter Account" class="form-switch">
+                <template #input>
+                  <van-switch size="16px" v-model="form.twitter_connect"  @change="toggleTwitterConnection"/>
+                </template>
+              </van-field>
+              <van-field
+                name="twitter_post_day"
+                label-align="top"
+              />
+              <van-field
+                name="twitter_reply_comment_day"
+                label-align="top"
+              />
+              <van-field
+                name="twitter_like_day"
+                label-align="top"
+              />
             </div>
           </div>
 
@@ -157,6 +178,7 @@ import { getBotInfo } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
 import { showFailToast, showSuccessToast } from 'vant';
+import { twitterAuth } from '@gptx/base/api/meme-bot.js';
 
 const route = useRoute();
 
@@ -355,7 +377,28 @@ const handleExceed = () => {
 const getTgToken = () => {
   window.open('https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token', '_blank');
 };
-
+const toggleTwitterConnection = async () => {
+  if (form.twitter_connect) {
+    await connectTwitter();
+  } else {
+    disconnectTwitter();
+  }
+};
+const connectTwitter = async () => {
+  const response = await twitterAuth();
+  if (response.code === 200) {
+    let authStatus = response.data.state;
+    const twitterAuthUrl = response.data.redirect_uri;
+    form.twitter_state = authStatus
+    window.open(twitterAuthUrl, "twitterAuthPopup", "width=500,height=600");
+  } else {
+    console.error('Failed to obtain twitter auth url');
+    // twitterLink.value = ''; TODO
+  }
+};
+const disconnectTwitter = () => {
+  // twitterLink.value = '';
+};
 </script>
 
 <style lang="scss" scoped>
@@ -517,7 +560,7 @@ const getTgToken = () => {
     flex-shrink: 0;
     border-radius: 12px;
     border: 1px dashed #C5C5C5;
-    background: rgba(0, 0, 0, 0.50);
+    background: #202020;
     backdrop-filter: blur(50px);
     height: 180px;
     padding: 10px 16px;
@@ -585,6 +628,9 @@ const getTgToken = () => {
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
+  }
+  :deep(.van-field__control){
+    font-size: 12px;
   }
   :deep(label) {
     font-size: 12px;
