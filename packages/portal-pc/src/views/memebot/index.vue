@@ -187,7 +187,7 @@
       <GptxChat v-if="botConfig" :bot-info="botConfig" :operation-config="operationConfig" :chat-api-url="chatApiUrl"
                 :is-debug="false" style="max-width: 100%" />
     </div>
-    <Launcher ref="launcherDialog" />
+    <StartLaunch ref="startLaunchRef" width="600px" />
     <Unlocked
       ref="unlockedRef"
       width="520px"
@@ -198,9 +198,8 @@
 <script setup>
 import { t } from '@gptx/base/i18n';
 import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
-import Launcher from './launcher/index.vue';
+import StartLaunch from '@/components/StartLaunch/index.vue';
 import { reactive, ref } from 'vue';
-import TwitterButton from './twitterbutton/index.vue';
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 import { ElMessage } from 'element-plus';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
@@ -386,7 +385,7 @@ const submitHandle = async (el) => {
 
 const unlockedRef = ref(null);
 // 轮询查询状态
-const launcherDialog = ref(null);
+const startLaunchRef = ref(null);
 const memeCheckTimer = ref(null);
 const setMemeCheckTimer = (bot_id) => {
   memeCheckTimer.value = setInterval(async () => {
@@ -398,7 +397,7 @@ const setMemeCheckTimer = (bot_id) => {
         loading.value = false;
         submitText.value = 'Create';
         formRef.value.resetFields();
-        launcherDialog.value.openPopup({ ...result.data, bot_id });
+        startLaunchRef.value.open({ ...result.data, bot_id});
       }
     } catch (error) {
       throw error;
