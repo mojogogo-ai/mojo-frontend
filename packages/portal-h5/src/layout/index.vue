@@ -1,5 +1,6 @@
 <template>
   <div class="app-wrapper">
+    <div class="app-bg"></div>
     <van-popup
       v-model:show="storeLayout.isSHowSidebar"
       position="top"

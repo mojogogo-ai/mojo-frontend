@@ -1,7 +1,7 @@
 <template>
   <van-form
     ref="formRef"
-    class="create-form"
+    class="create-form mx-auto"
     label-align="top"
     :disabled="loading || isAILoading"
   >

@@ -62,6 +62,7 @@
         ref="formRef"
         label-position="top"
         :model="form"
+        :disabled="loading"
         @submit.prevent
       >
         <el-form-item
@@ -174,26 +175,38 @@
             </el-form-item>
             <el-form-item
               prop="twitter_post_day"
+              label="Number of Twitter"
             >
               <el-input
                 v-model="form.twitter_post_day"
                 clearable
+                type="number"
+                :min="1"
+                :max="15"
               />
             </el-form-item>
             <el-form-item
               prop="twitter_reply_comment_day"
+              label="Number of Comment"
             >
               <el-input
                 v-model="form.twitter_reply_comment_day"
                 clearable
+                type="number"
+                :min="1"
+                :max="15"
               />
             </el-form-item>
             <el-form-item
               prop="twitter_like_day"
+              label="Number of Likes"
             >
               <el-input
                 v-model="form.twitter_like_day"
                 clearable
+                type="number"
+                :min="1"
+                :max="15"
               />
             </el-form-item>
           </div>
@@ -201,7 +214,8 @@
         </div>
         <el-form-item class="detail-button">
           <el-button>Cancel</el-button>
-          <el-button type="primary" @click="submitFile">Confirm</el-button>
+          <el-button type="primary" @click="submitFile" :loading="loading"
+                     :disabled="loading">Confirm</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -211,7 +225,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import { getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
+import { botEdit, botFileSave, getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
 import { t } from '@gptx/base/i18n/index.js';
 import { reactive, ref } from 'vue';
@@ -246,6 +260,27 @@ const form = reactive({
   twitter_like_day: 0,
   grade: 'basic'
 });
+const formatter = (value) => {
+  let num = parseInt(value, 10);
+  if (isNaN(num)) {
+    return '';
+  }
+  if (num > 15) {
+    return '15';
+  }
+  if (num < 0) {
+    return '0';
+  }
+  return num.toString();
+};
+
+const parser = (value) => {
+  const regex = /^(0|1[0-5])$/;
+  if (regex.test(value)) {
+    return value;
+  }
+  return '';
+};
 const loading = ref(false);
 const formRef = ref(null);
 const _getMemeDetail = async () => {
@@ -257,15 +292,39 @@ const _getMemeDetail = async () => {
       });
       if (code === 200) {
         form.id = data.id;
-        form.icon = data.icon;
         form.name = data.name;
-        form.introduction = data.introduction;
-        form.classification = data.classification;
         form.gender = data.gender;
+        form.classification = data.classification;
         form.symbol = data.symbol;
+        form.introduction = data.introduction;
+        form.icon = data.icon;
         form.twitter = data.twitter;
         form.telegram = data.telegram;
         form.website = data.website;
+        form.fileList = data?.fileList || [];
+        form.file_id_list = data?.file_id_list || [];
+        form.telegram_bot_address = data?.telegram_bot_address || '';
+        form.telegram_bot_token = data?.telegram_bot_token || '';
+        if (data?.telegram_bot_address ||  data?.telegram_bot_token) {
+          form.telegram_config = true;
+        } else{
+          form.telegram_config = false;
+        }
+        form.twitter_connect = data?.twitter_connect || false;
+        form.twitter_state = data?.twitter_state || '';
+        form.twitter_post_day = data?.twitter_post_day || 0;
+        form.twitter_reply_comment_day = data?.twitter_reply_comment_day || 0;
+        form.twitter_like_day = data?.twitter_like_day || 0;
+        if (form.twitter_state) {
+          form.twitter_config = true;
+        } else{
+          form.twitter_config = false;
+        }
+        if (form.twitter_config || form.telegram_config ){
+          form.grade = 'advanced'
+        } else{
+          form.grade = 'basic'
+        }
       }
     } catch (error) {
       ElMessage.error(t('bots.error.getDetail'));
@@ -368,8 +427,14 @@ const generateFileHash = (file) => {
   });
 };
 const submitFile = async () => {
+  // bot/edit
+  // bot/file-save
+
+  if (loading.value) return;
   try {
+    loading.value = true;
     const fileDataList = [];
+    console.log(form.fileList, 'form.fileList')
     for (const fileData of form.fileList) {
       if (!fileData.url) { // 新增文件
         const { file, name, size, hash } = fileData;
@@ -384,22 +449,28 @@ const submitFile = async () => {
         fileDataList.push(fileData.id);
       }
     }
-    await updateBotFile({
+    form.file_id_list = fileDataList;
+    await botFileSave({
       bot_id: form.id,
       file_id_list: fileDataList,
-    });
+    })
+    // TODO
+    // await updateBotFile({
+    //   bot_id: form.id,
+    //   file_id_list: fileDataList,
+    // });
+    await botEdit(form);
     await setTwitter({
       bot_id: form.id,
-      post_day: form.twitter_post_day,
-      reply_comment_day: form.twitter_reply_comment_day,
-      like_day: form.twitter_like_day
+      post_day: Number(form.twitter_post_day),
+      reply_comment_day: Number(form.twitter_reply_comment_day),
+      like_day: Number(form.twitter_like_day)
     })
     ElMessage.success('Files updated successfully!');
-    form.file_id_list = fileDataList;
   } catch (error) {
     console.error('文件上传失败:', error);
   } finally {
-
+    loading.value = false;
   }
 };
 

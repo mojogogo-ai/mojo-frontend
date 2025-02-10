@@ -1,6 +1,5 @@
 <template>
-  <div class="w-[562px] mx-auto">
-
+  <div class="mx-auto">
     <div
       class="text-center mt-[80px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
       <span v-show="status ==='create'">{{t('bots.title')}}</span>
@@ -13,7 +12,7 @@
       <button @click="byAiHandle()" :class="['switch-button',{ 'selected': !byForm }]"> {{t('bots.bot_ai')}}</button>
     </div>
 
-    <div v-if="byForm">
+    <div v-if="byForm" class="w-[550px] mx-auto">
       <el-form
         ref="formRef"
         label-position="top"
@@ -134,9 +133,6 @@
             maxlength="255"
             clearable
           />
-<!--          <TwitterButton-->
-<!--            @updateTwitterLink="updateTwitterLink"-->
-<!--            @update-auth-status="handleAuthStatusUpdate" />-->
         </el-form-item>
 
         <el-form-item
@@ -166,7 +162,7 @@
 
       <div class="flex justify-center w-full my-20">
         <el-button
-          style="width: 250px;"
+          style="width: 250px; background: #000;"
           @click="close"
         >
           {{ t('common.cancel') }}
@@ -183,7 +179,7 @@
         </el-button>
       </div>
     </div>
-    <div v-else class="h-full transition-all chat-bg">
+    <div v-else class="h-full transition-all chat-bg mx-auto" >
       <GptxChat v-if="botConfig" :bot-info="botConfig" :operation-config="operationConfig" :chat-api-url="chatApiUrl"
                 :is-debug="false" style="max-width: 100%" />
     </div>
@@ -200,14 +196,10 @@ import { t } from '@gptx/base/i18n';
 import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
 import Launcher from './launcher/index.vue';
 import { reactive, ref } from 'vue';
-import TwitterButton from './twitterbutton/index.vue';
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 import { ElMessage } from 'element-plus';
-import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
-import CryptoJS from 'crypto-js';
-import axios from 'axios';
 import { useRoute } from 'vue-router';
-import { botEdit, getBotInfo } from '@gptx/base/api/application.js';
+import { botEdit, botFileSave, getBotInfo } from '@gptx/base/api/application.js';
 const router = useRouter();
 const byForm = ref(true);
 const isVisible = ref(false);
@@ -301,16 +293,6 @@ const conversationList = reactive([
 const formRef = ref(null);
 const loading = ref(false);
 const isAIloading = ref(false);
-
-const isTelegramConfigured = ref(false);
-
-function handleAuthStatusUpdate(newStatus) {
-  form.twitter_state = newStatus;
-}
-
-function updateTwitterLink(newLink) {
-  form.twitter = newLink;
-}
 
 function byFormHandle() {
   console.log(byForm);
@@ -535,6 +517,13 @@ label {
   display: flex;
   justify-content: center;
   gap: 20px;
+}
+.chat-bg{
+  background: url("../../assets/svg/chat-bg.svg") no-repeat center top;
+  width: 1064px;
+  height: 965px;
+  box-shadow: 0px 25px 25px 0px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(40px);
 }
 </style>
 

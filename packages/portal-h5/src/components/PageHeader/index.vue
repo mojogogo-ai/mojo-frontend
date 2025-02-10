@@ -1,6 +1,6 @@
 <template>
   <div class="page-header">
-    <div class="sidebar-logo__link">
+    <div class="sidebar-logo__link" @click="toPage()">
       <svg-icon
         name="logo"
         class="sidebar-logo__icon"
@@ -126,6 +126,10 @@ onBeforeMount(async () => {
   user.updateSysInfo();
 });
 
+const router = useRouter();
+const toPage = () => {
+  router.push({ path: '/home' })
+};
 
 </script>
 
