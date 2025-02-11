@@ -1,5 +1,6 @@
 <template>
-  <div class="text-center mt-[80px] mb-[80px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
+  <div
+    class="text-center mt-[80px] mb-[80px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
     Coin Detail
   </div>
   <div class="w-[800px] mx-auto memebot-detail mb-[40px]">
@@ -38,7 +39,7 @@
               />
               Telegram
             </div>
-            <div v-if="form.website" class="social"  @click="goLink('website')">
+            <div v-if="form.website" class="social" @click="goLink('website')">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -124,7 +125,7 @@
             <div class="w-[552px] h-9 flex flex-col">
               <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
               <span
-                class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:"
+                class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer"
                 @click="getTgToken">How to get Telegram Bot adress and token?</span>
             </div>
             <el-form-item
@@ -214,8 +215,9 @@
         </div>
         <el-form-item class="detail-button">
           <el-button>Cancel</el-button>
-          <el-button type="primary" @click="submitFile" :loading="loading"
-                     :disabled="loading">Confirm</el-button>
+          <el-button type="primary" @click="submitForm" :loading="loading"
+                     :disabled="loading">Confirm
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -305,9 +307,9 @@ const _getMemeDetail = async () => {
         form.file_id_list = data?.file_id_list || [];
         form.telegram_bot_address = data?.telegram_bot_address || '';
         form.telegram_bot_token = data?.telegram_bot_token || '';
-        if (data?.telegram_bot_address ||  data?.telegram_bot_token) {
+        if (data?.telegram_bot_address || data?.telegram_bot_token) {
           form.telegram_config = true;
-        } else{
+        } else {
           form.telegram_config = false;
         }
         form.twitter_connect = data?.twitter_connect || false;
@@ -317,13 +319,13 @@ const _getMemeDetail = async () => {
         form.twitter_like_day = data?.twitter_like_day || 0;
         if (form.twitter_state) {
           form.twitter_config = true;
-        } else{
+        } else {
           form.twitter_config = false;
         }
-        if (form.twitter_config || form.telegram_config ){
-          form.grade = 'advanced'
-        } else{
-          form.grade = 'basic'
+        if (form.twitter_config || form.telegram_config) {
+          form.grade = 'advanced';
+        } else {
+          form.grade = 'basic';
         }
       }
     } catch (error) {
@@ -426,15 +428,13 @@ const generateFileHash = (file) => {
     reader.readAsArrayBuffer(file);
   });
 };
-const submitFile = async () => {
-  // bot/edit
-  // bot/file-save
+const submitForm = async () => {
 
   if (loading.value) return;
   try {
     loading.value = true;
     const fileDataList = [];
-    console.log(form.fileList, 'form.fileList')
+    console.log(form.fileList, 'form.fileList');
     for (const fileData of form.fileList) {
       if (!fileData.url) { // 新增文件
         const { file, name, size, hash } = fileData;
@@ -452,8 +452,8 @@ const submitFile = async () => {
     form.file_id_list = fileDataList;
     await botFileSave({
       bot_id: form.id,
-      file_id_list: fileDataList,
-    })
+      file_id_list: fileDataList
+    });
     // TODO
     // await updateBotFile({
     //   bot_id: form.id,
@@ -465,7 +465,7 @@ const submitFile = async () => {
       post_day: Number(form.twitter_post_day),
       reply_comment_day: Number(form.twitter_reply_comment_day),
       like_day: Number(form.twitter_like_day)
-    })
+    });
     ElMessage.success('Files updated successfully!');
   } catch (error) {
     console.error('文件上传失败:', error);
@@ -510,7 +510,7 @@ const toggleTelegramConfiguration = () => {
 };
 const goLink = (platform) => {
   // TODO
-}
+};
 const toggleTwitterConnection = async () => {
   if (form.twitter_connect) {
     await connectTwitter();
@@ -523,8 +523,8 @@ const connectTwitter = async () => {
   if (response.code === 200) {
     let authStatus = response.data.state;
     const twitterAuthUrl = response.data.redirect_uri;
-    form.twitter_state = authStatus
-    window.open(twitterAuthUrl, "twitterAuthPopup", "width=500,height=600");
+    form.twitter_state = authStatus;
+    window.open(twitterAuthUrl, 'twitterAuthPopup', 'width=500,height=600');
   } else {
     console.error('Failed to obtain twitter auth url');
     // twitterLink.value = ''; TODO
@@ -536,26 +536,30 @@ const disconnectTwitter = () => {
 </script>
 
 <style lang="scss" scoped>
-.memebot-detail{
+.memebot-detail {
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.10);
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(50px);
 }
-.memebot-detail-top{
+
+.memebot-detail-top {
   padding: 40px 40px 48px;
   display: flex;
   border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+
   .detail-icon {
     margin-right: 31px;
-    :deep(.el-image){
+
+    :deep(.el-image) {
       border-radius: 12px;
       width: 103px;
       height: 103px;
     }
   }
-  .detail-base{
-    .detail-name{
+
+  .detail-base {
+    .detail-name {
       color: #FFF;
       font-family: Inter;
       font-size: 28px;
@@ -564,12 +568,14 @@ const disconnectTwitter = () => {
       line-height: 19px; /* 67.857% */
       margin-bottom: 16px;
     }
-    .detail-meme-socials{
+
+    .detail-meme-socials {
       display: flex;
       align-items: center;
       gap: 90px;
       margin-bottom: 26px;
-      .detail-meme{
+
+      .detail-meme {
         display: flex;
         align-items: center;
         color: #FFF;
@@ -579,14 +585,16 @@ const disconnectTwitter = () => {
         font-style: normal;
         font-weight: 700;
         line-height: 23px; /* 143.75% */
-        .symbol{
+        .symbol {
           margin-left: 4px;
         }
       }
+
       .detail-socials {
         display: flex;
         gap: 8px;
-        .social{
+
+        .social {
           border-radius: 21.6px;
           background: var(--Style, #E1FF01);
           color: #000;
@@ -600,13 +608,15 @@ const disconnectTwitter = () => {
           padding: 1.6px 6.4px;
           align-items: center;
           gap: 3.2px;
-          .icon{
+
+          .icon {
             font-size: 16px;
           }
         }
       }
     }
-    .detail-introduction{
+
+    .detail-introduction {
       width: 471.059px;
       color: rgba(255, 255, 255, 0.70);
       font-feature-settings: 'dlig' on;
@@ -618,12 +628,15 @@ const disconnectTwitter = () => {
     }
   }
 }
-.memebot-detail-bottom{
+
+.memebot-detail-bottom {
   padding: 44px 40px 40px 174px;
+
   :deep(.el-form-item__label) {
     margin-bottom: 16px;
   }
-  .bottom-label{
+
+  .bottom-label {
     color: #FFF;
     font-feature-settings: 'dlig' on;
     font-family: "TT Norms Pro";
@@ -633,7 +646,8 @@ const disconnectTwitter = () => {
     line-height: 23px; /* 115% */
     margin-bottom: 42px;
   }
-  .upload-part{
+
+  .upload-part {
     width: 100%;
 
     :deep(.el-upload) {
@@ -641,47 +655,46 @@ const disconnectTwitter = () => {
       width: 100%;
       border-radius: 12px;
       border: 1px dashed rgba(255, 255, 255, 0.20);
-      background: #202020;
+      background: rgba(0, 0, 0, 0.50);
       backdrop-filter: blur(50px);
-      //height: 180px;
     }
+
     :deep(.el-icon--document) {
       color: #fff;
     }
 
     :deep(.el-upload-list__item:hover) {
       color: #000;
-      .el-icon--document{
+
+      .el-icon--document {
         color: #000;
       }
-      .el-upload-list__item-file-name{
+
+      .el-upload-list__item-file-name {
         color: #000;
       }
-      .el-icon--close{
+
+      .el-icon--close {
         color: #000;
       }
     }
-    .upload-custom{
+
+    .upload-custom {
       width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      .upload-file-icon{
+
+      .upload-file-icon {
         font-size: 36px;
       }
-      //.upload-custom-text-top{
-      //  width: 100%;
-      //  text-align: center;
-      //}
-      //.upload-custom-text-bottom{
-      //  width: 100%;
-      //  text-align: center;
-      //}
     }
   }
-  .switch-part{
+
+  .switch-part {
     display: flex;
+
     :deep(.el-form-item__label) {
       margin-bottom: 0px;
       line-height: 32px;
@@ -689,13 +702,15 @@ const disconnectTwitter = () => {
       width: 545px !important;
     }
   }
-  .detail-button{
-    :deep(.el-form-item__content){
+
+  .detail-button {
+    :deep(.el-form-item__content) {
       display: flex;
       justify-content: flex-end;
     }
   }
 }
+
 :deep(.el-select) {
   width: 100% !important;
 }

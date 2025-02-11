@@ -178,20 +178,6 @@ watch(() => props.editForm, (newEditForm) => {
     form.is_personalize_image_icon = newEditForm.is_personalize_image_icon || false;
   }
 }, { immediate: true });
-onMounted(() => {
-  if (props.editForm) {
-    form.name = props.editForm.name || '';
-    form.gender = props.editForm.gender || null;
-    form.classification = props.editForm.classification || [];
-    form.symbol = props.editForm.symbol || '';
-    form.introduction = props.editForm.introduction || '';
-    form.icon = props.editForm.icon || '';
-    form.twitter = props.editForm.twitter || '';
-    form.telegram = props.editForm.telegram || '';
-    form.website = props.editForm.website || '';
-    form.is_personalize_image_icon = props.editForm.is_personalize_image_icon || false;
-  }
-});
 const rules = reactive({
   name: [{ required: true, message: t('bots.ruleMessage.name') }],
   gender: [{

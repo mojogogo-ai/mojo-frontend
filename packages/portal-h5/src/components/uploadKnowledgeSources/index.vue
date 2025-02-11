@@ -64,7 +64,6 @@ import { showFailToast, showSuccessToast } from 'vant';
 const emits = defineEmits(['after-upload-knowledge-sources', 'after-update']);
 const isVisible = ref(false);
 const isEdit = ref(false);
-//TODO
 const botId = ref(null);
 const form = reactive({
   name: '',

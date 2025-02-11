@@ -11,13 +11,13 @@
       class="text-center mt-[26px] mb-[26px] text-[#e1ff01] text-[20px] font-bold font-['TT Norms Pro'] leading-[23px]">
       Coin Detail
     </div>
-    <div class="w-[348px] mx-auto memebot-detail mb-[40px]">
+    <div class="w-[343px] mx-auto memebot-detail mb-[40px]">
       <div class="memebot-detail-top">
         <div class="detail-icon">
           <van-image
             class="cursor-pointer bmicl-avatar-img"
-            width="65px"
-            height="65px"
+            width="80px"
+            height="80px"
             fit="cover"
             :src="form.icon"
           />
@@ -33,6 +33,9 @@
               />
               <span class="symbol"> {{ form.symbol }}</span>
             </div>
+          </div>
+          <div class="social-title">
+            Socials
           </div>
           <div class="detail-socials">
             <div class="social">
@@ -68,6 +71,9 @@
         <div class="bottom-label">
           Customize Twitter Bot
         </div>
+        <div class="knowledge-label">
+          Knowledge sources
+        </div>
         <van-form
           ref="formRef"
           @submit.prevent
@@ -79,7 +85,7 @@
             :max-size="100 * 1024 * 1024"
             accept=".pdf,.txt,.pptx"
             :before-read="beforeUpload"
-            :disabled="isUploading"
+            :disabled="loading || isUploading"
             class="w-full mt-4 upload-demo"
             :after-read="handleFileSelect"
             @oversize="handleExceed"
@@ -114,15 +120,14 @@
           <div v-show="form.grade === 'advanced'">
             <van-field name="switch" label="Configure Telegram Bot" class="form-switch">
               <template #input>
-                <van-switch size="16px" v-model="form.telegram_config"/>
+                <van-switch size="16px" v-model="form.telegram_config" />
               </template>
             </van-field>
             <div v-if="form.telegram_config">
-              <div class="w-[552px] h-9 flex flex-col">
-                <span class="text-white/70 text-[12px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
-                <span
-                  class="text-[#e1ff01] text-[12px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:"
-                  @click="getTgToken">How to get Telegram Bot adress and token?</span>
+              <div class="h-9 flex flex-col leading-[18px] h-[36px]">
+                <span class="text-[11px] font-normal leading-none break-words">Connect to Telegram bots and chat with this bot in Telegram App.
+                <span class="text-[#e1ff01] " @click="getTgToken">How to get Telegram Bot adress and token?</span>
+                </span>
               </div>
               <van-field
                 name="telegram_bot_address"
@@ -138,30 +143,40 @@
             </div>
             <van-field name="switch" label="Configure Twitter Bot" class="form-switch">
               <template #input>
-                <van-switch size="16px" v-model="form.twitter_config"/>
+                <van-switch size="16px" v-model="form.twitter_config" />
               </template>
             </van-field>
             <div v-if="form.twitter_config">
               <van-field name="switch" label="Connect Bot Twitter Account" class="form-switch">
                 <template #input>
-                  <van-switch size="16px" v-model="form.twitter_connect"  @change="toggleTwitterConnection"/>
+                  <van-switch size="16px" v-model="form.twitter_connect" @change="toggleTwitterConnection" />
                 </template>
               </van-field>
               <van-field
                 name="twitter_post_day"
                 label-align="top"
+                label="Number of Twitter"
               />
               <van-field
                 name="twitter_reply_comment_day"
                 label-align="top"
+                label="Number of Comment"
               />
               <van-field
                 name="twitter_like_day"
                 label-align="top"
+                label="Number of Likes"
               />
             </div>
           </div>
-
+          <div class="button-row">
+            <van-button :disabled="loading" native-type="submit" class="cancel-button btn" @click="close">
+              Cancel
+            </van-button>
+            <van-button :disabled="loading" :loading="loading" type="primary" class="btn" @click="submitForm">
+              Confirm
+            </van-button>
+          </div>
         </van-form>
 
       </div>
@@ -174,11 +189,14 @@
 import { t } from '@gptx/base/i18n/index.js';
 import { getList } from '@gptx/base/api/assistant-store.js';
 import { reactive, ref } from 'vue';
-import { getBotInfo } from '@gptx/base/api/application.js';
+import { botEdit, getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
 import { showFailToast, showSuccessToast } from 'vant';
-import { twitterAuth } from '@gptx/base/api/meme-bot.js';
+import { setTwitter, twitterAuth } from '@gptx/base/api/meme-bot.js';
+import CryptoJS from 'crypto-js';
+import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
+import axios from 'axios';
 
 const route = useRoute();
 
@@ -188,6 +206,7 @@ const __data = reactive({
 let isLoadMore = true;
 let timer = null;
 const isUploading = ref(false);
+const loading = ref(false);
 
 const onSearch = () => {
   if (timer) {
@@ -269,6 +288,30 @@ const _getMemeDetail = async () => {
         form.twitter = data.twitter;
         form.telegram = data.telegram;
         form.website = data.website;
+        form.fileList = data?.fileList || [];
+        form.file_id_list = data?.file_id_list || [];
+        form.telegram_bot_address = data?.telegram_bot_address || '';
+        form.telegram_bot_token = data?.telegram_bot_token || '';
+        if (data?.telegram_bot_address || data?.telegram_bot_token) {
+          form.telegram_config = true;
+        } else {
+          form.telegram_config = false;
+        }
+        form.twitter_connect = data?.twitter_connect || false;
+        form.twitter_state = data?.twitter_state || '';
+        form.twitter_post_day = data?.twitter_post_day || 0;
+        form.twitter_reply_comment_day = data?.twitter_reply_comment_day || 0;
+        form.twitter_like_day = data?.twitter_like_day || 0;
+        if (form.twitter_state) {
+          form.twitter_config = true;
+        } else {
+          form.twitter_config = false;
+        }
+        if (form.twitter_config || form.telegram_config) {
+          form.grade = 'advanced';
+        } else {
+          form.grade = 'basic';
+        }
       }
     } catch (error) {
       ElMessage.error(t('bots.error.getDetail'));
@@ -371,6 +414,20 @@ const handleFileSelect = async (files) => {
 
   return false; // 防止自动上传
 };
+const generateFileHash = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const fileData = event.target.result;
+      const wordArray = CryptoJS.lib.WordArray.create(fileData);
+      const hash = CryptoJS.SHA256(wordArray).toString(CryptoJS.enc.Hex);
+      console.log('文件哈希:', hash);
+      resolve(hash);
+    };
+    reader.onerror = (error) => reject(error);
+    reader.readAsArrayBuffer(file);
+  });
+};
 const handleExceed = () => {
   showFailToast('You can upload up to 5 files only.');
 };
@@ -389,8 +446,8 @@ const connectTwitter = async () => {
   if (response.code === 200) {
     let authStatus = response.data.state;
     const twitterAuthUrl = response.data.redirect_uri;
-    form.twitter_state = authStatus
-    window.open(twitterAuthUrl, "twitterAuthPopup", "width=500,height=600");
+    form.twitter_state = authStatus;
+    window.open(twitterAuthUrl, 'twitterAuthPopup', 'width=500,height=600');
   } else {
     console.error('Failed to obtain twitter auth url');
     // twitterLink.value = ''; TODO
@@ -399,23 +456,97 @@ const connectTwitter = async () => {
 const disconnectTwitter = () => {
   // twitterLink.value = '';
 };
+const close = () => {
+
+};
+const submitForm = async () => {
+  if (loading.value) return;
+  loading.value = true;
+  try {
+    const fileDataList = [];
+    for (const fileData of form.fileList) {
+      if (!fileData.url) { // 新增文件
+        const { file, name, size, hash } = fileData;
+        const presignedData = await getPresignedUrl(name, size, hash);
+        const { upload_url, form_data, file_id_list } = presignedData.data;
+        await uploadFile(upload_url, file, form_data);
+        fileDataList.push(...file_id_list);
+        fileData.url = presignedData.data.file_url;
+        console.log('文件上传成功:', fileData.url);
+      } else {
+        // 已有文件直接使用其ID
+        fileDataList.push(fileData.id);
+      }
+    }
+    await updateBotFile({
+      bot_id: form.id,
+      file_id_list: fileDataList
+    });
+    showSuccessToast('Files updated successfully!');
+    await botEdit(form);
+    await setTwitter({
+      bot_id: form.id,
+      post_day: Number(form.twitter_post_day),
+      reply_comment_day: Number(form.twitter_reply_comment_day),
+      like_day: Number(form.twitter_like_day)
+    });
+    showSuccessToast('successfully!');
+
+
+  } catch (error) {
+
+  } finally {
+    loading.value = false;
+  }
+};
+const getPresignedUrl = async (fileName, fileSize, fileHash) => {
+  isUploading.value = true;
+  try {
+    const response = await getOssPresignedUrlV2({
+      biz_type: 'users',
+      file_name: fileName,
+      file_size: fileSize,
+      file_hash: fileHash
+    });
+    return response;
+  } catch (error) {
+    console.error('Failed to get presigned URL:', error);
+    throw error;
+  } finally {
+    isUploading.value = false;
+  }
+};
+const uploadFile = async (upload_url, file, form_data) => {
+  const formData = new FormData();
+
+  for (const [key, value] of Object.entries(form_data)) {
+    formData.append(key, value);
+  }
+
+  formData.append('file', file);
+
+  await axios.post(upload_url, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+};
 </script>
 
 <style lang="scss" scoped>
 .memebot-detail {
+  padding: 32px 16px 40px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(50px);
 }
 
 .memebot-detail-top {
-  padding: 18px 18px 20px;
+  padding-bottom: 16px;
   display: flex;
   border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 
   .detail-icon {
-    margin-right: 12px;
+    margin-right: 16px;
 
     :deep(.van-image__img) {
       border-radius: 12px;
@@ -426,17 +557,15 @@ const disconnectTwitter = () => {
     .detail-name {
       color: #FFF;
       font-family: Inter;
-      font-size: 16px;
+      font-size: 18px;
       font-style: normal;
       font-weight: 600;
       line-height: 19px; /* 67.857% */
-      margin-bottom: 8px;
     }
 
     .detail-meme-socials {
       display: flex;
       align-items: center;
-      margin-bottom: 8px;
 
       .detail-meme {
         display: flex;
@@ -454,10 +583,17 @@ const disconnectTwitter = () => {
       }
     }
 
+    .social-title {
+      color: #B3B3B3;
+      font-size: 11px;
+      height: 23px;
+      line-height: 23px;
+    }
+
     .detail-socials {
       display: flex;
       gap: 4px;
-      margin-bottom: 8px;
+      margin-bottom: 16px;
 
       .social {
         border-radius: 21.6px;
@@ -465,7 +601,7 @@ const disconnectTwitter = () => {
         color: #000;
         font-feature-settings: 'dlig' on;
         font-family: Inter;
-        font-size: 12px;
+        font-size: 10px;
         font-style: normal;
         font-weight: 500;
         line-height: 20.8px; /* 185.714% */
@@ -475,7 +611,7 @@ const disconnectTwitter = () => {
         gap: 2px;
 
         .icon {
-          font-size: 12px;
+          font-size: 10px;
         }
       }
     }
@@ -485,7 +621,7 @@ const disconnectTwitter = () => {
       color: rgba(255, 255, 255, 0.70);
       font-feature-settings: 'dlig' on;
       font-family: "TT Norms Pro";
-      font-size: 14px;
+      font-size: 12px;
       font-style: normal;
       font-weight: 400;
       line-height: 150%; /* 21px */
@@ -495,7 +631,7 @@ const disconnectTwitter = () => {
 }
 
 .memebot-detail-bottom {
-  padding: 18px 18px 18px 95px;
+  padding-top: 24px;
 
   .bottom-label {
     color: #FFF;
@@ -505,7 +641,12 @@ const disconnectTwitter = () => {
     font-style: normal;
     font-weight: 700;
     line-height: 23px; /* 115% */
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+  }
+
+  .knowledge-label {
+    color: rgba(255, 255, 255, 0.70);
+    font-size: 13px;
   }
 
   .upload-demo {
@@ -559,7 +700,7 @@ const disconnectTwitter = () => {
     display: inline-flex;
     flex-shrink: 0;
     border-radius: 12px;
-    border: 1px dashed #C5C5C5;
+    border: 1px dashed rgba(255, 255, 255, 0.20);
     background: #202020;
     backdrop-filter: blur(50px);
     height: 180px;
@@ -600,13 +741,10 @@ const disconnectTwitter = () => {
       }
     }
   }
-  .memebot-detail-grade{
-    //background: transparent !important;
-    //backdrop-filter: none;
-    //padding: 0;
-    //margin-bottom: 18px;
 
-    :deep(.selector-row){
+  .memebot-detail-grade {
+
+    :deep(.selector-row) {
       border-radius: 12px;
       border: 1px solid #3A3A3A;
       backdrop-filter: blur(50px);
@@ -618,7 +756,8 @@ const disconnectTwitter = () => {
       flex-shrink: 0;
     }
   }
-  :deep(input){
+
+  :deep(input) {
     border-radius: 12px;
     border: 1px solid #3A3A3A;
     backdrop-filter: blur(50px);
@@ -629,25 +768,55 @@ const disconnectTwitter = () => {
     gap: 10px;
     flex-shrink: 0;
   }
-  :deep(.van-field__control){
+
+  :deep(.van-field__control) {
     font-size: 12px;
   }
+
   :deep(label) {
     font-size: 12px;
     white-space: nowrap;
   }
-  :deep(.van-field){
+
+  :deep(.van-field) {
     background: transparent !important;
     backdrop-filter: none;
     padding: 0;
     margin-bottom: 18px;
   }
-  .form-switch{
-    :deep(.van-field__value){
+
+  :deep(.selector-row) {
+    background: rgba(0, 0, 0, 0.50) !important;
+  }
+
+  :deep(input) {
+    background: rgba(0, 0, 0, 0.50) !important;
+  }
+
+  .form-switch {
+    :deep(.van-field__value) {
       display: flex;
       justify-content: flex-end;
     }
   }
 
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  .cancel-button {
+    border: 1px solid #FFF;
+    background: #000000;
+    color: #FFFFFF;
+  }
+
+  .btn {
+    width: 150px;
+    height: 43px;
+    border-radius: 12px;
+  }
 }
 </style>
