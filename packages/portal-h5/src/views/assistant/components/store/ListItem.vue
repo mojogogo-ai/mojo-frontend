@@ -72,7 +72,7 @@
             </van-tag>
           </div> -->
         </div>
-        <div  @click="goPage(appInfo.id)">
+        <div  @click="goPage(appInfo.id, appInfo.create_nick_name)">
           <svg-icon
             name="arrow-upper-right" class="arrow-upper-right-icon" />
         </div>
@@ -169,8 +169,8 @@ const detailCoin = (item) => {
     window.open(url, '_blank')
   }
 };
-const goPage = (id) => {
-  router.push({ path: '/memebotDetail', query: { id: id } });
+const goPage = (id, nickName) => {
+  router.push({ path: '/memebotDetail', query: { id: id , nickName: nickName} });
 }
 </script>
 

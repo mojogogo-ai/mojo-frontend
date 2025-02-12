@@ -11,7 +11,8 @@
       class="text-center mt-[26px] mb-[26px] text-[#e1ff01] text-[20px] font-bold font-['TT Norms Pro'] leading-[23px]">
       Coin Detail
     </div>
-    <div class="w-[343px] mx-auto memebot-detail mb-[40px]">
+
+    <div class="w-[343px] mx-auto memebot-detail mb-[40px]" v-if="isDetail">
       <div class="memebot-detail-top">
         <div class="detail-icon">
           <van-image
@@ -181,11 +182,69 @@
 
       </div>
     </div>
+    <div class="w-[343px] mx-auto memebot-detail-show mb-[40px]" v-else>
+      <div class="memebot-detail-top" >
+        <div class="detail-icon">
+          <van-image
+            class="cursor-pointer bmicl-avatar-img"
+            width="80px"
+            height="80px"
+            fit="cover"
+            :src="form.icon"
+          />
+        </div>
+        <div class="detail-base">
+          <div class="detail-name">
+            {{ form.name }}
+          </div>
+          <div class="detail-meme-socials">
+            <div class="detail-meme">
+              <svg-icon
+                name="coin"
+              />
+              <span class="symbol"> {{ form.symbol }}</span>
+            </div>
+          </div>
+          <div class="social-title">
+            Socials
+          </div>
+          <div class="detail-socials">
+            <div class="social">
+              <svg-icon
+                name="prime_twitter"
+                class="icon"
+              />
+
+              Twitter
+            </div>
+            <div class="social">
+              <svg-icon
+                name="telegram"
+                class="icon"
+              />
+              Telegram
+            </div>
+            <div class="social">
+              <svg-icon
+                name="web-fill"
+                class="icon"
+
+              />
+              Website
+            </div>
+          </div>
+          <div class="detail-introduction">
+            {{ form.introduction }}
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup>
-
+import useUserStore from '@/store/modules/user.js';
 import { t } from '@gptx/base/i18n/index.js';
 import { getList } from '@gptx/base/api/assistant-store.js';
 import { reactive, ref } from 'vue';
@@ -197,6 +256,11 @@ import { setTwitter, twitterAuth } from '@gptx/base/api/meme-bot.js';
 import CryptoJS from 'crypto-js';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
 import axios from 'axios';
+const user = useUserStore();
+onMounted(() => {
+  user.updateSysInfo(); // 调用更新用户信息的方法
+});
+console.log(user.nickName, 'user')
 
 const route = useRoute();
 
@@ -270,8 +334,12 @@ const gradeList = reactive([
   { id: 'basic', name: 'basic' },
   { id: 'advanced', name: 'advanced' }
 ]);
+const isDetail = ref(false)
 const _getMemeDetail = async () => {
   const id = route.query.id;
+  if (route.query.nickName === user.nickName ) {
+    isDetail.value = true
+  }
   if (id) {
     try {
       const { code, data } = await getBotInfo({
@@ -539,7 +607,11 @@ const uploadFile = async (upload_url, file, form_data) => {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(50px);
 }
-
+.memebot-detail-show {
+  padding: 32px 16px 40px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.15);
+}
 .memebot-detail-top {
   padding-bottom: 16px;
   display: flex;
