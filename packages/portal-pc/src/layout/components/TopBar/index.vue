@@ -532,6 +532,9 @@ onBeforeMount(() => {
   background-color: #E1FF01 !important;
   color: #000000 !important;
   font-size: 13px;
+  padding: 0 12px !important;
+  border-radius: 12px!important;
+
 }
 
 .customs-sub-menu {
@@ -595,4 +598,5 @@ onBeforeMount(() => {
   font-size: 40px;
   color: #E1FF01;
 }
+
 </style>
