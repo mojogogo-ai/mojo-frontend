@@ -27,22 +27,19 @@
         />
 
         <!-- 空内容展示 -->
-        <template v-if="!isLoading && botList.length === 0">
-          <van-empty :image="emptyRobotImageUrl">
-            <template #description>
-              <div class="font-black no-content-psl">{{ t('common.noContent') }}</div>
-            </template>
-            <!-- 显示创建新 Bot 按钮的条件 -->
-            <van-button
-              v-if="!form.search && form.published === ''"
-              type="primary"
-              class="new-bot-btn"
-              @click="createNewBot"
-            >
-              + {{ t('bots.new') }}
-            </van-button>
-          </van-empty>
-        </template>
+        <div v-if="!isLoading && botList.length === 0" className="flex flex-col items-center">
+          <svg-icon name="smart-people" style="height: 220px; width: 220px;"></svg-icon>
+          <div class="font-black no-content-psl">{{ t('common.noContent') }}</div>
+          <!-- 显示创建新 Bot 按钮的条件 -->
+          <van-button
+            v-if="!form.search && form.published === ''"
+            type="primary"
+            class="new-bot-btn"
+            @click="createNewBot"
+          >
+            + {{ t('bots.new') }}
+          </van-button>
+        </div>
         <!-- 加载中时显示加载指示器 -->
         <!--        <van-loading v-if="isLoading && botList.length === 0" text="{{ t('common.loading') }}" />-->
       </van-list>
@@ -53,7 +50,6 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { t } from '@gptx/base/i18n';
-import emptyRobotImageUrl from '@/assets/images/smart-people.svg';
 import { getMyBotList } from '@gptx/base/api/application';
 import ListItem from './components/list/ListItem.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
@@ -127,14 +123,14 @@ const onLoad = () => {
 };
 const goPage = (id) => {
   router.push({ path: '/memebot', query: { id: id } });
-}
+};
 
 onMounted(() => {
   _getMyBotList();
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .bot-management {
   display: flex;
   flex-direction: column;
@@ -186,8 +182,6 @@ onMounted(() => {
 .van-empty__image {
   width: 240px;
 }
+
 </style>
 
-<style lang="scss" scoped>
-/* 如果需要，可以在这里添加额外的 SCSS 样式 */
-</style>

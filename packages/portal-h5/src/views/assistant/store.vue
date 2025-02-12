@@ -61,11 +61,10 @@
           </div>
         </div>
         <template v-if="!__data.storeList.length">
-          <van-empty :image="emptyRobotImageUrl">
-            <template #description>
-              <div class="text-[16px] font-black">{{ t('bots.not_found') }}</div>
-            </template>
-          </van-empty>
+          <div  className="flex flex-col items-center">
+            <svg-icon name="smart-people" style="height: 220px; width: 220px;"></svg-icon>
+            <div class="text-[16px] font-black">{{ t('bots.not_found') }}</div>
+          </div>
         </template>
       </div>
     </div>
@@ -76,7 +75,7 @@
 import { t } from '@gptx/base/i18n';
 import { getList } from '@gptx/base/api/assistant-store';
 import { ListItem } from './components/store/index.js';
-import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
+
 
 const router = useRouter();
 const __data = reactive({
