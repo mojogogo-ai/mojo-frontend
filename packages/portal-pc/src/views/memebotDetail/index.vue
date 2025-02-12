@@ -3,7 +3,6 @@
     class="text-center mt-[80px] mb-[80px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
     Coin Detail
   </div>
-
   <div class="w-[800px] mx-auto memebot-detail mb-[40px]" v-if="isDetail">
     <div class="memebot-detail-top">
       <div class="detail-icon">
@@ -25,7 +24,7 @@
             <span class="symbol"> {{ form.symbol }}</span>
           </div>
           <div class="detail-socials">
-            <div v-if="form.twitter" class="social" @click="goLink('twitter')">
+            <div class="social" @click="goLink('twitter')">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -33,14 +32,14 @@
 
               Twitter
             </div>
-            <div v-if="form.telegram" class="social" @click="goLink('telegram')">
+            <div class="social" @click="goLink('telegram')">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div v-if="form.website" class="social" @click="goLink('website')">
+            <div class="social" @click="goLink('website')">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -175,42 +174,44 @@
                 @change="toggleTwitterConnection"
               />
             </el-form-item>
-            <el-form-item
-              prop="twitter_post_day"
-              label="Number of Twitter"
-            >
-              <el-input
-                v-model="form.twitter_post_day"
-                clearable
-                type="number"
-                :min="1"
-                :max="15"
-              />
-            </el-form-item>
-            <el-form-item
-              prop="twitter_reply_comment_day"
-              label="Number of Comment"
-            >
-              <el-input
-                v-model="form.twitter_reply_comment_day"
-                clearable
-                type="number"
-                :min="1"
-                :max="15"
-              />
-            </el-form-item>
-            <el-form-item
-              prop="twitter_like_day"
-              label="Number of Likes"
-            >
-              <el-input
-                v-model="form.twitter_like_day"
-                clearable
-                type="number"
-                :min="1"
-                :max="15"
-              />
-            </el-form-item>
+            <div v-show="form.twitter_state">
+              <el-form-item
+                prop="twitter_post_day"
+                label="Number of Twitter"
+              >
+                <el-input
+                  v-model="form.twitter_post_day"
+                  clearable
+                  type="number"
+                  :min="1"
+                  :max="15"
+                />
+              </el-form-item>
+              <el-form-item
+                prop="twitter_reply_comment_day"
+                label="Number of Comment"
+              >
+                <el-input
+                  v-model="form.twitter_reply_comment_day"
+                  clearable
+                  type="number"
+                  :min="1"
+                  :max="15"
+                />
+              </el-form-item>
+              <el-form-item
+                prop="twitter_like_day"
+                label="Number of Likes"
+              >
+                <el-input
+                  v-model="form.twitter_like_day"
+                  clearable
+                  type="number"
+                  :min="1"
+                  :max="15"
+                />
+              </el-form-item>
+            </div>
           </div>
 
         </div>
@@ -245,7 +246,7 @@
             <span class="symbol"> {{ form.symbol }}</span>
           </div>
           <div class="detail-socials">
-            <div v-if="form.twitter" class="social" @click="goLink('twitter')">
+            <div class="social" @click="goLink('twitter')">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -253,14 +254,14 @@
 
               Twitter
             </div>
-            <div v-if="form.telegram" class="social" @click="goLink('telegram')">
+            <div  class="social" @click="goLink('telegram')">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div v-if="form.website" class="social" @click="goLink('website')">
+            <div  class="social" @click="goLink('website')">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -514,23 +515,24 @@ const submitForm = async () => {
       }
     }
     form.file_id_list = fileDataList;
-    await botFileSave({
-      bot_id: form.id,
-      file_id_list: fileDataList
-    });
-    // TODO
-    // await updateBotFile({
+    // await botFileSave({
     //   bot_id: form.id,
-    //   file_id_list: fileDataList,
+    //   file_id_list: fileDataList
     // });
-    await botEdit(form);
-    await setTwitter({
+    await updateBotFile({
       bot_id: form.id,
-      post_day: Number(form.twitter_post_day),
-      reply_comment_day: Number(form.twitter_reply_comment_day),
-      like_day: Number(form.twitter_like_day)
+      file_id_list: fileDataList,
     });
-    ElMessage.success('Files updated successfully!');
+    await botEdit(form);
+    if (form.twitter_state) {
+      await setTwitter({
+        bot_id: form.id,
+        post_day: Number(form.twitter_post_day),
+        reply_comment_day: Number(form.twitter_reply_comment_day),
+        like_day: Number(form.twitter_like_day)
+      });
+    }
+    ElMessage.success('save successfully!');
   } catch (error) {
     console.error('文件上传失败:', error);
   } finally {
@@ -573,7 +575,6 @@ const toggleTelegramConfiguration = () => {
   }
 };
 const goLink = (platform) => {
-  // TODO
 };
 const toggleTwitterConnection = async () => {
   if (form.twitter_connect) {
@@ -591,11 +592,11 @@ const connectTwitter = async () => {
     window.open(twitterAuthUrl, 'twitterAuthPopup', 'width=500,height=600');
   } else {
     console.error('Failed to obtain twitter auth url');
-    // twitterLink.value = ''; TODO
+    // twitterLink.value = '';
   }
 };
 const disconnectTwitter = () => {
-  // twitterLink.value = '';
+  form.twitter_state = ''
 };
 </script>
 

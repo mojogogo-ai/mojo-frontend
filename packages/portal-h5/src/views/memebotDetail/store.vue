@@ -11,7 +11,6 @@
       class="text-center mt-[26px] mb-[26px] text-[#e1ff01] text-[20px] font-bold font-['TT Norms Pro'] leading-[23px]">
       Coin Detail
     </div>
-
     <div class="w-[343px] mx-auto memebot-detail mb-[40px]" v-if="isDetail">
       <div class="memebot-detail-top">
         <div class="detail-icon">
@@ -153,21 +152,23 @@
                   <van-switch size="16px" v-model="form.twitter_connect" @change="toggleTwitterConnection" />
                 </template>
               </van-field>
-              <van-field
-                name="twitter_post_day"
-                label-align="top"
-                label="Number of Twitter"
-              />
-              <van-field
-                name="twitter_reply_comment_day"
-                label-align="top"
-                label="Number of Comment"
-              />
-              <van-field
-                name="twitter_like_day"
-                label-align="top"
-                label="Number of Likes"
-              />
+              <div v-show="form.twitter_state">
+                <van-field
+                  name="twitter_post_day"
+                  label-align="top"
+                  label="Number of Twitter"
+                />
+                <van-field
+                  name="twitter_reply_comment_day"
+                  label-align="top"
+                  label="Number of Comment"
+                />
+                <van-field
+                  name="twitter_like_day"
+                  label-align="top"
+                  label="Number of Likes"
+                />
+              </div>
             </div>
           </div>
           <div class="button-row">
@@ -518,11 +519,10 @@ const connectTwitter = async () => {
     window.open(twitterAuthUrl, 'twitterAuthPopup', 'width=500,height=600');
   } else {
     console.error('Failed to obtain twitter auth url');
-    // twitterLink.value = ''; TODO
   }
 };
 const disconnectTwitter = () => {
-  // twitterLink.value = '';
+  form.twitter_state = ''
 };
 const close = () => {
 
@@ -552,15 +552,15 @@ const submitForm = async () => {
     });
     showSuccessToast('Files updated successfully!');
     await botEdit(form);
-    await setTwitter({
-      bot_id: form.id,
-      post_day: Number(form.twitter_post_day),
-      reply_comment_day: Number(form.twitter_reply_comment_day),
-      like_day: Number(form.twitter_like_day)
-    });
-    showSuccessToast('successfully!');
-
-
+    if (form.twitter_state) {
+      await setTwitter({
+        bot_id: form.id,
+        post_day: Number(form.twitter_post_day),
+        reply_comment_day: Number(form.twitter_reply_comment_day),
+        like_day: Number(form.twitter_like_day)
+      });
+    }
+    showSuccessToast('save successfully!');
   } catch (error) {
 
   } finally {
