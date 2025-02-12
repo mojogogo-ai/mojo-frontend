@@ -46,14 +46,20 @@
                 {{ $t("chat.start") }}
               </button>
             </div>
+
             <div v-else-if="readyForLaunch" class="start-button-continer">
               <button
+                v-if="appInstance.appContext.config.globalProperties.$wallet.connected.value"
                 class="start-button"
                 @click="Launch()"
               >
                 Launch
               </button>
+              <div id="wallet" style="width: 250px;">          
+                <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
+              </div>
             </div>
+
             <div v-else>
               <NInput
                 ref="inputRef"
@@ -179,6 +185,9 @@
   import IconDoc from '@/assets/images/base/upload/doc.svg';
   import IconCsv from '@/assets/images/base/upload/csv.svg';
 
+  import { WalletMultiButton,useWallet } from "solana-wallets-vue";
+
+  const appInstance = getCurrentInstance();
   let controller = new AbortController()
   // const lang = getCurLang()
   const chatStore = useChatStore()

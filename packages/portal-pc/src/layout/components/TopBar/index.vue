@@ -98,7 +98,7 @@
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
-        <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
+        
         <div v-if="isLogin">
           <!-- <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">PHANTOM WALLET</el-button> -->
           <div v-if="appInstance.appContext.config.globalProperties.$wallet.connected.value" class="flex flex-col items-center justify-center" @click="test()">
@@ -116,6 +116,7 @@
           <!-- <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button> -->
         </div>
       </div>
+      <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
     </div>
   </el-header>
 

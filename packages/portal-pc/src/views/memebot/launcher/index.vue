@@ -137,7 +137,8 @@
         displayNextLine();  
       };
   
-      const nextStep = () => {  
+      const nextStep = () => { 
+        console.log("step",currentStep.value) 
         if (isTyping.value) return;  
         if (currentStep.value < steps.value.length) {   
           currentStep.value++;  
@@ -166,15 +167,22 @@
         currentStep.value = 0; // 重置步骤  
         nextStep(); // 开始第一步  
       };  
+      const closePopup = ()=>{
+        isPopupOpen.value = false;
+      }
 
       const address = ref('') 
       
       const __sendTr = async () => {
         // const provider = getProvider(); // see "Detecting the Provider"
-        
+        console.log("wallet select",appInstance.appContext.config.globalProperties.$wallet.connected.value)
         try {
           // const resp = await provider.connect();
-          
+          if(!appInstance.appContext.config.globalProperties.$wallet.connected.value){
+            
+            closePopup()
+            throw "Please connect wallet first.";
+          }
           
           console.log("wallet",appInstance.appContext.config.globalProperties.$wallet);
           const connection = new Connection(clusterApiUrl('mainnet-beta'));

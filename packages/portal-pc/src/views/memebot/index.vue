@@ -161,13 +161,14 @@
       </el-form>
 
       <div class="flex justify-center w-full my-20">
-        <el-button
-          style="width: 250px; background: #000;"
+        <!-- <el-button
+          style="width: 250px;"
           @click="close"
         >
           {{ t('common.cancel') }}
-        </el-button>
+        </el-button> -->
         <el-button
+          v-if="appInstance.appContext.config.globalProperties.$wallet.connected.value"
           style="width: 250px;"
           type="primary"
           :loading="loading"
@@ -177,6 +178,9 @@
         >
           {{ submitText }}
         </el-button>
+        <div id="wallet" style="width: 250px;">          
+          <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
+        </div>
       </div>
     </div>
     <div v-else class="h-full transition-all chat-bg mx-auto" >
@@ -200,6 +204,10 @@ import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 import { ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
 import { botEdit, botFileSave, getBotInfo } from '@gptx/base/api/application.js';
+import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
+import CryptoJS from 'crypto-js';
+import axios from 'axios';
+import { WalletMultiButton,useWallet } from "solana-wallets-vue";
 const router = useRouter();
 const byForm = ref(true);
 const isVisible = ref(false);
@@ -235,6 +243,8 @@ const _getMemeDetail = async () => {
   }
 }
 _getMemeDetail();
+
+const appInstance = getCurrentInstance();
 const _getChatDetail = async () => {
   let systemBot = JSON.parse('{"id":"SafeGen-AI-Chat","name":"SafeGen AI","icon":"","prologue":"Welcome to MojoGogo. Click start to start the journey","description":"","system":true}');
   let predefined_question = systemBot.predefined_question ? systemBot.predefined_question.map((i) => {
@@ -525,5 +535,6 @@ label {
   box-shadow: 0px 25px 25px 0px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(40px);
 }
+
 </style>
 
