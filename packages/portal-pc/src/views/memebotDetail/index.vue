@@ -3,7 +3,8 @@
     class="text-center mt-[80px] mb-[80px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
     Coin Detail
   </div>
-  <div class="w-[800px] mx-auto memebot-detail mb-[40px]">
+
+  <div class="w-[800px] mx-auto memebot-detail mb-[40px]" v-if="isDetail">
     <div class="memebot-detail-top">
       <div class="detail-icon">
         <el-image
@@ -223,6 +224,60 @@
     </div>
 
   </div>
+  <div class="w-[800px] mx-auto memebot-detail mb-[40px]" v-else>
+    <div class="memebot-detail-top">
+      <div class="detail-icon">
+        <el-image
+          class="cursor-pointer bmicl-avatar-img"
+          fit="cover"
+          :src="form.icon"
+        />
+      </div>
+      <div class="detail-base">
+        <div class="detail-name">
+          {{ form.name }}
+        </div>
+        <div class="detail-meme-socials">
+          <div class="detail-meme">
+            <svg-icon
+              name="coin"
+            />
+            <span class="symbol"> {{ form.symbol }}</span>
+          </div>
+          <div class="detail-socials">
+            <div v-if="form.twitter" class="social" @click="goLink('twitter')">
+              <svg-icon
+                name="prime_twitter"
+                class="icon"
+              />
+
+              Twitter
+            </div>
+            <div v-if="form.telegram" class="social" @click="goLink('telegram')">
+              <svg-icon
+                name="telegram"
+                class="icon"
+              />
+              Telegram
+            </div>
+            <div v-if="form.website" class="social" @click="goLink('website')">
+              <svg-icon
+                name="web-fill"
+                class="icon"
+
+              />
+              Website
+            </div>
+          </div>
+        </div>
+        <div class="detail-introduction">
+          {{ form.introduction }}
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </template>
 
 <script setup>
@@ -232,6 +287,7 @@ import { ElMessage } from 'element-plus';
 import { t } from '@gptx/base/i18n/index.js';
 import { reactive, ref } from 'vue';
 import coinImageUrl from '@/assets/images/coin.png';
+import useUserStore from '@/store/modules/user.js';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
@@ -283,10 +339,18 @@ const parser = (value) => {
   }
   return '';
 };
+const user = useUserStore();
+onMounted(() => {
+  user.updateSysInfo(); // 调用更新用户信息的方法
+});
 const loading = ref(false);
 const formRef = ref(null);
+const isDetail = ref(false)
 const _getMemeDetail = async () => {
   const id = route.query.id;
+  if (route.query.nickName === user.nickName ) {
+    isDetail.value = true
+  }
   if (id) {
     try {
       const { code, data } = await getBotInfo({
