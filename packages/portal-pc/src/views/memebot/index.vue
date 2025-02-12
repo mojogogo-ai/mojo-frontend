@@ -178,7 +178,7 @@
         >
           {{ submitText }}
         </el-button>
-        <div id="wallet" style="width: 250px;">          
+        <div id="wallet">          
           <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
         </div>
       </div>

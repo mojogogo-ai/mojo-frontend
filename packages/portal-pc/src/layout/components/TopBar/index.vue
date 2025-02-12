@@ -532,10 +532,11 @@ onBeforeMount(() => {
 .swv-button-trigger{
   background-color: #E1FF01 !important;
   color: #000000 !important;
-  font-size: 13px;
-  padding: 0 12px !important;
-  border-radius: 12px!important;
-
+  font-size: 1.25rem !important;
+  transition: transform 0.3s ease-out !important;
+  font-family: Arial !important;
+  font-weight: var(--el-button-font-weight) !important;
+  border-radius: var(--el-border-radius-base) !important;
 }
 
 .customs-sub-menu {
