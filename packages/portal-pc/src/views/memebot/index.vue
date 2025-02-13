@@ -200,39 +200,39 @@
             maxlength="255"
             clearable
           />
-<!--          <div class="toggle-container">-->
-<!--            <label for="telegram-switch">Configure Telegram Bot</label>-->
-<!--            <el-switch-->
-<!--              v-model="isTelegramConfigured"-->
-<!--              @change="toggleTelegramConfiguration"-->
-<!--              active-color="#1da1f2"-->
-<!--              inactive-color="#ccc"-->
-<!--            />-->
-<!--          </div>-->
-<!--          <div v-if="isTelegramConfigured" class="additional-config">-->
-<!--            <el-form-item-->
-<!--              prop="telegram_bot_token"-->
-<!--            >-->
-<!--              <div class="w-[552px] h-9 flex flex-col">-->
-<!--                <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>-->
-<!--                <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot adress and token?</span>-->
-<!--              </div>-->
+          <div class="toggle-container">
+            <label for="telegram-switch">Configure Telegram Bot</label>
+            <el-switch
+              v-model="isTelegramConfigured"
+              @change="toggleTelegramConfiguration"
+              active-color="#1da1f2"
+              inactive-color="#ccc"
+            />
+          </div>
+          <div v-if="isTelegramConfigured" class="additional-config">
+            <el-form-item
+              prop="telegram_bot_token"
+            >
+              <div class="w-[552px] h-9 flex flex-col">
+                <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
+                <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot adress and token?</span>
+              </div>
 
-<!--              <el-input-->
-<!--                v-model="form.telegram_bot_address"-->
-<!--                placeholder="Enter Telegram Bot address"-->
-<!--                maxlength="255"-->
-<!--                clearable-->
-<!--              />-->
-<!--              <div class="w-[552px] h-5 flex flex-col"></div>-->
-<!--              <el-input-->
-<!--                v-model="form.telegram_bot_token"-->
-<!--                placeholder="Please enter Telegram Bot token"-->
-<!--                maxlength="10000"-->
-<!--                clearable-->
-<!--              />-->
-<!--            </el-form-item>-->
-<!--          </div>-->
+              <el-input
+                v-model="form.telegram_bot_address"
+                placeholder="Enter Telegram Bot address"
+                maxlength="255"
+                clearable
+              />
+              <div class="w-[552px] h-5 flex flex-col"></div>
+              <el-input
+                v-model="form.telegram_bot_token"
+                placeholder="Please enter Telegram Bot token"
+                maxlength="10000"
+                clearable
+              />
+            </el-form-item>
+          </div>
         </el-form-item>
 
         <el-form-item
@@ -275,8 +275,7 @@
       width="600px"
       @after-upload-knowledge="afterUploadKnowledge"
     />
-<!--    <Launcher ref="launcherDialog" />-->
-    <StartLaunch ref="startLaunchRef" width="600px" />
+    <Launcher ref="launcherDialog" />
     <Unlocked
       ref="unlockedRef"
       width="520px"
@@ -291,21 +290,18 @@ import UploadKnowledge from './uploadKnowledge/index.vue';
 import Launcher from './launcher/index.vue';
 import { ref } from 'vue';
 import TwitterButton from './twitterbutton/index.vue';
-import StartLaunch from '@/components/StartLaunch/index.vue';
-import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 
+import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
 const router = useRouter();
 const byForm = ref(true);
 const isVisible = ref(false);
-const chatApiUrl = '/portal/conversation/chat-anonymous';
+const chatApiUrl =  '/portal/conversation/chat-anonymous';
 const botConfig = ref(null)
 const _getChatDetail = async () => {
   let systemBot = JSON.parse('{"id":"SafeGen-AI-Chat","name":"SafeGen AI","icon":"","prologue":"Welcome to MojoGogo. Click start to start the journey","description":"","system":true}')
-  let predefined_question = systemBot.predefined_question ? systemBot.predefined_question.map((i) => {
-    return { content: i }
-  }) : []
-  let prologue = { content: systemBot.prologue || "" }
-  let resData = { app: { ...systemBot, system: true }, predefined_question, prologue, isHome: true }
+  let predefined_question = systemBot.predefined_question ? systemBot.predefined_question.map((i)=>{ return { content:i } }):[]
+  let prologue =  { content: systemBot.prologue ||"" }
+  let resData = { app:{ ...systemBot, system:true}, predefined_question, prologue, isHome: true }
   botConfig.value = resData;
   return
 };
@@ -324,7 +320,7 @@ const form = reactive({
   telegram_bot_token: '',
   introduction: '',
   icon: '',
-  third_company: '',
+  third_company:'',
   file_id_list: [],
   is_personalize_image_icon: false
 });
@@ -360,17 +356,17 @@ const audioList = reactive([
   },
   {
     id: 'Eva',
-    name: 'Eva',
+    name: 'Eva' ,
     icon: 'Eva_voice'
   },
   {
     id: 'Jason',
-    name: 'Jason',
+    name: 'Jason' ,
     icon: 'Jason_voice'
   },
   {
     id: 'Sara',
-    name: 'Sara',
+    name: 'Sara' ,
     icon: 'Sara_voice'
   }
 ]);
@@ -391,12 +387,11 @@ function updateTwitterLink(newLink) {
   form.twitter = newLink;
 }
 
-function byFormHandle() {
+function byFormHandle(){
   console.log(byForm)
   byForm.value = true;
 }
-
-function byAiHandle() {
+function byAiHandle(){
   console.log(byForm)
   byForm.value = false;
 }
@@ -428,9 +423,9 @@ const openUploadKnowledge = () => {
 };
 
 let AllFileList = [];
-const afterUploadKnowledge = ({ formFileList, file_id_list }) => {
+const afterUploadKnowledge = ({formFileList, file_id_list}) => {
   AllFileList = [...formFileList]
-  console.log(AllFileList, 'AllFileList')
+  console.log(AllFileList,'AllFileList')
 
   form.file_id_list = [...file_id_list]
   // publishDialogRef.value.open({ id });
@@ -470,20 +465,18 @@ const conversationBot = async (el) => {
 const unlockedRef = ref(null)
 // 轮询查询状态
 const launcherDialog = ref(null);
-const startLaunchRef = ref(null);
 const memeCheckTimer = ref(null);
-const setMemeCheckTimer = (bot_id) => {
+const setMemeCheckTimer = (bot_id) =>{
   memeCheckTimer.value = setInterval(async () => {
     try {
       const result = await memeCheck({ bot_id });
-      console.log(result, 'memeCheck result');
+      console.log(result,'memeCheck result');
       if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
         clearInterval(memeCheckTimer.value)
         loading.value = false;
         submitText.value = 'Create';
         formRef.value.resetFields();
-        // launcherDialog.value.openPopup({ ...result.data, bot_id });
-        startLaunchRef.value.open({ ...result.data, bot_id});
+        launcherDialog.value.openPopup({ ...result.data, bot_id});
       }
     } catch (error) {
       throw error;
@@ -627,7 +620,6 @@ onUnmounted(() => {
     }
   }
 }
-
 .toggle-container {
   display: flex;
   align-items: center;
@@ -654,7 +646,6 @@ label {
 .play-item {
   display: none;
 }
-
 .hover-operation:hover {
   .play-item {
     transition: 0.1s;
@@ -683,12 +674,10 @@ label {
   cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
   outline: none; /* Remove outline to improve aesthetics */
 }
-
 .selected {
   background-color: #E0FF3133; /* Selected background */
   color: #E0FF31; /* Selected text color */
 }
-
 .switch-container {
   display: flex; /* 启用Flexbox */
   justify-content: center; /* 水平居中按钮 */
