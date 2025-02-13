@@ -178,7 +178,7 @@
         >
           {{ submitText }}
         </el-button>
-        <div id="wallet">          
+        <div id="wallet">
           <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
         </div>
       </div>
@@ -188,6 +188,7 @@
                 :is-debug="false" style="max-width: 100%" />
     </div>
     <StartLaunch ref="startLaunchRef" width="600px" />
+    <Launcher ref="launcherDialog" />
     <Unlocked
       ref="unlockedRef"
       width="520px"
@@ -201,6 +202,7 @@ import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
 import StartLaunch from '@/components/StartLaunch/index.vue';
 import { reactive, ref } from 'vue';
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
+import Launcher from './launcher/index.vue';
 import { ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
 import { botEdit, botFileSave, getBotInfo } from '@gptx/base/api/application.js';
@@ -378,6 +380,7 @@ const submitHandle = async (el) => {
 
 const unlockedRef = ref(null);
 // 轮询查询状态
+const launcherDialog = ref(null);
 const startLaunchRef = ref(null);
 const memeCheckTimer = ref(null);
 const setMemeCheckTimer = (bot_id) => {
@@ -390,7 +393,8 @@ const setMemeCheckTimer = (bot_id) => {
         loading.value = false;
         submitText.value = 'Create';
         formRef.value.resetFields();
-        startLaunchRef.value.open({ ...result.data, bot_id});
+        // startLaunchRef.value.open({ ...result.data, bot_id});
+        launcherDialog.value.openPopup({ ...result.data, bot_id});
       }
     } catch (error) {
       throw error;
