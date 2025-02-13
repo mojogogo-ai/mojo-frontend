@@ -40,6 +40,8 @@
 import { t } from '@gptx/base/i18n';
 import bs58 from "bs58";
 import { getTokenCreate, memePaid } from '@gptx/base/api/meme-bot';
+
+import { Buffer } from 'buffer'; 
 import { WalletMultiButton,useWallet } from "solana-wallets-vue";
 import { Connection, clusterApiUrl, Keypair, SystemProgram, Transaction,VersionedTransaction } from '@solana/web3.js';
 const router = useRouter();
@@ -77,7 +79,7 @@ const __sendTr = async () => {
       // publicKey.value = resp.publicKey.toString()
       //const sendTransaction = useWallet();
       console.log("wallet",appInstance.appContext.config.globalProperties.$wallet);
-      const connection = new Connection(clusterApiUrl('mainnet-beta'));
+      const connection = new Connection("https://dimensional-quick-sanctuary.solana-mainnet.quiknode.pro/b73ef3c61afe76bafce8615881ea46ce856db8a6");
       const params = {
           "bot_id": memeCoinInfo.value.bot_id,
           "chain_name": "solana",
@@ -98,7 +100,7 @@ const __sendTr = async () => {
         console.log("buffer",buffer)
         const transaction = VersionedTransaction.deserialize(buffer);
         console.log("transaction",transaction)
-        const binaryData = base64ToBinary(res.data.tx_base64);
+        // const binaryData = base64ToBinary(res.data.tx_base64);
         
         
         // const connection = new Connection(clusterApiUrl('mainnet'));
