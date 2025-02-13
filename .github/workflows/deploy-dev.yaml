@@ -10,7 +10,7 @@ on:
       - release/**
     paths-ignore:
       - 'README.md'
-      # - '.github/**'
+      - '.github/**'
 
 env:
   AWS_REGION: us-west-1
@@ -78,11 +78,7 @@ jobs:
           elif [[ $BRANCH_NAME == "develop" ]]; then
             echo "CLOUDFRONT_ID=E36N073WH9X2JK" >> $GITHUB_ENV
           elif [[ $BRANCH_NAME == "release/v"* ]]; then
-            if [[ $BRANCH_NAME == *"beta" ]]; then
-              echo "CLOUDFRONT_ID=E3JIE3I173BQ5Z" >> $GITHUB_ENV
-            else
-              echo "CLOUDFRONT_ID=E3SDQIHOKDU31N" >> $GITHUB_ENV
-            fi
+              echo "CLOUDFRONT_ID=E1VC8THOG18KIV" >> $GITHUB_ENV
           fi
 
       - name: Configure AWS credentials
