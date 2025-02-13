@@ -10,7 +10,7 @@ on:
       - release/**
     paths-ignore:
       - 'README.md'
-      # - '.github/**'
+      - '.github/**'
 
 env:
   AWS_REGION: us-west-1
@@ -33,7 +33,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.9.0
           cache: 'pnpm'
 
       - name: Install dependencies
