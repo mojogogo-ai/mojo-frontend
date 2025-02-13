@@ -23,6 +23,9 @@
       >
         +  {{t('home.button.c')}}
       </van-button>
+
+
+
       <!-- <van-button
         class="mb-[80px]"
         type="primary"
@@ -30,50 +33,50 @@
       >
         + Create Bot
       </van-button> -->
-      <div class="page-list mt-[80px]">
-        <div class=" part-home-1">
-          <div class="mb-4 text-lg part-home-1-title">{{t("home.partOne.title")}}</div>
-          <div class="mb-7 text-sm part-home-1-content">
-            {{t("home.partOne.content")}}
-          </div>
-          <van-button
-            class="w-4/5"
-            type="primary"
-            @click="jump('/personal')"
-          >
-            Personal
-          </van-button>
-        </div>
-      </div>
-      <div class="page-list">
-        <van-image
-          class="w-full"
-          fit="cover"
-          :src="Pic1"
-        />
-      </div>
-      <div class="page-list">
-        <van-cell class="page-list__inner">
-          <div class="mb-4 text-lg">{{t("home.partTwo.title")}}</div>
-          <div class="mb-4 text-sm">
-            {{t("home.partTwo.content")}}
-          </div>
-          <van-button
-            class="w-4/5"
-            type="primary"
-            @click="jump('/assistant')"
-          >
-            {{t("home.button.e")}}
-          </van-button>
-        </van-cell>
-      </div>
-      <div class="page-list">
-        <van-image
-          class="w-full"
-          fit="cover"
-          :src="Pic2"
-        />
-      </div>
+<!--      <div class="page-list mt-[80px]">-->
+<!--        <div class=" part-home-1">-->
+<!--          <div class="mb-4 text-lg part-home-1-title">{{t("home.partOne.title")}}</div>-->
+<!--          <div class="mb-7 text-sm part-home-1-content">-->
+<!--            {{t("home.partOne.content")}}-->
+<!--          </div>-->
+<!--          <van-button-->
+<!--            class="w-4/5"-->
+<!--            type="primary"-->
+<!--            @click="jump('/personal')"-->
+<!--          >-->
+<!--            Personal-->
+<!--          </van-button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="page-list">-->
+<!--        <van-image-->
+<!--          class="w-full"-->
+<!--          fit="cover"-->
+<!--          :src="Pic1"-->
+<!--        />-->
+<!--      </div>-->
+<!--      <div class="page-list">-->
+<!--        <van-cell class="page-list__inner">-->
+<!--          <div class="mb-4 text-lg">{{t("home.partTwo.title")}}</div>-->
+<!--          <div class="mb-4 text-sm">-->
+<!--            {{t("home.partTwo.content")}}-->
+<!--          </div>-->
+<!--          <van-button-->
+<!--            class="w-4/5"-->
+<!--            type="primary"-->
+<!--            @click="jump('/assistant')"-->
+<!--          >-->
+<!--            {{t("home.button.e")}}-->
+<!--          </van-button>-->
+<!--        </van-cell>-->
+<!--      </div>-->
+<!--      <div class="page-list">-->
+<!--        <van-image-->
+<!--          class="w-full"-->
+<!--          fit="cover"-->
+<!--          :src="Pic2"-->
+<!--        />-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -131,7 +134,7 @@ onBeforeMount(async () => {
 
   &::before {
     display: block;
-    height: 80px;
+    height: 157.5px;
     content: '';
   }
 

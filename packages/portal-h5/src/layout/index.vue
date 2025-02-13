@@ -1,6 +1,12 @@
 <template>
   <div class="app-wrapper">
     <div class="app-bg"></div>
+    <div class="bg-animation">
+      <div class="dragon"></div>
+      <div class="melting-face"></div>
+      <div class="melting-pink-face"></div>
+      <div class="ufo"></div>
+    </div>
     <van-popup
       v-model:show="storeLayout.isSHowSidebar"
       position="top"

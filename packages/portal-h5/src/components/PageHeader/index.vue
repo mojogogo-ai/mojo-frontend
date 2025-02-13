@@ -17,6 +17,7 @@
         name="wap-nav"
         size="18"
         color="var(--van-blue)"
+        class="m-[9px]"
         @click="onLeftIconClick"
       />
     </div>
@@ -138,8 +139,8 @@ const toPage = () => {
   position: sticky;
   top: 0;
   width: 100%;
-  height: var(--van-action-bar-height);
-  padding: 0 8px 0 18px;
+  height: 56px;
+  padding: 0 16px 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
