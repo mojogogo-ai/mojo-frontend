@@ -65,10 +65,10 @@ const address = ref('') // publicKey就是address
 const __sendTr = async () => {
     // const provider = getProvider(); // see "Detecting the Provider"
     console.log("wallet select",appInstance.appContext.config.globalProperties.$wallet.connected.value)
-    if(appInstance.appContext.config.globalProperties.$wallet.connected.value){
+    if(!appInstance.appContext.config.globalProperties.$wallet.connected.value){
             
       close()
-          }
+    }
     try {
       // const resp = await provider.connect();
       // console.log(resp,'resp')
