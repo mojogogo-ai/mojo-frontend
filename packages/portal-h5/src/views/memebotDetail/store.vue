@@ -38,7 +38,7 @@
             Socials
           </div>
           <div class="detail-socials">
-            <div class="social">
+            <div class="social" v-if="form.twitter" @click="goLink('twitter')">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -46,14 +46,14 @@
 
               Twitter
             </div>
-            <div class="social">
+            <div class="social" v-if="form.telegram" @click="goLink('telegram')">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div class="social">
+            <div class="social" v-if="form.website" @click="goLink('website')">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -210,7 +210,7 @@
             Socials
           </div>
           <div class="detail-socials">
-            <div class="social">
+            <div class="social" v-if="form.twitter" @click="goLink('twitter')">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -218,14 +218,14 @@
 
               Twitter
             </div>
-            <div class="social">
+            <div class="social" v-if="form.telegram" @click="goLink('telegram')">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div class="social">
+            <div class="social" v-if="form.website" @click="goLink('website')">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -596,6 +596,11 @@ const uploadFile = async (upload_url, file, form_data) => {
   await axios.post(upload_url, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   });
+};
+const goLink = (link) => {
+  if (link && link.length) {
+    window.open(link, '_blank');
+  }
 };
 </script>
 

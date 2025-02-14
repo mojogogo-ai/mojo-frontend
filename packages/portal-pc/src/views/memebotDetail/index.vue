@@ -24,7 +24,7 @@
             <span class="symbol"> {{ form.symbol }}</span>
           </div>
           <div class="detail-socials">
-            <div class="social" @click="goLink('twitter')">
+            <div class="social" v-if="form.twitter" @click="goLink('twitter')">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -32,14 +32,14 @@
 
               Twitter
             </div>
-            <div class="social" @click="goLink('telegram')">
+            <div class="social" v-if="form.telegram" @click="goLink('telegram')">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div class="social" @click="goLink('website')">
+            <div class="social" v-if="form.website" @click="goLink('website')">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -246,7 +246,7 @@
             <span class="symbol"> {{ form.symbol }}</span>
           </div>
           <div class="detail-socials">
-            <div class="social" @click="goLink('twitter')">
+            <div v-if="form.twitter" class="social" @click="goLink(form.twitter)">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -254,14 +254,14 @@
 
               Twitter
             </div>
-            <div  class="social" @click="goLink('telegram')">
+            <div v-if="form.telegram"  class="social" @click="goLink(form.telegram)">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div  class="social" @click="goLink('website')">
+            <div v-if="form.website" class="social" @click="goLink(form.website)">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -574,7 +574,10 @@ const toggleTelegramConfiguration = () => {
     form.telegram_bot_token = '';
   }
 };
-const goLink = (platform) => {
+const goLink = (link) => {
+  if (link && link.length) {
+    window.open(link, '_blank');
+  }
 };
 const toggleTwitterConnection = async () => {
   if (form.twitter_connect) {
