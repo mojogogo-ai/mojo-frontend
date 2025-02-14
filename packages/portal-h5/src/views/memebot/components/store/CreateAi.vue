@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-full h-screen transition-all chat-bg mx-auto">
     <GptxChat :bot-info="botConfig" :chat-api-url="chatApiUrl"
               :operation-config="operationConfig"
               :is-debug="false" style="max-width: 100%" />
@@ -25,3 +25,15 @@ const _getChatDetail = async () => {
 _getChatDetail();
 
 </script>
+
+<style lang="scss" scoped>
+.chat-bg{
+  padding: 0 16px;
+  //position: fixed;
+  //top: 200px;
+  //width: 90%;
+  //height: 100%;
+  //background: url("../../../../assets/svg/chat-bg.svg") no-repeat center top;
+  //background-size: cover;
+}
+</style>
