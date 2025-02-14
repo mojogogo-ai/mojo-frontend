@@ -47,7 +47,7 @@
         </svg>
       </div>
       <div class="check-in-text mt-[20px] mb-[30px]">
-        Check-In to earn 5 Mojo Gogo points everyday!
+        Check-In to earn 10 Mojo Gogo points everyday!
       </div>
       <div class="cursor-pointer check-in-btn">
         <div
