@@ -89,11 +89,12 @@ import { getIsLogin } from '@/utils/firebase.js';
 import useLoginStore from '@/store/modules/login.js';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 import router from '@/router'
+import { useRoute } from 'vue-router';
 
 let isLogin = ref(false);
 const useLogin = useLoginStore();
 const isOpened = computed(() => useLogin.loginDialogVisible);
-
+const route = useRoute();
 const onOpenLoginDialog = () => {
   useLogin.setLoginDialogVisible(true, 'signup');
 };
@@ -130,7 +131,7 @@ onBeforeMount(async () => {
 
 <style lang="scss" scoped>
 .app-page-content {
-  padding: 0 16px;
+  padding: 0 48px;
 
   &::before {
     display: block;
@@ -209,10 +210,11 @@ onBeforeMount(async () => {
   font-weight: 700;
   //line-height: 23px; /* 67.647% */
   letter-spacing: -1px;
+  margin-bottom: 24px;
 }
 
 .homepage-subtitle {
-  margin: 16px auto 32px;
+  margin-bottom: 56px;
   text-align: center;
   font-size: 14px;
 }
