@@ -229,7 +229,8 @@ const catalogList = reactive([
   { id: 'Natural', name: 'Natural' },
   { id: 'Professional', name: 'Professional' },
   { id: 'Passionate', name: 'Passionate' },
-  { id: 'Customize', name: 'Customize' }
+  { id: 'Default', name: 'Default' },
+  { id: 'Playful', name: 'Playful' }
 ]);
 // user gender,0 none-binary 1 male 2 female
 const genderList = reactive([

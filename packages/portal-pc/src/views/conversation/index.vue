@@ -61,28 +61,29 @@ const conversationList = reactive([
   { id: 'Natural', name: 'Natural' },
   { id: 'Professional', name: 'Professional' },
   { id: 'Passionate', name: 'Passionate' },
-  { id: 'Customize', name: 'Customize' }
+  { id: 'Default', name: 'Default' },
+  { id: 'Playful', name: 'Playful' }
 ]);
 
 const unlockValue = ref(false)
 const audioList = reactive([
-  { 
-    id: 'Aiden', 
+  {
+    id: 'Aiden',
     name: 'Aiden',
     icon: 'Aiden_voice'
    },
-  { 
-    id: 'Eva', 
+  {
+    id: 'Eva',
     name: 'Eva' ,
     icon: 'Eva_voice'
   },
-  { 
+  {
     id: 'Jason',
     name: 'Jason' ,
     icon: 'Jason_voice'
   },
-  { 
-    id: 'Sara', 
+  {
+    id: 'Sara',
     name: 'Sara' ,
     icon: 'Sara_voice'
   }
@@ -148,7 +149,7 @@ const submitHandle = async (el) => {
 
 const conversationBot = async (el) => {
    router.push({ path: '/conversation' });
-  
+
 };
 
 const unlockedRef = ref(null)

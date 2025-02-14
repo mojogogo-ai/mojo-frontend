@@ -298,7 +298,8 @@ const conversationList = reactive([
   { id: 'Natural', name: 'Natural' },
   { id: 'Professional', name: 'Professional' },
   { id: 'Passionate', name: 'Passionate' },
-  { id: 'Customize', name: 'Customize' }
+  { id: 'Default', name: 'Default' },
+  { id: 'Playful', name: 'Playful' }
 ]);
 
 
