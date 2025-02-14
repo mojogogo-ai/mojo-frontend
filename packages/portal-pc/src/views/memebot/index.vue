@@ -1,13 +1,18 @@
 <template>
-  <div class="w-[562px] mx-auto">
-    <div class="text-center  mt-[60px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">Create Meme Bot</div>
+  <div class="mx-auto">
+    <div
+      class="text-center mt-[80px] mb-[40px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
+      <span v-show="status ==='create'">{{t('bots.title')}}</span>
+      <span v-show="status ==='edit'">{{t('bots.edit_title')}}</span>
+
+    </div>
     <!-- 按钮用于切换页面 -->
-    <div class="switch-container mb-[40px]">
-      <button @click="byFormHandle()" :class="['switch-button',{ 'selected': byForm }]">Create with Form</button>
-      <button @click="byAiHandle()" :class="['switch-button',{ 'selected': !byForm }]">Create with AI</button>
+    <div v-show="status ==='create'" class="switch-container mb-[40px]">
+      <button @click="byFormHandle()" :class="['switch-button',{ 'selected': byForm }]"> {{t('bots.bot_form')}}</button>
+      <button @click="byAiHandle()" :class="['switch-button',{ 'selected': !byForm }]"> {{t('bots.bot_ai')}}</button>
     </div>
 
-    <div v-if="byForm">
+    <div v-if="byForm" class="w-[550px] mx-auto">
       <el-form
         ref="formRef"
         label-position="top"
@@ -19,12 +24,11 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item
-              label="Bot name"
-              prop="name"
-            >
+              :label="t('bots.label.name')"
+              prop="name">
               <el-input
                 v-model="form.name"
-                placeholder="Bot name"
+                :placeholder="t('bots.label.name')"
                 maxlength="50"
                 show-word-limit
                 clearable
@@ -38,7 +42,7 @@
             >
               <el-select
                 v-model="form.gender"
-                placeholder="Bot gender"
+                :placeholder="t('bots.label.gender')"
               >
                 <el-option
                   v-for="item in genderList"
@@ -50,7 +54,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item
@@ -59,7 +62,7 @@
             >
               <el-select
                 v-model="form.classification"
-                placeholder="Bot conversation Style"
+                :placeholder="t('bots.placeholder.classification')"
               >
                 <el-option
                   v-for="item in conversationList"
@@ -71,73 +74,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <!-- <el-form-item
-              label="Audio Selection"
-              prop="audio"
-            >
-              <el-select
-                v-model="form.audio"
-                placeholder="Select audio"
-              >
-                <el-option
-                  v-for="item in audioList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                  <div class="flex items-center justify-between hover-operation">
-                    <div class="flex items-center">
-                      <svg-icon
-                        class="text-xl"
-                        :name="item.icon"
-                      />
-                      <span class="ml-2">{{ item.name }}</span>
-                    </div>
-                    <div class="items-center justify-between play-item">
-                      <svg-icon
-                        class="text-[#000]"
-                        name="Play_voice"
-                      />
-                      <span>play</span>
-                    </div>
-                  </div>
-                </el-option>
-
-                <template #footer>
-                  <div class="flex items-center justify-between text-[#000] pl-[10px] pr-[22px] py-2 border">
-                    <div class="flex items-center">
-                      <svg-icon
-                        class="text-[#000] text-xl"
-                        name="Custom_voice"
-                      />
-                      <span class="mx-[4px]">Custom Voice</span>
-
-                      <div class="flex items-center justify-between px-2 py-[4px] ml-2 bg-black rounded-lg">
-                        <svg-icon
-                          class="text-[#e1ff01] text-[13px] mr-1"
-                          name="star"
-                        />
-                        <span class="text-[#e1ff01] text-[12px]">AI</span>
-                      </div>
-                      <div class="flex items-center justify-between px-2 py-[4px] ml-4 bg-black rounded-lg">
-                        <svg-icon
-                          class="text-[#e1ff01] text-[13px] mr-1"
-                          name="star2"
-                        />
-                        <span class="text-[#e1ff01] text-[12px]">premium</span>
-                      </div>
-                    </div>
-                  </div>
-                </template>
-              </el-select>
-            </el-form-item> -->
             <el-form-item
-              label="Coin Symbol"
+              :label="t('bots.label.symbol')"
               prop="symbol"
             >
               <el-input
                 v-model="form.symbol"
-                placeholder="Meme coin symbol"
+                :placeholder="t('bots.placeholder.symbol')"
                 maxlength="50"
                 show-word-limit
                 clearable
@@ -147,14 +90,14 @@
         </el-row>
 
         <el-form-item
-          label="Description"
+          :label="t('bots.label.description')"
           prop="introduction"
         >
           <el-input
             v-model="form.introduction"
             type="textarea"
             :rows="4"
-            placeholder="Describe your bot's functions and usage."
+            :placeholder="t('bots.placeholder.description')"
             maxlength="800"
             show-word-limit
             clearable
@@ -180,14 +123,16 @@
             @change="onImageChange"
           />
         </el-form-item>
-
         <el-form-item
           label="Twitter"
           prop="twitter"
         >
-          <TwitterButton
-            @updateTwitterLink="updateTwitterLink"
-            @update-auth-status="handleAuthStatusUpdate" />
+          <el-input
+            v-model="form.twitter"
+            :placeholder="t('bots.placeholder.twitter')"
+            maxlength="255"
+            clearable
+          />
         </el-form-item>
 
         <el-form-item
@@ -196,43 +141,10 @@
         >
           <el-input
             v-model="form.telegram"
-            placeholder="Enter your Telegram address"
+            :placeholder="t('bots.placeholder.telegram')"
             maxlength="255"
             clearable
           />
-          <div class="toggle-container">
-            <label for="telegram-switch">Configure Telegram Bot</label>
-            <el-switch
-              v-model="isTelegramConfigured"
-              @change="toggleTelegramConfiguration"
-              active-color="#1da1f2"
-              inactive-color="#ccc"
-            />
-          </div>
-          <div v-if="isTelegramConfigured" class="additional-config">
-            <el-form-item
-              prop="telegram_bot_token"
-            >
-              <div class="w-[552px] h-9 flex flex-col">
-                <span class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none">Connect to Telegram bots and chat with this bot in Telegram App.</span>
-                <span class="text-[#e1ff01] text-[13px] font-normal font-['TT Norms Pro'] mt-1 mb-2 leading-none cursor-pointer hover:" @click="getTgToken">How to get Telegram Bot adress and token?</span>
-              </div>
-
-              <el-input
-                v-model="form.telegram_bot_address"
-                placeholder="Enter Telegram Bot address"
-                maxlength="255"
-                clearable
-              />
-              <div class="w-[552px] h-5 flex flex-col"></div>
-              <el-input
-                v-model="form.telegram_bot_token"
-                placeholder="Please enter Telegram Bot token"
-                maxlength="10000"
-                clearable
-              />
-            </el-form-item>
-          </div>
         </el-form-item>
 
         <el-form-item
@@ -241,7 +153,7 @@
         >
           <el-input
             v-model="form.website"
-            placeholder="Enter your website"
+            :placeholder="t('bots.placeholder.website')"
             maxlength="255"
             clearable
           />
@@ -249,13 +161,14 @@
       </el-form>
 
       <div class="flex justify-center w-full my-20">
-        <el-button
+        <!-- <el-button
           style="width: 250px;"
           @click="close"
         >
           {{ t('common.cancel') }}
-        </el-button>
+        </el-button> -->
         <el-button
+          v-if="appInstance.appContext.config.globalProperties.$wallet.connected.value"
           style="width: 250px;"
           type="primary"
           :loading="loading"
@@ -265,17 +178,16 @@
         >
           {{ submitText }}
         </el-button>
+        <div id="wallet">
+          <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
+        </div>
       </div>
     </div>
-    <div v-else class="h-full transition-all chat-bg">
-      <GptxChat v-if="botConfig" :bot-info="botConfig" :operation-config="operationConfig" :chat-api-url="chatApiUrl" :is-debug="false" style="max-width: 100%"  />
+    <div v-else class="h-full transition-all chat-bg mx-auto" >
+      <GptxChat v-if="botConfig" :bot-info="botConfig" :operation-config="operationConfig" :chat-api-url="chatApiUrl"
+                :is-debug="false" style="max-width: 100%" />
     </div>
-    <UploadKnowledge
-      ref="uploadKnowledgeRef"
-      width="600px"
-      @after-upload-knowledge="afterUploadKnowledge"
-    />
-    <Launcher ref="launcherDialog" />
+    <StartLaunch ref="startLaunchRef" width="600px" />
     <Unlocked
       ref="unlockedRef"
       width="520px"
@@ -286,27 +198,68 @@
 <script setup>
 import { t } from '@gptx/base/i18n';
 import { memeCreate, memeCheck } from '@gptx/base/api/meme-bot';
-import UploadKnowledge from './uploadKnowledge/index.vue';
-import Launcher from './launcher/index.vue';
-import { ref } from 'vue';
-import TwitterButton from './twitterbutton/index.vue';
-
+import StartLaunch from '@/components/StartLaunch/index.vue';
+import { reactive, ref } from 'vue';
 import GptxChat from '@gptx/components/src/components/GptxChat/index.vue';
+import { ElMessage } from 'element-plus';
+import { useRoute } from 'vue-router';
+import { botEdit, botFileSave, getBotInfo } from '@gptx/base/api/application.js';
+import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
+import CryptoJS from 'crypto-js';
+import axios from 'axios';
+import { WalletMultiButton,useWallet } from "solana-wallets-vue";
 const router = useRouter();
 const byForm = ref(true);
 const isVisible = ref(false);
-const chatApiUrl =  '/portal/conversation/chat-anonymous';
-const botConfig = ref(null)
+const chatApiUrl = '/portal/conversation/chat-anonymous';
+const botConfig = ref(null);
+const route = useRoute();
+const id = route.query.id;
+const status = ref('create'); // create，edit
+const submitText = ref('Create');
+const _getMemeDetail = async () => {
+  if (id) {
+    status.value = 'edit';
+    submitText.value = 'Confirm';
+    try {
+      const { code, data } = await getBotInfo({
+        id: id
+      });
+      if (code === 200) {
+        form.id = data.id;
+        form.icon = data.icon;
+        form.name = data.name;
+        form.introduction = data.introduction;
+        form.classification = data.classification;
+        form.gender = data.gender
+        form.symbol = data.symbol;
+        form.twitter = data.twitter;
+        form.telegram = data.telegram;
+        form.website = data.website;
+      }
+    } catch (error){
+      ElMessage.error(t('bots.error.getDetail'));
+    } finally {
+
+    }
+  }
+}
+_getMemeDetail();
+
+const appInstance = getCurrentInstance();
 const _getChatDetail = async () => {
-  let systemBot = JSON.parse('{"id":"SafeGen-AI-Chat","name":"SafeGen AI","icon":"","prologue":"Welcome to MojoGogo. Click start to start the journey","description":"","system":true}')
-  let predefined_question = systemBot.predefined_question ? systemBot.predefined_question.map((i)=>{ return { content:i } }):[]
-  let prologue =  { content: systemBot.prologue ||"" }
-  let resData = { app:{ ...systemBot, system:true}, predefined_question, prologue, isHome: true }
+  let systemBot = JSON.parse('{"id":"SafeGen-AI-Chat","name":"SafeGen AI","icon":"","prologue":"Welcome to MojoGogo. Click start to start the journey","description":"","system":true}');
+  let predefined_question = systemBot.predefined_question ? systemBot.predefined_question.map((i) => {
+    return { content: i };
+  }) : [];
+  let prologue = { content: systemBot.prologue || '' };
+  let resData = { app: { ...systemBot, system: true }, predefined_question, prologue, isHome: true };
   botConfig.value = resData;
-  return
+  return;
 };
-_getChatDetail()
+_getChatDetail();
 const form = reactive({
+  id: '',
   name: '',
   gender: null,
   classification: [],//  conversation
@@ -320,7 +273,8 @@ const form = reactive({
   telegram_bot_token: '',
   introduction: '',
   icon: '',
-  third_company:'',
+  third_company: '',
+  fileList: [],
   file_id_list: [],
   is_personalize_image_icon: false
 });
@@ -330,7 +284,7 @@ const rules = reactive({
   gender: [{ required: true, message: 'Please select bot gender' }],
   classification: [{ required: true, message: t('bots.ruleMessage.catalog'), trigger: 'change' }],
   icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
-  introduction: [{ required: true, message: 'Please enter your bot description' }],
+  introduction: [{ required: true, message: 'Please enter your bot description' }]
 });
 
 // user gender,0 none-binary 1 male 2 female
@@ -347,52 +301,18 @@ const conversationList = reactive([
   { id: 'Customize', name: 'Customize' }
 ]);
 
-const unlockValue = ref(false)
-const audioList = reactive([
-  {
-    id: 'Aiden',
-    name: 'Aiden',
-    icon: 'Aiden_voice'
-  },
-  {
-    id: 'Eva',
-    name: 'Eva' ,
-    icon: 'Eva_voice'
-  },
-  {
-    id: 'Jason',
-    name: 'Jason' ,
-    icon: 'Jason_voice'
-  },
-  {
-    id: 'Sara',
-    name: 'Sara' ,
-    icon: 'Sara_voice'
-  }
-]);
-
 
 const formRef = ref(null);
 const loading = ref(false);
 const isAIloading = ref(false);
-const parentAuthStatus = ref("unauthorized");
 
-const isTelegramConfigured = ref(false);
-
-function handleAuthStatusUpdate(newStatus) {
-  form.twitter_state = newStatus;
-}
-
-function updateTwitterLink(newLink) {
-  form.twitter = newLink;
-}
-
-function byFormHandle(){
-  console.log(byForm)
+function byFormHandle() {
+  console.log(byForm);
   byForm.value = true;
 }
-function byAiHandle(){
-  console.log(byForm)
+
+function byAiHandle() {
+  console.log(byForm);
   byForm.value = false;
 }
 
@@ -412,41 +332,40 @@ const close = () => {
   router.push({ path: '/personal' });
 };
 const onImageChange = (url, is_personalize_image_icon) => {
-  form.icon = url
-  form.is_personalize_image_icon = is_personalize_image_icon
+  form.icon = url;
+  form.is_personalize_image_icon = is_personalize_image_icon;
 };
 
-
-const uploadKnowledgeRef = ref(null);
-const openUploadKnowledge = () => {
-  uploadKnowledgeRef.value.open();
-};
-
-let AllFileList = [];
-const afterUploadKnowledge = ({formFileList, file_id_list}) => {
-  AllFileList = [...formFileList]
-  console.log(AllFileList,'AllFileList')
-
-  form.file_id_list = [...file_id_list]
-  // publishDialogRef.value.open({ id });
-};
 
 // commit action
-const submitText = ref('Create')
 
 const submitHandle = async (el) => {
   if (loading.value) return;
   await el.validate(async (valid) => {
     if (valid) {
       try {
-        console.log(form.twitter);
         loading.value = true;
-        const result = await memeCreate(form);
-        if (result.code === 200) {
-          submitText.value = 'Creating your bot...'
-          setMemeCheckTimer(result.data.id)
-        } else {
-          loading.value = false;
+        if (form.fileList.length > 0) {
+          // await submitFile();
+        }
+        if (status.value === 'create'){
+          delete form.id
+          const result = await memeCreate(form);
+          if (result.code === 200) {
+            submitText.value = 'Creating your bot...';
+            setMemeCheckTimer(result.data.id);
+          } else {
+            loading.value = false;
+          }
+        }
+        if(status.value === 'edit'){
+          const result = await botEdit(form);
+          if (result.code === 200) {
+            submitText.value = 'Edit your bot...';
+            setMemeCheckTimer(form.id);
+          } else {
+            loading.value = false;
+          }
         }
       } catch (e) {
         console.log(e);
@@ -456,44 +375,30 @@ const submitHandle = async (el) => {
   });
 };
 
-const conversationText = ref('Conversation')
-const conversationBot = async (el) => {
-  router.push({ path: '/conversation' });
 
-};
 
-const unlockedRef = ref(null)
+const unlockedRef = ref(null);
 // 轮询查询状态
-const launcherDialog = ref(null);
+const startLaunchRef = ref(null);
 const memeCheckTimer = ref(null);
-const setMemeCheckTimer = (bot_id) =>{
+const setMemeCheckTimer = (bot_id) => {
   memeCheckTimer.value = setInterval(async () => {
     try {
       const result = await memeCheck({ bot_id });
-      console.log(result,'memeCheck result');
+      console.log(result, 'memeCheck result');
       if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
-        clearInterval(memeCheckTimer.value)
+        clearInterval(memeCheckTimer.value);
         loading.value = false;
         submitText.value = 'Create';
         formRef.value.resetFields();
-        launcherDialog.value.openPopup({ ...result.data, bot_id});
+        startLaunchRef.value.open({ ...result.data, bot_id});
       }
     } catch (error) {
       throw error;
     }
   }, 3000);
-}
-
-const toggleTelegramConfiguration = () => {
-  if (!isTelegramConfigured.value) {
-    form.telegram_bot_address = '';
-    form.telegram_bot_token = '';
-  }
 };
 
-const getTgToken = () => {
-  window.open('https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token', '_blank');
-};
 
 onUnmounted(() => {
   clearInterval(memeCheckTimer.value);
@@ -502,88 +407,24 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.base-info-img {
-  position: relative;
-  width: 88px;
-  height: 88px;
-  cursor: pointer;
-  border-radius: 8px;
-  overflow: hidden;
-
-  &::after {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #eee;
-    font-size: 24px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: rgba(#000, 0.4);
-    content: '+';
-    opacity: 0;
-  }
-
-  &:hover {
-    &::after {
-      opacity: 1;
-    }
-  }
-}
-
-.base-info-avatar {
+:deep(.el-upload) {
   width: 100%;
-  height: 100%;
+}
+:deep(.el-icon--document) {
+  color: #fff;
 }
 
-.base-list-row {
-  display: flex;
-}
-
-.base-list-col {
-  & + & {
-    margin-left: 16px;
+:deep(.el-upload-list__item:hover) {
+  color: #000;
+  .el-icon--document{
+    color: #000;
   }
-}
-
-.base-list-img {
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
-
-  &__error {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background: var(--el-fill-color-light);
-    color: var(--el-text-color-secondary);
-    font-size: 20px;
+  .el-upload-list__item-file-name{
+    color: #000;
   }
-}
-
-.base-list-option {
-  padding-top: 4px;
-  color: #999;
-  font-size: 20px;
-  line-height: 32px;
-  border-top: 1px solid #eee;
-
-  .base-list-col {
-    display: flex;
-    align-items: center;
-
-    & + .base-list-col {
-      margin-left: 8px;
-    }
+  .el-icon--close{
+    color: #000;
   }
-}
-
-.el-card__body {
-  padding: 12px 16px !important;
 }
 
 .upload-custom {
@@ -591,7 +432,6 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   color: #999;
-  cursor: pointer;
   width: 100%;
   transition: border-color 0.3s;
   display: inline-flex;
@@ -602,6 +442,11 @@ onUnmounted(() => {
   border: 1px dashed #C5C5C5;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(50px);
+
+  .upload-file-icon {
+    font-size: 36px;
+    color: #c5c5c5;
+  }
 
   .upload-custom-text {
     margin-top: 5px;
@@ -618,8 +463,20 @@ onUnmounted(() => {
       font-style: normal;
       font-weight: 500;
     }
+
+    .upload-custom-text-bottom {
+      color: rgba(255, 255, 255, 0.70);
+      text-align: center;
+      font-feature-settings: 'dlig' on;
+      font-family: "TT Norms Pro";
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 23px; /* 191.667% */
+    }
   }
 }
+
 .toggle-container {
   display: flex;
   align-items: center;
@@ -640,20 +497,7 @@ label {
   font-size: 14px;
   color: #fff;
 }
-</style>
 
-<style lang="scss">
-.play-item {
-  display: none;
-}
-.hover-operation:hover {
-  .play-item {
-    transition: 0.1s;
-    display: flex;
-  }
-}
-</style>
-<style lang="scss">
 .switch-button {
   font-family: TT Norms Pro;
   font-size: 20px;
@@ -665,22 +509,32 @@ label {
 
   width: 206px;
   height: 48px;
-  gap: 0px; /* This might not have an effect on a button element */
+  gap: 0px;
   border-radius: 48px;
-  opacity: 1; /* Assuming you meant for the buttons to be fully opaque */
-  background-color: #FFFFFF1A; /* Default/unselected background */
-  color: #FFFFFF; /* Default/unselected text color */
-  border: none; /* Assuming you might not want borders */
-  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
-  outline: none; /* Remove outline to improve aesthetics */
+  opacity: 1;
+  background-color: #FFFFFF1A;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
+
 .selected {
-  background-color: #E0FF3133; /* Selected background */
-  color: #E0FF31; /* Selected text color */
+  background-color: #E0FF3133;
+  color: #E0FF31;
 }
+
 .switch-container {
-  display: flex; /* 启用Flexbox */
-  justify-content: center; /* 水平居中按钮 */
-  gap: 20px; /* 在按钮之间添加一些间隙 */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
+.chat-bg{
+  background: url("../../assets/svg/chat-bg.svg") no-repeat center top;
+  width: 1064px;
+  height: 965px;
+  box-shadow: 0px 25px 25px 0px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(40px);
+}
+
 </style>
