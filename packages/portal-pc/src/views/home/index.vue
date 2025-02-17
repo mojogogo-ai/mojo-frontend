@@ -17,83 +17,83 @@
         </el-button>
         <el-button type="primary" @click="toLaunch">  {{t('home.button.c')}} </el-button>
       </div>
-      <div class="flex w-full home-content">
-        <div class="flex-1 home-part">
-          <div class="home-part-1">
-            <div class="home-part1-text">{{t("home.partOne.title")}}</div>
-            <div class="home-part1-text-content">
-            {{t("home.partOne.content")}}
-            </div>
-            <div class="pt-8 home-part1-btn">
-              <el-button type="primary" @click="toLaunch"> {{t('home.button.c')}} </el-button>
-            </div>
-          </div>
-        </div>
-        <div class="home-part">
-          <div class="home-part-2">
-            <el-image
-              class="h-[407px] w-[628px]"
-              fit="cover"
-              :src="Pic3"
-            />
-          </div>
-        </div>
-        <div class="flex home-part">
-          <div class="home-part-3">
-            <el-image
-              class="h-[407px] w-[628px]"
-              fit="cover"
-              :src="Pic4"
-            />
-          </div>
-        </div>
-        <div class="home-part">
-          <div class="home-part-4">
-            <div class="w-[628px] h-[407px]">
-              <div class="px-[48px] pt-10">
-                <div class="home-part4-text">{{t('home.partFour.title')}}</div>
-                <div class="home-part-4-text-content">
-                {{t('home.partFour.content')}}</div>
-                <div class="pt-8 home-part4-btn">
-                  <el-button
-                    type="primary"
-                    class=""
-                    @click="toLaunch"
-                  >
-                    {{t('home.button.l')}}
-                  </el-button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flex-1 home-part">
-          <div class="home-part-1">
-            <div class="home-part1-text">{{t("home.partTwo.title")}}</div>
-            <div class="home-part1-text-content">
-              {{t("home.partTwo.content")}}
-            </div>
-            <div class="pt-8 home-part4-btn">
-              <el-button
-                type="primary"
-                class=""
-                @click="toPage('/assistant')"
-              >
-                {{t("home.button.e")}}
-              </el-button>
-            </div>
-          </div>
-        </div>
-        <div class="home-part">
-          <div class="home-part-2">
-            <el-image
-              class="h-[407px] w-[628px]"
-              fit="cover"
-              :src="Pic2"
-            />
-          </div>
-        </div>
-      </div>
+<!--      <div class="flex w-full home-content">-->
+<!--        <div class="flex-1 home-part">-->
+<!--          <div class="home-part-1">-->
+<!--            <div class="home-part1-text">{{t("home.partOne.title")}}</div>-->
+<!--            <div class="home-part1-text-content">-->
+<!--            {{t("home.partOne.content")}}-->
+<!--            </div>-->
+<!--            <div class="pt-8 home-part1-btn">-->
+<!--              <el-button type="primary" @click="toLaunch"> {{t('home.button.c')}} </el-button>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="home-part">-->
+<!--          <div class="home-part-2">-->
+<!--            <el-image-->
+<!--              class="h-[407px] w-[628px]"-->
+<!--              fit="cover"-->
+<!--              :src="Pic3"-->
+<!--            />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="flex home-part">-->
+<!--          <div class="home-part-3">-->
+<!--            <el-image-->
+<!--              class="h-[407px] w-[628px]"-->
+<!--              fit="cover"-->
+<!--              :src="Pic4"-->
+<!--            />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="home-part">-->
+<!--          <div class="home-part-4">-->
+<!--            <div class="w-[628px] h-[407px]">-->
+<!--              <div class="px-[48px] pt-10">-->
+<!--                <div class="home-part4-text">{{t('home.partFour.title')}}</div>-->
+<!--                <div class="home-part-4-text-content">-->
+<!--                {{t('home.partFour.content')}}</div>-->
+<!--                <div class="pt-8 home-part4-btn">-->
+<!--                  <el-button-->
+<!--                    type="primary"-->
+<!--                    class=""-->
+<!--                    @click="toLaunch"-->
+<!--                  >-->
+<!--                    {{t('home.button.l')}}-->
+<!--                  </el-button>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="flex-1 home-part">-->
+<!--          <div class="home-part-1">-->
+<!--            <div class="home-part1-text">{{t("home.partTwo.title")}}</div>-->
+<!--            <div class="home-part1-text-content">-->
+<!--              {{t("home.partTwo.content")}}-->
+<!--            </div>-->
+<!--            <div class="pt-8 home-part4-btn">-->
+<!--              <el-button-->
+<!--                type="primary"-->
+<!--                class=""-->
+<!--                @click="toPage('/assistant')"-->
+<!--              >-->
+<!--                {{t("home.button.e")}}-->
+<!--              </el-button>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="home-part">-->
+<!--          <div class="home-part-2">-->
+<!--            <el-image-->
+<!--              class="h-[407px] w-[628px]"-->
+<!--              fit="cover"-->
+<!--              :src="Pic2"-->
+<!--            />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <div class="h-[266px]" />
     </div>
