@@ -57,7 +57,7 @@
     </div>
     <div class="memebot-detail-bottom">
       <div class="bottom-label">
-        Customize Twitter Bot
+        Customize Bot
       </div>
       <el-form
         ref="formRef"
