@@ -1,10 +1,11 @@
 
 import request from '@gptx/base/utils/request';
 
-export const twitterAuth = () =>
+export const twitterAuth = (params) =>
 request({
     url: 'v1/twitter/authorize',
     method: 'get',
+    params
 });
 
 export const getTokenCreate = (data) =>
