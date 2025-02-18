@@ -174,7 +174,7 @@
                 @change="toggleTwitterConnection"
               />
             </el-form-item>
-            <div v-show="form.twitter_state">
+            <div v-show="form.twitter_connect">
               <el-form-item
                 prop="twitter_post_day"
                 label="Number of Twitter"
@@ -313,7 +313,7 @@ const form = reactive({
   telegram_bot_token: '',
   twitter_config: false,
   twitter_connect: false,
-  twitter_state: '',
+  // twitter_state: '',
   twitter_post_day: 0,
   twitter_reply_comment_day: 0,
   twitter_like_day: 0,
@@ -349,6 +349,8 @@ const formRef = ref(null);
 const isDetail = ref(false)
 const _getMemeDetail = async () => {
   const id = route.query.id;
+  console.log(route.query.nickName)
+  console.log(user.nickName)
   if (route.query.nickName === user.nickName ) {
     isDetail.value = true
   }
@@ -368,8 +370,19 @@ const _getMemeDetail = async () => {
         form.twitter = data.twitter;
         form.telegram = data.telegram;
         form.website = data.website;
-        form.fileList = data?.fileList || [];
-        form.file_id_list = data?.file_id_list || [];
+        let files = []
+        files = data?.files !== null && data?.files.map(item => {
+          return {
+            name: item.file_name,
+            url: item.storage_file_path
+          }
+        })
+        form.fileList = files || [];
+        let file_id_list = []
+        data?.files !== null  && data?.files.map(item => {
+          file_id_list.push(item.id)
+        })
+        form.file_id_list = file_id_list || [];
         form.telegram_bot_address = data?.telegram_bot_address || '';
         form.telegram_bot_token = data?.telegram_bot_token || '';
         if (data?.telegram_bot_address || data?.telegram_bot_token) {
@@ -378,19 +391,19 @@ const _getMemeDetail = async () => {
           form.telegram_config = false;
         }
         form.twitter_connect = data?.twitter_connect || false;
-        form.twitter_state = data?.twitter_state || '';
+        // form.twitter_state = data?.twitter_state || '';
         form.twitter_post_day = data?.twitter_post_day || 0;
         form.twitter_reply_comment_day = data?.twitter_reply_comment_day || 0;
         form.twitter_like_day = data?.twitter_like_day || 0;
-        if (form.twitter_state) {
-          form.twitter_config = true;
-        } else {
-          form.twitter_config = false;
-        }
-        if (form.twitter_config || form.telegram_config) {
+        if (form.telegram_bot_address || form.telegram_bot_token || form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
           form.grade = 'advanced';
         } else {
           form.grade = 'basic';
+        }
+        if (form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
+          form.twitter_config = true
+          form.twitter_connect = true
+          console.log('00000000')
         }
       }
     } catch (error) {
@@ -445,8 +458,8 @@ const handleFileSelect = async (file) => {
     size: actualFile.size,
     hash: await generateFileHash(actualFile)
   };
-
   form.fileList.push(fileData);
+  console.log(form.fileList)
   ElMessage.success('File added successfully!');
 
   return false; // 防止自动上传
@@ -524,7 +537,7 @@ const submitForm = async () => {
       file_id_list: fileDataList,
     });
     await botEdit(form);
-    if (form.twitter_state) {
+    if (form.twitter_connect) {
       await setTwitter({
         bot_id: form.id,
         post_day: Number(form.twitter_post_day),
@@ -587,11 +600,11 @@ const toggleTwitterConnection = async () => {
   }
 };
 const connectTwitter = async () => {
-  const response = await twitterAuth();
+  const response = await twitterAuth({ bot_id: form.id });
   if (response.code === 200) {
     let authStatus = response.data.state;
     const twitterAuthUrl = response.data.redirect_uri;
-    form.twitter_state = authStatus;
+    // form.twitter_state = authStatus;
     window.open(twitterAuthUrl, 'twitterAuthPopup', 'width=500,height=600');
   } else {
     console.error('Failed to obtain twitter auth url');
@@ -599,7 +612,10 @@ const connectTwitter = async () => {
   }
 };
 const disconnectTwitter = () => {
-  form.twitter_state = ''
+  // form.twitter_state = ''
+  form.twitter_post_day = 0
+  form.twitter_reply_comment_day = 0
+  form.twitter_like_day = 0
 };
 </script>
 

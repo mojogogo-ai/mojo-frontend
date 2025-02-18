@@ -23,7 +23,7 @@
           @chat="onChat($event, bot)"
           @delete="_getMyBotList"
           @refresh-list="_getMyBotList"
-          @click="goPage(bot.id)"
+          @click="goPage(bot)"
         />
 
         <!-- 空内容展示 -->
@@ -121,8 +121,12 @@ const onChat = ({ url }) => {
 const onLoad = () => {
   _getMyBotList();
 };
-const goPage = (id) => {
-  router.push({ path: '/memebot', query: { id: id } });
+const goPage = (bot) => {
+  if (bot.meme_state === 3) {
+    router.push({ path: '/memebotDetail', query: { id: bot.id , nickName: bot.create_nick_name} });
+  } else {
+    router.push({ path: '/memebot', query: { id: bot.id } });
+  }
 };
 
 onMounted(() => {

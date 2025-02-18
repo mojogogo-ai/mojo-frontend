@@ -1,5 +1,5 @@
 <template>
-  <div class="cursor-pointer bot-manage-item" @click="goPage(bot.id)">
+  <div class="cursor-pointer bot-manage-item" @click="goPage(bot)">
     <div class="bmi-content">
       <div class="bmic-left">
         <div class="bmicl-avatar">
@@ -255,8 +255,12 @@ const detailCoin = (item) => {
     window.open(url, '_blank')
   }
 };
-const goPage = (id) => {
-  router.push({ path: '/memebot', query: { id: id } });
+const goPage = (bot) => {
+  if (bot.meme_state === 3) {
+    router.push({ path: '/memebotDetail', query: { id: bot.id , nickName: bot.create_nick_name} });
+  } else {
+    router.push({ path: '/memebot', query: { id: bot.id } });
+  }
 }
 
 </script>
