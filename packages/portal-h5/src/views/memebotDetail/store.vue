@@ -339,9 +339,10 @@ const gradeList = reactive([
   { id: 'advanced', name: 'advanced' }
 ]);
 const isDetail = ref(false)
+const userInfo = localStorage.getItem('user')
 const _getMemeDetail = async () => {
   const id = route.query.id;
-  if (route.query.nickName === user.nickName ) {
+  if (route.query.nickName ===JSON.parse(userInfo).nickname) {
     isDetail.value = true
   }
   if (id) {

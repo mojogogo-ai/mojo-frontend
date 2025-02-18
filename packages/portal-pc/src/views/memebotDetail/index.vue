@@ -347,11 +347,10 @@ onMounted(() => {
 const loading = ref(false);
 const formRef = ref(null);
 const isDetail = ref(false)
+const userInfo = localStorage.getItem('user')
 const _getMemeDetail = async () => {
   const id = route.query.id;
-  console.log(route.query.nickName)
-  console.log(user.nickName)
-  if (route.query.nickName === user.nickName ) {
+  if (route.query.nickName ===  JSON.parse(userInfo).nickname) {
     isDetail.value = true
   }
   if (id) {
