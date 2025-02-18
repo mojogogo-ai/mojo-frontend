@@ -252,7 +252,7 @@ import useUserStore from '@/store/modules/user.js';
 import { t } from '@gptx/base/i18n/index.js';
 import { getList } from '@gptx/base/api/assistant-store.js';
 import { reactive, ref } from 'vue';
-import { botEdit, getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
+import { botAuthorize, botEdit, getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
 import { showFailToast, showSuccessToast } from 'vant';
@@ -569,13 +569,22 @@ const submitForm = async () => {
     });
     showSuccessToast('Files updated successfully!');
     await botEdit(form);
-    if (form.twitter_state) {
+    if (form.twitter_connect) {
       await setTwitter({
         bot_id: form.id,
         post_day: Number(form.twitter_post_day),
         reply_comment_day: Number(form.twitter_reply_comment_day),
         like_day: Number(form.twitter_like_day)
       });
+    }
+    if (form.telegram_config) {
+      await botAuthorize({
+        id: form.id,
+        token: form.telegram_bot_token,
+        token_type: 1,
+        address: form.telegram_bot_address
+
+      })
     }
     showSuccessToast('save successfully!');
   } catch (error) {

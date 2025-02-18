@@ -283,7 +283,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import { botEdit, botFileSave, getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
+import { botAuthorize, botEdit, botFileSave, getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
 import { t } from '@gptx/base/i18n/index.js';
 import { reactive, ref } from 'vue';
@@ -382,9 +382,9 @@ const _getMemeDetail = async () => {
           file_id_list.push(item.id)
         })
         form.file_id_list = file_id_list || [];
-        form.telegram_bot_address = data?.telegram_bot_address || '';
-        form.telegram_bot_token = data?.telegram_bot_token || '';
-        if (data?.telegram_bot_address || data?.telegram_bot_token) {
+        form.telegram_bot_address = data?.telegram_address || '';
+        form.telegram_bot_token = data?.telegram_token || '';
+        if (data?.telegram_address || data?.telegram_address) {
           form.telegram_config = true;
         } else {
           form.telegram_config = false;
@@ -543,6 +543,15 @@ const submitForm = async () => {
         reply_comment_day: Number(form.twitter_reply_comment_day),
         like_day: Number(form.twitter_like_day)
       });
+    }
+    if (form.telegram_config) {
+      await botAuthorize({
+        id: form.id,
+        token: form.telegram_bot_token,
+        token_type: 1,
+        address: form.telegram_bot_address
+
+      })
     }
     ElMessage.success('save successfully!');
   } catch (error) {
