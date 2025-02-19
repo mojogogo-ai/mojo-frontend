@@ -157,19 +157,19 @@
                   v-model="form.twitter_post_day"
                   name="twitter_post_day"
                   label-align="top"
-                  label="Number of Twitter"
+                  label="Number of Twitter Per Day"
                 />
                 <van-field
                   v-model="form.twitter_reply_comment_day"
                   name="twitter_reply_comment_day"
                   label-align="top"
-                  label="Number of Comment"
+                  label="Number of Comment Per Day"
                 />
                 <van-field
                   v-model="form.twitter_like_day"
                   name="twitter_like_day"
                   label-align="top"
-                  label="Number of Likes"
+                  label="Number of Likes Per Day"
                 />
               </div>
             </div>

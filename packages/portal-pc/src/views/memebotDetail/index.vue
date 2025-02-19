@@ -177,7 +177,7 @@
             <div v-show="form.twitter_connect">
               <el-form-item
                 prop="twitter_post_day"
-                label="Number of Twitter"
+                label="Number of Twitter Per Day"
               >
                 <el-input
                   v-model="form.twitter_post_day"
@@ -189,7 +189,7 @@
               </el-form-item>
               <el-form-item
                 prop="twitter_reply_comment_day"
-                label="Number of Comment"
+                label="Number of Comment Per Day"
               >
                 <el-input
                   v-model="form.twitter_reply_comment_day"
@@ -201,7 +201,7 @@
               </el-form-item>
               <el-form-item
                 prop="twitter_like_day"
-                label="Number of Likes"
+                label="Number of Likes Per Day"
               >
                 <el-input
                   v-model="form.twitter_like_day"
