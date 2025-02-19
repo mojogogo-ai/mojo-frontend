@@ -136,7 +136,7 @@ onMounted(() => {
 <style scoped>
 .bot-management-content {
   position: relative;
-  height: 600px; /* 根据需要调整高度 */
+  height: 800px; /* 根据需要调整高度 */
   overflow: auto;
 }
 
