@@ -8,9 +8,13 @@
       <div class="melting-pink-face"></div>
       <div class="ufo"></div>
     </div>
+
     <TopBar />
     <div class="main-container">
       <app-main />
+      <div class="copyright">
+        Copyright © 2025 Mojo GoGo |Powered by Mojo GoGo
+      </div>
     </div>
   </div>
 </template>
@@ -27,4 +31,9 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
+.copyright {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 10px;
+}
 </style>

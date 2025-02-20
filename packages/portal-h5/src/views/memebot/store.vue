@@ -6,20 +6,23 @@
       input-area
       @search="onSearch"
     />
-    <div class="create-title">
-      <span v-show="status ==='create'">{{t('bots.title')}}</span>
-      <span v-show="status ==='edit'">{{t('bots.edit_title')}}</span>
+<!--    <div class="create-title">-->
+<!--      <span v-show="status ==='create'">{{t('bots.title')}}</span>-->
+<!--      <span v-show="status ==='edit'">{{t('bots.edit_title')}}</span>-->
+<!--    </div>-->
+<!--    <div v-show="status ==='create'" class="tab-container mb-[40px]">-->
+<!--      <button @click="tabClick('form')" :class="['tab-button',{ 'selected': tab ==='form'}]">-->
+<!--        {{t('bots.bot_form')}}-->
+<!--      </button>-->
+<!--      <button @click="tabClick('ai')" :class="['tab-button',{ 'selected': tab ==='ai' }]">-->
+<!--        {{t('bots.bot_ai')}}-->
+<!--      </button>-->
+<!--    </div>-->
+<!--    <CreateEditForm v-show="tab === 'form'" :editForm="editForm" :status="status"></CreateEditForm>-->
+<!--    <CreateAi v-show="tab === 'ai'"></CreateAi>-->
+    <div class="text-center mt-[200px] text-[24px]">
+      Please use a PC to create your own meme coin.
     </div>
-    <div v-show="status ==='create'" class="tab-container mb-[40px]">
-      <button @click="tabClick('form')" :class="['tab-button',{ 'selected': tab ==='form'}]">
-        {{t('bots.bot_form')}}
-      </button>
-      <button @click="tabClick('ai')" :class="['tab-button',{ 'selected': tab ==='ai' }]">
-        {{t('bots.bot_ai')}}
-      </button>
-    </div>
-    <CreateEditForm v-show="tab === 'form'" :editForm="editForm" :status="status"></CreateEditForm>
-    <CreateAi v-show="tab === 'ai'"></CreateAi>
   </div>
 </template>
 

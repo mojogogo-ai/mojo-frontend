@@ -7,6 +7,9 @@
       <div class="melting-pink-face"></div>
       <div class="ufo"></div>
     </div>
+    <div class="copyright">
+      Copyright © 2025 Mojo GoGo |Powered by Mojo GoGo
+    </div>
     <van-popup
       v-model:show="storeLayout.isSHowSidebar"
       position="top"

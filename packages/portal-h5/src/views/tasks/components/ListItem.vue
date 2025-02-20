@@ -6,19 +6,23 @@
     >
       <div class="flex">
         <div class="app-page-col">
-          <el-image
-            class="page-list-img"
-            fit="cover"
-            :src="appInfo.app_icon || defaultBotImage"
-          >
-            <template #error>
-              <div class="page-list-img__error">
-                <el-icon>
-                  <Picture />
-                </el-icon>
-              </div>
-            </template>
-          </el-image>
+          <svg-icon
+            :name="appInfo.app_icon"
+            class="h-[120px] w-[120px] task-img"
+          />
+<!--          <el-image-->
+<!--            class="page-list-img"-->
+<!--            fit="cover"-->
+<!--            :src="appInfo.app_icon || defaultBotImage"-->
+<!--          >-->
+<!--            <template #error>-->
+<!--              <div class="page-list-img__error">-->
+<!--                <el-icon>-->
+<!--                  <Picture />-->
+<!--                </el-icon>-->
+<!--              </div>-->
+<!--            </template>-->
+<!--          </el-image>-->
         </div>
         <div class="app-page-col flex-1">
           <div class="flex items-center">
@@ -63,4 +67,9 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.task-img {
+  width: 120px !important;
+  height: 120px !important;
+}
+</style>

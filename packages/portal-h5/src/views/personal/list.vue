@@ -5,7 +5,7 @@
   />
   <div class="bot-management">
     <div class="bot-management-title">
-      Manage My Bots
+      Manage My Meme
     </div>
     <div class="bot-management-content">
       <van-list

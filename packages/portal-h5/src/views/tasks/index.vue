@@ -90,7 +90,7 @@ const getStoreList = async () => {
       {
         app_name: 'Sign up with Mojo Gogo',
         app_description: 'Sign up/Log in with Apple ID,Gmail,or other email account.',
-        app_icon: TaskImg01,
+        app_icon: 'task-one',
         points: '+ 100 pts'
       },
       // {
@@ -120,14 +120,14 @@ const getStoreList = async () => {
       {
         app_name: 'Refer Friends',
         app_description: 'Refer friends to use and successfully complete the registration.',
-        app_icon: TaskImg06,
+        app_icon: 'task-two',
         points: '+ 30 pts'
       },
       {
         id: 'checkIn',
         app_name: 'Daily Login and Check-In',
         app_description: 'Daily login,check-in and interact.',
-        app_icon: TaskImg07,
+        app_icon: 'task-three',
         points: '+ 10 pts'
       }
     ]
