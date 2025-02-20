@@ -128,9 +128,10 @@ const actions = computed(() => {
   let arr = [];
   if (props.bot.public === '1') {
     arr.push({ name: t('bots.unpublish'), action: 'unpublish' });
-  } else {
-    arr.push({ name: t('bots.publish.btn'), action: 'publish' });
   }
+  // else {
+  //   arr.push({ name: t('bots.publish.btn'), action: 'publish' });
+  // }
   arr.push({ name: t('bots.delete'), className: 'is-delete', action: 'delete' });
   return arr;
 });

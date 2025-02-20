@@ -68,15 +68,24 @@ const onCreateClick = () => {
 const goPage = (index) => {
   switch (index) {
     case 1:
-      router.push({ path: '/memebot' });
+      router.replace({ path: '/memebot' });
+      if(router?.currentRoute?.value?.path?.includes('memebot')) {
+        window.location.reload();
+      }
       break;
     case 2:
-      router.push({ path: '/personal' });
+      router.replace({ path: '/personal'});
+      if(router?.currentRoute?.value?.path?.includes('personal')) {
+        window.location.reload();
+      }
       break;
     case 3:
       // router.push({ name: 'Explore' });
       // /assistant
-      router.push({ path: '/assistant' });
+      router.replace({ path: '/assistant'});
+      if(router?.currentRoute?.value?.path?.includes('assistant')) {
+        window.location.reload();
+      }
       break;
     default:
       break;
