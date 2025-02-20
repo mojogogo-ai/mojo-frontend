@@ -36,38 +36,31 @@ const loginRegister = async () => {
     if (valid) {
       loading.value = true
       try {
-        if(formData.referral_code) {
-          // console.log('Referral code:', formData.referral_code)
-          try {
-            await bindEmailRefer({
-              email: formData.username,
-              refer_code: formData.referral_code
-            })
-            // Firebase email/password registration
-            const userCredential = await createUserWithEmailAndPassword(auth, formData.username, formData.password)
-            // Send verification email
-            await sendEmailVerification(userCredential.user)
-            ElMessage.success(t('login.checkEmailVerification'))
+        await bindEmailRefer({
+          email: formData.username,
+          refer_code: formData.referral_code
+        })
+        // Firebase email/password registration
+        const userCredential = await createUserWithEmailAndPassword(auth, formData.username, formData.password)
+        // Send verification email
+        await sendEmailVerification(userCredential.user)
+        ElMessage.success(t('login.checkEmailVerification'))
 
-            // Optionally store user info and referral code
-            const userInfo = {
-              email: userCredential.user.email,
-              uid: userCredential.user.uid,
-              referralCode: formData.referral_code || null // Referral code can be empty
-            }
-            console.log('User registered:', userInfo)
-            window.sessionStorage.setItem('referral_code', formData.referral_code)
-            // Redirect to login or handle post-registration
-            toLogin()
-          } catch (error) {
-            handleFirebaseError(error)
-          }
+        // Optionally store user info and referral code
+        const userInfo = {
+          email: userCredential.user.email,
+          uid: userCredential.user.uid,
+          referralCode: formData.referral_code || null // Referral code can be empty
         }
-
+        console.log('User registered:', userInfo)
+        window.sessionStorage.setItem('referral_code', formData.referral_code)
+        // Redirect to login or handle post-registration
+        toLogin()
       } catch (error) {
+        handleFirebaseError(error)
         console.error('Failed to bind referral code:', error)
         ElMessage.error(t('login.invalidReferralCode'))
-        
+
       } finally {
         loading.value = false
       }
