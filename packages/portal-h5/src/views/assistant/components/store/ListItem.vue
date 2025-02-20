@@ -152,8 +152,11 @@ let platList = reactive([]);
 
 const showMoreAction = ref(false);
 const openTg = ()=>{
-  const cleanUrl = props?.appInfo?.telegram_address.replace(/^"|"$/g, '');
-  window.open(cleanUrl, '_blank');
+  let url = props?.appInfo?.telegram_address;
+  if (url.startsWith('t.me')) {
+    url =  'https://' + url
+  }
+  window.open(url, '_blank');
 }
 const openDs = ()=>{
   const cleanUrl = props?.appInfo?.discord_address.replace(/^"|"$/g, '');

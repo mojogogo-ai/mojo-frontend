@@ -33,58 +33,87 @@
       >
         + Create Bot
       </van-button> -->
-<!--      <div class="page-list mt-[80px]">-->
-<!--        <div class=" part-home-1">-->
-<!--          <div class="mb-4 text-lg part-home-1-title">{{t("home.partOne.title")}}</div>-->
-<!--          <div class="mb-7 text-sm part-home-1-content">-->
-<!--            {{t("home.partOne.content")}}-->
-<!--          </div>-->
-<!--          <van-button-->
-<!--            class="w-4/5"-->
-<!--            type="primary"-->
-<!--            @click="jump('/personal')"-->
-<!--          >-->
-<!--            Personal-->
-<!--          </van-button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="page-list">-->
-<!--        <van-image-->
-<!--          class="w-full"-->
-<!--          fit="cover"-->
-<!--          :src="Pic1"-->
-<!--        />-->
-<!--      </div>-->
-<!--      <div class="page-list">-->
-<!--        <van-cell class="page-list__inner">-->
-<!--          <div class="mb-4 text-lg">{{t("home.partTwo.title")}}</div>-->
-<!--          <div class="mb-4 text-sm">-->
-<!--            {{t("home.partTwo.content")}}-->
-<!--          </div>-->
-<!--          <van-button-->
-<!--            class="w-4/5"-->
-<!--            type="primary"-->
-<!--            @click="jump('/assistant')"-->
-<!--          >-->
-<!--            {{t("home.button.e")}}-->
-<!--          </van-button>-->
-<!--        </van-cell>-->
-<!--      </div>-->
-<!--      <div class="page-list">-->
-<!--        <van-image-->
-<!--          class="w-full"-->
-<!--          fit="cover"-->
-<!--          :src="Pic2"-->
-<!--        />-->
-<!--      </div>-->
+
+      <div class="page-list">
+        <van-cell class="page-list__inner">
+          <div class="mb-4 text-lg">{{t("home.partOne.title")}}</div>
+          <div class="mb-4 text-sm">
+            {{t("home.partOne.content")}}
+          </div>
+          <van-button
+            class="w-4/5"
+            type="primary"
+            @click="toLaunch"
+          >
+            {{t('home.button.c')}}
+          </van-button>
+        </van-cell>
+      </div>
+
+
+      <div class="page-list">
+        <van-image
+          class="w-full"
+          fit="cover"
+          :src="Pic3"
+        />
+      </div>
+
+      <div class="page-list">
+        <van-cell class="page-list__inner">
+          <div class="mb-4 text-lg">{{t('home.partFour.title')}}</div>
+          <div class="mb-4 text-sm">
+            {{t('home.partFour.content')}}
+          </div>
+          <van-button
+            class="w-4/5"
+            type="primary"
+            @click="toLaunch"
+          >
+            {{t('home.button.l')}}
+          </van-button>
+        </van-cell>
+      </div>
+
+      <div class="page-list">
+        <van-image
+          class="w-full"
+          fit="cover"
+          :src="Pic4"
+        />
+      </div>
+
+      <div class="page-list">
+        <van-cell class="page-list__inner">
+          <div class="mb-4 text-lg">{{t("home.partTwo.title")}}</div>
+          <div class="mb-4 text-sm">
+            {{t("home.partTwo.content")}}
+          </div>
+          <van-button
+            class="w-4/5"
+            type="primary"
+            @click="jump('/assistant')"
+          >
+            {{t("home.button.e")}}
+          </van-button>
+        </van-cell>
+      </div>
+      <div class="page-list">
+        <van-image
+          class="w-full"
+          fit="cover"
+          :src="Pic2"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { t } from '@gptx/base/i18n';
-import Pic1 from '@/assets/images/homepage/pic1.png';
+import Pic3 from '@/assets/images/homepage/pic3.png';
 import Pic2 from '@/assets/images/homepage/pic2.png';
+import Pic4 from '@/assets/images/homepage/pic4.png';
 import { getIsLogin } from '@/utils/firebase.js';
 import useLoginStore from '@/store/modules/login.js';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
@@ -127,6 +156,18 @@ onBeforeMount(async () => {
   const { query } = route;
   if (query && query.referral_code) window.sessionStorage.setItem('referral_code', query.referral_code);
 });
+
+const toLaunch = async () => {
+  router.push({ path: '/memebot' });
+};
+
+watch(
+  () => useLogin.isLogOut,
+  () => {
+    isLogin.value = false;
+  },
+  { immediate: false }
+);
 </script>
 
 <style lang="scss" scoped>

@@ -23,6 +23,9 @@
           <div v-if="bot.bot_type===1&&bot.meme_state !== 3" class="bmiclt-status" :style="{backgroundColor: bot.meme_state === 3 ? 'rgba(17, 198, 65, 0.80)': '#db5f00'}">
             {{ MemeStatusText[bot.meme_state] }}
           </div>
+          <div v-else class="bmiclt-status-empty">
+
+          </div>
           <div class="bmicli-author">
             <van-image
               class="bmicli-author-avatar"
@@ -65,6 +68,7 @@
           </svg>
         </div>
         <div v-if="bot?.telegram_address" class="bmi-s-b-item" @click.stop="goLink(bot, 'telegram')">
+
           <!-- Telegram 图标 -->
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
             <g clip-path="url(#clip0_994_681)">
@@ -82,6 +86,7 @@
             </defs>
           </svg>
         </div>
+        <div v-else class="bmi-s-b-item-empty"></div>
       </div>
       <div class="more-option-trigger" @click.stop="isShowAction = true">
         <van-icon name="ellipsis" />
@@ -248,7 +253,7 @@ const onUnpublish = async (id) => {
 <style lang="scss" scoped>
 .bot-manage-item {
   width: 100%;
-  height: 222px;
+  //height: 222px;
   flex-shrink: 0;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -261,9 +266,9 @@ const onUnpublish = async (id) => {
   justify-content: space-between;
 
   .bmi-content {
-    display: flex;
-    justify-content: space-between;
-
+    //display: flex;
+    //justify-content: space-between;
+    position: relative;
     .bmic-left {
       display: flex;
       gap: 16px;
@@ -326,6 +331,17 @@ const onUnpublish = async (id) => {
           font-weight: 500;
           line-height: 19px;
         }
+        .bmiclt-status-empty{
+          width: 73px;
+          display: flex;
+          padding: 4px 8px;
+          justify-content: center;
+          align-items: center;
+          border-radius: 8px;
+          font-weight: 500;
+          line-height: 19px;
+          height: 27px;
+        }
         .bmicli-author {
           display: flex;
           gap: 12px;
@@ -381,6 +397,11 @@ const onUnpublish = async (id) => {
         }
       }
     }
+    .bmic-right{
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
 
   .bmi-bottom {
@@ -407,6 +428,10 @@ const onUnpublish = async (id) => {
           width: 25px;
           height: 24px;
         }
+      }
+      .bmi-s-b-item-empty{
+        width: 25px;
+        height: 24px;
       }
     }
 
