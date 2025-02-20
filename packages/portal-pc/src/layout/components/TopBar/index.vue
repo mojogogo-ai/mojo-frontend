@@ -98,7 +98,7 @@
       <div class="flex items-center">
         <User v-if="isLogin" class="flex-none" />
         <NoLogin v-else @login="onLoginClick" />
-        
+
         <div v-if="isLogin">
           <!-- <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">PHANTOM WALLET</el-button> -->
           <div v-if="appInstance.appContext.config.globalProperties.$wallet.connected.value" class="flex flex-col items-center justify-center" @click="test()">
@@ -537,6 +537,7 @@ onBeforeMount(() => {
   font-family: Arial !important;
   font-weight: var(--el-button-font-weight) !important;
   border-radius: var(--el-border-radius-base) !important;
+  white-space: nowrap !important;
 }
 
 .customs-sub-menu {
