@@ -3,10 +3,14 @@
     <page-header class="shrink-0" />
     <div class="flex flex-col items-center">
       <div class="mb-8 mt-16 shrink-0">
-        <van-image
-          class="h-[320px] w-[320px]"
-          fit="contain"
-          :src="SocialMedia"
+<!--        <van-image-->
+<!--          class="h-[320px] w-[320px]"-->
+<!--          fit="contain"-->
+<!--          :src="SocialMedia"-->
+<!--        />-->
+        <svg-icon
+          name="social-media"
+          class="icon-img  h-[320px] w-[320px]"
         />
       </div>
       <div class="homepage-title mb-6">Refer Friends</div>
@@ -169,5 +173,9 @@ const copyReferralCode = (isWithLink) => {
     background-color: var(--van-black);
     border-radius: 50%;
   }
+}
+.icon-img{
+  height: 320px !important;
+  width: 320px !important;
 }
 </style>
