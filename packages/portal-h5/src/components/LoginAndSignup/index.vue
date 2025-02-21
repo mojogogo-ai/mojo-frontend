@@ -31,27 +31,27 @@
 
         <!-- 社交登录按钮 -->
         <div class="flex justify-center items-center gap-12 mx-auto">
-          <van-icon name="facebook" size="48" @click="handleIconClick('facebook')">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="24" cy="23.52" rx="21" ry="21" fill="url(#paint0_linear_827_56875)" />
-              <mask id="mask0_827_56875" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="2" width="42" height="43">
-                <ellipse cx="24" cy="23.9419" rx="21" ry="21" fill="url(#paint1_linear_827_56875)" />
-              </mask>
-              <g mask="url(#mask0_827_56875)">
-                <path d="M31.8205 31.8623L32.7534 25.9351H26.9178V22.0904C26.9178 20.4685 27.7315 18.8865 30.3452 18.8865H33V13.8404C33 13.8404 30.5917 13.4399 28.2904 13.4399C23.4822 13.4399 20.3425 16.2794 20.3425 21.4176V25.9351H15V31.8623H20.3425V46.1917C21.415 46.3559 22.5123 46.4399 23.6301 46.4399C24.7479 46.4399 25.8452 46.3559 26.9178 46.1917V31.8623H31.8205Z" fill="white" />
-              </g>
-              <defs>
-                <linearGradient id="paint0_linear_827_56875" x1="24" y1="2.52002" x2="24" y2="44.3955" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#18ACFE" />
-                  <stop offset="1" stop-color="#0163E0" />
-                </linearGradient>
-                <linearGradient id="paint1_linear_827_56875" x1="24" y1="2.94189" x2="24" y2="44.8173" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#18ACFE" />
-                  <stop offset="1" stop-color="#0163E0" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </van-icon>
+<!--          <van-icon name="facebook" size="48" @click="handleIconClick('facebook')">-->
+<!--            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--              <ellipse cx="24" cy="23.52" rx="21" ry="21" fill="url(#paint0_linear_827_56875)" />-->
+<!--              <mask id="mask0_827_56875" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="2" width="42" height="43">-->
+<!--                <ellipse cx="24" cy="23.9419" rx="21" ry="21" fill="url(#paint1_linear_827_56875)" />-->
+<!--              </mask>-->
+<!--              <g mask="url(#mask0_827_56875)">-->
+<!--                <path d="M31.8205 31.8623L32.7534 25.9351H26.9178V22.0904C26.9178 20.4685 27.7315 18.8865 30.3452 18.8865H33V13.8404C33 13.8404 30.5917 13.4399 28.2904 13.4399C23.4822 13.4399 20.3425 16.2794 20.3425 21.4176V25.9351H15V31.8623H20.3425V46.1917C21.415 46.3559 22.5123 46.4399 23.6301 46.4399C24.7479 46.4399 25.8452 46.3559 26.9178 46.1917V31.8623H31.8205Z" fill="white" />-->
+<!--              </g>-->
+<!--              <defs>-->
+<!--                <linearGradient id="paint0_linear_827_56875" x1="24" y1="2.52002" x2="24" y2="44.3955" gradientUnits="userSpaceOnUse">-->
+<!--                  <stop stop-color="#18ACFE" />-->
+<!--                  <stop offset="1" stop-color="#0163E0" />-->
+<!--                </linearGradient>-->
+<!--                <linearGradient id="paint1_linear_827_56875" x1="24" y1="2.94189" x2="24" y2="44.8173" gradientUnits="userSpaceOnUse">-->
+<!--                  <stop stop-color="#18ACFE" />-->
+<!--                  <stop offset="1" stop-color="#0163E0" />-->
+<!--                </linearGradient>-->
+<!--              </defs>-->
+<!--            </svg>-->
+<!--          </van-icon>-->
 <!--          <van-icon name="apple" size="48" @click="handleIconClick('apple')">-->
 <!--            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">-->
 <!--              <path d="M45 23.6742C45 35.6886 35.6025 45.4393 24 45.4393C12.3975 45.4393 3 35.6886 3 23.6742C3 11.649 12.3975 1.90918 24 1.90918C35.6025 1.90918 45 11.649 45 23.6742Z" fill="black" />-->

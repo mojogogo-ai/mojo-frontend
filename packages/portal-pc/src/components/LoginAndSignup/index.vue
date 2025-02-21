@@ -43,11 +43,11 @@
       <!-- Google Login Button -->
       <div class="w-full text-center">
         <div class="flex items-center justify-center gap-5 mx-auto">
-          <el-icon :size="48" class="cursor-pointer ant-icon" @click="handleIconClick('facebook')">
-            <template #default>
-              <img :src="facebookIcon" alt="facebook">
-            </template>
-          </el-icon>
+<!--          <el-icon :size="48" class="cursor-pointer ant-icon" @click="handleIconClick('facebook')">-->
+<!--            <template #default>-->
+<!--              <img :src="facebookIcon" alt="facebook">-->
+<!--            </template>-->
+<!--          </el-icon>-->
           <!-- <el-icon :size="48" class="cursor-pointer ant-icon" @click="handleIconClick('apple')">
             <template #default>
               <img :src="appleIcon" alt="apple">
