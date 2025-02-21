@@ -12,7 +12,7 @@
     <TopBar />
     <div class="main-container">
       <app-main />
-      <div class="copyright">
+      <div class="copyright" v-if="pageType === '/home'">
         Copyright © 2025 Mojo GoGo |Powered by Mojo GoGo
       </div>
     </div>

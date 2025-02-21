@@ -105,7 +105,11 @@
           :src="Pic2"
         />
       </div>
+      <div class="page-list copyright">
+        Copyright © 2025 Mojo GoGo |Powered by Mojo GoGo
+      </div>
     </div>
+
   </div>
 </template>
 

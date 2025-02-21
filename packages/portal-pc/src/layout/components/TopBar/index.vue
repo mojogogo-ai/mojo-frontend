@@ -15,7 +15,7 @@
             style="margin-right: 8px"
             index="/home"
           >
-            {{ t('menu.module.h') }}
+           Home
           </el-menu-item>
           <el-menu-item
             style="margin-right: 8px"

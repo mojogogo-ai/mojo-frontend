@@ -7,9 +7,6 @@
       <div class="melting-pink-face"></div>
       <div class="ufo"></div>
     </div>
-    <div class="copyright">
-      Copyright © 2025 Mojo GoGo |Powered by Mojo GoGo
-    </div>
     <van-popup
       v-model:show="storeLayout.isSHowSidebar"
       position="top"
@@ -43,6 +40,7 @@
         @confirm="onConfirmUserInvite"
       />
     </div>
+
   </div>
 </template>
 
@@ -129,5 +127,12 @@ watch(
 .sidebar-popup {
   width: 100%;
   height: auto;
+}
+.copyright {
+  width: 100%;
+  //position: absolute;
+  //bottom: 0;
+  text-align: center;
+  padding-bottom: 10px;
 }
 </style>
