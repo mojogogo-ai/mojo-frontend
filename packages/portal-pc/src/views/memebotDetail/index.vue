@@ -95,7 +95,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item
-          label="function"
+          label="Function"
           prop="grade"
         >
           <el-select

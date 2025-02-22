@@ -57,7 +57,9 @@ const loginRegister = async () => {
           window.sessionStorage.setItem('referral_code', formData.referral_code)
           // Redirect to login or handle post-registration
           toLogin()
+          return
         }
+        toLogin()
       } catch (error) {
         handleFirebaseError(error)
         console.error('Failed to bind referral code:', error)
