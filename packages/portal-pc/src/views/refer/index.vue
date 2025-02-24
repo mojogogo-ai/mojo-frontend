@@ -10,7 +10,7 @@
       </div>
       <div class="homepage-title mb-6">Refer Friends</div>
       <div class="homepage-subtitle">
-        Earn 50 points for each successful referral! You will both get 50 points when your friend successfully create an
+        Earn 30 points for each successful referral! You will both get 30 points when your friend successfully create an
         account with us.
       </div>
       <div class="invites-info-wrap mx-auto mt-[48px] p-6">
