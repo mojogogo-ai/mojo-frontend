@@ -43,8 +43,8 @@ const loginRegister = async () => {
         // Firebase email/password registration
         const userCredential = await createUserWithEmailAndPassword(auth, formData.username, formData.password)
         // Send verification email
-        // await sendEmailVerification(userCredential.user)
-        // ElMessage.success(t('login.checkEmailVerification'))
+        await sendEmailVerification(userCredential.user)
+        ElMessage.success(t('login.checkEmailVerification'))
 
         // Optionally store user info and referral code
         const userInfo = {

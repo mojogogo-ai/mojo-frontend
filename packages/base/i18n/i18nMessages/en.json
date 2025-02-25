@@ -265,7 +265,9 @@
     "validPassword": "At least 8 chars, with upper, lower, and numbers.",
     "weakPassword": "The password is too weak. Please enter a stronger password with at least 6 characters.",
     "wrongPassword": "The password is incorrect. Please try again.",
-    "invalidReferralCode": "Invalid Referral Code"
+    "invalidReferralCode": "Invalid Referral Code",
+    "confirm": "confirm",
+    "resend": "resend"
   },
   "menu": {
     "ass": "Bot Store",

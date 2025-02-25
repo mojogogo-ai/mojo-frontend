@@ -36,33 +36,31 @@ const register = async () => {
   await formRef.value.validate()
   try {
     loading.value = true
-    if (formData.referral_code) {
-      try {
-        await bindEmailRefer({
-          email: formData.username,
-          refer_code: formData.referral_code
-        })
-        // Firebase 邮箱/密码注册
-        const userCredential = await createUserWithEmailAndPassword(auth, formData.username, formData.password)
+    try {
+      // await bindEmailRefer({
+      //   email: formData.username,
+      //   refer_code: formData.referral_code
+      // })
+      // Firebase 邮箱/密码注册
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.username, formData.password)
 
-        // 发送验证邮件
-        await sendEmailVerification(userCredential.user)
-        showToast(t('login.checkEmailVerification'))
+      // 发送验证邮件
+      await sendEmailVerification(userCredential.user)
+      showToast(t('login.checkEmailVerification'))
 
-        // 可选：存储用户信息和推荐码
-        const userInfo = {
-          email: userCredential.user.email,
-          uid: userCredential.user.uid,
-          referralCode: formData.referral_code || null // 推荐码可为空
-        }
-        console.log('用户已注册:', userInfo)
-        window.sessionStorage.setItem('referral_code', formData.referral_code)
-        // 跳转到登录或处理注册后逻辑
-        toLogin()
-      } catch (error) {
-        console.error('绑定推荐码失败:', error)
-        showFailToast(t('login.invalidReferralCode'))
+      // 可选：存储用户信息和推荐码
+      const userInfo = {
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+        referralCode: formData.referral_code || null // 推荐码可为空
       }
+      console.log('用户已注册:', userInfo)
+      window.sessionStorage.setItem('referral_code', formData.referral_code)
+      // 跳转到登录或处理注册后逻辑
+      toLogin()
+    } catch (error) {
+      console.error('绑定推荐码失败:', error)
+      showFailToast(t('login.invalidReferralCode'))
     }
   } catch (error) {
     handleFirebaseError(error)
