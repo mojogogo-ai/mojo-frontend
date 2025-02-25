@@ -82,7 +82,7 @@ const loginRegister = async () => {
       } catch (error) {
         handleFirebaseError(error)
         console.error('Failed to bind referral code:', error)
-        ElMessage.error(t('login.invalidReferralCode'))
+        // ElMessage.error(t('login.invalidReferralCode'))
 
       } finally {
         loading.value = false
