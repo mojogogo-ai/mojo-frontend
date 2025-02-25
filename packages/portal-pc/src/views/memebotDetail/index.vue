@@ -1,7 +1,10 @@
 <template>
   <div
-    class="text-center mt-[80px] mb-[80px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px]">
+    class="text-center mt-[80px] mb-[80px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px] relative w-[800px] mx-auto">
     Coin Detail
+    <div class="absolute left-0 top-0" @click="backPage">
+      <svg-icon name="arrow-right" />
+    </div>
   </div>
   <div class="w-[800px] mx-auto memebot-detail mb-[40px]" v-if="isDetail">
     <div class="memebot-detail-top">
@@ -628,6 +631,10 @@ const disconnectTwitter = () => {
   form.twitter_reply_comment_day = 0
   form.twitter_like_day = 0
 };
+const backPage = () => {
+  router.go(-1)
+
+}
 </script>
 
 <style lang="scss" scoped>
