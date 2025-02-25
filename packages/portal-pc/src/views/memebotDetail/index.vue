@@ -216,7 +216,7 @@
 
         </div>
         <el-form-item class="detail-button">
-          <el-button>Cancel</el-button>
+          <el-button @click="cancelForm">Cancel</el-button>
           <el-button type="primary" @click="submitForm" :loading="loading"
                      :disabled="loading">Confirm
           </el-button>
@@ -504,6 +504,9 @@ const generateFileHash = (file) => {
     reader.onerror = (error) => reject(error);
     reader.readAsArrayBuffer(file);
   });
+};
+const cancelForm = async () => {
+  _getMemeDetail()
 };
 const submitForm = async () => {
 
