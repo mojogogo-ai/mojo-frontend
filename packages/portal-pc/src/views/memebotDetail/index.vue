@@ -214,6 +214,18 @@
                   :max="15"
                 />
               </el-form-item>
+              <el-form-item
+                prop="ad_post_day"
+                label="Number of topics Interaction per day"
+              >
+                <el-input
+                  v-model="form.ad_post_day"
+                  clearable
+                  type="number"
+                  :min="1"
+                  :max="15"
+                />
+              </el-form-item>
               <el-form-item prop="" label="Add Tags" class="topic-form">
                 <el-input
                   v-model="topic"
@@ -344,6 +356,7 @@ const form = reactive({
   twitter_post_day: 0,
   twitter_reply_comment_day: 0,
   twitter_like_day: 0,
+  ad_post_day: 0,
   grade: 'basic',
   topics: []
 });
@@ -423,6 +436,7 @@ const _getMemeDetail = async () => {
         form.twitter_post_day = data?.twitter_post_day || 0;
         form.twitter_reply_comment_day = data?.twitter_reply_comment_day || 0;
         form.twitter_like_day = data?.twitter_like_day || 0;
+        form.ad_post_day= data?.ad_post_day || 0
       }
       const { code: twitterCode, data: twitterData } = await getTwitter({bot_id: form.id})
       console.log(twitterData, 'twitterData')
@@ -431,13 +445,15 @@ const _getMemeDetail = async () => {
         form.twitter_reply_comment_day = twitterData.reply_comment_day
         form.twitter_like_day = twitterData.like_day
         form.topics = twitterData.topics || []
+        form.ad_post_day= twitterData?.ad_post_day || 0
+
       }
-      if (form.telegram_bot_address || form.telegram_bot_token || form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
+      if (form.telegram_bot_address || form.telegram_bot_token || form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day || form.ad_post_day) {
         form.grade = 'advanced';
       } else {
         form.grade = 'basic';
       }
-      if (form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
+      if (form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day || form.ad_post_day) {
         form.twitter_config = true
         form.twitter_connect = true
       }
@@ -581,7 +597,8 @@ const submitForm = async () => {
         post_day: Number(form.twitter_post_day),
         reply_comment_day: Number(form.twitter_reply_comment_day),
         like_day: Number(form.twitter_like_day),
-        topics: form.topics
+        topics: form.topics,
+        ad_post_day: form.ad_post_day
       });
     }
     if (form.telegram_config) {
