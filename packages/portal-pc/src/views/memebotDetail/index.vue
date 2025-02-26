@@ -214,9 +214,31 @@
                   :max="15"
                 />
               </el-form-item>
+              <el-form-item prop="" label="Add Tags" class="topic-form">
+                <el-input
+                  v-model="topic"
+                  clearable
+                  type="text"
+                />
+                <el-image
+                  class="topic-add"
+                  @click="addTopic"
+                :src="add"/>
+              </el-form-item>
+              <div v-if="form.topics?.length > 0" class="flex gap-[10px]">
+                <div v-for="(topic, index) in form.topics" :key="index" >
+                  <div class="topic">
+                    {{ topic.content }}
+                    <el-image
+                      @click="deleteTopic(index)"
+                      :src="close"
+                      class="close-svg"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
         </div>
         <el-form-item class="detail-button">
           <el-button @click="cancelForm">Cancel</el-button>
@@ -295,7 +317,9 @@ import useUserStore from '@/store/modules/user.js';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
-import { twitterAuth, setTwitter } from '@gptx/base/api/meme-bot.js';
+import { twitterAuth, setTwitter, getTwitter } from '@gptx/base/api/meme-bot.js';
+import close from '@/assets/images/close.png';
+import add from '@/assets/images/addtopic.png';
 
 const route = useRoute();
 const form = reactive({
@@ -320,8 +344,10 @@ const form = reactive({
   twitter_post_day: 0,
   twitter_reply_comment_day: 0,
   twitter_like_day: 0,
-  grade: 'basic'
+  grade: 'basic',
+  topics: []
 });
+const topic = ref('');
 const formatter = (value) => {
   let num = parseInt(value, 10);
   if (isNaN(num)) {
@@ -397,16 +423,23 @@ const _getMemeDetail = async () => {
         form.twitter_post_day = data?.twitter_post_day || 0;
         form.twitter_reply_comment_day = data?.twitter_reply_comment_day || 0;
         form.twitter_like_day = data?.twitter_like_day || 0;
-        if (form.telegram_bot_address || form.telegram_bot_token || form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
-          form.grade = 'advanced';
-        } else {
-          form.grade = 'basic';
-        }
-        if (form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
-          form.twitter_config = true
-          form.twitter_connect = true
-          console.log('00000000')
-        }
+      }
+      const { code: twitterCode, data: twitterData } = await getTwitter({bot_id: form.id})
+      console.log(twitterData, 'twitterData')
+      if(twitterCode === 200 ) {
+        form.twitter_post_day= twitterData.post_day
+        form.twitter_reply_comment_day = twitterData.reply_comment_day
+        form.twitter_like_day = twitterData.like_day
+        form.topics = twitterData.topics || []
+      }
+      if (form.telegram_bot_address || form.telegram_bot_token || form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
+        form.grade = 'advanced';
+      } else {
+        form.grade = 'basic';
+      }
+      if (form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
+        form.twitter_config = true
+        form.twitter_connect = true
       }
     } catch (error) {
       ElMessage.error(t('bots.error.getDetail'));
@@ -547,7 +580,8 @@ const submitForm = async () => {
         bot_id: form.id,
         post_day: Number(form.twitter_post_day),
         reply_comment_day: Number(form.twitter_reply_comment_day),
-        like_day: Number(form.twitter_like_day)
+        like_day: Number(form.twitter_like_day),
+        topics: form.topics
       });
     }
     if (form.telegram_config) {
@@ -634,6 +668,20 @@ const disconnectTwitter = () => {
 const backPage = () => {
   router.go(-1)
 }
+const deleteTopic = (index) => {
+  form.topics.splice(index, 1);
+}
+const addTopic = () => {
+  if (topic.value.trim()) { // 检查输入框内容是否为空
+    form.topics.push({
+      content: topic.value.trim(), // 用户输入的内容
+      is_user_input: true // 默认的
+    });
+    topic.value = ''; // 清空输入框
+  } else {
+    ElMessage.warning('Please enter a topic before adding.'); // 提示用户输入内容
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -815,5 +863,36 @@ const backPage = () => {
 :deep(.el-select) {
   width: 100% !important;
 }
+.topic {
+  display: flex;
+  height: 48px;
+  padding: 10px 24px;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  background: rgba(0, 0, 0, 0.30);
+  backdrop-filter: blur(50px);
+  color: rgba(255, 255, 255, 0.70);
+  font-feature-settings: 'dlig' on;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 23px; /* 164.286% */
+  position: relative;
+}
+.close-svg {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.topic-form {
+  position: relative;
+}
+.topic-add {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
 </style>
 

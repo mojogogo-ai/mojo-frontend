@@ -53,9 +53,16 @@ export function memeList(params) {
 // bot twitter
 export function setTwitter(data) {
   return request({
-    url: '/v1/twitter/feature-set',
+    url: '/v1/bot/twitter/feature-set',
     method: 'post',
     data
   });
 }
 
+export function getTwitter(params) {
+  return request({
+    url: '/v1/bot/twitter/info',
+    method: 'get',
+    params
+  });
+}
