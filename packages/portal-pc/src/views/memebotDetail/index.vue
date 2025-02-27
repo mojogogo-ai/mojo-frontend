@@ -2,8 +2,8 @@
   <div
     class="text-center mt-[80px] mb-[80px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px] relative w-[800px] mx-auto">
     Coin Detail
-    <div class="absolute left-0 top-0" @click="backPage">
-      <svg-icon name="arrow-right" />
+    <div class="absolute left-0 top-0">
+      <svg-icon name="arrow-right" @click="backPage"/>
     </div>
   </div>
   <div class="w-[800px] mx-auto memebot-detail mb-[40px]" v-if="isDetail">
@@ -633,7 +633,6 @@ const disconnectTwitter = () => {
 };
 const backPage = () => {
   router.push({ path: '/assistant' })
-
 }
 </script>
 
