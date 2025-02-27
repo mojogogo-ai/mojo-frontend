@@ -632,7 +632,7 @@ const disconnectTwitter = () => {
   form.twitter_like_day = 0
 };
 const backPage = () => {
-  router.go(-1)
+  router.push({ path: '/assistant' })
 
 }
 </script>
