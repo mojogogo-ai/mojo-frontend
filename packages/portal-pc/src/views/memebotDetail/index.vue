@@ -285,7 +285,7 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { botAuthorize, botEdit, botFileSave, getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
 import { t } from '@gptx/base/i18n/index.js';
@@ -298,6 +298,7 @@ import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
 import { twitterAuth, setTwitter } from '@gptx/base/api/meme-bot.js';
 
 const router = useRouter();
+const route = useRoute();
 const form = reactive({
   id: '',
   name: '',
