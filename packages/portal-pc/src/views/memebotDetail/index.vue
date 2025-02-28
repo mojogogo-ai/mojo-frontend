@@ -2,8 +2,8 @@
   <div
     class="text-center mt-[80px] mb-[80px] text-[#e1ff01] text-[28px] font-bold font-['TT Norms Pro'] leading-[23px] relative w-[800px] mx-auto">
     Coin Detail
-    <div class="absolute left-0 top-0" @click="backPage">
-      <svg-icon name="arrow-right" />
+    <div class="absolute left-0 top-0">
+      <svg-icon name="arrow-right" @click="backPage"/>
     </div>
   </div>
   <div class="w-[800px] mx-auto memebot-detail mb-[40px]" v-if="isDetail">
@@ -251,6 +251,7 @@
               </div>
             </div>
           </div>
+
         </div>
         <el-form-item class="detail-button">
           <el-button @click="cancelForm">Cancel</el-button>
@@ -319,7 +320,7 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { botAuthorize, botEdit, botFileSave, getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
 import { t } from '@gptx/base/i18n/index.js';
@@ -333,6 +334,7 @@ import { twitterAuth, setTwitter, getTwitter } from '@gptx/base/api/meme-bot.js'
 import close from '@/assets/images/close.png';
 import add from '@/assets/images/addtopic.png';
 
+const router = useRouter();
 const route = useRoute();
 const form = reactive({
   id: '',
@@ -683,7 +685,7 @@ const disconnectTwitter = () => {
   form.twitter_like_day = 0
 };
 const backPage = () => {
-  router.go(-1)
+  router.push({ path: '/assistant' })
 }
 const deleteTopic = (index) => {
   form.topics.splice(index, 1);

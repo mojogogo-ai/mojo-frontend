@@ -10,8 +10,7 @@
       </div>
       <div class="homepage-title mb-6">Refer Friends</div>
       <div class="homepage-subtitle">
-        Earn 30 points for each successful referral! You will both get 30 points when your friend successfully create an
-        account with us.
+        Earn 30 points for each successful referral! You and your friend will both receive 30 points when they register and successfully launch a meme coin.
       </div>
       <div class="invites-info-wrap mx-auto mt-[48px] p-6">
         <div class="invites-info">

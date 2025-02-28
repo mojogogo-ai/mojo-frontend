@@ -8,8 +8,11 @@
     />
 
     <div
-      class="text-center mt-[26px] mb-[26px] text-[#e1ff01] text-[20px] font-bold font-['TT Norms Pro'] leading-[23px]">
+      class="text-center mt-[26px] mb-[26px] text-[#e1ff01] text-[20px] font-bold font-['TT Norms Pro'] leading-[23px] relative w-[310px] mx-auto">
       Coin Detail
+      <div class="absolute left-0 top-0">
+        <svg-icon name="arrow-right" @click="backPage"/>
+      </div>
     </div>
     <div class="w-[343px] mx-auto memebot-detail mb-[40px]" v-if="isDetail">
       <div class="memebot-detail-top">
@@ -254,7 +257,7 @@ import { getList } from '@gptx/base/api/assistant-store.js';
 import { reactive, ref } from 'vue';
 import { botAuthorize, botEdit, getBotInfo, updateBotFile } from '@gptx/base/api/application.js';
 import { ElMessage } from 'element-plus';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { showFailToast, showSuccessToast } from 'vant';
 import { setTwitter, twitterAuth } from '@gptx/base/api/meme-bot.js';
 import CryptoJS from 'crypto-js';
@@ -267,6 +270,7 @@ onMounted(() => {
 console.log(user.nickName, 'user')
 
 const route = useRoute();
+const router = useRouter();
 
 const __data = reactive({
   storeList: []
@@ -628,6 +632,9 @@ const goLink = (link) => {
     window.open(link, '_blank');
   }
 };
+const backPage = () => {
+  router.push({ path: '/assistant' })
+}
 </script>
 
 <style lang="scss" scoped>
