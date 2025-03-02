@@ -27,7 +27,7 @@
             <span class="symbol"> {{ form.symbol }}</span>
           </div>
           <div class="detail-socials">
-            <div class="social" v-if="form.twitter" @click="goLink('twitter')">
+            <div class="social cursor-pointer" v-if="form.twitter" @click="goLink(form.twitter)">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -35,14 +35,14 @@
 
               Twitter
             </div>
-            <div class="social" v-if="form.telegram" @click="goLink('telegram')">
+            <div class="social cursor-pointer" v-if="form.telegram" @click="goLink(form.telegram)">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div class="social" v-if="form.website" @click="goLink('website')">
+            <div class="social cursor-pointer" v-if="form.website" @click="goLink(form.website)">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -295,7 +295,7 @@
             <span class="symbol"> {{ form.symbol }}</span>
           </div>
           <div class="detail-socials">
-            <div v-if="form.twitter" class="social" @click="goLink(form.twitter)">
+            <div v-if="form.twitter" class="social cursor-pointer" @click="goLink(form.twitter)">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -303,14 +303,14 @@
 
               Twitter
             </div>
-            <div v-if="form.telegram"  class="social" @click="goLink(form.telegram)">
+            <div v-if="form.telegram"  class="social cursor-pointer" @click="goLink(form.telegram)">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div v-if="form.website" class="social" @click="goLink(form.website)">
+            <div v-if="form.website" class="social cursor-pointer" @click="goLink(form.website)">
               <svg-icon
                 name="web-fill"
                 class="icon"
