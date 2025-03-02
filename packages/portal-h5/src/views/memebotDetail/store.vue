@@ -41,7 +41,7 @@
             Socials
           </div>
           <div class="detail-socials">
-            <div class="social" v-if="form.twitter" @click="goLink('twitter')">
+            <div class="social cursor-pointer" v-if="form.twitter" @click="goLink('twitter')">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -49,14 +49,14 @@
 
               Twitter
             </div>
-            <div class="social" v-if="form.telegram" @click="goLink('telegram')">
+            <div class="social cursor-pointer" v-if="form.telegram" @click="goLink('telegram')">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div class="social" v-if="form.website" @click="goLink('website')">
+            <div class="social cursor-pointer" v-if="form.website" @click="goLink('website')">
               <svg-icon
                 name="web-fill"
                 class="icon"
@@ -216,7 +216,7 @@
             Socials
           </div>
           <div class="detail-socials">
-            <div class="social" v-if="form.twitter" @click="goLink('twitter')">
+            <div class="social cursor-pointer" v-if="form.twitter" @click="goLink(form.twitter)">
               <svg-icon
                 name="prime_twitter"
                 class="icon"
@@ -224,14 +224,14 @@
 
               Twitter
             </div>
-            <div class="social" v-if="form.telegram" @click="goLink('telegram')">
+            <div class="social cursor-pointer" v-if="form.telegram" @click="goLink(form.telegram)">
               <svg-icon
                 name="telegram"
                 class="icon"
               />
               Telegram
             </div>
-            <div class="social" v-if="form.website" @click="goLink('website')">
+            <div class="social cursor-pointer" v-if="form.website" @click="goLink(form.website)">
               <svg-icon
                 name="web-fill"
                 class="icon"
