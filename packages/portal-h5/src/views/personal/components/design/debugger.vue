@@ -4,13 +4,13 @@
     class="cover-popup cover-popup-full"
     position="bottom"
     closeable
-    :title="t('bots.label.preview')"
+    title="Preview & Debug"
   >
     <div
       class="cover-popup-head"
       border="bottom"
     >
-      {{ t('bots.label.preview') }}
+      Preview & Debug
     </div>
     <div class="cover-popup-body" style="padding: 0">
       <div class="h-full overflow-hidden">

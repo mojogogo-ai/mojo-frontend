@@ -7,14 +7,14 @@
     <div class="design-form">
       <div class="design-form-item">
         <div class="design-form-title">
-          {{ t('bots.label.similarity') }}
+          Similarity
           <svg-icon
             class="info-icon"
             name="info-o"
             @click="
               emits('show-tip', {
-                title: t('bots.label.similarity'),
-                message: `1.${t('bots.label.similarityTip1')}\n2.${t('bots.label.similarityTip2')}`
+                title: 'Similarity',
+                message: `1.When the similarity is high (such as 0.8 or above), only knowledge that is highly relevant to the problem will be retrieved, which will be more accurate, and it will also be easier to miss.\n2.When the similarity is low (such as below 0.7), content with low relevance may be retrieved, but the retrieval scope will be wider.`
               })
             "
           />
@@ -47,12 +47,12 @@
       </div>
       <div class="design-form-item">
         <div class="design-form-title">
-          {{ t('bots.label.searchCounts') }}
+          Number of items retrieved in a single time
           <svg-icon
             class="info-icon"
             name="info-o"
             @click="
-              emits('show-tip', { title: t('bots.label.searchCounts'), message: t('bots.label.searchCountsTip') })
+              emits('show-tip', { title: 'Number of items retrieved in a single time', message: 'The maximum number of paragraphs retrieved from the knowledge base for a single question and answer. The default is 3. Increasing the number will increase token consumption. Be careful not to exceed the maximum context of the model.' })
             "
           />
         </div>
@@ -84,14 +84,14 @@
       </div>
       <div class="design-form-item">
         <div class="design-form-title">
-          {{ t('bots.label.notFound') }}
+          Missed strategy
           <svg-icon
             class="info-icon"
             name="info-o"
             @click="
               emits('show-tip', {
-                title: t('bots.label.notFound'),
-                message: `${t('bots.label.notFoundTip1')}\n1.${t('bots.label.notFoundTip2')}\n2.${t('bots.label.notFoundTip3')}`
+                title: 'Missed strategy',
+                message: `Strategies when similar content is not found in the knowledge base\n1.Autonomous reasoning: The robot will reason and reply on its own\n2.Fixed reply: Reply based on specified text`
               })
             "
           />
@@ -106,13 +106,13 @@
               :name="1"
               icon-size="16"
             >
-              {{ t('bots.placeholder.strategy1') }}
+              Reply by assistant's self
             </van-radio>
             <van-radio
               :name="2"
               icon-size="16"
             >
-              {{ t('bots.placeholder.strategy2') }}
+              Fixed reply
             </van-radio>
           </van-radio-group>
         </div>
@@ -129,7 +129,7 @@
             bordered
             background
             clearable
-            :placeholder="t('bots.placeholder.autoReply')"
+            placeholder="Please enter fixed reply content"
             :rows="4"
             :rules="rules.k_miss_response"
             @blur="_updateConfig('k_miss_response')"
@@ -139,7 +139,7 @@
       <div class="mb-0 design-form-item">
         <div class="design-form-title">
           <div class="flex justify-between w-full">
-            {{ t('bots.label.bindKnowledgeBase') }}
+            Bind base
             <van-button
               type="primary"
               icon="plus"
@@ -185,11 +185,11 @@
               </div>
               <div class="text-[#7a7a7a]">
                 <div class="text-xs">
-                  <span>{{ t('base.label.fileNumber') }}：</span>
-                  <span>{{ base.file_count }}{{ t('base.label.fileUnit') }}</span>
+                  <span>Number of files：</span>
+                  <span>{{ base.file_count }}files</span>
                 </div>
                 <div class="text-xs">
-                  <span>{{ t('base.label.fileSize') }}：</span>
+                  <span>File size：</span>
                   <span>{{ base.friendly_file_size }}</span>
                 </div>
               </div>
@@ -212,7 +212,7 @@
                   class="text-[26px]"
                   name="plus-square"
                 />
-                <div class="mt-1">{{ t('bots.label.bindKnowledgeBase') }}</div>
+                <div class="mt-1">Bind base</div>
               </van-button>
             </van-cell>
           </div>
@@ -269,7 +269,7 @@ const onStrategyChange = () => {
   if (form.k_miss_strategy === 1) {
     _updateConfig('k_miss_strategy');
   } else {
-    rules.k_miss_response = [{ required: true, message: t('bots.placeholder.autoReply') }];
+    rules.k_miss_response = [{ required: true, message: "Please enter fixed reply content" }];
     // formRef.value.resetFields();
     if (form.k_miss_response) {
       _updateConfig('k_miss_strategy');

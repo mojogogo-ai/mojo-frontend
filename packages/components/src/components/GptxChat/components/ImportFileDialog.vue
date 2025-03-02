@@ -3,7 +3,7 @@
     v-model="visible"
     width="550px"
     destroy-on-close
-    :title="t('base.label.nf')"
+    title="Add new file"
     :before-close="handleClose"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -90,7 +90,7 @@
           <div class="px-2">
             {{ t('base.uploadTip') }}
             <span class="cursor-pointer text-[var(--el-color-primary)] hover:opacity-85">
-              {{ t('base.btn') }}
+              Click to upload
             </span>
           </div>
           <div
@@ -269,12 +269,12 @@ const handleBeforeUpload = async (file) => {
   // headers.value['X-Client-Site'] = window.SITE_TYPE; // X-Client-Site
   const isLt1M = file.size / 1024 / 1024 < 20;
   if (!isLt1M) {
-    ElMessage.error(`${t('base.fileName')}${file.name}${t('base.p')}20MB!`);
+    ElMessage.error(`file names 「${file.name}${t('base.p')}20MB!`);
     return false;
   }
   const fileExtensions = supportedFileType.map((_) => _.substring(1));
   if (!fileExtensions.includes(file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase())) {
-    ElMessage.error(`${t('base.fileName')}文件${file.name}${t('base.pp')}`);
+    ElMessage.error(`file names 「文件${file.name}${t('base.pp')}`);
     return false;
   }
 };
@@ -282,7 +282,7 @@ const handleBeforeUpload = async (file) => {
 // 超出提示
 const handleExceed = (files) => {
   if (files.length > 5) {
-    ElMessage.error(t('base.a1'));
+    ElMessage.error('You can upload 5 files at once');
   }
 };
 

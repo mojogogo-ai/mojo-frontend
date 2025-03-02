@@ -1,6 +1,6 @@
 <template>
   <div class="app-page">
-    <page-header :title="t('menu.d')" />
+    <page-header title="My Account" />
     <div class="app-page-content">
       <div class="profile-settings">
         <div class="profile-header">
@@ -85,7 +85,7 @@
         <!--        <div class="profile-divider" />-->
         <div class="profile-actions">
           <van-button type="danger" @click="deleteAccount">Delete account</van-button>
-          <van-button type="warning" @click="logout">{{ t('user.b') }}</van-button>
+          <van-button type="warning" @click="logout">Logout</van-button>
         </div>
       </div>
     </div>
@@ -146,9 +146,9 @@ const logout = async () => {
   // const useLogin = useLoginStore();
   try {
     const action = await showConfirmDialog({
-      title: t('user.c'),
-      confirmButtonText: t('user.b'),
-      cancelButtonText: t('common.cancel'),
+      title: "Do you want to logout?",
+      confirmButtonText: "Logout",
+      cancelButtonText: "Cancel",
       showConfirmButton: true
     });
     if (action === 'confirm') {

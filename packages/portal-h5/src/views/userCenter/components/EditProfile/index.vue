@@ -30,8 +30,8 @@
               :name="form.name"
               :gender="userStore.gender"
               :introduction="form.introduction"
-              :title="t('bots.icon')"
-              :disabled-tooltip-text="t('bots.generateIconTooltip')"
+              title="Bot Icon"
+              disabled-tooltip-text="Click AI Generate Button after enter your bot's name and description to auto generate an icon for you assisatant, you can generate icons up to 3 time."
               @before-generate="isAIloading = true"
               @after-generate="isAIloading = false"
               @change="onImageChange"
@@ -72,7 +72,7 @@ const form = reactive({
 const rules = reactive({
   icon: [
     {
-      message: t('bots.ruleMessage.icon'),
+      message: "Please upload the bot icon",
       trigger: 'change',
       validator: () => !!(form.icon && form.icon !== defaultRobotAvatar)
     }

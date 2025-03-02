@@ -54,7 +54,7 @@
               class="text-xl"
               name="ai"
             />
-            {{ t('base.ai_generate') }}
+            Generate
           </button>
         </template>
         <template #content>

@@ -1,7 +1,7 @@
 <template>
   <page-header
-    :title="t('menu.c')"
-    :placeholder="t('bots.a9')"
+    title="Bot"
+    placeholder="Bot name"
   />
   <div class="bot-management">
     <div class="bot-management-title">
@@ -29,7 +29,7 @@
         <!-- 空内容展示 -->
         <div v-if="!isLoading && botList.length === 0" className="flex flex-col items-center">
           <svg-icon name="smart-people" style="height: 220px; width: 220px;"></svg-icon>
-          <div class="font-black no-content-psl">{{ t('common.noContent') }}</div>
+          <div class="font-black no-content-psl">No content yet</div>
           <!-- 显示创建新 Bot 按钮的条件 -->
           <van-button
             v-if="!form.search && form.published === ''"
@@ -37,7 +37,7 @@
             class="new-bot-btn"
             @click="createNewBot"
           >
-            + {{ t('bots.new') }}
+            + Create Bot
           </van-button>
         </div>
         <!-- 加载中时显示加载指示器 -->

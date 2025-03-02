@@ -8,7 +8,7 @@
     @close="close"
   >
     <template #title>
-      {{ isEdit ? t('base.edit') : t('bots.new') }}
+      {{ isEdit ? 'Edit basic information' : t('bots.new') }}
     </template>
     <div class="bbi-dialog-body">
       <van-form

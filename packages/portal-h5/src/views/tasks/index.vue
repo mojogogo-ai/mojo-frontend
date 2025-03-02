@@ -12,7 +12,7 @@
           size="36px"
           vertical
         >
-          {{ t('common.loading') }}
+          Loading...
         </van-loading>
       </div>
       <div
@@ -36,7 +36,7 @@
         <template v-if="!__data.storeList.length">
           <van-empty :image="emptyRobotImageUrl">
             <template #description>
-              <div class="text-[16px] font-black">{{ t('bots.not_found') }}</div>
+              <div class="text-[16px] font-black">Bot not found</div>
             </template>
           </van-empty>
         </template>
@@ -50,16 +50,8 @@
 </template>
 
 <script setup>
-import { t } from '@gptx/base/i18n';
 import ListItem from './components/ListItem';
 import emptyRobotImageUrl from '@/assets/images/empty-robot.png';
-import TaskImg01 from '@/assets/images/tasks/01.svg';
-import TaskImg02 from '@/assets/images/tasks/02.svg';
-import TaskImg03 from '@/assets/images/tasks/03.svg';
-import TaskImg04 from '@/assets/images/tasks/04.svg';
-import TaskImg05 from '@/assets/images/tasks/05.svg';
-import TaskImg06 from '@/assets/images/tasks/06.svg';
-import TaskImg07 from '@/assets/images/tasks/07.svg';
 import CheckIn from './components/Check-In.vue';
 
 const __data = reactive({

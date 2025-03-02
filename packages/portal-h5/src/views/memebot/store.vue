@@ -1,8 +1,8 @@
 <template>
   <div class="app-page">
     <page-header
-      :title="t('menu.ass')"
-      :placeholder="t('store.placeholder.name')"
+      title="Bot Store"
+      placeholder="Enter an application name"
       input-area
       @search="onSearch"
     />
@@ -115,7 +115,7 @@ const _getMemeDetail = async () => {
         editForm.website = data.website;
       }
     } catch (error){
-      ElMessage.error(t('bots.error.getDetail'));
+      ElMessage.error("Unable to retrieve details for this meme bot.");
     } finally {
 
     }

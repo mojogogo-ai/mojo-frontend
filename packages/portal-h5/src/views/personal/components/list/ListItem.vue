@@ -127,12 +127,12 @@ const imageErrorFlag = ref(false);
 const actions = computed(() => {
   let arr = [];
   if (props.bot.public === '1') {
-    arr.push({ name: t('bots.unpublish'), action: 'unpublish' });
+    arr.push({ name: "Unpublish", action: 'unpublish' });
   }
   // else {
   //   arr.push({ name: t('bots.publish.btn'), action: 'publish' });
   // }
-  arr.push({ name: t('bots.delete'), className: 'is-delete', action: 'delete' });
+  arr.push({ name: "Delete", className: 'is-delete', action: 'delete' });
   return arr;
 });
 
@@ -145,7 +145,7 @@ const goLink = (bot, platform) => {
   }
   if (!url) {
     showToast({
-      message: t('tips.configurePlatformAddress'),
+      message: "Please configure the address",
       type: 'warning'
     });
     return;
@@ -194,24 +194,24 @@ const onActionSelect = (action) => {
 const onDelete = async (id) => {
   console.log('onDelete', id);
   try {
-    const message = props.bot.public === '1' ? t('bots.deleteDesc') : t('bots.deleteDescCn');
+    const message = props.bot.public === '1' ? "This operation will only delete the assistants in the assistant store and will not affect the assistants published on Telegram, Discord and other platforms. You can delete them on the corresponding platform" : "Are you sure to delete this assistant?";
     const action = await showConfirmDialog({
       title: t('bots.delete'),
       message,
-      confirmButtonText: t('common.confirm'),
-      cancelButtonText: t('common.cancel')
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel"
     });
     if (action === 'confirm') {
       const { code } = await botDelete({ id });
       if (code === 200) {
         emit('delete');
         eventBus.emit('createBotSuccess');
-        showToast(t('bots.deleteSuccess'));
+        showToast("Delete Success");
       }
     }
   } catch (error) {
     console.log(error);
-    showToast(t('common.error'));
+    showToast("error");
   }
 };
 
@@ -231,22 +231,22 @@ const onUnpublish = async (id) => {
       path: `/publish/${id}`
     }).href;
     const action = await showConfirmDialog({
-      title: t('bots.unpublish'),
-      message: `${t('bots.unpublishDesc')} <a class="text-primary" href="${href}" target="_blank">${t('bots.toPublish')}</a>`,
-      confirmButtonText: t('common.confirm'),
-      cancelButtonText: t('common.cancel'),
+      title: "Unpublish",
+      message: `This operation will only remove the assistant from the assistant store. If you need to revoke the authorization of the social media platform, please go to the release page to perform the operation. <a class="text-primary" href="${href}" target="_blank">${t('bots.toPublish')}</a>`,
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
       allowHtml: true
     });
     if (action === 'confirm') {
       const { code } = await removePublishApp({ app_id: id });
       if (code === 200) {
         emit('refresh-list');
-        showToast(t('bots.unpublishSuccess'));
+        showToast("Unpublish Success");
       }
     }
   } catch (error) {
     console.log(error);
-    showToast(t('common.error'));
+    showToast("error");
   }
 };
 </script>

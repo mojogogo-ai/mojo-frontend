@@ -6,7 +6,7 @@
     closeable
   >
     <div class="cover-popup-head">
-      {{ t('user.editProfile') }}
+      Edit profile
     </div>
     <div class="cover-popup-body">
       <van-form
@@ -19,7 +19,7 @@
         <van-field
           required
           name="photo_url"
-          :label="t('user.d')"
+          label="Avatar"
           :rules="rules.photo_url"
         >
           <template #input>
@@ -47,8 +47,8 @@
           show-word-limit
           required
           background
-          :placeholder="t('user.nameRequired')"
-          :label="t('user.nickName')"
+          placeholder="Please enter a nickname"
+          label="Nickname"
           :rules="rules.nick_name"
         />
         <van-field
@@ -56,7 +56,7 @@
           required
           background
           disabled
-          :label="t('user.account')"
+          label="Account"
         />
       </van-form>
     </div>
@@ -65,7 +65,7 @@
         size="small"
         @click="dialogVisible = false"
       >
-        {{ t('common.cancel') }}
+        Cancel
       </van-button>
       <van-button
         type="primary"
@@ -74,7 +74,7 @@
         :loading="isLoading"
         @click="onSubmit"
       >
-        {{ t('common.confirm') }}
+        Confirm
       </van-button>
     </div>
   </van-popup>
@@ -96,12 +96,12 @@ const rules = reactive({
   nick_name: [
     {
       required: true,
-      message: t('user.nameRequired')
+      message: "Please enter a nickname"
     }
   ],
   photo_url: [
     {
-      message: t('user.avatarRequired'),
+      message:"Please upload avatar",
       validator: () => {
         return !!(form.photo_url && form.photo_url !== defaultAvatar);
       }

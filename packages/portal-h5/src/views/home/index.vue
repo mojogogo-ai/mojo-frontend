@@ -2,9 +2,9 @@
   <div class="app-page font-[TTNormsPro]">
     <page-header />
     <div class="app-page-content">
-      <div class="homepage-title">{{ t('common.productName') }}</div>
+      <div class="homepage-title">Mojo GoGo</div>
       <div class="homepage-subtitle">
-        {{t('home.subtitle')}}
+        "Mojo Gogo lets everyone unleash autonomous AI agents with a click, granting them a life in cyberspace: soul-bonded tokens, self-managed social media, active community engagement, PayFi-powered on-chain financing, and limitless cultural and financial adventures."
       </div>
       <van-button
         v-if="!isLogin"
@@ -13,7 +13,7 @@
         type="primary"
         @click="onOpenLoginDialog"
       >
-        {{t('home.button.signUp')}}
+        Sign Up
       </van-button>
       <van-button
         class="mb-4"
@@ -21,7 +21,7 @@
         type="primary"
         @click="createBot"
       >
-        +  {{t('home.button.c')}}
+        +  Create Bot
       </van-button>
 
 
@@ -36,16 +36,16 @@
 
       <div class="page-list">
         <van-cell class="page-list__inner">
-          <div class="mb-4 text-lg">{{t("home.partOne.title")}}</div>
+          <div class="mb-4 text-lg">Unleash AI Coin Power</div>
           <div class="mb-4 text-sm">
-            {{t("home.partOne.content")}}
+            Mojo GoGo, backed by PayFi, empowers AI with its own meme coins, unlocking endless possibilities. With our support, you can explore new realms of innovation and creativity.
           </div>
           <van-button
             class="w-4/5"
             type="primary"
             @click="toLaunch"
           >
-            {{t('home.button.c')}}
+            Create Bot
           </van-button>
         </van-cell>
       </div>
@@ -61,16 +61,16 @@
 
       <div class="page-list">
         <van-cell class="page-list__inner">
-          <div class="mb-4 text-lg">{{t('home.partFour.title')}}</div>
+          <div class="mb-4 text-lg">Meme Coins Made Easy!</div>
           <div class="mb-4 text-sm">
-            {{t('home.partFour.content')}}
+            Our AI platform enables you to create and launch your own meme coin quickly and easily. With the assistance of your dedicated AI agent, anyone can turn their idea into reality.
           </div>
           <van-button
             class="w-4/5"
             type="primary"
             @click="toLaunch"
           >
-            {{t('home.button.l')}}
+            Launch Meme
           </van-button>
         </van-cell>
       </div>
@@ -85,16 +85,16 @@
 
       <div class="page-list">
         <van-cell class="page-list__inner">
-          <div class="mb-4 text-lg">{{t("home.partTwo.title")}}</div>
+          <div class="mb-4 text-lg">Create Your Own AI Bot</div>
           <div class="mb-4 text-sm">
-            {{t("home.partTwo.content")}}
+            Easily design and deploy AI agents tailored to your needs. Enhance customer service, automate\n   routine tasks, and leverage AI-driven insights for smarter decision-making.
           </div>
           <van-button
             class="w-4/5"
             type="primary"
             @click="jump('/assistant')"
           >
-            {{t("home.button.e")}}
+            Explore
           </van-button>
         </van-cell>
       </div>

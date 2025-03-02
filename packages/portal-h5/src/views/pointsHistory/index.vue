@@ -55,7 +55,7 @@
         <template v-else-if="!isLoading">
           <van-empty :image="emptyRobotImageUrl">
             <template #description>
-              <div class="text-[16px] font-black">{{ t('bots.not_found') }}</div>
+              <div class="text-[16px] font-black">Bot not found</div>
             </template>
           </van-empty>
         </template>

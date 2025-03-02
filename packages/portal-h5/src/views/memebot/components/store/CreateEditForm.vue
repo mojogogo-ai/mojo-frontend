@@ -31,7 +31,7 @@
             v-model="form.gender"
             :columns="genderList.map((_) => ({ ..._, label: t(_.name) }))"
             :columns-field-names="{ text: 'label', value: 'id' }"
-            :placeholder="t('bots.place.catalog')"
+            placeholder="Bot classification"
           />
         </template>
       </van-field>
@@ -50,7 +50,7 @@
             v-model="form.classification"
             :columns="catalogList.map((_) => ({ ..._, label: t(_.name) }))"
             :columns-field-names="{ text: 'label', value: 'id' }"
-            :placeholder="t('bots.place.catalog')"
+            placeholder="Bot classification"
           />
         </template>
       </van-field>
@@ -93,8 +93,8 @@
           :name="form.name"
           :gender="form.gender"
           :introduction="form.introduction"
-          :title="t('bots.icon')"
-          :disabled-tooltip-text="t('bots.generateIconTooltip')"
+          title="Bot Icon"
+          disabled-tooltip-text="Click AI Generate Button after enter your bot's name and description to auto generate an icon for you assisatant, you can generate icons up to 3 time."
           @before-generate="isAILoading = true"
           @after-generate="isAILoading = false"
           @change="onImageChange"
@@ -179,17 +179,17 @@ watch(() => props.editForm, (newEditForm) => {
   }
 }, { immediate: true });
 const rules = reactive({
-  name: [{ required: true, message: t('bots.ruleMessage.name') }],
+  name: [{ required: true, message: "Please fill in the bot name" }],
   gender: [{
     required: true,
-    message: t('bots.ruleMessage.catalog'),
+    message: "Please select one category",
     validator: () => (form.gender !== null)
 
   }],
   classification: [
     {
       required: true,
-      message: t('bots.ruleMessage.catalog'),
+      message: "Please select one category",
       validator: () => !!(form.classification && form.classification.length > 0)
     }
   ],
@@ -198,7 +198,7 @@ const rules = reactive({
   icon: [
     {
       required: true,
-      message: t('bots.ruleMessage.icon'),
+      message: "Please upload the bot icon",
       trigger: 'change',
       validator: () => !!(form.icon && form.icon !== defaultRobotAvatar)
     }

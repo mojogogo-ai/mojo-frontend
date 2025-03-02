@@ -5,7 +5,7 @@
     position="bottom"
     closeable
   >
-    <div class="cover-popup-head">{{ t('bots.bindKnowledge') }}</div>
+    <div class="cover-popup-head">Bind base</div>
     <div class="cover-popup-body">
       <div class="design-scroll">
         <div class="p-3">
@@ -46,7 +46,7 @@
                       :disabled="isLoading"
                       @click="updateKnowledgeBindState(base)"
                     >
-                      {{ t('base.option.unbind') }}
+                      Unbound
                     </van-button>
                     <van-button
                       v-else
@@ -54,14 +54,14 @@
                       :disabled="isLoading"
                       @click="updateKnowledgeBindState(base)"
                     >
-                      {{ t('base.option.bind') }}
+                      Bound
                     </van-button>
                   </div>
                   <div class="my-2 line-clamp-2 h-[34px] text-xs">{{ base.description }}</div>
                 </div>
               </div>
               <div class="mb-2 items-center text-xs text-[#7a7a7a]">
-                {{ t('base.label.createdAt') }}:
+                Create time:
                 {{
                   isCn ? base.created_at : dayjs(base.created_at)
                     .subtract(new Date().getTimezoneOffset(), 'minute')
@@ -69,9 +69,9 @@
                 }}
               </div>
               <div class="mb-2 items-center text-xs text-[#7a7a7a]">
-                <span>{{ t('base.label.fileNumber') }}：</span>
-                <span>{{ base.file_count }}{{ t('base.label.fileUnit') }}/</span>
-                <span>{{ t('base.label.fileSize') }}：</span>
+                <span>Number of files：</span>
+                <span>{{ base.file_count }}files/</span>
+                <span>File size：</span>
                 <span>{{ base.friendly_file_size }}</span>
               </div>
             </van-cell>

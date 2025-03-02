@@ -72,9 +72,9 @@ const copyReferralCode = (isWithLink) => {
   const { copy, copied } = useClipboard({ copyText, legacy: true });
   copy(copyText);
   if (copied) {
-    showToast(t('bots.bb'));
+    showToast("Copied successfully");
   } else {
-    showToast(t('chat.copy2'));
+    showToast("Copy failed");
   }
 };
 </script>

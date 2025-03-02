@@ -2,7 +2,7 @@
   <el-dialog
     v-model="isVisible"
     width="622px"
-    :title="isEdit ? t('base.edit') : t('bots.new')"
+    :title="isEdit ? 'Edit basic information' : t('bots.new')"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     destroy-on-close
@@ -36,7 +36,7 @@
           multiple
           :multiple-limit="3"
           :placeholder="t('bots.place.catalog')"
-        > 
+        >
           <el-option
             v-for="{ name, id } in catalogList"
             :label="t(name)"
@@ -53,7 +53,7 @@
           multiple
           :multiple-limit="3"
           :placeholder="t('bots.place.catalog')"
-        > 
+        >
           <el-option
             v-for="{ name, id } in catalogList"
             :label="t(name)"

@@ -1,8 +1,8 @@
 <template>
   <div class="app-page">
     <page-header
-      :title="t('menu.ass')"
-      :placeholder="t('store.placeholder.name')"
+      title="Bot Store"
+      placeholder="Enter an application name"
       input-area
       @search="onSearch"
     />
@@ -37,7 +37,7 @@
           size="36px"
           vertical
         >
-          {{ t('common.loading') }}
+          Loading...
         </van-loading>
       </div>
       <div
@@ -63,7 +63,7 @@
         <template v-if="!__data.storeList.length">
           <div  className="flex flex-col items-center">
             <svg-icon name="smart-people" style="height: 220px; width: 220px;"></svg-icon>
-            <div class="text-[16px] font-black">{{ t('bots.not_found') }}</div>
+            <div class="text-[16px] font-black">Bot not found</div>
           </div>
         </template>
       </div>
