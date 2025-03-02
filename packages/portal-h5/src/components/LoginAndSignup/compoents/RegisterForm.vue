@@ -30,7 +30,6 @@ const rules = {
 const toLogin = () => {
   emit('to-login')
 }
-
 // Firebase 注册
 const register = async () => {
   await formRef.value.validate()
