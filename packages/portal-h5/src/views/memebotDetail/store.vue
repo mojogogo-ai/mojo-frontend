@@ -174,6 +174,46 @@
                   label-align="top"
                   label="Number of Likes Per Day"
                 />
+                <van-field
+                  v-model="form.ad_post_day"
+                  name="ad_post_day"
+                  label-align="top"
+                  label="Number of topics Interaction per day"
+                />
+
+
+                <div class="mb-[5px] text-[12px]">
+                  System Topics
+                </div>
+                <div class="flex gap-[10px] flex-wrap mb-[5px]">
+                  <div v-for="(topicItem, index) in form.sys_topics" :key="index" >
+                    <div class="topic cursor-pointer" @click="addTopicArray(topicItem)">
+                      {{topicItem}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="topic-form">
+                  <van-field v-model="topic" label="Add Tags" label-align="top">
+                  </van-field>
+                  <el-image
+                    class="topic-add"
+                    @click="addTopic"
+                    :src="add"/>
+                </div>
+                <div v-if="form.topics?.length > 0" class="flex  flex-wrap gap-[10px]">
+                  <div v-for="(topic, index) in form.topics" :key="index" >
+                    <div class="topic">
+                      {{ topic.content }}
+                      <el-image
+                        @click="deleteTopic(index)"
+                        :src="closeTopic"
+                        class="close-svg"
+                      />
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -259,10 +299,13 @@ import { botAuthorize, botEdit, getBotInfo, updateBotFile } from '@gptx/base/api
 import { ElMessage } from 'element-plus';
 import { useRoute, useRouter } from 'vue-router';
 import { showFailToast, showSuccessToast } from 'vant';
-import { setTwitter, twitterAuth } from '@gptx/base/api/meme-bot.js';
+import { getTwitter, setTwitter, twitterAuth } from '@gptx/base/api/meme-bot.js';
 import CryptoJS from 'crypto-js';
 import { getOssPresignedUrlV2 } from '@gptx/base/api/user.js';
 import axios from 'axios';
+import closeTopic from '@/assets/images/close.png';
+import add from '@/assets/images/addtopic.png';
+
 const user = useUserStore();
 onMounted(() => {
   user.updateSysInfo(); // 调用更新用户信息的方法
@@ -335,8 +378,12 @@ const form = reactive({
   twitter_post_day: 0,
   twitter_reply_comment_day: 0,
   twitter_like_day: 0,
-  grade: 'basic'
+  ad_post_day: 0,
+  grade: 'basic',
+  topics: [],
+  sys_topics: []
 });
+const topic = ref('');
 // gradeList
 const gradeList = reactive([
   { id: 'basic', name: 'basic' },
@@ -390,15 +437,34 @@ const _getMemeDetail = async () => {
         form.twitter_post_day = data?.twitter_post_day || 0;
         form.twitter_reply_comment_day = data?.twitter_reply_comment_day || 0;
         form.twitter_like_day = data?.twitter_like_day || 0;
-        if (form.telegram_bot_address || form.telegram_bot_token || form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
-          form.grade = 'advanced';
-        } else {
-          form.grade = 'basic';
-        }
-        if (form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
-          form.twitter_config = true
-          form.twitter_connect = true
-        }
+        form.ad_post_day= data?.ad_post_day || 0
+        // if (form.telegram_bot_address || form.telegram_bot_token || form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
+        //   form.grade = 'advanced';
+        // } else {
+        //   form.grade = 'basic';
+        // }
+        // if (form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day) {
+        //   form.twitter_config = true
+        //   form.twitter_connect = true
+        // }
+      }
+      const { code: twitterCode, data: twitterData } = await getTwitter({bot_id: form.id})
+      if(twitterCode === 200 ) {
+        form.twitter_post_day= twitterData.post_day
+        form.twitter_reply_comment_day = twitterData.reply_comment_day
+        form.twitter_like_day = twitterData.like_day
+        form.sys_topics = twitterData.sys_topics || []
+        form.topics = twitterData.topics || []
+        form.ad_post_day= twitterData?.ad_post_day || 0
+      }
+      if (form.telegram_bot_address || form.telegram_bot_token || form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day || form.ad_post_day) {
+        form.grade = 'advanced';
+      } else {
+        form.grade = 'basic';
+      }
+      if (form.twitter_post_day || form.twitter_reply_comment_day || form.twitter_like_day || form.ad_post_day) {
+        form.twitter_config = true
+        form.twitter_connect = true
       }
     } catch (error) {
       ElMessage.error("Unable to retrieve details for this meme bot.");
@@ -634,6 +700,33 @@ const goLink = (link) => {
 };
 const backPage = () => {
   router.push({ path: '/assistant' })
+}
+const deleteTopic = (index) => {
+  form.topics.splice(index, 1);
+}
+const addTopic = () => {
+  if (topic.value.trim()) { // 检查输入框内容是否为空
+    form.topics.push({
+      content: topic.value.trim(), // 用户输入的内容
+      is_user_input: false // 默认的
+    });
+    topic.value = ''; // 清空输入框
+  } else {
+    ElMessage.warning('Please enter a topic before adding.'); // 提示用户输入内容
+  }
+};
+const addTopicArray = (item ) => {
+  const index = form.topics.findIndex(topic => topic.content === item);
+  if (index !== -1) {
+    // 如果存在，则删除该项
+    form.topics.splice(index, 1);
+  } else {
+    // 如果不存在，则添加该项
+    form.topics.push({
+      content: item, // 用户输入的内容
+      is_user_input: true // 默认的
+    });
+  }
 }
 </script>
 
@@ -929,5 +1022,34 @@ const backPage = () => {
     height: 43px;
     border-radius: 12px;
   }
+}
+.topic {
+  display: flex;
+  padding: 5px 12px;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  background: rgba(0, 0, 0, 0.30);
+  backdrop-filter: blur(50px);
+  color: rgba(255, 255, 255, 0.70);
+  font-feature-settings: 'dlig' on;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 23px; /* 164.286% */
+  position: relative;
+}
+.close-svg {
+  position: absolute;
+  right: -4px;
+  top: -4px;
+}
+.topic-form {
+  position: relative;
+}
+.topic-add {
+  position: absolute;
+  right: 7px;
+  top: 40px;
 }
 </style>

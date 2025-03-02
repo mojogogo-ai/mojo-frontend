@@ -214,6 +214,7 @@
                   :max="15"
                 />
               </el-form-item>
+
               <el-form-item
                 prop="ad_post_day"
                 label="Number of topics Interaction per day"
@@ -226,6 +227,16 @@
                   :max="15"
                 />
               </el-form-item>
+              <el-form-item prop="" label="System Topics" class="topic-form">
+              </el-form-item>
+              <div class="flex gap-[10px] flex-wrap mb-[5px]">
+                <div v-for="(topicItem, index) in form.sys_topics" :key="index" >
+                  <div class="topic cursor-pointer" @click="addTopicArray(topicItem)">
+                    {{topicItem}}
+                  </div>
+                </div>
+              </div>
+
               <el-form-item prop="" label="Add Tags" class="topic-form">
                 <el-input
                   v-model="topic"
@@ -237,7 +248,7 @@
                   @click="addTopic"
                 :src="add"/>
               </el-form-item>
-              <div v-if="form.topics?.length > 0" class="flex gap-[10px]">
+              <div v-if="form.topics?.length > 0" class="flex  flex-wrap gap-[10px]">
                 <div v-for="(topic, index) in form.topics" :key="index" >
                   <div class="topic">
                     {{ topic.content }}
@@ -253,7 +264,7 @@
           </div>
 
         </div>
-        <el-form-item class="detail-button">
+        <el-form-item class="detail-button mt-[20px]">
           <el-button @click="cancelForm">Cancel</el-button>
           <el-button type="primary" @click="submitForm" :loading="loading"
                      :disabled="loading">Confirm
@@ -360,7 +371,8 @@ const form = reactive({
   twitter_like_day: 0,
   ad_post_day: 0,
   grade: 'basic',
-  topics: []
+  topics: [],
+  sys_topics: []
 });
 const topic = ref('');
 const formatter = (value) => {
@@ -441,11 +453,11 @@ const _getMemeDetail = async () => {
         form.ad_post_day= data?.ad_post_day || 0
       }
       const { code: twitterCode, data: twitterData } = await getTwitter({bot_id: form.id})
-      console.log(twitterData, 'twitterData')
       if(twitterCode === 200 ) {
         form.twitter_post_day= twitterData.post_day
         form.twitter_reply_comment_day = twitterData.reply_comment_day
         form.twitter_like_day = twitterData.like_day
+        form.sys_topics = twitterData.sys_topics || []
         form.topics = twitterData.topics || []
         form.ad_post_day= twitterData?.ad_post_day || 0
 
@@ -694,13 +706,26 @@ const addTopic = () => {
   if (topic.value.trim()) { // 检查输入框内容是否为空
     form.topics.push({
       content: topic.value.trim(), // 用户输入的内容
-      is_user_input: true // 默认的
+      is_user_input: false // 默认的
     });
     topic.value = ''; // 清空输入框
   } else {
     ElMessage.warning('Please enter a topic before adding.'); // 提示用户输入内容
   }
 };
+const addTopicArray = (item ) => {
+  const index = form.topics.findIndex(topic => topic.content === item);
+  if (index !== -1) {
+    // 如果存在，则删除该项
+    form.topics.splice(index, 1);
+  } else {
+    // 如果不存在，则添加该项
+    form.topics.push({
+      content: item, // 用户输入的内容
+      is_user_input: true // 默认的
+    });
+  }
+}
 </script>
 
 <style lang="scss" scoped>
