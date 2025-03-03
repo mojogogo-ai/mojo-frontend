@@ -603,8 +603,11 @@ const toggleTelegramConfiguration = () => {
   }
 };
 const goLink = (link) => {
-  if (link && link.length) {
+  const pattern = /^(https?:\/\/)[^\s$.?#].[^\s]*$/i;
+  if (pattern.test(url) && link && link.length) {
     window.open(link, '_blank');
+  } else{
+    ElMessage.warning("Please enter the correct link (with the prefix https://), e.g., https://dev.mojogogo.ai/#/");
   }
 };
 const toggleTwitterConnection = async () => {
