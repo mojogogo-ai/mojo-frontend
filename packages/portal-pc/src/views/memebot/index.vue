@@ -129,7 +129,7 @@
         >
           <el-input
             v-model="form.twitter"
-            :placeholder="t('bots.placeholder.twitter')"
+            placeholder="Please enter the correct link (with the prefix https://)"
             maxlength="255"
             clearable
           />
@@ -141,7 +141,7 @@
         >
           <el-input
             v-model="form.telegram"
-            :placeholder="t('bots.placeholder.telegram')"
+            placeholder="Please enter the correct link (with the prefix https://)"
             maxlength="255"
             clearable
           />
@@ -153,7 +153,7 @@
         >
           <el-input
             v-model="form.website"
-            :placeholder="t('bots.placeholder.website')"
+            placeholder="Please enter the correct link (with the prefix https://)"
             maxlength="255"
             clearable
           />
