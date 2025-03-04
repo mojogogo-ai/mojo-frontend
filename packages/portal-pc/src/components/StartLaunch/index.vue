@@ -41,7 +41,7 @@ import { t } from '@gptx/base/i18n';
 import bs58 from "bs58";
 import { getTokenCreate, memePaid } from '@gptx/base/api/meme-bot';
 
-import { Buffer } from 'buffer'; 
+import { Buffer } from 'buffer';
 import { WalletMultiButton,useWallet } from "solana-wallets-vue";
 import { Connection, clusterApiUrl, Keypair, SystemProgram, Transaction,VersionedTransaction } from '@solana/web3.js';
 const router = useRouter();
@@ -68,7 +68,7 @@ const __sendTr = async () => {
     // const provider = getProvider(); // see "Detecting the Provider"
     console.log("wallet select",appInstance.appContext.config.globalProperties.$wallet.connected.value)
     if(!appInstance.appContext.config.globalProperties.$wallet.connected.value){
-            
+
       close()
     }
     try {
@@ -101,11 +101,11 @@ const __sendTr = async () => {
         const transaction = VersionedTransaction.deserialize(buffer);
         console.log("transaction",transaction)
         // const binaryData = base64ToBinary(res.data.tx_base64);
-        
-        
+
+
         // const connection = new Connection(clusterApiUrl('mainnet'));
         // const connection = new Connection(clusterApiUrl('devnet'));
-       
+
         try {
 
           const signature = await sendTransaction(transaction, connection);
@@ -130,7 +130,7 @@ const __sendTr = async () => {
             __memePaid(memeCoinInfo.value.bot_id, signature )
             router.push({ path: '/personal' });
           }
-        
+
         } catch (error) {
           launchLoading.value = false;
             console.error("Transaction confirmation failed:", error);

@@ -284,9 +284,59 @@ const rules = reactive({
   gender: [{ required: true, message: 'Please select bot gender' }],
   classification: [{ required: true, message: t('bots.ruleMessage.catalog'), trigger: 'change' }],
   icon: [{ required: true, message: t('bots.ruleMessage.icon'), trigger: 'change' }],
-  introduction: [{ required: true, message: 'Please enter your bot description' }]
+  introduction: [{ required: true, message: 'Please enter your bot description' }],
+  twitter: [
+    {
+      required: false, // 如果非必填，可以设置为 false
+      validator: (rule, value, callback) => {
+        if (value && !/^https:\/\//.test(value)) {
+          callback(new Error('Link must start with https://'));
+        } else if (value && !isValidUrl(value)) {
+          callback(new Error('Please enter a valid URL'));
+        } else {
+          callback();
+        }
+      }
+    }
+  ],
+  telegram: [
+    {
+      required: false, // 如果非必填，可以设置为 false
+      validator: (rule, value, callback) => {
+        if (value && !/^https:\/\//.test(value)) {
+          callback(new Error('Link must start with https://'));
+        } else if (value && !isValidUrl(value)) {
+          callback(new Error('Please enter a valid URL'));
+        } else {
+          callback();
+        }
+      }
+    }
+  ],
+  website: [
+    {
+      required: false, // 如果非必填，可以设置为 false
+      validator: (rule, value, callback) => {
+        if (value && !/^https:\/\//.test(value)) {
+          callback(new Error('Link must start with https://'));
+        } else if (value && !isValidUrl(value)) {
+          callback(new Error('Please enter a valid URL'));
+        } else {
+          callback();
+        }
+      }
+    }
+  ]
 });
 
+const isValidUrl = (url) => {
+  try {
+    new URL(url); // 使用浏览器内置的 URL 构造函数校验 URL 是否合法
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 // user gender,0 none-binary 1 male 2 female
 const genderList = reactive([
   { id: 0, name: 'None-binary' },
