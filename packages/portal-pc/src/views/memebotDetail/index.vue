@@ -177,6 +177,7 @@
                 @change="toggleTwitterConnection"
               />
             </el-form-item>
+            <div class="text-white/70 text-[13px] font-normal font-['TT Norms Pro'] leading-none ">Each post, comment, or like will cost 10 points.</div>
             <div v-show="form.twitter_connect">
               <el-form-item
                 prop="twitter_post_day"
