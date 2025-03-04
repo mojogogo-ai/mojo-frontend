@@ -540,6 +540,7 @@ onBeforeMount(() => {
   &::after {
     content: 'Connect'; /* 添加新文本 */
     font-size: 14px; /* 恢复字体大小 */
+    margin-left: 24px; /* 向右移动5px */
   }
 }
 
@@ -547,7 +548,7 @@ onBeforeMount(() => {
 .swv-button-trigger::before {
   content: '';
   position: absolute;
-  left: 12px;
+  left: 20px;
   top: 50%;
   transform: translateY(-50%);
   width: 24px;
