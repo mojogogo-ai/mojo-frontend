@@ -116,7 +116,8 @@
           <!-- <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button> -->
         </div>
       </div>
-      <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value"></wallet-multi-button>
+      <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value">
+      </wallet-multi-button>
     </div>
   </el-header>
 
