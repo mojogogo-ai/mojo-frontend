@@ -536,6 +536,11 @@ onBeforeMount(() => {
 .swv-button-trigger {
   position: relative;
   padding-left: 40px !important;
+  font-size: 0 !important;
+  &::after {
+    content: 'Connect'; /* 添加新文本 */
+    font-size: 14px; /* 恢复字体大小 */
+  }
 }
 
 .wallet-button-wrapper .swv-button-trigger::before,
@@ -552,7 +557,7 @@ onBeforeMount(() => {
   z-index: 2;
 }
 .swv-button-trigger{
-  width: 180px;
+  width: 130px;
   background: rgba(255, 255, 255, 0.10) !important;
   border-radius: 40px !important;
   border: 1px solid rgba(255, 255, 255, 0.10) !important;
