@@ -116,8 +116,10 @@
           <!-- <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button> -->
         </div>
       </div>
-      <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value">
-      </wallet-multi-button>
+      <div class="wallet-wrapper">
+        <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value">
+        </wallet-multi-button>
+      </div>
     </div>
   </el-header>
 
@@ -529,16 +531,45 @@ onBeforeMount(() => {
 
 </style>
 <style lang="scss">
+/* 自定义钱包按钮样式 */
+.wallet-button-wrapper .swv-button-trigger,
+.swv-button-trigger {
+  position: relative;
+  padding-left: 40px !important;
+}
 
+.wallet-button-wrapper .swv-button-trigger::before,
+.swv-button-trigger::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: url('@/assets/svg/wallet-icon.svg') no-repeat center center;
+  background-size: contain;
+  z-index: 2;
+}
 .swv-button-trigger{
-  background-color: #E1FF01 !important;
-  color: #000000 !important;
-  font-size: 1.25rem !important;
-  transition: transform 0.3s ease-out !important;
-  font-family: Arial !important;
-  font-weight: var(--el-button-font-weight) !important;
-  border-radius: var(--el-border-radius-base) !important;
-  white-space: nowrap !important;
+  width: 180px;
+  background: rgba(255, 255, 255, 0.10) !important;
+  border-radius: 40px !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  display: flex !important;
+  height: 40px !important;
+  padding: 0px 20px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  color: #e1ff00 !important;
+  //
+
+  //font-size: 1.25rem !important;
+  //transition: transform 0.3s ease-out !important;
+  //font-family: Arial !important;
+  //font-weight: var(--el-button-font-weight) !important;
+  //border-radius: var(--el-border-radius-base) !important;
+  //white-space: nowrap !important;
 }
 
 .customs-sub-menu {
