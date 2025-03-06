@@ -56,7 +56,7 @@
               <div class="w-[194px] mb-[6px]">
                 <div class="user-code">{{ user.nickName }}</div>
               </div>
-              <div class="flex items-center">
+              <div class="flex items-center ">
                 <div
                   class="nick-name-inside"
                   :title="`@${user.nickName}`"

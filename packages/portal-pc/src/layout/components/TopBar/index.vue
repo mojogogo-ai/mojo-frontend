@@ -116,10 +116,8 @@
           <!-- <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button> -->
         </div>
       </div>
-      <div class="wallet-wrapper">
-        <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value">
-        </wallet-multi-button>
-      </div>
+      <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value">
+      </wallet-multi-button>
     </div>
   </el-header>
 
@@ -535,7 +533,7 @@ onBeforeMount(() => {
 .wallet-button-wrapper .swv-button-trigger,
 .swv-button-trigger {
   position: relative;
-  padding-left: 40px !important;
+  //padding-left: 40px !important;
   font-size: 0 !important;
   &::after {
     content: 'Connect'; /* 添加新文本 */
@@ -556,6 +554,14 @@ onBeforeMount(() => {
   background: url('@/assets/svg/wallet-icon.svg') no-repeat center center;
   background-size: contain;
   z-index: 2;
+  p{
+    visibility: hidden;
+    clip-path: inset(100%);
+  }
+}
+.swv-button-icon {
+  visibility: hidden;
+  clip-path: inset(100%);
 }
 .swv-button-trigger{
   width: 130px;
