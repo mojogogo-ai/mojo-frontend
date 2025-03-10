@@ -11,6 +11,7 @@ import '@/assets/styles/index.scss' // global css
 import App from './App'
 import i18n from '@gptx/base/i18n'
 import router from './router'
+import VueMatomo from 'vue-matomo'
 
 // 注册指令
 import directive from './directive'
@@ -55,6 +56,10 @@ initializeApp(FIREBASE_CONFIG);
 
 const app = createApp(App)
 const pinia = createPinia()
+app.use(VueMatomo, {
+  host: 'http://mem.wanbin.tech:6093/',
+  siteId: 1
+});
 app.use(router)
 app.use(i18n)
 app.use(pinia)
@@ -66,4 +71,6 @@ app.use(elementIcons)
 app.component(SvgIcon.name, SvgIcon)
 
 directive(app)
+
 app.mount('#app')
+window._paq.push(['trackPageView']);
