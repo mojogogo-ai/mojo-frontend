@@ -57,7 +57,7 @@ initializeApp(FIREBASE_CONFIG);
 const app = createApp(App)
 const pinia = createPinia()
 app.use(VueMatomo, {
-  host: 'http://mem.wanbin.tech:6093/',
+  host: 'https://mojogogoai.matomo.cloud/',
   siteId: 1,
   router,
   enableLinkTracking: true, // 启用链接跟踪
