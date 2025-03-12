@@ -58,7 +58,11 @@ const app = createApp(App)
 const pinia = createPinia()
 app.use(VueMatomo, {
   host: 'http://mem.wanbin.tech:6093/',
-  siteId: 1
+  siteId: 1,
+  router,
+  enableLinkTracking: true, // 启用链接跟踪
+  disableCookies: true, // 根据隐私政策可选
+  trackInitialView: true // 跟踪初始页面
 });
 app.use(router)
 app.use(i18n)
@@ -73,4 +77,3 @@ app.component(SvgIcon.name, SvgIcon)
 directive(app)
 
 app.mount('#app')
-window._paq.push(['trackPageView']);
