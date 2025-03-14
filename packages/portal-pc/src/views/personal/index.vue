@@ -59,13 +59,15 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, onBeforeUnmount } from 'vue';
 import { t } from '@gptx/base/i18n';
 import emptyRobotImageUrl from '@/assets/images/smart-people.svg';
 import { getMyBotList } from '@gptx/base/api/application';
 import ListItem from './components/list/ListItem.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 import { useRouter } from 'vue-router';
+import matomoTracker, { PAGE_CATEGORIES, EVENT_CATEGORIES } from '@/plugins/matomo-tracker';
+import { ElMessage } from 'element-plus';
 
 const form = reactive({
   published: '',
@@ -85,6 +87,23 @@ eventBus.on('createBotSuccess', () => {
 });
 eventBus.on('botPublishSuccess', () => {
   resetList();
+});
+
+// 监听代币发布成功事件，刷新列表
+eventBus.on('botCoinLaunched', () => {
+  resetList();
+
+  // 使用Matomo跟踪页面刷新事件（如果已集成）
+  if (window.$matomo) {
+    window.$matomo.trackEvent(PAGE_CATEGORIES.USER_CENTER, EVENT_CATEGORIES.USER, '代币发布后刷新列表');
+  }
+
+  // 显示成功提示
+  // ElMessage({
+  //   message: t('personal.coinLaunchSuccess') || 'Coin launched successfully!',
+  //   type: 'success',
+  //   duration: 3000
+  // });
 });
 
 const createNewBot = () => {
@@ -130,6 +149,17 @@ const onChat = ({ url }) => {
 
 onMounted(() => {
   _getMyBotList();
+
+  // 如果是从代币发布页面跳转过来的，检查URL参数
+  const query = router.currentRoute.value.query;
+  if (query.refresh === 'true') {
+    resetList();
+  }
+});
+
+// 组件销毁时移除事件监听，防止内存泄漏
+onBeforeUnmount(() => {
+  eventBus.off('botCoinLaunched');
 });
 </script>
 
