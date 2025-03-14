@@ -40,6 +40,7 @@
 import { t } from '@gptx/base/i18n';
 import bs58 from "bs58";
 import { getTokenCreate, memePaid } from '@gptx/base/api/meme-bot';
+import { eventBus } from '@gptx/base/utils/eventBus.js'; // 导入eventBus
 
 import { Buffer } from 'buffer';
 import { WalletMultiButton,useWallet } from "solana-wallets-vue";
@@ -127,8 +128,22 @@ const __sendTr = async () => {
             // }
             close()
             // 发送交易成功后
-            __memePaid(memeCoinInfo.value.bot_id, signature )
-            router.push({ path: '/personal' });
+            await __memePaid(memeCoinInfo.value.bot_id, signature);
+            
+            // 使用eventBus触发刷新事件，通知personal页面刷新数据
+            eventBus.emit('botCoinLaunched', { botId: memeCoinInfo.value.bot_id });
+            
+            // 使用Matomo跟踪事件（如果已集成）
+            if (window.$matomo) {
+              window.$matomo.trackEvent('Memebot', '代币发布', '成功', 1);
+              window.$matomo.trackGoal(3, 1); // 假设目标ID为3是代币创建成功
+            }
+            
+            // 跳转到personal页面，并添加refresh参数
+            router.push({ 
+              path: '/personal',
+              query: { refresh: 'true' }
+            });
           }
 
         } catch (error) {
@@ -182,6 +197,7 @@ const __memePaid = async (bot_id, tx_signature )=>{
     if (res.code === 200) {
       console.log(res,'__memePaid')
     }
+    return res;
 }
 
 defineExpose({ open });
