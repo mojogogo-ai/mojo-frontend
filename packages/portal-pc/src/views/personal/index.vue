@@ -66,7 +66,6 @@ import { getMyBotList } from '@gptx/base/api/application';
 import ListItem from './components/list/ListItem.vue';
 import { eventBus } from '@gptx/base/utils/eventBus.js';
 import { useRouter } from 'vue-router';
-import matomoTracker, { PAGE_CATEGORIES, EVENT_CATEGORIES } from '@/plugins/matomo-tracker';
 import { ElMessage } from 'element-plus';
 
 const form = reactive({
@@ -92,18 +91,18 @@ eventBus.on('botPublishSuccess', () => {
 // 监听代币发布成功事件，刷新列表
 eventBus.on('botCoinLaunched', () => {
   resetList();
-
+  
   // 使用Matomo跟踪页面刷新事件（如果已集成）
   if (window.$matomo) {
-    window.$matomo.trackEvent(PAGE_CATEGORIES.USER_CENTER, EVENT_CATEGORIES.USER, '代币发布后刷新列表');
+    window.$matomo.trackEvent('用户中心', '用户行为', '代币发布后刷新列表');
   }
-
+  
   // 显示成功提示
-  // ElMessage({
-  //   message: t('personal.coinLaunchSuccess') || 'Coin launched successfully!',
-  //   type: 'success',
-  //   duration: 3000
-  // });
+  ElMessage({
+    message: t('personal.coinLaunchSuccess') || 'Coin launched successfully!',
+    type: 'success',
+    duration: 3000
+  });
 });
 
 const createNewBot = () => {
