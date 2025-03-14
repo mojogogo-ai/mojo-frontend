@@ -127,10 +127,34 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
+        path: '/myCoins',
+        component: () => import('@/views/myCoins/index.vue'),
+        name: 'myCoins',
+        meta: { title: 'My coins'}
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
         path: '/conversation',
         component: () => import('@/views/conversation/index.vue'),
         name: 'conversation',
         meta: { title: 'Conversation'}
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/twittersuccess',
+        component: () => import('@/views/twittersuccess/index.vue'),
+        name: 'twittersuccess',
+        meta: { title: 'Success'}
       }
     ]
   },
