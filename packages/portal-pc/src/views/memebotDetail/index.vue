@@ -243,7 +243,7 @@
                   v-model="topic"
                   clearable
                   type="text"
-                  maxlength="15"
+                  maxlength="20"
                 />
                 <el-image
                   class="topic-add"
