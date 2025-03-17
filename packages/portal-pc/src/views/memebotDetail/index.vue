@@ -247,8 +247,7 @@
                   v-model="topic"
                   clearable
                   type="text"
-                  :min="1"
-                  :max="15"
+                  maxlength="15"
                 />
                 <el-image
                   class="topic-add"
