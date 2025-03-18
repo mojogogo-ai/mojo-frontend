@@ -68,6 +68,7 @@
         :model="form"
         :disabled="loading"
         @submit.prevent
+        :rules="rules"
       >
         <el-form-item
           label="Knowledge sources"
@@ -184,11 +185,8 @@
                 label="Number of Twitter Per Day"
               >
                 <el-input
-                  v-model="form.twitter_post_day"
+                  v-model.number="form.twitter_post_day"
                   clearable
-                  type="number"
-                  :min="1"
-                  :max="15"
                 />
               </el-form-item>
               <el-form-item
@@ -196,11 +194,8 @@
                 label="Number of Reply Per Day"
               >
                 <el-input
-                  v-model="form.twitter_reply_comment_day"
+                  v-model.number="form.twitter_reply_comment_day"
                   clearable
-                  type="number"
-                  :min="1"
-                  :max="15"
                 />
               </el-form-item>
               <el-form-item
@@ -208,11 +203,8 @@
                 label="Number of Likes Per Day"
               >
                 <el-input
-                  v-model="form.twitter_like_day"
+                  v-model.number="form.twitter_like_day"
                   clearable
-                  type="number"
-                  :min="1"
-                  :max="15"
                 />
               </el-form-item>
 
@@ -221,11 +213,8 @@
                 label="Number of topics Interaction per day"
               >
                 <el-input
-                  v-model="form.ad_post_day"
+                  v-model.number="form.ad_post_day"
                   clearable
-                  type="number"
-                  :min="1"
-                  :max="15"
                 />
               </el-form-item>
               <el-form-item prop="" label="System Topics" class="topic-form">
@@ -377,6 +366,20 @@ const form = reactive({
   sys_topics: []
 });
 const topic = ref('');
+const rules = reactive({
+  twitter_post_day: [
+    { type: 'number', min: 0, max: 15, message: 'The number must be between 1 and 15', trigger: 'change' }
+  ],
+  twitter_reply_comment_day: [
+    { type: 'number', min: 0, max: 15, message: 'The number must be between 1 and 15', trigger: 'change' }
+  ],
+  twitter_like_day: [
+    { type: 'number', min: 0, max: 15, message: 'The number must be between 1 and 15', trigger: 'change' }
+  ],
+  ad_post_day: [
+    { type: 'number', min: 0, max: 15, message: 'The number must be between 1 and 15', trigger: 'change' }
+  ]
+});
 const formatter = (value) => {
   let num = parseInt(value, 10);
   if (isNaN(num)) {
@@ -577,10 +580,13 @@ const cancelForm = async () => {
   _getMemeDetail()
 };
 const submitForm = async () => {
-
   if (loading.value) return;
   try {
     loading.value = true;
+    const isValid = await formRef.value.validate();
+    if (!isValid) {
+      return;
+    }
     const fileDataList = [];
     console.log(form.fileList, 'form.fileList');
     for (const fileData of form.fileList) {
