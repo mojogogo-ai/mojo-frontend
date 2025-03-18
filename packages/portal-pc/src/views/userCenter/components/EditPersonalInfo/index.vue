@@ -28,6 +28,7 @@
           readonly
           :placeholder="'readOnly'"
           clearable
+          disabled
         />
       </el-form-item>
 
@@ -53,6 +54,7 @@
           readonly
           :placeholder="'readOnly'"
           clearable
+          disabled
         />
       </el-form-item>
     </el-form>
