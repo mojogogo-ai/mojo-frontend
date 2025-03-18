@@ -372,16 +372,16 @@ const form = reactive({
 const topic = ref('');
 const rules = reactive({
   twitter_post_day: [
-    { type: 'number', min: 0, max: 15, message: 'The number must be between 1 and 15', trigger: 'change' }
+    { type: 'number', min: 0, max: 15, message: 'The number must be between 0 and 15', trigger: 'change' }
   ],
   twitter_reply_comment_day: [
-    { type: 'number', min: 0, max: 15, message: 'The number must be between 1 and 15', trigger: 'change' }
+    { type: 'number', min: 0, max: 15, message: 'The number must be between 0 and 15', trigger: 'change' }
   ],
   twitter_like_day: [
-    { type: 'number', min: 0, max: 15, message: 'The number must be between 1 and 15', trigger: 'change' }
+    { type: 'number', min: 0, max: 15, message: 'The number must be between 0 and 15', trigger: 'change' }
   ],
   ad_post_day: [
-    { type: 'number', min: 0, max: 15, message: 'The number must be between 1 and 15', trigger: 'change' }
+    { type: 'number', min: 0, max: 15, message: 'The number must be between 0 and 15', trigger: 'change' }
   ]
 });
 const formatter = (value) => {
