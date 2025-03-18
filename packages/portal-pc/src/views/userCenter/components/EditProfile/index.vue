@@ -157,6 +157,14 @@ const rules = reactive({
     }
   ]
 });
+const isValidUrl = (url) => {
+  try {
+    new URL(url); // 使用浏览器内置的 URL 构造函数校验 URL 是否合法
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 const formRef = ref(null);
 const loading = ref(false);
 const isAIloading = ref(false);
