@@ -166,7 +166,7 @@
                   v-model="form.twitter_reply_comment_day"
                   name="twitter_reply_comment_day"
                   label-align="top"
-                  label="Number of Comment Per Day"
+                  label="Number of Reply Per Day"
                 />
                 <van-field
                   v-model="form.twitter_like_day"
