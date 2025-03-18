@@ -197,7 +197,7 @@
               </el-form-item>
               <el-form-item
                 prop="twitter_reply_comment_day"
-                label="Number of Comment Per Day"
+                label="Number of Reply Per Day"
               >
                 <el-input
                   v-model="form.twitter_reply_comment_day"
