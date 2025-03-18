@@ -52,7 +52,7 @@
       >
         <el-input
           v-model="form.twitter_link"
-          :placeholder="t('profile.enterTwitterLink')"
+          placeholder="Please enter the correct link (with the prefix https://)"
           clearable
         />
       </el-form-item>
@@ -62,7 +62,7 @@
       >
         <el-input
           v-model="form.instagram_link"
-          :placeholder="t('profile.enterInstagramLink')"
+          placeholder="Please enter the correct link (with the prefix https://)"
           clearable
         />
       </el-form-item>
@@ -72,7 +72,7 @@
       >
         <el-input
           v-model="form.facebook_link"
-          :placeholder="t('profile.enterFacebookLink')"
+          placeholder="Please enter the correct link (with the prefix https://)"
           clearable
         />
       </el-form-item>
@@ -114,6 +114,48 @@ const form = reactive({
 const rules = reactive({
   avatar: [{ required: true, message: t('profile.ruleMessage.avatar'), trigger: 'change' }],
   // nickname: [{ required: true, message: t('profile.ruleMessage.nickname'), trigger: 'blur' }]
+  twitter_link: [
+    {
+      required: false, // 如果非必填，可以设置为 false
+      validator: (rule, value, callback) => {
+        if (value && !/^https:\/\//.test(value)) {
+          callback(new Error('Link must start with https://'));
+        } else if (value && !isValidUrl(value)) {
+          callback(new Error('Please enter a valid URL'));
+        } else {
+          callback();
+        }
+      }
+    }
+  ],
+  instagram_link: [
+    {
+      required: false, // 如果非必填，可以设置为 false
+      validator: (rule, value, callback) => {
+        if (value && !/^https:\/\//.test(value)) {
+          callback(new Error('Link must start with https://'));
+        } else if (value && !isValidUrl(value)) {
+          callback(new Error('Please enter a valid URL'));
+        } else {
+          callback();
+        }
+      }
+    }
+  ],
+  facebook_link: [
+    {
+      required: false, // 如果非必填，可以设置为 false
+      validator: (rule, value, callback) => {
+        if (value && !/^https:\/\//.test(value)) {
+          callback(new Error('Link must start with https://'));
+        } else if (value && !isValidUrl(value)) {
+          callback(new Error('Please enter a valid URL'));
+        } else {
+          callback();
+        }
+      }
+    }
+  ]
 });
 const formRef = ref(null);
 const loading = ref(false);
