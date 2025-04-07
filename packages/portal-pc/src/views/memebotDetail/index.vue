@@ -692,6 +692,18 @@ const toggleTwitterConnection = async () => {
 const connectTwitter = async () => {
   const response = await twitterAuth({ bot_id: form.id });
   if (response.code === 200) {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const { code: twitterCode, data: twitterData } = await getTwitter({bot_id: form.id});
+    if (twitterCode === 200) {
+      form.twitter_post_day = twitterData.post_day;
+      form.twitter_reply_comment_day = twitterData.reply_comment_day;
+      form.twitter_like_day = twitterData.like_day;
+      form.sys_topics = twitterData.sys_topics || [];
+      form.topics = twitterData.topics || [];
+      form.ad_post_day = twitterData?.ad_post_day || 0;
+    }
+
     let authStatus = response.data.state;
     const twitterAuthUrl = response.data.redirect_uri;
     // form.twitter_state = authStatus;
