@@ -677,33 +677,7 @@ const goLink = (link) => {
 };
 const toggleTwitterConnection = async () => {
   if (form.twitter_connect) {
-    try {
-      const response = await connectTwitter();
-      if (response?.code === 200) {
-        // Wait for a short time to allow the auth window to complete
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        const { code: twitterCode, data: twitterData } = await getTwitter({bot_id: form.id});
-        if (twitterCode === 200) {
-          form.twitter_post_day = twitterData.post_day;
-          form.twitter_reply_comment_day = twitterData.reply_comment_day;
-          form.twitter_like_day = twitterData.like_day;
-          form.sys_topics = twitterData.sys_topics || [];
-          form.topics = twitterData.topics || [];
-          form.ad_post_day = twitterData?.ad_post_day || 0;
-        } else {
-          ElMessage.error('Failed to get Twitter data');
-          form.twitter_connect = false;
-        }
-      } else {
-        ElMessage.error('Failed to connect to Twitter');
-        form.twitter_connect = false;
-      }
-    } catch (error) {
-      console.error('Twitter connection error:', error);
-      ElMessage.error('Failed to connect to Twitter');
-      form.twitter_connect = false;
-    }
+    await connectTwitter();
   } else {
     disconnectTwitter();
   }
@@ -711,6 +685,18 @@ const toggleTwitterConnection = async () => {
 const connectTwitter = async () => {
   const response = await twitterAuth({ bot_id: form.id });
   if (response.code === 200) {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const { code: twitterCode, data: twitterData } = await getTwitter({bot_id: form.id});
+    if (twitterCode === 200) {
+      form.twitter_post_day = twitterData.post_day;
+      form.twitter_reply_comment_day = twitterData.reply_comment_day;
+      form.twitter_like_day = twitterData.like_day;
+      form.sys_topics = twitterData.sys_topics || [];
+      form.topics = twitterData.topics || [];
+      form.ad_post_day = twitterData?.ad_post_day || 0;
+    }
+
     let authStatus = response.data.state;
     const twitterAuthUrl = response.data.redirect_uri;
     // form.twitter_state = authStatus;
