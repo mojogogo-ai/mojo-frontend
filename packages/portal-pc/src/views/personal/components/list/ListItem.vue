@@ -256,11 +256,11 @@ const detailCoin = (item) => {
   }
 };
 const goPage = (bot) => {
-  if (bot.meme_state === 3) {
-    router.push({ path: '/memebotDetail', query: { id: bot.id , nickName: bot.create_nick_name} });
-  } else {
-    router.push({ path: '/memebot', query: { id: bot.id } });
-  }
+  // if (bot.meme_state === 3) {
+    router.push({ path: '/memebotDetail', query: { id: bot.id , nickName: bot.create_nick_name, memeState: bot.meme_state } });
+  // } else {
+  //   router.push({ path: '/memebot', query: { id: bot.id } });
+  // }
 }
 
 </script>

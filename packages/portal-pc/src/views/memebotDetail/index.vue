@@ -15,9 +15,13 @@
           :src="form.icon"
         />
       </div>
-      <div class="detail-base">
-        <div class="detail-name">
-          {{ form.name }}
+      <div class="detail-base flex-1">
+        <div class="detail-name flex justify-between">
+          <div>
+            {{ form.name }}
+          </div>
+          <el-button v-if="route.query.memeState ==='3' && isDetail" type="primary" @click="goPage(form)">Edit
+          </el-button>
         </div>
         <div class="detail-meme-socials">
           <div class="detail-meme">
@@ -741,6 +745,9 @@ const addTopicArray = (item ) => {
       is_user_input: true // 默认的
     });
   }
+}
+const goPage = (bot) => {
+  router.push({ path: '/memebot', query: { id: bot.id } });
 }
 </script>
 
