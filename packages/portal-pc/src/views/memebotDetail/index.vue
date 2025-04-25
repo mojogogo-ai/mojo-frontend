@@ -20,7 +20,7 @@
           <div>
             {{ form.name }}
           </div>
-          <el-button v-if="route.query.memeState ==='3' && isDetail" type="primary" @click="goPage(form)">Edit
+          <el-button v-if="route.query.memeState ==='2' && isDetail" type="primary" @click="goPage(form)">Edit
           </el-button>
         </div>
         <div class="detail-meme-socials">

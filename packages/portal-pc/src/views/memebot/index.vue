@@ -437,7 +437,7 @@ const setMemeCheckTimer = (bot_id) => {
     try {
       const result = await memeCheck({ bot_id });
       console.log(result, 'memeCheck result');
-      if (result.code === 200 && result.data.state === 2) { // 对话创建完成meme coin
+      if (result.code === 200 && result.data.state === 2 && this.status ==='create') { // 对话创建完成meme coin
         clearInterval(memeCheckTimer.value);
         loading.value = false;
         submitText.value = 'Create';
