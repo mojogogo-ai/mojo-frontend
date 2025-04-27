@@ -101,7 +101,7 @@
 
         <div v-if="isLogin">
           <!-- <el-button v-if="isPhantomInstalled" type="primary" @click="connectWallet">PHANTOM WALLET</el-button> -->
-          <div v-if="appInstance.appContext.config.globalProperties.$wallet.connected.value" class="flex flex-col items-center justify-center" @click="test()">
+          <div v-if="wallet.connected.value" class="flex flex-col items-center justify-center" @click="test()">
             <div class="flex items-center ">
               <img style="border-radius: 8px" width="30px" height="30px" :src="PhantomIcon" alt="" srcset="">
               <div
@@ -116,8 +116,15 @@
           <!-- <el-button v-else type="primary" @click="installWallet">PHANTOM WALLET</el-button> -->
         </div>
       </div>
-      <wallet-multi-button v-if="!appInstance.appContext.config.globalProperties.$wallet.connected.value">
+      <wallet-multi-button v-if="!wallet.connected.value">
       </wallet-multi-button>
+      <el-button 
+        v-if="wallet.connected.value"
+        class="signature-login-btn"
+        @click="signatureLogin"
+      >
+        Sign-in with Wallet
+      </el-button>
     </div>
   </el-header>
 
@@ -176,6 +183,7 @@ import { useI18n } from "vue-i18n";
 
 import { WalletMultiButton,useWallet } from "solana-wallets-vue";
 import { watch } from 'vue';
+import { ElMessage } from 'element-plus';
 
 const appInstance = getCurrentInstance();
 const route = useRoute();
@@ -342,19 +350,18 @@ const getProvider =  () => {
 // 发送交易(创建token)
 const publicKey = ref('') // publicKey就是address
 
+// 使用useWallet钩子获取钱包状态
+const wallet = useWallet();
+
 // 获取Balance
 const curBalance = ref('')
 const getBalance = async () => {
   try {
-    // const provider = getProvider(); // see "Detecting the Provider"
-    // const resp = await provider.connect();
-    // const connection = new Connection(clusterApiUrl('mainnet'));
     const connection = new Connection("https://dimensional-quick-sanctuary.solana-mainnet.quiknode.pro/b73ef3c61afe76bafce8615881ea46ce856db8a6");
 
-    publicKey.value = appInstance.appContext.config.globalProperties.$wallet.publicKey.value.toBase58();
-    const balance = await connection.getBalance(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
-    const accountInfo = await connection.getAccountInfo(appInstance.appContext.config.globalProperties.$wallet.publicKey.value);
-
+    publicKey.value = wallet.publicKey.value.toBase58();
+    const balance = await connection.getBalance(wallet.publicKey.value);
+    const accountInfo = await connection.getAccountInfo(wallet.publicKey.value);
 
     curBalance.value = (balance/1000000000).toFixed(2)
 
@@ -377,13 +384,72 @@ const test = () => {
   // });
   // console.log('test')
 }
+
+// Signature login function
+const signatureLogin = async () => {
+  if (!wallet.connected.value) {
+    ElMessage({
+      message: '请先连接您的钱包',
+      type: 'warning',
+      duration: 2000
+    });
+    return;
+  }
+  
+  try {
+    // 检查钱包状态和签名方法
+    console.log('钱包对象:', wallet);
+    console.log('签名方法:', wallet.signMessage);
+    console.log('钱包适配器:', wallet.wallet.value?.adapter);
+    
+    const message = `签名登录Mojo: ${new Date().getTime()}`;
+    const encodedMessage = new TextEncoder().encode(message);
+
+    if (wallet.signMessage && typeof wallet.signMessage.value === 'function') {
+      const signature = await wallet.signMessage.value(encodedMessage);
+      handleSuccessSignature(signature);
+      return;
+    }
+    
+    // 如果都不行，提示错误
+    ElMessage({
+      message: '您的钱包不支持消息签名',
+      type: 'error',
+      duration: 2000
+    });
+  } catch (error) {
+    console.error('签名登录失败:', error);
+    ElMessage({
+      message: `签名登录失败: ${error.message || '未知错误'}`,
+      type: 'error',
+      duration: 2000
+    });
+  }
+};
+
+// 成功签名后的处理函数
+const handleSuccessSignature = (signature) => {
+  if (signature) {
+    const publicKey = wallet.publicKey.value.toBase58();
+    
+    // 这里可以发送签名和公钥到后端验证身份
+    console.log('使用钱包登录成功', publicKey);
+    
+    ElMessage({
+      message: '钱包签名登录成功',
+      type: 'success',
+      duration: 2000
+    });
+  }
+};
+
 onMounted(() => {
   // connectWallet()
   getBalance()
 })
 
 watch(
-  () => appInstance.appContext.config.globalProperties.$wallet.publicKey.value,
+  () => wallet.publicKey.value,
   () => {
     getBalance()
   }
@@ -644,6 +710,48 @@ onBeforeMount(() => {
 .icon-language{
   font-size: 40px;
   color: #E1FF01;
+}
+
+.signature-login-btn {
+  margin-left: 10px;
+  background: rgba(225, 255, 1, 0.10) !important;
+  border-radius: 40px !important;
+  border: 1px solid rgba(225, 255, 1, 0.3) !important;
+  height: 40px !important;
+  padding: 0px 20px !important;
+  color: #e1ff00 !important;
+}
+
+/* Fix for wallet modal icons */
+:deep(.wallet-adapter-modal) {
+  .wallet-adapter-button-list .wallet-adapter-button .wallet-adapter-button-start-icon {
+    visibility: visible !important;
+    clip-path: none !important;
+  }
+
+  .wallet-adapter-button-list-item {
+    img, svg {
+      visibility: visible !important;
+      clip-path: none !important;
+    }
+  }
+  
+  .wallet-adapter-modal-list .wallet-adapter-button .wallet-adapter-button-start-icon,
+  .wallet-adapter-modal-list-item-icon {
+    visibility: visible !important;
+    clip-path: none !important;
+    display: block !important;
+  }
+}
+
+/* Override any global styles that might be hiding wallet icons */
+.wallet-adapter-dropdown-list-item img,
+.wallet-adapter-dropdown-list-item svg,
+.wallet-adapter-modal-list-item img,
+.wallet-adapter-modal-list-item svg {
+  visibility: visible !important;
+  clip-path: none !important;
+  display: block !important;
 }
 
 </style>
