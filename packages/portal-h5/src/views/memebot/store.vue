@@ -6,28 +6,16 @@
       input-area
       @search="onSearch"
     />
-<!--    <div class="create-title">-->
-<!--      <span v-show="status ==='create'">{{t('bots.title')}}</span>-->
-<!--      <span v-show="status ==='edit'">{{t('bots.edit_title')}}</span>-->
-<!--    </div>-->
-<!--    <div v-show="status ==='create'" class="tab-container mb-[40px]">-->
-<!--      <button @click="tabClick('form')" :class="['tab-button',{ 'selected': tab ==='form'}]">-->
-<!--        {{t('bots.bot_form')}}-->
-<!--      </button>-->
-<!--      <button @click="tabClick('ai')" :class="['tab-button',{ 'selected': tab ==='ai' }]">-->
-<!--        {{t('bots.bot_ai')}}-->
-<!--      </button>-->
-<!--    </div>-->
-<!--    <CreateEditForm v-show="tab === 'form'" :editForm="editForm" :status="status"></CreateEditForm>-->
-<!--    <CreateAi v-show="tab === 'ai'"></CreateAi>-->
-    <div class="text-center mt-[200px] text-[24px]">
-      Please use a PC to create your own meme coin.
+    <div class="create-title">
+      <span v-show="status ==='create'">{{t('bots.title')}}</span>
+      <span v-show="status ==='edit'">{{t('bots.edit_title')}}</span>
     </div>
+    <CreateEditForm v-show="status === 'create'" :editForm="editForm" :status="status"></CreateEditForm>
   </div>
 </template>
 
 <script setup>
-import { CreateEditForm, CreateAi } from './components/store/index.js';
+import { CreateEditForm } from './components/store/index.js';
 import { useRoute } from 'vue-router';
 import { t } from '@gptx/base/i18n';
 import { getList } from '@gptx/base/api/assistant-store';
@@ -127,13 +115,6 @@ _getMemeDetail();
 onMounted(async () => {
   onSearch();
 });
-
-// up up up
-const tab = ref('form');
-
-const tabClick = (value) => {
-  tab.value = value
-}
 </script>
 
 <style lang="scss" scoped>
@@ -150,40 +131,5 @@ const tabClick = (value) => {
   font-weight: 500;
   line-height: 23px; /* 115% */
   color: #e1ff01;
-}
-
-.tab-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  gap: 8px;
-  .tab-button {
-    font-family: TT Norms Pro;
-    font-weight: 500;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
-    gap: 0px;
-    border-radius: 48px;
-    opacity: 1;
-    background-color: #FFFFFF1A;
-    border: none;
-    cursor: pointer;
-    outline: none;
-    color: rgba(255, 255, 255, 0.70);
-    text-align: center;
-    font-size: 14px;
-    font-style: normal;
-    line-height: 23px; /* 164.286% */
-    display: flex;
-    width: 160px;
-    height: 40px;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  .selected {
-    background: #E0FF31;
-    color: #000;
-  }
 }
 </style>

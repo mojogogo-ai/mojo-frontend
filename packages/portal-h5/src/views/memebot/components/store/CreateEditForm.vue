@@ -146,6 +146,8 @@ import { t } from '@gptx/base/i18n/index.js';
 import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
 import { botEdit, createBot } from '@gptx/base/api/application.js';
 import router from '@/router/index.js';
+import { showToast } from 'vant';
+
 const props = defineProps({
   editForm: Object,
   status: String,
@@ -180,29 +182,11 @@ watch(() => props.editForm, (newEditForm) => {
 }, { immediate: true });
 const rules = reactive({
   name: [{ required: true, message: "Please fill in the bot name" }],
-  gender: [{
-    required: true,
-    message: "Please select one category",
-    validator: () => (form.gender !== null)
-
-  }],
-  classification: [
-    {
-      required: true,
-      message: "Please select one category",
-      validator: () => !!(form.classification && form.classification.length > 0)
-    }
-  ],
+  gender: [{ required: true, message: "Please select one category" }],
+  classification: [{ required: true, message: "Please select one category" }],
   symbol: [{ required: true, message: 'Please enter symbol' }],
   introduction: [{ required: true, message: 'Please enter description' }],
-  icon: [
-    {
-      required: true,
-      message: "Please upload the bot icon",
-      trigger: 'change',
-      validator: () => !!(form.icon && form.icon !== defaultRobotAvatar)
-    }
-  ]
+  icon: [{ required: true, message: "Please upload the bot icon" }]
 });
 const catalogList = reactive([
   // Natural Professional Passionate Customize
@@ -239,14 +223,46 @@ const close = () => {
 };
 const submitBaseInfo = async () => {
   if (loading.value) return;
-  await formRef.value.validate();
-  if(props.status === 'create'){
-    await createNewBot();
-  }
-  if(props.status ==='edit'){
-    await botEdit(form);
+  console.log('Form data before validation:', {
+    gender: form.gender,
+    genderType: typeof form.gender,
+    isNull: form.gender === null
+  });
+  
+  // 手动验证所有必填字段
+  const errors = [];
+  if (!form.name) errors.push('Please fill in the bot name');
+  if (form.gender === null || form.gender === undefined) errors.push('Please select one category');
+  if (!form.classification || form.classification.length === 0) errors.push('Please select one category');
+  if (!form.symbol) errors.push('Please enter symbol');
+  if (!form.introduction) errors.push('Please enter description');
+  if (!form.icon || form.icon === defaultRobotAvatar) errors.push('Please upload the bot icon');
+
+  if (errors.length > 0) {
+    console.error('Validation errors:', errors);
+    showToast({
+      message: errors[0],
+      type: 'fail',
+      position: 'top',
+    });
+    return;
   }
 
+  try {
+    if(props.status === 'create'){
+      await createNewBot();
+    }
+    if(props.status ==='edit'){
+      await botEdit(form);
+    }
+  } catch (error) {
+    console.error('Submission error:', error);
+    showToast({
+      message: 'Submission failed, please try again',
+      type: 'fail',
+      position: 'top',
+    });
+  }
 };
 const createNewBot = async () => {
   try {
