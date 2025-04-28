@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { Dialog, showFailToast, showToast } from 'vant';
+import { showDialog, showFailToast, showToast } from 'vant';
 import { useUserStore } from '@/store/modules/user'
 import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { t } from '@gptx/base/i18n'
@@ -9,10 +9,13 @@ import { welcomeAccess } from '@gptx/base/api/login'
 import { validatorEmailVant, validatorPasswordVant } from '@gptx/base/utils/validator'
 import ForgotPasswordButton from './forgotPasswordButton.vue'
 import { handleFirebaseError } from '@/utils/firebase.js'
+import { getAuth, signOut } from 'firebase/auth';
+import useLoginStore from '@/store/modules/login.js';
 
 const emit = defineEmits(['close', 'dialog-close', 'referral', 'to-register'])
 const route = useRoute()
 const userStore = useUserStore()
+const useLogin = useLoginStore();
 
 const formRef = ref()
 const formData = reactive({
@@ -65,8 +68,6 @@ const signIn = async () => {
   }
 }
 
-
-
 const handleFirebaseToken = async (authResult) => {
   firebaseLoading.value = true
   try {
@@ -82,7 +83,7 @@ const handleFirebaseToken = async (authResult) => {
       emit('close')
       firebaseLoading.value = false
 
-      Dialog.confirm({
+      showDialog({
         message: t('login.checkEmailVerificationPrompt'),
         title: t('login.emailVerificationTitle'),
         confirmButtonText: t('login.confirm'),
@@ -94,6 +95,11 @@ const handleFirebaseToken = async (authResult) => {
           await sendEmailVerification(user)
           showToast(t('login.verificationEmailResent'))
         })
+      // 用户邮箱未验证，拒绝登录
+      const auth = getAuth();
+      await signOut(auth);
+      await userStore.logOut();
+      useLogin.toLoginOut();
       return
     }
 
