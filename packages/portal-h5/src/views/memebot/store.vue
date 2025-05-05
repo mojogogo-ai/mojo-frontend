@@ -10,18 +10,18 @@
       <span v-show="status ==='create'">{{t('bots.title')}}</span>
       <span v-show="status ==='edit'">{{t('bots.edit_title')}}</span>
     </div>
-    <CreateEditForm v-show="status === 'create'" :editForm="editForm" :status="status"></CreateEditForm>
+    <CreateEditForm :editForm="editForm" :status="status"></CreateEditForm>
   </div>
 </template>
 
 <script setup>
 import { CreateEditForm } from './components/store/index.js';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { t } from '@gptx/base/i18n';
 import { getList } from '@gptx/base/api/assistant-store';
-import { ref } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { getBotInfo } from '@gptx/base/api/application.js';
-import { ElMessage } from 'element-plus';
+import { showToast } from 'vant';
 
 const router = useRouter();
 const __data = reactive({
@@ -91,28 +91,64 @@ const _getMemeDetail = async () => {
         id: id
       });
       if (code === 200) {
+        console.log('获取到的Meme数据:', data);
+        
+        // 确保字段正确处理
         editForm.id = data.id;
-        editForm.icon = data.icon;
-        editForm.name = data.name;
-        editForm.introduction = data.introduction;
-        editForm.classification = data.classification;
-        editForm.gender = data.gender
-        editForm.symbol = data.symbol;
-        editForm.twitter = data.twitter;
-        editForm.telegram = data.telegram;
-        editForm.website = data.website;
+        editForm.icon = data.icon || '';
+        editForm.name = data.name || '';
+        editForm.introduction = data.introduction || '';
+        
+        // 处理classification字段
+        if (data.classification) {
+          if (Array.isArray(data.classification)) {
+            editForm.classification = data.classification;
+          } else if (typeof data.classification === 'string') {
+            // 如果是字符串，尝试解析JSON
+            try {
+              const parsedValue = JSON.parse(data.classification);
+              editForm.classification = Array.isArray(parsedValue) ? parsedValue : [data.classification];
+            } catch (e) {
+              // 如果解析失败，则作为单个元素处理
+              editForm.classification = [data.classification];
+            }
+          } else {
+            editForm.classification = [data.classification];
+          }
+        } else {
+          editForm.classification = [];
+        }
+        
+        // 确保gender是数字类型
+        editForm.gender = data.gender !== undefined && data.gender !== null ? 
+          Number(data.gender) : null;
+        editForm.symbol = data.symbol || '';
+        editForm.twitter = data.twitter || '';
+        editForm.telegram = data.telegram || '';
+        editForm.website = data.website || '';
+        
+        console.log('处理后的编辑表单:', { 
+          gender: editForm.gender, 
+          genderType: typeof editForm.gender,
+          classification: editForm.classification,
+          symbol: editForm.symbol
+        });
       }
     } catch (error){
-      ElMessage.error("Unable to retrieve details for this meme bot.");
-    } finally {
-
+      showToast({
+        message: "Unable to retrieve details for this meme bot.",
+        type: "fail",
+        position: "top",
+      });
+      setTimeout(() => {
+        router.replace({ path: '/personal' });
+      }, 1500);
     }
   }
 }
-_getMemeDetail();
-
 
 onMounted(async () => {
+  await _getMemeDetail();
   onSearch();
 });
 </script>

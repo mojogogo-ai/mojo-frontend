@@ -128,7 +128,7 @@
                   :disabled="loading"
                   @click="submitBaseInfo"
       >
-        Create
+        {{ props.status === 'edit' ? 'Update' : 'Create' }}
       </van-button>
       <van-button round block native-type="submit" class="cancel-button"
                   :loading="loading"
@@ -147,6 +147,7 @@ import defaultRobotAvatar from '@/assets/logo/bot-default-logo.svg';
 import { botEdit, createBot } from '@gptx/base/api/application.js';
 import router from '@/router/index.js';
 import { showToast } from 'vant';
+import { eventBus } from '@gptx/base/utils/eventBus.js';
 
 const props = defineProps({
   editForm: Object,
@@ -166,11 +167,38 @@ const form = reactive({
   website: '',
   is_personalize_image_icon: false
 });
+
+// 深度监听editForm的变化，确保在异步加载数据后更新表单
 watch(() => props.editForm, (newEditForm) => {
-  if (newEditForm) {
+  if (newEditForm && props.status === 'edit') {
+    console.log('原始编辑数据:', newEditForm);
+    
+    // 确保性别数据正确转换为数字类型
+    const genderValue = newEditForm.gender !== undefined && newEditForm.gender !== null 
+      ? Number(newEditForm.gender) 
+      : null;
+      
     form.name = newEditForm.name || '';
-    form.gender = newEditForm.gender || null;
-    form.classification = newEditForm.classification || [];
+    form.gender = genderValue;
+    // 确保classification是数组类型
+    if (newEditForm.classification) {
+      if (Array.isArray(newEditForm.classification)) {
+        form.classification = newEditForm.classification;
+      } else if (typeof newEditForm.classification === 'string') {
+        // 如果是字符串，尝试转换为数组
+        try {
+          const parsedValue = JSON.parse(newEditForm.classification);
+          form.classification = Array.isArray(parsedValue) ? parsedValue : [newEditForm.classification];
+        } catch (e) {
+          // 如果解析失败，则作为单个元素处理
+          form.classification = [newEditForm.classification];
+        }
+      } else {
+        form.classification = [newEditForm.classification];
+      }
+    } else {
+      form.classification = [];
+    }
     form.symbol = newEditForm.symbol || '';
     form.introduction = newEditForm.introduction || '';
     form.icon = newEditForm.icon || '';
@@ -178,13 +206,21 @@ watch(() => props.editForm, (newEditForm) => {
     form.telegram = newEditForm.telegram || '';
     form.website = newEditForm.website || '';
     form.is_personalize_image_icon = newEditForm.is_personalize_image_icon || false;
+    
+    console.log('表单更新后:', { 
+      gender: form.gender, 
+      genderType: typeof form.gender,
+      classification: form.classification,
+      symbol: form.symbol
+    });
   }
-}, { immediate: true });
+}, { immediate: true, deep: true });
+
 const rules = reactive({
   name: [{ required: true, message: "Please fill in the bot name" }],
-  gender: [{ required: true, message: "Please select one category" }],
-  classification: [{ required: true, message: "Please select one category" }],
-  symbol: [{ required: true, message: 'Please enter symbol' }],
+  gender: [{ required: true, message: "Please select bot gender" }],
+  classification: [{ required: true, message: "Please select conversation style" }],
+  symbol: [{ required: true, message: 'Please enter coin symbol' }],
   introduction: [{ required: true, message: 'Please enter description' }],
   icon: [{ required: true, message: "Please upload the bot icon" }]
 });
@@ -226,15 +262,18 @@ const submitBaseInfo = async () => {
   console.log('Form data before validation:', {
     gender: form.gender,
     genderType: typeof form.gender,
-    isNull: form.gender === null
+    isNull: form.gender === null,
+    classification: form.classification,
+    classType: typeof form.classification,
+    symbol: form.symbol
   });
   
   // 手动验证所有必填字段
   const errors = [];
   if (!form.name) errors.push('Please fill in the bot name');
-  if (form.gender === null || form.gender === undefined) errors.push('Please select one category');
-  if (!form.classification || form.classification.length === 0) errors.push('Please select one category');
-  if (!form.symbol) errors.push('Please enter symbol');
+  if (form.gender === null || form.gender === undefined) errors.push('Please select bot gender');
+  if (!form.classification || !form.classification.length) errors.push('Please select conversation style');
+  if (!form.symbol) errors.push('Please enter coin symbol');
   if (!form.introduction) errors.push('Please enter description');
   if (!form.icon || form.icon === defaultRobotAvatar) errors.push('Please upload the bot icon');
 
@@ -249,11 +288,46 @@ const submitBaseInfo = async () => {
   }
 
   try {
+    loading.value = true;
     if(props.status === 'create'){
       await createNewBot();
+      showToast({
+        message: 'Created successfully',
+        type: 'success',
+        position: 'top',
+      });
+      eventBus.emit('createBotSuccess');
+      router.replace({ path: '/personal' });
     }
     if(props.status ==='edit'){
-      await botEdit(form);
+      // 确保编辑时所有数据都正确传递
+      const formData = {
+        id: props.editForm.id,
+        name: form.name,
+        gender: form.gender,
+        classification: Array.isArray(form.classification) ? form.classification : [form.classification],
+        symbol: form.symbol,
+        introduction: form.introduction,
+        icon: form.icon,
+        twitter: form.twitter,
+        telegram: form.telegram,
+        website: form.website,
+        is_personalize_image_icon: form.is_personalize_image_icon
+      };
+      
+      console.log('提交编辑表单:', formData);
+      
+      const editResult = await botEdit(formData);
+      loading.value = false;
+      if (editResult.code === 200) {
+        showToast({
+          message: 'Updated successfully',
+          type: 'success',
+          position: 'top',
+        });
+        eventBus.emit('createBotSuccess');
+        router.replace({ path: '/personal' });
+      }
     }
   } catch (error) {
     console.error('Submission error:', error);
@@ -262,6 +336,7 @@ const submitBaseInfo = async () => {
       type: 'fail',
       position: 'top',
     });
+    loading.value = false;
   }
 };
 const createNewBot = async () => {
