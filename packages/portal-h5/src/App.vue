@@ -41,3 +41,49 @@ onMounted(() => {
 //   { immediate: true }
 // );
 </script>
+
+<style>
+/* 基础层级 */
+.van-overlay {
+  z-index: 1000 !important;
+}
+
+/* 下拉框层级 */
+.van-popup {
+  z-index: 1001 !important;
+}
+
+.van-dropdown-menu {
+  z-index: 1001 !important;
+}
+
+.van-dropdown-menu__bar {
+  z-index: 1001 !important;
+}
+
+.van-dropdown-menu__item {
+  z-index: 1001 !important;
+}
+
+/* 钱包弹窗层级 */
+.wallet-adapter-modal {
+  z-index: 9999 !important;
+}
+
+.wallet-adapter-modal-wrapper {
+  z-index: 9999 !important;
+}
+
+.wallet-adapter-modal-container {
+  z-index: 9999 !important;
+}
+
+.wallet-adapter-modal-overlay {
+  z-index: 9998 !important;
+}
+
+/* 确保钱包按钮在正确的层级 */
+.wallet-adapter-button {
+  z-index: 1001 !important;
+}
+</style>

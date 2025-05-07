@@ -28,14 +28,16 @@
       <div class="menu-cs-item" @click="goPage(3)">
         {{ $t('menu.module.e') }}
       </div>
-      <div class="wallet">
+      <!-- <div class="wallet">
         <div class="wallet-btn" @click="installWallet">
           <svg-icon
           name="wallet"
           class="wallet-wallet_icon"/>
           PHANTOM WALLET
         </div>
-      </div>
+      </div> -->
+      <wallet-multi-button>
+      </wallet-multi-button>
     </div>
   </div>
 </template>
@@ -49,6 +51,8 @@ import User from './User';
 import { getIsLogin } from '@/utils/firebase.js';
 
 import useLoginStore from '@/store/modules/login';
+
+import { WalletMultiButton,useWallet } from "solana-wallets-vue";
 
 const useLogin = useLoginStore();
 
@@ -109,10 +113,10 @@ defineExpose({ setIsLogin });
     flex-direction: column;
     align-items: center;
     justify-content: center;
-     //background: rgba(0, 0, 0, 0.05);
-     //backdrop-filter: blur(35px);
-   background: var(--h5-bg-color-primary);
-   width: 100%;
+    background: var(--h5-bg-color-primary);
+    width: 100%;
+    position: relative;
+    z-index: 1;
 
    .menu-cs-item{
      border-bottom: 1px solid var(--neon-green-20, rgba(224, 255, 49, 0.20));
@@ -128,8 +132,10 @@ defineExpose({ setIsLogin });
      font-size: 18px;
      font-style: normal;
      font-weight: 500;
-     line-height: 23px; /* 127.778% */
+     line-height: 23px;
      cursor: pointer;
+     position: relative;
+     z-index: 1;
      .login-item{
        width: 100%;
      }
