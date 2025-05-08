@@ -118,13 +118,13 @@
       </div>
       <wallet-multi-button v-if="!wallet.connected.value">
       </wallet-multi-button>
-      <el-button 
+      <!-- <el-button 
         v-if="wallet.connected.value"
         class="signature-login-btn"
         @click="signatureLogin"
       >
         Sign-in with Wallet
-      </el-button>
+      </el-button> -->
     </div>
   </el-header>
 
